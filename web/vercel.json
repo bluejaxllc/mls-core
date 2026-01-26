@@ -1,0 +1,28 @@
+{
+    "buildCommand": "npm run build",
+    "outputDirectory": ".next",
+    "installCommand": "npm install",
+    "framework": "nextjs",
+    "env": {
+        "NEXTAUTH_URL": "@nextauth_url",
+        "NEXTAUTH_SECRET": "@nextauth_secret",
+        "BLUE_JAX_CLIENT_ID": "@blue_jax_client_id",
+        "BLUE_JAX_CLIENT_SECRET": "@blue_jax_client_secret",
+        "NEXT_PUBLIC_API_URL": "@api_url"
+    },
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "ALLOWALL"
+                },
+                {
+                    "key": "Content-Security-Policy",
+                    "value": "frame-ancestors *"
+                }
+            ]
+        }
+    ]
+}
