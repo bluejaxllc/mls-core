@@ -44,10 +44,8 @@ app.get('/api/protected/me', (req: any, res) => {
 });
 
 // Start Server
-if (require.main === module) {
-    app.listen(PORT, () => {
-        console.log(`MLS Core API running on http://localhost:${PORT}`);
-    });
-}
+app.listen(PORT, () => {
+    console.log(`MLS Core API running on port ${PORT}`);
+});
 
 export default app;
