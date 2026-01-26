@@ -167,7 +167,14 @@ export const translations = {
             draft: 'Draft',
             online: 'Online',
             offline: 'Offline',
-            systemAdmin: 'System Admin'
+            systemAdmin: 'System Admin',
+            filters: 'Filters',
+            actions: 'Actions',
+            active: 'Active',
+            high: 'High',
+            medium: 'Medium',
+            low: 'Low',
+            viewDetails: 'View Details'
         }
     },
     es: {

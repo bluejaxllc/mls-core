@@ -1,7 +1,7 @@
 {
   "/auth/signin/page": "app/auth/signin/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/listings/page": "app/listings/page.js",
   "/page": "app/page.js",
-  "/ingestion/page": "app/ingestion/page.js"
+  "/ingestion/page": "app/ingestion/page.js",
+  "/listings/page": "app/listings/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

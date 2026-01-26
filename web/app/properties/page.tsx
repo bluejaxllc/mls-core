@@ -28,7 +28,7 @@ export default function PropertiesPage() {
                     onClick={() => setShowFilters(true)}
                     className="flex items-center gap-2 px-4 py-2 border rounded-md bg-card hover:bg-muted text-sm font-medium"
                 >
-                    <Filter className="h-4 w-4" /> Filters
+                    <Filter className="h-4 w-4" /> {t.common.filters}
                 </button>
             </div>
 
@@ -43,7 +43,7 @@ export default function PropertiesPage() {
                             <th className="px-4 py-3">{t.sections.properties.columns.address}</th>
                             <th className="px-4 py-3">{t.sections.properties.columns.listings}</th>
                             <th className="px-4 py-3">{t.sections.properties.columns.confidence}</th>
-                            <th className="px-4 py-3 text-right">Actions</th>
+                            <th className="px-4 py-3 text-right">{t.common.actions}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-border">
@@ -55,16 +55,16 @@ export default function PropertiesPage() {
                             </td>
                             <td className="px-4 py-3">
                                 <div className="flex items-center gap-1 text-xs bg-blue-900/30 text-blue-300 px-2 py-0.5 rounded w-fit border border-blue-800">
-                                    <LinkIcon className="h-3 w-3" /> 2 Active
+                                    <LinkIcon className="h-3 w-3" /> 2 {t.common.active}
                                 </div>
                             </td>
                             <td className="px-4 py-3">
                                 <div className="flex items-center gap-1 text-green-500 font-medium">
-                                    <ShieldCheck className="h-4 w-4" /> High
+                                    <ShieldCheck className="h-4 w-4" /> {t.common.high}
                                 </div>
                             </td>
                             <td className="px-4 py-3 text-right">
-                                <a href="/properties/PROP_8829" className="text-xs border px-3 py-1.5 rounded hover:bg-white/10 no-underline">View Details</a>
+                                <a href="/properties/PROP_8829" className="text-xs border px-3 py-1.5 rounded hover:bg-white/10 no-underline">{t.common.viewDetails}</a>
                             </td>
                         </tr>
                         <tr className="group hover:bg-muted/30 transition-colors">
@@ -75,16 +75,16 @@ export default function PropertiesPage() {
                             </td>
                             <td className="px-4 py-3">
                                 <div className="flex items-center gap-1 text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded w-fit">
-                                    <LinkIcon className="h-3 w-3" /> 0 Active
+                                    <LinkIcon className="h-3 w-3" /> 0 {t.common.active}
                                 </div>
                             </td>
                             <td className="px-4 py-3">
                                 <div className="flex items-center gap-1 text-yellow-500 font-medium">
-                                    <ShieldCheck className="h-4 w-4" /> Medium
+                                    <ShieldCheck className="h-4 w-4" /> {t.common.medium}
                                 </div>
                             </td>
                             <td className="px-4 py-3 text-right">
-                                <button className="text-xs border px-3 py-1.5 rounded hover:bg-white/10">View Details</button>
+                                <button className="text-xs border px-3 py-1.5 rounded hover:bg-white/10">{t.common.viewDetails}</button>
                             </td>
                         </tr>
                     </tbody>
