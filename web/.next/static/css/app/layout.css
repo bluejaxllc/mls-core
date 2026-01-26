@@ -696,6 +696,9 @@ body{
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
+.block{
+  display: block;
+}
 .flex{
   display: flex;
 }
