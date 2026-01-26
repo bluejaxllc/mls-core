@@ -1,4 +1,4 @@
-web
+# web directory should NOT be ignored for deployment
 node_modules
 .env
 .env.local
