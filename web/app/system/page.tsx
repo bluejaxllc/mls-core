@@ -20,27 +20,27 @@ export default function SystemPage() {
                     </h3>
                     <div className="space-y-4 text-sm">
                         <div className="flex justify-between items-center py-2 border-b">
-                            <span className="text-muted-foreground">Active Region</span>
+                            <span className="text-muted-foreground">{t.sections.system.activeRegion}</span>
                             <span className="font-mono">Chihuahua (MX-CHH)</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b">
-                            <span className="text-muted-foreground">Currency</span>
-                            <span className="font-mono">MXN (Pesos)</span>
+                            <span className="text-muted-foreground">{t.sections.system.currency}</span>
+                            <span className="font-mono">MXN ({t.sections.system.pesos})</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b">
-                            <span className="text-muted-foreground">Timezone</span>
+                            <span className="text-muted-foreground">{t.sections.system.timezone}</span>
                             <span className="font-mono">America/Chihuahua</span>
                         </div>
                     </div>
                     <button className="mt-4 w-full border border-dashed py-2 text-xs rounded text-muted-foreground hover:bg-muted">
-                        Edit Regional Defaults
+                        {t.sections.system.editDefaults}
                     </button>
                 </div>
 
                 {/* User Management */}
                 <div className="border rounded-lg bg-card p-6">
                     <h3 className="font-medium text-sm flex items-center gap-2 mb-4">
-                        <Users className="h-4 w-4" /> User Directory
+                        <Users className="h-4 w-4" /> {t.sections.system.userDirectory}
                     </h3>
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
@@ -49,11 +49,11 @@ export default function SystemPage() {
                                     BA
                                 </div>
                                 <div className="text-sm">
-                                    <p className="font-medium">Broker Admin</p>
+                                    <p className="font-medium">{t.common.brokerAdmin}</p>
                                     <p className="text-xs text-muted-foreground">RE/MAX Polanco</p>
                                 </div>
                             </div>
-                            <span className="text-xs bg-green-500/10 text-green-500 px-2 py-0.5 rounded">Online</span>
+                            <span className="text-xs bg-green-500/10 text-green-500 px-2 py-0.5 rounded">{t.common.online}</span>
                         </div>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -61,15 +61,15 @@ export default function SystemPage() {
                                     SA
                                 </div>
                                 <div className="text-sm">
-                                    <p className="font-medium">System Admin</p>
+                                    <p className="font-medium">{t.common.systemAdmin}</p>
                                     <p className="text-xs text-muted-foreground">Blue Jax Core</p>
                                 </div>
                             </div>
-                            <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">Offline</span>
+                            <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">{t.common.offline}</span>
                         </div>
                     </div>
                     <button className="mt-8 w-full border py-2 text-xs rounded hover:bg-muted">
-                        Manage Roles & Permissions
+                        {t.sections.system.manageRoles}
                     </button>
                 </div>
             </div>

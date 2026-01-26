@@ -53,7 +53,7 @@ export default function myListingsPage() {
                 <div className="border rounded-lg bg-card overflow-hidden group hover:border-blue-500/50 transition-colors">
                     <div className="h-48 bg-muted relative">
                         <div className="absolute top-3 left-3 px-2 py-1 bg-green-900/80 text-green-300 text-[10px] font-mono rounded border border-green-800 backdrop-blur-sm">
-                            VERIFIED • MLS
+                            {t.common.verified} • MLS
                         </div>
                         <div className="absolute top-3 right-3 text-white/50">
                             <Globe className="h-4 w-4" />
@@ -73,15 +73,15 @@ export default function myListingsPage() {
 
                         <div className="flex items-center gap-2 text-xs text-muted-foreground border-t pt-3">
                             <span className="flex items-center gap-1">
-                                <Lock className="h-3 w-3" /> Address Locked
+                                <Lock className="h-3 w-3" /> {t.common.addressLocked}
                             </span>
                             <span className="mx-1">•</span>
-                            <span>Updated 2 hrs ago</span>
+                            <span>{t.common.updated} 2 {t.common.hrs} {t.rightPanel.ago}</span>
                         </div>
                     </div>
                     <div className="bg-muted/30 px-4 py-2 text-xs flex justify-between items-center border-t">
-                        <span className="text-green-500 font-medium">94 Trust Score</span>
-                        <a href="/listings/LIST_9921" className="hover:underline">Edit Listing →</a>
+                        <span className="text-green-500 font-medium">94 {t.common.trustScore}</span>
+                        <a href="/listings/LIST_9921" className="hover:underline">{t.common.editListing} →</a>
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@ export default function myListingsPage() {
                 <div className="border rounded-lg bg-card overflow-hidden group hover:border-blue-500/50 transition-colors opacity-75">
                     <div className="h-48 bg-muted relative">
                         <div className="absolute top-3 left-3 px-2 py-1 bg-yellow-900/80 text-yellow-300 text-[10px] font-mono rounded border border-yellow-800 backdrop-blur-sm">
-                            PENDING REVIEW
+                            {t.common.pendingReview}
                         </div>
                         <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                             <Building2 className="h-12 w-12 opacity-20" />
@@ -105,14 +105,14 @@ export default function myListingsPage() {
                         <p className="text-xs font-mono text-muted-foreground mb-4">ID: LIST_DRAFT_88 • $12,500,000 MXN</p>
 
                         <div className="flex items-center gap-2 text-xs text-muted-foreground border-t pt-3">
-                            <span>Draft Version 1</span>
+                            <span>{t.common.draft} {t.common.version} 1</span>
                             <span className="mx-1">•</span>
-                            <span>Created 1 day ago</span>
+                            <span>{t.common.created} 1 {t.common.day} {t.rightPanel.ago}</span>
                         </div>
                     </div>
                     <div className="bg-muted/30 px-4 py-2 text-xs flex justify-between items-center border-t">
-                        <span className="text-yellow-500 font-medium">-- Trust Score</span>
-                        <button className="hover:underline">Continue Editing →</button>
+                        <span className="text-yellow-500 font-medium">-- {t.common.trustScore}</span>
+                        <button className="hover:underline">{t.common.continueEditing} →</button>
                     </div>
                 </div>
 

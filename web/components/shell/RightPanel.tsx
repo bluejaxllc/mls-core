@@ -38,16 +38,16 @@ export function RightPanel() {
                     </h4>
                     <div className="space-y-2">
                         <div className="bg-muted/50 p-2 rounded text-xs border border-green-900/30 flex justify-between">
-                            <span>Listing Immutability</span>
-                            <span className="text-green-500 font-mono">PASS</span>
+                            <span>{t.sections.governance.rules.immutable.name}</span>
+                            <span className="text-green-500 font-mono">{t.common.pass}</span>
                         </div>
                         <div className="bg-muted/50 p-2 rounded text-xs border border-green-900/30 flex justify-between">
-                            <span>Broker Ownership</span>
-                            <span className="text-green-500 font-mono">PASS</span>
+                            <span>{t.sections.governance.rules.ownership.name}</span>
+                            <span className="text-green-500 font-mono">{t.common.pass}</span>
                         </div>
                         <div className="bg-muted/50 p-2 rounded text-xs border border-yellow-900/30 flex justify-between">
-                            <span>Price Drift Check</span>
-                            <span className="text-yellow-500 font-mono">WARN</span>
+                            <span>{t.sections.governance.rules.priceDrift.name}</span>
+                            <span className="text-yellow-500 font-mono">{t.common.warn}</span>
                         </div>
                     </div>
                 </div>
@@ -61,12 +61,12 @@ export function RightPanel() {
                         <div className="ml-4 relative">
                             <div className="absolute -left-[21px] top-1 h-2 w-2 rounded-full bg-blue-500"></div>
                             <p className="text-xs font-medium">{t.rightPanel.priceUpdated}</p>
-                            <p className="text-[10px] text-muted-foreground">2 mins {t.rightPanel.ago} by Broker Admin</p>
+                            <p className="text-[10px] text-muted-foreground">2 {t.common.mins} {t.rightPanel.ago} {t.common.by} {t.common.brokerAdmin}</p>
                         </div>
                         <div className="ml-4 relative">
                             <div className="absolute -left-[21px] top-1 h-2 w-2 rounded-full bg-muted-foreground"></div>
                             <p className="text-xs font-medium">{t.rightPanel.verificationRun}</p>
-                            <p className="text-[10px] text-muted-foreground">1 hour {t.rightPanel.ago} by System</p>
+                            <p className="text-[10px] text-muted-foreground">1 {t.common.hour} {t.rightPanel.ago} {t.common.by} {t.common.system}</p>
                         </div>
                     </div>
                 </div>

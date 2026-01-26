@@ -42,11 +42,11 @@ export default function Dashboard() {
                         {[1, 2, 3].map((i) => (
                             <div key={i} className="flex items-start gap-4 pb-4 border-b last:border-0 border-border/50">
                                 <div className="h-8 w-8 rounded bg-muted/50 flex items-center justify-center text-xs font-mono">
-                                    LOG
+                                    {t.dashboard.logs.logLabel}
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium">Listing #88392 Downgraded to DRAFT</p>
-                                    <p className="text-xs text-muted-foreground">Rule: Scraped Data Downgrade • 2 mins ago</p>
+                                    <p className="text-sm font-medium">{t.dashboard.logs.downgraded}</p>
+                                    <p className="text-xs text-muted-foreground">{t.dashboard.logs.rulePrefix}{t.sections.governance.rules.scraped.name} • {t.dashboard.logs.timeMins}</p>
                                 </div>
                             </div>
                         ))}
@@ -57,11 +57,11 @@ export default function Dashboard() {
                     <div className="space-y-4">
                         <div className="p-3 rounded bg-muted/30 border border-border">
                             <div className="flex justify-between items-start mb-1">
-                                <span className="text-xs font-bold text-red-400">OWNERSHIP DISPUTE</span>
-                                <span className="text-[10px] text-muted-foreground">1h ago</span>
+                                <span className="text-xs font-bold text-red-400">{t.dashboard.claims.dispute}</span>
+                                <span className="text-[10px] text-muted-foreground">{t.dashboard.logs.timeHour}</span>
                             </div>
                             <p className="text-sm font-medium mb-2">Listing #9921 vs #1120</p>
-                            <button className="text-xs bg-background border px-2 py-1 rounded hover:bg-muted">Review Evidence</button>
+                            <button className="text-xs bg-background border px-2 py-1 rounded hover:bg-muted">{t.dashboard.claims.review}</button>
                         </div>
                     </div>
                 </div>

@@ -42,12 +42,71 @@ export const translations = {
             governance: {
                 title: 'Governance Rules',
                 subtitle: 'Configuration and transparency for system rules.',
-                activeRules: 'Active Rules'
+                activeRules: 'Active Rules',
+                version: 'System Version',
+                disabled: 'DISABLED',
+                block: 'BLOCK',
+                downgrade: 'DOWNGRADE',
+                update: 'UPDATE',
+                warn: 'WARN',
+                documentation: 'View full rule documentation in the',
+                legalRepository: 'Legal Repository',
+                rules: {
+                    immutable: {
+                        name: 'Listing Version Immutability',
+                        desc: 'Prevents modification of locking fields on Verified listings.'
+                    },
+                    ownership: {
+                        name: 'Broker Ownership Enforcement',
+                        desc: 'Only the designated broker owner can modify a commercial listing.'
+                    },
+                    scraped: {
+                        name: 'Scraped Data Downgrade',
+                        desc: 'Automatically reduces trust score of scraped ingestion feeds.'
+                    },
+                    exposure: {
+                        name: 'Public Exposure Requirements',
+                        desc: 'Ensures minimum photo and description quality for public visibility.'
+                    },
+                    priceDrift: {
+                        name: 'Price Variation Check'
+                    }
+                }
             },
             system: {
                 title: 'System Configuration',
                 subtitle: 'Admin settings and region management (Chihuahua).',
-                regionSettings: 'Region Settings'
+                regionSettings: 'Region Settings',
+                activeRegion: 'Active Region',
+                currency: 'Currency',
+                timezone: 'Timezone',
+                pesos: 'Pesos',
+                editDefaults: 'Edit Regional Defaults',
+                userDirectory: 'User Directory',
+                manageRoles: 'Manage Roles & Permissions'
+            },
+            ingestion: {
+                title: 'Data Ingestion',
+                subtitle: 'Upload feeds, CSVs, and manage scraped data.',
+                upload: 'Upload Feeds',
+                dragDrop: 'Drag & Drop CSV or XML files here',
+                syncNow: 'Sync Now',
+                syncAlert: 'Sync initiated! Feed updates will be processed in the background.',
+                uploadSuccess: 'Uploading',
+                files: 'file(s)',
+                activeFeeds: 'Active Feeds',
+                lastSync: 'Last sync',
+                records: 'Records',
+                healthy: 'Healthy',
+                degraded: 'Degraded',
+                validationLog: 'Validation Log',
+                batchProcessed: 'Batch Processed',
+                success: 'Success',
+                skipped: 'Skipped',
+                botDetected: 'Scraper Bot Detected',
+                blocked: 'Blocked',
+                valuesUpdated: 'Values Updated',
+                updatedFromSource: 'updated from Source'
             }
         },
         topbar: {
@@ -79,7 +138,42 @@ export const translations = {
             requiresAttention: 'Requires attention',
             criticalBlocks: 'Critical blocks',
             ruleEngineOp: 'Rule Engine Operational',
-            fromLastMonth: 'from last month'
+            fromLastMonth: 'from last month',
+            logs: {
+                downgraded: 'Listing #88392 Downgraded to DRAFT',
+                rulePrefix: 'Rule: ',
+                timeMins: '2 mins ago',
+                timeHour: '1h ago',
+                logLabel: 'LOG'
+            },
+            claims: {
+                dispute: 'OWNERSHIP DISPUTE',
+                review: 'Review Evidence'
+            }
+        },
+        common: {
+            pass: 'PASS',
+            warn: 'WARN',
+            by: 'by',
+            system: 'System',
+            brokerAdmin: 'Broker Admin',
+            mins: 'mins',
+            hour: 'hour',
+            hrs: 'hrs',
+            day: 'day',
+            verified: 'VERIFIED',
+            pendingReview: 'PENDING REVIEW',
+            trustScore: 'Trust Score',
+            editListing: 'Edit Listing',
+            continueEditing: 'Continue Editing',
+            addressLocked: 'Address Locked',
+            updated: 'Updated',
+            created: 'Created',
+            version: 'Version',
+            draft: 'Draft',
+            online: 'Online',
+            offline: 'Offline',
+            systemAdmin: 'System Admin'
         }
     },
     es: {
@@ -111,7 +205,16 @@ export const translations = {
                 title: 'Mis Listados Comerciales',
                 subtitle: 'Administra tus listados activos y borradores.',
                 create: '+ Crear Listado',
-                tabs: { active: 'Activos', drafts: 'Borradores', history: 'Historial' }
+                tabs: { active: 'Activos', drafts: 'Borradores', history: 'Historial' },
+                status: {
+                    verified: 'VERIFICADO',
+                    pendingReview: 'PENDIENTE DE REVISIÓN'
+                },
+                actions: {
+                    edit: 'Editar Listado',
+                    continue: 'Continuar Editando',
+                    locked: 'Dirección Bloqueada'
+                }
             },
             ingestion: {
                 title: 'Ingesta de Datos',
@@ -122,13 +225,72 @@ export const translations = {
             governance: {
                 title: 'Reglas de Gobernanza',
                 subtitle: 'Configuración y transparencia de reglas del sistema.',
-                activeRules: 'Reglas Activas'
+                activeRules: 'Reglas Activas',
+                version: 'Versión del Sistema',
+                disabled: 'DESACTIVADO',
+                block: 'BLOQUEAR',
+                downgrade: 'REDUCIR',
+                update: 'ACTUALIZAR',
+                warn: 'ADVERTIR',
+                documentation: 'Ver documentación completa en el',
+                legalRepository: 'Repositorio Legal',
+                rules: {
+                    immutable: {
+                        name: 'Inmutabilidad de Versión de Listado',
+                        desc: 'Previene la modificación de campos bloqueados en listados verificados.'
+                    },
+                    ownership: {
+                        name: 'Cumplimiento de Propiedad del Corredor',
+                        desc: 'Solo el corredor designado puede modificar un listado comercial.'
+                    },
+                    scraped: {
+                        name: 'Reducción de Datos Scrapeados',
+                        desc: 'Reduce automáticamente el nivel de confianza de los feeds de ingesta scrapeados.'
+                    },
+                    exposure: {
+                        name: 'Requisitos de Exposición Pública',
+                        desc: 'Garantiza una calidad mínima de fotos y descripción para visibilidad pública.'
+                    },
+                    priceDrift: {
+                        name: 'Control de Variación de Precio'
+                    }
+                }
             },
             system: {
                 title: 'Configuración del Sistema',
                 subtitle: 'Ajustes de administrador y gestión regional (Chihuahua).',
-                regionSettings: 'Ajustes Regionales'
+                regionSettings: 'Ajustes Regionales',
+                activeRegion: 'Región Activa',
+                currency: 'Moneda',
+                timezone: 'Zona Horaria',
+                pesos: 'Pesos',
+                editDefaults: 'Editar Valores Regionales',
+                userDirectory: 'Directorio de Usuarios',
+                manageRoles: 'Administrar Roles y Permisos'
             }
+        },
+        ingestion: {
+            title: 'Ingesta de Datos',
+            subtitle: 'Cargar feeds, CSVs y administrar datos scrapeados.',
+            upload: 'Cargar Feeds',
+            dragDrop: 'Arrastra y suelta archivos CSV o XML aquí',
+            syncNow: 'Sincronizar Ahora',
+            syncAlert: '¡Sincronización iniciada! Las actualizaciones se procesarán en segundo plano.',
+            uploadSuccess: 'Cargando',
+            files: 'archivo(s)',
+            activeFeeds: 'Feeds Activos',
+            lastSync: 'Última sinc.',
+            records: 'Registros',
+            healthy: 'Saludable',
+            degraded: 'Degradado',
+            validationLog: 'Log de Validación',
+            batchProcessed: 'Lote Procesado',
+            success: 'Éxito',
+            skipped: 'Omitidos',
+            botDetected: 'Bot de Scrapeo Detectado',
+            blocked: 'Bloqueados',
+            valuesUpdated: 'Valores Actualizados',
+            updatedFromSource: 'actualizado desde Fuente'
         },
         topbar: {
             searchPlaceholder: 'Buscar UUID, ID de Listado o Dirección...',
@@ -159,7 +321,42 @@ export const translations = {
             requiresAttention: 'Requiere atención',
             criticalBlocks: 'Bloqueos críticos',
             ruleEngineOp: 'Motor de Reglas Operativo',
-            fromLastMonth: 'vs mes anterior'
+            fromLastMonth: 'vs mes anterior',
+            logs: {
+                downgraded: 'Listado #88392 Reducido a BORRADOR',
+                rulePrefix: 'Regla: ',
+                timeMins: 'hace 2 min',
+                timeHour: 'hace 1h',
+                logLabel: 'LOG'
+            },
+            claims: {
+                dispute: 'DISPUTA DE PROPIEDAD',
+                review: 'Revisar Evidencia'
+            }
+        },
+        common: {
+            pass: 'PASA',
+            warn: 'ADVERTENCIA',
+            by: 'por',
+            system: 'Sistema',
+            brokerAdmin: 'Admin. Corredor',
+            mins: 'min',
+            hour: 'hora',
+            hrs: 'hrs',
+            day: 'día',
+            verified: 'VERIFICADO',
+            pendingReview: 'PENDIENTE DE REVISIÓN',
+            trustScore: 'Nivel de Confianza',
+            editListing: 'Editar Listado',
+            continueEditing: 'Continuar Editando',
+            addressLocked: 'Dirección Bloqueada',
+            updated: 'Actualizado',
+            created: 'Creado',
+            version: 'Versión',
+            draft: 'Borrador',
+            online: 'En Línea',
+            offline: 'Desconectado',
+            systemAdmin: 'Admin. Sistema'
         }
     }
 };
