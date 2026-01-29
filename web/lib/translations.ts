@@ -351,7 +351,14 @@ export const translations = {
             draft: 'Borrador',
             online: 'En Línea',
             offline: 'Desconectado',
-            systemAdmin: 'Admin. Sistema'
+            systemAdmin: 'Admin. Sistema',
+            filters: 'Filtros',
+            actions: 'Acciones',
+            active: 'Activo',
+            high: 'Alto',
+            medium: 'Medio',
+            low: 'Bajo',
+            viewDetails: 'Ver Detalles'
         }
     }
 };

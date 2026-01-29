@@ -4,14 +4,37 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
     providers: [
+        {
+            id: "bluejax",
+            name: "Blue Jax",
+            type: "oauth",
+            authorization: {
+                url: "https://marketplace.gohighlevel.com/oauth/chooselocation",
+                params: { scope: "contacts.readonly locations.readonly" }
+            },
+            token: "https://services.leadconnectorhq.com/oauth/token",
+            userinfo: "https://services.leadconnectorhq.com/oauth/userinfo", // Hypothetical standard
+            clientId: process.env.BLUE_JAX_CLIENT_ID,
+            clientSecret: process.env.BLUE_JAX_CLIENT_SECRET,
+            profile(profile) {
+                return {
+                    id: profile.id || profile.sub,
+                    name: profile.name || profile.firstName + ' ' + profile.lastName,
+                    email: profile.email,
+                    image: profile.picture,
+                    role: profile.role || 'user'
+                };
+            },
+        },
         CredentialsProvider({
-            name: "Mock Credentials",
+            name: "Mock Credentials (Dev Only)",
             credentials: {
                 username: { label: "Username", type: "text", placeholder: "admin" },
                 password: { label: "Password", type: "password" }
             },
-            async authorize(credentials, req) {
-                // MOCK AUTHENTICATION LOGIC
+            async authorize(credentials) {
+                if (process.env.NODE_ENV === 'production') return null;
+
                 if (credentials?.username === "admin" && credentials?.password === "admin") {
                     return {
                         id: "1",
@@ -21,17 +44,6 @@ const handler = NextAuth({
                         role: "Agencia Admin"
                     };
                 }
-
-                if (credentials?.username === "system" && credentials?.password === "system") {
-                    return {
-                        id: "2",
-                        name: "System Overwatch",
-                        email: "sysadmin@bluejax.core",
-                        image: "https://ui-avatars.com/api/?name=System+Admin&background=6D28D9&color=fff",
-                        role: "System Admin"
-                    };
-                }
-
                 return null;
             }
         })
@@ -41,12 +53,15 @@ const handler = NextAuth({
             if (session.user) {
                 session.user.id = token.sub;
                 session.user.role = token.role;
+                session.accessToken = token.accessToken; // Persist token for API calls
             }
             return session;
         },
         async jwt({ token, user }: any) {
             if (user) {
                 token.role = user.role;
+                // In a real scenario, this would come from the auth provider
+                token.accessToken = 'mock-jwt-token';
             }
             return token;
         }

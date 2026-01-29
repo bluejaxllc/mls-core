@@ -1,5 +1,17 @@
 {
+  "/_not-found": "app/_not-found.js",
+  "/unauthorized/page": "app/unauthorized/page.js",
   "/auth/signin/page": "app/auth/signin/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/(main)/ingestion/page": "app/(main)/ingestion/page.js"
+  "/(main)/ingestion/page": "app/(main)/ingestion/page.js",
+  "/(main)/governance/page": "app/(main)/governance/page.js",
+  "/(main)/listings/[id]/page": "app/(main)/listings/[id]/page.js",
+  "/(main)/properties/[id]/page": "app/(main)/properties/[id]/page.js",
+  "/(main)/claims/page": "app/(main)/claims/page.js",
+  "/(main)/listings/new/page": "app/(main)/listings/new/page.js",
+  "/(main)/properties/page": "app/(main)/properties/page.js",
+  "/(main)/listings/page": "app/(main)/listings/page.js",
+  "/(main)/provision/page": "app/(main)/provision/page.js",
+  "/(main)/system/page": "app/(main)/system/page.js",
+  "/(main)/page": "app/(main)/page.js"
 }

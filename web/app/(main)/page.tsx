@@ -1,8 +1,44 @@
 'use client';
 import { useLanguage } from '@/lib/i18n';
+import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 
 export default function Dashboard() {
     const { t } = useLanguage();
+    const { data: session }: any = useSession();
+    const [stats, setStats] = useState<any>(null);
+    const [feed, setFeed] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            if (!session?.accessToken) return;
+
+            try {
+                const [statsRes, feedRes] = await Promise.all([
+                    fetch(`${API_URL}/api/protected/dashboard/stats`, {
+                        headers: { 'Authorization': `Bearer ${session.accessToken}` }
+                    }),
+                    fetch(`${API_URL}/api/protected/dashboard/feed`, {
+                        headers: { 'Authorization': `Bearer ${session.accessToken}` }
+                    })
+                ]);
+
+                if (statsRes.ok) setStats(await statsRes.json());
+                if (feedRes.ok) setFeed(await feedRes.json());
+            } catch (error) {
+                console.error('Failed to fetch dashboard data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (session) {
+            fetchDashboardData();
+        }
+    }, [session, API_URL]);
 
     return (
         <div className="space-y-6">
@@ -12,25 +48,25 @@ export default function Dashboard() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {/* Metric Cards - Placeholders for now */}
+                {/* Metric Cards */}
                 <div className="p-4 rounded-xl border bg-card text-card-foreground shadow-sm">
                     <div className="text-sm font-medium text-muted-foreground">{t.dashboard.activeListings}</div>
-                    <div className="text-2xl font-bold">1,204</div>
+                    <div className="text-2xl font-bold">{loading ? '...' : stats?.activeListings?.toLocaleString()}</div>
                     <div className="text-xs text-muted-foreground">+2.5% {t.dashboard.fromLastMonth}</div>
                 </div>
                 <div className="p-4 rounded-xl border bg-card text-card-foreground shadow-sm">
                     <div className="text-sm font-medium text-muted-foreground">{t.dashboard.pendingReview}</div>
-                    <div className="text-2xl font-bold text-yellow-500">18</div>
+                    <div className="text-2xl font-bold text-yellow-500">{loading ? '...' : stats?.pendingReview}</div>
                     <div className="text-xs text-muted-foreground">{t.dashboard.requiresAttention}</div>
                 </div>
                 <div className="p-4 rounded-xl border bg-card text-card-foreground shadow-sm">
                     <div className="text-sm font-medium text-muted-foreground">{t.dashboard.governanceAlerts}</div>
-                    <div className="text-2xl font-bold text-red-500">3</div>
+                    <div className="text-2xl font-bold text-red-500">{loading ? '...' : stats?.governanceAlerts}</div>
                     <div className="text-xs text-muted-foreground">{t.dashboard.criticalBlocks}</div>
                 </div>
                 <div className="p-4 rounded-xl border bg-card text-card-foreground shadow-sm">
                     <div className="text-sm font-medium text-muted-foreground">{t.dashboard.systemHealth}</div>
-                    <div className="text-2xl font-bold text-green-500">99.9%</div>
+                    <div className="text-2xl font-bold text-green-500">{loading ? '...' : stats?.systemHealth}</div>
                     <div className="text-xs text-muted-foreground">{t.dashboard.ruleEngineOp}</div>
                 </div>
             </div>
@@ -39,14 +75,22 @@ export default function Dashboard() {
                 <div className="col-span-4 rounded-xl border bg-card text-card-foreground p-6">
                     <h3 className="font-semibold mb-4">{t.dashboard.governanceFeed}</h3>
                     <div className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="flex items-start gap-4 pb-4 border-b last:border-0 border-border/50">
-                                <div className="h-8 w-8 rounded bg-muted/50 flex items-center justify-center text-xs font-mono">
-                                    {t.dashboard.logs.logLabel}
+                        {loading ? (
+                            <p className="text-sm text-muted-foreground">Loading feed...</p>
+                        ) : feed.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">No recent activity.</p>
+                        ) : feed.map((log: any) => (
+                            <div key={log.eventId} className="flex items-start gap-4 pb-4 border-b last:border-0 border-border/50">
+                                <div className={`h-8 w-8 rounded flex items-center justify-center text-[10px] font-mono ${log.overallOutcome === 'BLOCK' ? 'bg-red-500/20 text-red-500' :
+                                        log.overallOutcome === 'FLAG' ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'
+                                    }`}>
+                                    {log.overallOutcome}
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium">{t.dashboard.logs.downgraded}</p>
-                                    <p className="text-xs text-muted-foreground">{t.dashboard.logs.rulePrefix}{t.sections.governance.rules.scraped.name} • {t.dashboard.logs.timeMins}</p>
+                                    <p className="text-sm font-medium">Event {log.eventType}</p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {t.dashboard.logs.rulePrefix}{log.rulesEvaluated} rules evaluated • {new Date(log.timestamp).toLocaleTimeString()}
+                                    </p>
                                 </div>
                             </div>
                         ))}

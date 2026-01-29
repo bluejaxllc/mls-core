@@ -18,27 +18,31 @@ export const verifyBlueJaxToken = async (req: AuthRequest, res: Response, next: 
     const token = authHeader.split(' ')[1];
 
     try {
-        // Decode the token to get the payload (User ID is 'sub', Location ID is 'location_id')
-        const decoded = jwt.decode(token) as any;
+        let decoded: any;
+
+        // If a secret is provided, verify the signature
+        if (process.env.BLUE_JAX_API_TOKEN) {
+            decoded = jwt.verify(token, process.env.BLUE_JAX_API_TOKEN);
+        } else {
+            console.warn('[AUTH] No BLUE_JAX_API_TOKEN found, falling back to insecure decode');
+            decoded = jwt.decode(token);
+        }
 
         if (!decoded || !decoded.sub) {
             throw new Error('Invalid token structure');
         }
 
-        // In a real production scenario, we would verify the signature using the shared secret or public key.
-        // jwt.verify(token, process.env.BLUE_JAX_SHARED_SECRET);
-
         const user = {
             id: decoded.sub,
             locationId: decoded.location_id,
-            email: 'user@example.com', // JWT doesn't have email, fetching from DB or assuming for now
-            roles: ['user'] // Default role
+            email: decoded.email || 'user@example.com',
+            roles: decoded.roles || ['user']
         };
 
         req.user = user;
         next();
-    } catch (error) {
-        console.error('Token verification failed:', error);
+    } catch (error: any) {
+        console.error('[AUTH] Token verification failed:', error.message);
         return res.status(403).json({ error: 'Invalid or expired token' });
     }
 };

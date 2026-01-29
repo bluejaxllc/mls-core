@@ -36,35 +36,51 @@ export default function RetroSignInPage() {
                     </div>
 
                     {/* Form */}
-                    <form onSubmit={handleSubmit} className="w-full space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-[10px] text-[#3b82f6]">USERNAME</label>
-                            <input
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="w-full bg-black border-2 border-white p-3 text-xs focus:outline-none focus:border-[#3b82f6] text-white font-mono"
-                                style={{ imageRendering: 'pixelated' }}
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-[10px] text-[#3b82f6]">PASSWORD</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-black border-2 border-white p-3 text-xs focus:outline-none focus:border-[#3b82f6] text-white font-mono"
-                            />
-                        </div>
-
+                    <div className="w-full">
                         <button
-                            type="submit"
-                            className="w-full bg-[#3b82f6] border-2 border-white text-white p-4 text-xs hover:bg-[#2563eb] active:translate-y-1 transition-all"
+                            type="button"
+                            onClick={() => signIn("bluejax")}
+                            className="w-full bg-[#10b981] border-2 border-white text-white p-4 text-xs hover:bg-[#059669] active:translate-y-1 transition-all mb-4"
                         >
-                            AUTHENTICATE
+                            LOGIN WITH BLUE JAX
                         </button>
-                    </form>
+
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="flex-1 h-px bg-zinc-700"></div>
+                            <span className="text-[8px] text-zinc-500">OR DEV LOGIN</span>
+                            <div className="flex-1 h-px bg-zinc-700"></div>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-[#3b82f6]">USERNAME</label>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="w-full bg-black border-2 border-white p-3 text-xs focus:outline-none focus:border-[#3b82f6] text-white font-mono"
+                                    style={{ imageRendering: 'pixelated' }}
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-[#3b82f6]">PASSWORD</label>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-black border-2 border-white p-3 text-xs focus:outline-none focus:border-[#3b82f6] text-white font-mono"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full bg-black border-2 border-[#3b82f6] text-[#3b82f6] p-4 text-xs hover:bg-[#3b82f6] hover:text-white active:translate-y-1 transition-all"
+                            >
+                                AUTHENTICATE
+                            </button>
+                        </form>
+                    </div>
 
                     {/* Footer / Credits */}
                     <div className="text-[8px] text-zinc-500 text-center mt-4">
