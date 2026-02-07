@@ -1,0 +1,12 @@
+
+> mls@1.0.0 dev
+> ts-node src/server.ts
+
+[STARTUP] MLS Core API v2 (Edit Listing Enabled) running on port 3001
+[2026-02-03T21:17:21.768Z] GET /
+[2026-02-03T21:17:59.178Z] GET /
+[2026-02-03T21:17:59.518Z] GET /favicon.ico
+[2026-02-03T21:22:06.413Z] GET /
+[2026-02-03T21:22:16.973Z] GET /
+[2026-02-03T21:22:16.999Z] GET /favicon.ico
+[2026-02-03T21:22:20.192Z] GET /health

@@ -1,6 +1,7 @@
 'use client';
 
 import { ShieldCheck, History, Activity } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/i18n';
 
 export function RightPanel() {
@@ -21,9 +22,14 @@ export function RightPanel() {
                 <div className="space-y-2">
                     <h4 className="text-xs font-mono text-muted-foreground uppercase">{t.rightPanel.trustScore}</h4>
                     <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-full border-4 border-green-500 flex items-center justify-center font-bold text-lg">
+                        <motion.div
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                            className="h-12 w-12 rounded-full border-4 border-green-500 flex items-center justify-center font-bold text-lg shadow-[0_0_15px_rgba(34,197,94,0.3)]"
+                        >
                             94
-                        </div>
+                        </motion.div>
                         <div className="text-sm text-sm">
                             <p className="font-medium">{t.rightPanel.excellent}</p>
                             <p className="text-muted-foreground text-xs">{t.rightPanel.verifiedSource}</p>
@@ -37,18 +43,22 @@ export function RightPanel() {
                         <ShieldCheck className="h-3 w-3" /> {t.rightPanel.ruleEvaluation}
                     </h4>
                     <div className="space-y-2">
-                        <div className="bg-muted/50 p-2 rounded text-xs border border-green-900/30 flex justify-between">
-                            <span>{t.sections.governance.rules.immutable.name}</span>
-                            <span className="text-green-500 font-mono">{t.common.pass}</span>
-                        </div>
-                        <div className="bg-muted/50 p-2 rounded text-xs border border-green-900/30 flex justify-between">
-                            <span>{t.sections.governance.rules.ownership.name}</span>
-                            <span className="text-green-500 font-mono">{t.common.pass}</span>
-                        </div>
-                        <div className="bg-muted/50 p-2 rounded text-xs border border-yellow-900/30 flex justify-between">
-                            <span>{t.sections.governance.rules.priceDrift.name}</span>
-                            <span className="text-yellow-500 font-mono">{t.common.warn}</span>
-                        </div>
+                        {[
+                            { name: t.sections.governance.rules.immutable.name, status: t.common.pass, color: 'green' },
+                            { name: t.sections.governance.rules.ownership.name, status: t.common.pass, color: 'green' },
+                            { name: t.sections.governance.rules.priceDrift.name, status: t.common.warn, color: 'yellow' }
+                        ].map((rule, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.2 + (i * 0.1) }}
+                                className={`bg-muted/50 p-2 rounded text-xs border border-${rule.color}-900/30 flex justify-between`}
+                            >
+                                <span>{rule.name}</span>
+                                <span className={`text-${rule.color}-500 font-mono`}>{rule.status}</span>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
 

@@ -6,7 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -14,12 +15,40 @@ model User {
   email       String   @unique
   firstName   String?
   lastName    String?
-  roles       String[]
+  roles       String   @default("user") // SQLite: Stored as comma-sep string
   locationId  String?
   mlsStatus   String   @default("ACTIVE")
   syncedAt    DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Listing {
+  id                String   @id @default(uuid())
+  propertyId        String   @unique // The "MLS Property ID"
+  title             String?
+  description       String?
+  address           String?
+  city              String?
+  state             String?
+  zipCode           String?
+  propertyType      String   @default("commercial")
+  status            String   // DRAFT, ACTIVE, etc.
+  price             Float?
+  source            String   // MANUAL, MLS_FEED
+  sourceId          String?
+  ownerId           String?  // Reference to User.id (Broker/Agent)
+  trustScore        Int      @default(50)
+  lastVerifiedAt    DateTime @default(now())
+  createdAt         DateTime @default(now())
+  
+  // Rich Content
+  // SQLite doesn't support String[], so we use String and store JSON
+  images            String   @default("[]") 
+  videos            String   @default("[]")
+  mapUrl            String?
+
+  updatedAt         DateTime @updatedAt
 }
 
 model AuditLog {
@@ -30,5 +59,6 @@ model AuditLog {
   actorId          String
   rulesEvaluated   Int
   overallOutcome   String   // PASS, BLOCK, FLAG
-  results          Json     // Detailed results from each rule
+  // SQLite supports JSON via string, Prisma handles 'Json' type mapping usually, but String is safer if Json fails
+  results          String   @default("{}") 
 }

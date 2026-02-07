@@ -1,16 +1,17 @@
 import { AlertTriangle, ChevronRight, Inbox, Clock, CheckCircle } from 'lucide-react';
+import { PageTransition, AnimatedButton } from '@/components/ui/animated';
 
 export default function ClaimsPage() {
     return (
-        <div className="space-y-6">
+        <PageTransition className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">Claims & Disputes</h2>
                     <p className="text-muted-foreground">Manage ownership conflicts and data accuracy reports.</p>
                 </div>
                 <div className="flex gap-2">
-                    <button className="px-3 py-1.5 text-sm bg-muted rounded hover:bg-muted/80 font-medium">Archived</button>
-                    <button className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 font-medium">+ Open Claim</button>
+                    <AnimatedButton variant="secondary" className="text-sm font-medium">Archived</AnimatedButton>
+                    <AnimatedButton variant="primary" className="text-sm font-medium">+ Open Claim</AnimatedButton>
                 </div>
             </div>
 
@@ -103,6 +104,6 @@ export default function ClaimsPage() {
                     </div>
                 </div>
             </div>
-        </div>
+        </PageTransition>
     )
 }

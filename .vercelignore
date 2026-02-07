@@ -1,6 +1,12 @@
-# web directory should NOT be ignored for deployment
-node_modules
-.env
-.env.local
-*.log
-.DS_Store
+# Vercel Ignore Configuration
+# Tells Vercel to SKIP the Next.js frontend when deploying this project
+
+web/
+web/**/*
+**/web/**
+*.md
+!README.md
+build_errors*.log
+.next
+next.config.js
+next-env.d.ts

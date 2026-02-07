@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-// TODO: Replace with actual JWT Public Key from Blue Jax / JWKS endpoint
-const BLUE_JAX_PUBLIC_KEY = process.env.BLUE_JAX_PUBLIC_KEY || 'mock-public-key';
-
 export interface AuthRequest extends Request {
     user?: any;
 }
@@ -20,12 +17,32 @@ export const verifyBlueJaxToken = async (req: AuthRequest, res: Response, next: 
     try {
         let decoded: any;
 
-        // If a secret is provided, verify the signature
-        if (process.env.BLUE_JAX_API_TOKEN) {
-            decoded = jwt.verify(token, process.env.BLUE_JAX_API_TOKEN);
+        // EXPLICIT DEV BYPASS
+        const enableInsecure = process.env.ENABLE_INSECURE_AUTH === 'true';
+
+        if (enableInsecure) {
+            console.warn('[AUTH] Insecure Mode Enabled: Skipping signature verification');
+            console.log(`[AUTH] Received token: ${token.substring(0, 20)}...`);
+
+            if (token === 'mock-jwt-token') {
+                console.log('[AUTH] Handling legacy mock token');
+                decoded = {
+                    sub: 'legacy_user_123',
+                    location_id: 'mock_location',
+                    email: 'legacy@example.com',
+                    roles: ['admin']
+                };
+            } else {
+                decoded = jwt.decode(token);
+                console.log('[AUTH] Decoded result:', JSON.stringify(decoded));
+            }
         } else {
-            console.warn('[AUTH] No BLUE_JAX_API_TOKEN found, falling back to insecure decode');
-            decoded = jwt.decode(token);
+            const secret = (process.env.JWT_SECRET || process.env.BLUE_JAX_PUBLIC_KEY || '').trim();
+            if (secret && secret !== '') {
+                decoded = jwt.verify(token, secret);
+            } else {
+                throw new Error('Verification secret missing and insecure mode not enabled');
+            }
         }
 
         if (!decoded || !decoded.sub) {

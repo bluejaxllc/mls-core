@@ -1,0 +1,28 @@
+
+> mls@1.0.0 dev
+> ts-node src/server.ts
+
+C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+src/routes/intelligence.ts(122,21): error TS2322: Type '{ sourceId: string | undefined; externalId: string; url: string; contentHash: string; rawJson: string; }' is not assignable to type '(Without<SourceSnapshotCreateWithoutObservedListingInput, SourceSnapshotUncheckedCreateWithoutObservedListingInput> & SourceSnapshotUncheckedCreateWithoutObservedListingInput) | (Without<...> & SourceSnapshotCreateWithoutObservedListingInput) | undefined'.
+  Type '{ sourceId: string | undefined; externalId: string; url: string; contentHash: string; rawJson: string; }' is not assignable to type '(Without<SourceSnapshotCreateWithoutObservedListingInput, SourceSnapshotUncheckedCreateWithoutObservedListingInput> & SourceSnapshotUncheckedCreateWithoutObservedListingInput) | (Without<...> & SourceSnapshotCreateWithoutObservedListingInput)'.
+    Type '{ sourceId: string | undefined; externalId: string; url: string; contentHash: string; rawJson: string; }' is not assignable to type 'Without<SourceSnapshotUncheckedCreateWithoutObservedListingInput, SourceSnapshotCreateWithoutObservedListingInput> & SourceSnapshotCreateWithoutObservedListingInput'.
+      Type '{ sourceId: string | undefined; externalId: string; url: string; contentHash: string; rawJson: string; }' is not assignable to type 'Without<SourceSnapshotUncheckedCreateWithoutObservedListingInput, SourceSnapshotCreateWithoutObservedListingInput>'.
+        Types of property 'sourceId' are incompatible.
+          Type 'string | undefined' is not assignable to type 'undefined'.
+            Type 'string' is not assignable to type 'undefined'.
+
+    at createTSError (C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:859:12)
+    at reportTSError (C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:863:19)
+    at getOutput (C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:1077:36)
+    at Object.compile (C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:1433:41)
+    at Module.m._compile (C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:1617:30)
+    at node:internal/modules/cjs/loader:1893:10
+    at Object.require.extensions.<computed> [as .ts] (C:\Users\edgar\OneDrive\Desktop\AI APPS\MLS\node_modules\ts-node\src\index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1481:32)
+    at Module._load (node:internal/modules/cjs/loader:1300:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14) {
+  diagnosticCodes: [ 2322 ]
+}

@@ -34,10 +34,10 @@ export default function ProvisionPage() {
             const data = await response.json();
 
             if (response.ok) {
-                alert(`SUCCESS! Location Created: ${data.locationId}`);
+                alert(`ÉXITO! Ubicación Creada: ${data.locationId}`);
                 router.push('/');
             } else {
-                alert(`ERROR: ${data.error || 'Failed to create location'}`);
+                alert(`ERROR: ${data.error || 'Error al crear ubicación'}`);
             }
         } catch (error: any) {
             alert(`NETWORK ERROR: ${error.message}`);
@@ -58,9 +58,9 @@ export default function ProvisionPage() {
                     {/* Header */}
                     <div className="text-center space-y-4 mb-8">
                         <h1 className="text-xl text-[#3b82f6] drop-shadow-[2px_2px_0px_white] tracking-tighter">
-                            SUBACCOUNT PROVISION
+                            PROVISIÓN DE SUBCUENTA
                         </h1>
-                        <p className="text-[10px] text-zinc-400">CREATE NEW LOCATION</p>
+                        <p className="text-[10px] text-zinc-400">CREAR NUEVA UBICACIÓN</p>
                     </div>
 
                     {/* Form */}
@@ -68,10 +68,10 @@ export default function ProvisionPage() {
 
                         {/* Company Info */}
                         <div className="space-y-4 border-2 border-zinc-700 p-4">
-                            <p className="text-[10px] text-[#3b82f6]">COMPANY DETAILS</p>
+                            <p className="text-[10px] text-[#3b82f6]">DETALLES DE LA EMPRESA</p>
 
                             <div className="space-y-2">
-                                <label className="text-[8px] text-zinc-400">NAME *</label>
+                                <label className="text-[8px] text-zinc-400">NOMBRE *</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -85,11 +85,11 @@ export default function ProvisionPage() {
 
                         {/* Contact Info */}
                         <div className="space-y-4 border-2 border-zinc-700 p-4">
-                            <p className="text-[10px] text-[#3b82f6]">PRIMARY CONTACT</p>
+                            <p className="text-[10px] text-[#3b82f6]">CONTACTO PRINCIPAL</p>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[8px] text-zinc-400">FIRST NAME</label>
+                                    <label className="text-[8px] text-zinc-400">PRIMER NOMBRE</label>
                                     <input
                                         type="text"
                                         name="firstName"
@@ -100,7 +100,7 @@ export default function ProvisionPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[8px] text-zinc-400">LAST NAME</label>
+                                    <label className="text-[8px] text-zinc-400">APELLIDO</label>
                                     <input
                                         type="text"
                                         name="lastName"
@@ -123,7 +123,7 @@ export default function ProvisionPage() {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[8px] text-zinc-400">PHONE</label>
+                                <label className="text-[8px] text-zinc-400">TELÉFONO</label>
                                 <input
                                     type="tel"
                                     name="phone"
@@ -136,10 +136,10 @@ export default function ProvisionPage() {
 
                         {/* Address */}
                         <div className="space-y-4 border-2 border-zinc-700 p-4">
-                            <p className="text-[10px] text-[#3b82f6]">LOCATION ADDRESS</p>
+                            <p className="text-[10px] text-[#3b82f6]">DIRECCIÓN DE UBICACIÓN</p>
 
                             <div className="space-y-2">
-                                <label className="text-[8px] text-zinc-400">STREET</label>
+                                <label className="text-[8px] text-zinc-400">CALLE</label>
                                 <input
                                     type="text"
                                     name="address"
@@ -151,7 +151,7 @@ export default function ProvisionPage() {
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[8px] text-zinc-400">CITY</label>
+                                    <label className="text-[8px] text-zinc-400">CIUDAD</label>
                                     <input
                                         type="text"
                                         name="city"
@@ -162,7 +162,7 @@ export default function ProvisionPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[8px] text-zinc-400">STATE</label>
+                                    <label className="text-[8px] text-zinc-400">ESTADO</label>
                                     <input
                                         type="text"
                                         name="state"
@@ -173,7 +173,7 @@ export default function ProvisionPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[8px] text-zinc-400">ZIP</label>
+                                    <label className="text-[8px] text-zinc-400">CÓDIGO POSTAL</label>
                                     <input
                                         type="text"
                                         name="postalCode"
@@ -191,7 +191,7 @@ export default function ProvisionPage() {
                             disabled={loading}
                             className="w-full bg-[#3b82f6] border-2 border-white text-white p-4 text-[10px] hover:bg-[#2563eb] active:translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'PROVISIONING...' : 'CREATE SUBACCOUNT'}
+                            {loading ? 'PROVISIONANDO...' : 'CREAR SUBCUENTA'}
                         </button>
 
                         <button
@@ -199,7 +199,7 @@ export default function ProvisionPage() {
                             onClick={() => router.back()}
                             className="w-full bg-zinc-800 border-2 border-white text-white p-3 text-[10px] hover:bg-zinc-700 transition-all"
                         >
-                            CANCEL
+                            CANCELAR
                         </button>
                     </form>
 

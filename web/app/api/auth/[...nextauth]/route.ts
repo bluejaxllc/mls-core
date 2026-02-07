@@ -60,8 +60,12 @@ const handler = NextAuth({
         async jwt({ token, user }: any) {
             if (user) {
                 token.role = user.role;
-                // In a real scenario, this would come from the auth provider
-                token.accessToken = 'mock-jwt-token';
+                // Use a valid-looking mock JWT structure for development decoding
+                token.accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJPeFN3YXZ6akc5NTBVYjRtM3RJWSIsImxvY2F0aW9uX2lkIjoiR0MzUTVlcXdES3cyTWhaUTBLU2oiLCJlbWFpbCI6ImFkbWluQHJlbWF4LXBvbGFuY28ubXgiLCJyb2xlcyI6WyJhZG1pbiJdfQ.mock_signature';
+            }
+            // Self-healing for existing dev sessions without a token
+            if (!token.accessToken && process.env.NODE_ENV === 'development') {
+                token.accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJPeFN3YXZ6akc5NTBVYjRtM3RJWSIsImxvY2F0aW9uX2lkIjoiR0MzUTVlcXdES3cyTWhaUTBLU2oiLCJlbWFpbCI6ImFkbWluQHJlbWF4LXBvbGFuY28ubXgiLCJyb2xlcyI6WyJhZG1pbiJdfQ.mock_signature';
             }
             return token;
         }

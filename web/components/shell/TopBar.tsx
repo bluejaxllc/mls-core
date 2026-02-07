@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/i18n';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function TopBar() {
     const { t, language, setLanguage } = useLanguage();
@@ -18,14 +19,18 @@ export function TopBar() {
 
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && searchQuery.trim()) {
-            // TODO: Implement proper search results page
-            router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+            // Redirect to listings page with search query
+            router.push(`/listings?q=${encodeURIComponent(searchQuery)}`);
         }
     };
 
     return (
         <div className="h-14 border-b bg-card flex items-center px-4 gap-4 justify-between">
-            <div className="flex items-center gap-2 flex-1 max-w-xl">
+            <motion.div
+                initial={false}
+                animate={{ width: searchQuery || document.activeElement === document.querySelector('input[type="text"]') ? "100%" : "300px" }}
+                className="flex items-center gap-2 flex-1 max-w-xl bg-muted/30 px-3 py-1.5 rounded-full border border-transparent focus-within:border-primary/20 focus-within:bg-muted/50 transition-colors"
+            >
                 <Search className="h-4 w-4 text-muted-foreground" />
                 <input
                     type="text"
@@ -33,41 +38,69 @@ export function TopBar() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder={t.topbar.searchPlaceholder}
-                    className="bg-transparent border-none focus:outline-none text-sm w-full placeholder:text-muted-foreground"
+                    className="bg-transparent border-none focus:outline-none text-sm w-full placeholder:text-muted-foreground/70"
                 />
-            </div>
+            </motion.div>
 
             <div className="flex items-center gap-4">
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={toggleLanguage}
-                    className="flex items-center gap-1 text-xs font-mono border px-2 py-1 rounded hover:bg-muted transition-colors"
+                    className="flex items-center gap-1 text-xs font-mono border px-2 py-1 rounded hover:bg-muted transition-colors relative overflow-hidden"
                 >
                     <Globe className="h-3 w-3" />
-                    {language.toUpperCase()}
-                </button>
+                    <AnimatePresence mode='wait'>
+                        <motion.span
+                            key={language}
+                            initial={{ y: -10, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 10, opacity: 0 }}
+                        >
+                            {language.toUpperCase()}
+                        </motion.span>
+                    </AnimatePresence>
+                </motion.button>
 
                 <div className="hidden md:flex flex-col items-end">
-                    <span className="text-xs font-mono text-green-500">{t.topbar.systemOnline}</span>
+                    <motion.span
+                        animate={{ opacity: [0.7, 1, 0.7] }}
+                        transition={{ repeat: Infinity, duration: 2 }}
+                        className="text-xs font-mono text-green-500 relative"
+                    >
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full inline-block mr-1" />
+                        {t.topbar.systemOnline}
+                    </motion.span>
                     <span className="text-xs text-muted-foreground">{t.topbar.latency}: 24ms</span>
                 </div>
                 <div className="h-6 w-[1px] bg-border mx-2"></div>
-                <button className="relative">
+                <motion.button
+                    whileHover={{ rotate: [0, -10, 10, -10, 10, 0] }}
+                    transition={{ duration: 0.5 }}
+                    className="relative"
+                >
                     <Bell className="h-5 w-5 text-muted-foreground hover:text-foreground" />
                     <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-                </button>
+                </motion.button>
 
                 {status === 'loading' ? (
                     <div className="text-xs text-muted-foreground">Loading...</div>
                 ) : session?.user ? (
-                    <div className="relative group">
+                    <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="relative group"
+                    >
                         <div className="flex items-center gap-2 cursor-pointer">
-                            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border overflow-hidden">
+                            <motion.div
+                                layoutId="user-avatar"
+                                className="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border overflow-hidden ring-2 ring-transparent group-hover:ring-primary/20 transition-all"
+                            >
                                 {session.user.image ? (
                                     <img src={session.user.image} alt="User" className="h-full w-full object-cover" />
                                 ) : (
                                     <User className="h-4 w-4" />
                                 )}
-                            </div>
+                            </motion.div>
                             <div className="hidden md:block text-sm">
                                 <p className="font-medium leading-none">{session.user.name || 'User'}</p>
                                 <p className="text-xs text-muted-foreground">{(session.user as any).role || t.topbar.role}</p>
@@ -88,7 +121,7 @@ export function TopBar() {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 ) : (
                     <div className="flex items-center gap-2 pl-2">
                         <a href="/api/auth/signin" className="text-sm font-medium hover:underline">

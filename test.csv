@@ -1,0 +1,2 @@
+title,price,address,city,state,zipCode,propertyType,description,ownerId
+Test CSV Prop,123456,123 Test St,TestCity,TestState,12345,residential,Review this desc,user123

@@ -1,0 +1,116 @@
+{
+  "sale": {
+    "success": true,
+    "count": 25,
+    "sample": [
+      {
+        "externalId": "/international/mx/frac-cerrada-galena-1-calle-regio-de-galena-poniente-fraccionamiento-tres-cantos-chihuahua-chihuahua-chihuahua-chihuahua-310105239125/",
+        "url": "https://www.realtor.com/international/mx/frac-cerrada-galena-1-calle-regio-de-galena-poniente-fraccionamiento-tres-cantos-chihuahua-chihuahua-chihuahua-chihuahua-310105239125/",
+        "title": "FRAC. CERRADA GALENA 1, Calle Regio de Galena Poniente , Fraccionamiento Tres Cantos, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32546",
+        "price": "USD $213,425",
+        "address": "FRAC. CERRADA GALENA 1, Calle Regio de Galena Poniente , Fraccionamiento Tres Cantos, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32546",
+        "images": [
+          "//s1.rea.global/img/400x320-fit/realtor_global/mx/57ee7f83a10bb72849de9eeee8c52001.jpg"
+        ],
+        "rawJson": {
+          "title": "FRAC. CERRADA GALENA 1, Calle Regio de Galena Poniente , Fraccionamiento Tres Cantos, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32546",
+          "price": "USD $213,425",
+          "address": "FRAC. CERRADA GALENA 1, Calle Regio de Galena Poniente , Fraccionamiento Tres Cantos, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32546",
+          "image": "//s1.rea.global/img/400x320-fit/realtor_global/mx/57ee7f83a10bb72849de9eeee8c52001.jpg",
+          "url": "/international/mx/frac-cerrada-galena-1-calle-regio-de-galena-poniente-fraccionamiento-tres-cantos-chihuahua-chihuahua-chihuahua-chihuahua-310105239125/"
+        }
+      },
+      {
+        "externalId": "/international/mx/1212-cerrada-de-colonial-del-valle-chihuahua-chihuahua-chihuahua-chihuahua-310105239101/",
+        "url": "https://www.realtor.com/international/mx/1212-cerrada-de-colonial-del-valle-chihuahua-chihuahua-chihuahua-chihuahua-310105239101/",
+        "title": "1212, Cerrada De Colonial Del Valle, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32540",
+        "price": "USD $153,898",
+        "address": "1212, Cerrada De Colonial Del Valle, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32540",
+        "images": [
+          "//s1.rea.global/img/400x320-fit/realtor_global/mx/e0fed768d77b528fd1b26a154855e58d.jpg"
+        ],
+        "rawJson": {
+          "title": "1212, Cerrada De Colonial Del Valle, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32540",
+          "price": "USD $153,898",
+          "address": "1212, Cerrada De Colonial Del Valle, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32540",
+          "image": "//s1.rea.global/img/400x320-fit/realtor_global/mx/e0fed768d77b528fd1b26a154855e58d.jpg",
+          "url": "/international/mx/1212-cerrada-de-colonial-del-valle-chihuahua-chihuahua-chihuahua-chihuahua-310105239101/"
+        }
+      },
+      {
+        "externalId": "/international/mx/calle-los-venados-chihuahua-chihuahua-chihuahua-chihuahua-chihuahua-310105239098/",
+        "url": "https://www.realtor.com/international/mx/calle-los-venados-chihuahua-chihuahua-chihuahua-chihuahua-chihuahua-310105239098/",
+        "title": "Calle los Venados , Chihuahua, Chihuahua, Chihuahua, Chihuahua, Chihuahua 31183",
+        "price": "USD $161,448",
+        "address": "Calle los Venados , Chihuahua, Chihuahua, Chihuahua, Chihuahua, Chihuahua 31183",
+        "images": [
+          "//s1.rea.global/img/400x320-fit/realtor_global/mx/6bf902da09506d55c36f224ad0b71089.jpg"
+        ],
+        "rawJson": {
+          "title": "Calle los Venados , Chihuahua, Chihuahua, Chihuahua, Chihuahua, Chihuahua 31183",
+          "price": "USD $161,448",
+          "address": "Calle los Venados , Chihuahua, Chihuahua, Chihuahua, Chihuahua, Chihuahua 31183",
+          "image": "//s1.rea.global/img/400x320-fit/realtor_global/mx/6bf902da09506d55c36f224ad0b71089.jpg",
+          "url": "/international/mx/calle-los-venados-chihuahua-chihuahua-chihuahua-chihuahua-chihuahua-310105239098/"
+        }
+      }
+    ]
+  },
+  "rent": {
+    "success": true,
+    "count": 25,
+    "sample": [
+      {
+        "externalId": "/international/mx/jardin-del-olimpo-7729-jardines-residencial-chihuahua-chihuahua-chihuahua-chihuahua-310105268266/",
+        "url": "https://www.realtor.com/international/mx/jardin-del-olimpo-7729-jardines-residencial-chihuahua-chihuahua-chihuahua-chihuahua-310105268266/",
+        "title": "Jardin del olimpo 7729 , Jardines Residencial, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32318",
+        "price": "USD $871  per month",
+        "address": "Jardin del olimpo 7729 , Jardines Residencial, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32318",
+        "images": [
+          "//s1.rea.global/img/400x320-fit/realtor_global/mx/fb0346972eede95603f893765e985459.jpg"
+        ],
+        "rawJson": {
+          "title": "Jardin del olimpo 7729 , Jardines Residencial, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32318",
+          "price": "USD $871  per month",
+          "address": "Jardin del olimpo 7729 , Jardines Residencial, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32318",
+          "image": "//s1.rea.global/img/400x320-fit/realtor_global/mx/fb0346972eede95603f893765e985459.jpg",
+          "url": "/international/mx/jardin-del-olimpo-7729-jardines-residencial-chihuahua-chihuahua-chihuahua-chihuahua-310105268266/"
+        }
+      },
+      {
+        "externalId": "/international/mx/alichumacero-6109-misiones-del-portal-chihuahua-chihuahua-chihuahua-chihuahua-310105227161/",
+        "url": "https://www.realtor.com/international/mx/alichumacero-6109-misiones-del-portal-chihuahua-chihuahua-chihuahua-chihuahua-310105227161/",
+        "title": "ALICHUMACERO 6109, Misiones Del Portal, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32575",
+        "price": "USD $697  per month",
+        "address": "ALICHUMACERO 6109, Misiones Del Portal, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32575",
+        "images": [
+          "//s1.rea.global/img/400x320-fit/realtor_global/mx/ec4de46680833f402573039ba5189820.jpg"
+        ],
+        "rawJson": {
+          "title": "ALICHUMACERO 6109, Misiones Del Portal, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32575",
+          "price": "USD $697  per month",
+          "address": "ALICHUMACERO 6109, Misiones Del Portal, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32575",
+          "image": "//s1.rea.global/img/400x320-fit/realtor_global/mx/ec4de46680833f402573039ba5189820.jpg",
+          "url": "/international/mx/alichumacero-6109-misiones-del-portal-chihuahua-chihuahua-chihuahua-chihuahua-310105227161/"
+        }
+      },
+      {
+        "externalId": "/international/mx/anemona-10055-ampliacion-infonavit-ampliacion-aeropuerto-chihuahua-chihuahua-chihuahua-chihuahua-310105227173/",
+        "url": "https://www.realtor.com/international/mx/anemona-10055-ampliacion-infonavit-ampliacion-aeropuerto-chihuahua-chihuahua-chihuahua-chihuahua-310105227173/",
+        "title": "Anemona 10055, Ampliacion INFONAVIT Ampliación Aeropuerto, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32665",
+        "price": "USD $1,266  per month",
+        "address": "Anemona 10055, Ampliacion INFONAVIT Ampliación Aeropuerto, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32665",
+        "images": [
+          "//s1.rea.global/img/400x320-fit/realtor_global/mx/3661a64b48e4fb150240e441c5964252.jpg"
+        ],
+        "rawJson": {
+          "title": "Anemona 10055, Ampliacion INFONAVIT Ampliación Aeropuerto, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32665",
+          "price": "USD $1,266  per month",
+          "address": "Anemona 10055, Ampliacion INFONAVIT Ampliación Aeropuerto, Chihuahua, Chihuahua, Chihuahua, Chihuahua 32665",
+          "image": "//s1.rea.global/img/400x320-fit/realtor_global/mx/3661a64b48e4fb150240e441c5964252.jpg",
+          "url": "/international/mx/anemona-10055-ampliacion-infonavit-ampliacion-aeropuerto-chihuahua-chihuahua-chihuahua-chihuahua-310105227173/"
+        }
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 
 import { RuleRegistry } from './RuleRegistry';
+import { prisma } from '../lib/prisma';
 import { RuleEngine } from './RuleEngine';
 import { RuleEngineService } from './RuleEngineService';
 import { TrustService } from './TrustService';
@@ -17,8 +18,13 @@ class CoreServices implements ExternalServices {
     }
 
     async findActiveListingByPropertyId(propertyId: string): Promise<string | null> {
-        // TODO: Implement real DB lookup
-        return null;
+        const listing = await prisma.listing.findFirst({
+            where: {
+                propertyId,
+                status: 'ACTIVE'
+            }
+        });
+        return listing ? listing.id : null;
     }
 }
 

@@ -1,4 +1,5 @@
 import { GitCommit, User, AlertCircle, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export function VersionTimeline() {
     const versions = [
@@ -16,11 +17,20 @@ export function VersionTimeline() {
             <div className="space-y-8 relative">
                 <div className="absolute left-[19px] top-2 bottom-2 w-0.5 bg-border z-0"></div>
 
-                {versions.map((v) => (
-                    <div key={v.id} className="relative z-10 flex gap-4">
-                        <div className={`mt-1 h-10 w-10 text-xs rounded-full flex items-center justify-center border-4 border-background ${v.highlight ? 'bg-yellow-500/20 text-yellow-500 border-yellow-500/10' : 'bg-muted text-muted-foreground'}`}>
+                {versions.map((v, i) => (
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        key={v.id}
+                        className="relative z-10 flex gap-4"
+                    >
+                        <motion.div
+                            whileHover={{ scale: 1.2 }}
+                            className={`mt-1 h-10 w-10 text-xs rounded-full flex items-center justify-center border-4 border-background ${v.highlight ? 'bg-yellow-500/20 text-yellow-500 border-yellow-500/10' : 'bg-muted text-muted-foreground'}`}
+                        >
                             {v.id}
-                        </div>
+                        </motion.div>
                         <div className="flex-1">
                             <div className="flex justify-between items-start">
                                 <div>
@@ -40,7 +50,7 @@ export function VersionTimeline() {
                                 {v.diff}
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
         </div>
