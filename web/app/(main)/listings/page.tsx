@@ -3,7 +3,7 @@ import { useLanguage } from '@/lib/i18n';
 import { Plus, Building2, Globe, Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { PageTransition, AnimatedCard, AnimatedButton } from '@/components/ui/animated';
 import { GovernanceMenu } from '@/components/listings/GovernanceMenu';
 import { motion } from 'framer-motion';
@@ -24,7 +24,7 @@ interface UnifiedListing {
     confidence?: number;
 }
 
-export default function myListingsPage() {
+function ListingsContent() {
     const { t } = useLanguage();
     const router = useRouter();
     const { data: session }: any = useSession();
@@ -280,4 +280,12 @@ export default function myListingsPage() {
             </div>
         </PageTransition>
     )
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<div className="p-8 text-center text-muted-foreground">Cargando buscador...</div>}>
+            <ListingsContent />
+        </Suspense>
+    );
 }

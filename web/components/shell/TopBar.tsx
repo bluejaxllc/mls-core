@@ -13,6 +13,8 @@ export function TopBar() {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
 
+    const [isFocused, setIsFocused] = useState(false);
+
     const toggleLanguage = () => {
         setLanguage(language === 'en' ? 'es' : 'en');
     };
@@ -28,7 +30,7 @@ export function TopBar() {
         <div className="h-14 border-b bg-card flex items-center px-4 gap-4 justify-between">
             <motion.div
                 initial={false}
-                animate={{ width: searchQuery || document.activeElement === document.querySelector('input[type="text"]') ? "100%" : "300px" }}
+                animate={{ width: searchQuery || isFocused ? "100%" : "300px" }}
                 className="flex items-center gap-2 flex-1 max-w-xl bg-muted/30 px-3 py-1.5 rounded-full border border-transparent focus-within:border-primary/20 focus-within:bg-muted/50 transition-colors"
             >
                 <Search className="h-4 w-4 text-muted-foreground" />
@@ -37,6 +39,8 @@ export function TopBar() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearch}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                     placeholder={t.topbar.searchPlaceholder}
                     className="bg-transparent border-none focus:outline-none text-sm w-full placeholder:text-muted-foreground/70"
                 />

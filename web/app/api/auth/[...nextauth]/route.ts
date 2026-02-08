@@ -14,8 +14,8 @@ const handler = NextAuth({
             },
             token: "https://services.leadconnectorhq.com/oauth/token",
             userinfo: "https://services.leadconnectorhq.com/oauth/userinfo", // Hypothetical standard
-            clientId: process.env.BLUE_JAX_CLIENT_ID,
-            clientSecret: process.env.BLUE_JAX_CLIENT_SECRET,
+            clientId: process.env.BLUE_JAX_CLIENT_ID || "dummy",
+            clientSecret: process.env.BLUE_JAX_CLIENT_SECRET || "dummy",
             profile(profile) {
                 return {
                     id: profile.id || profile.sub,

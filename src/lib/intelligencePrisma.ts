@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/client-intelligence';
+import { PrismaClient } from '../../src/generated/client-intelligence';
 
 // Global declaration for dev HMR
 const globalForPrisma = global as unknown as { prismaIntelligence: PrismaClient };

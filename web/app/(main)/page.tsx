@@ -240,7 +240,7 @@ export default function Dashboard() {
                     <div className="p-4 rounded-lg bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-900">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="font-medium text-sm">{t.dashboard.claims.propertyDispute}</p>
+                                <p className="font-medium text-sm">{t.dashboard.claims.dispute}</p>
                                 <p className="text-xs text-muted-foreground">Calle Victoria #123</p>
                             </div>
                             <motion.button
@@ -249,7 +249,7 @@ export default function Dashboard() {
                                 onClick={() => alert('Navegando a evidencia...')}
                                 className="px-3 py-1.5 text-xs font-medium bg-orange-600 text-white rounded hover:bg-orange-700 transition-colors"
                             >
-                                {t.dashboard.claims.reviewEvidence}
+                                {t.dashboard.claims.review}
                             </motion.button>
                         </div>
                     </div>

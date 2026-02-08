@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "npx prisma generate --schema=prisma/schema.prisma && npx prisma generate --schema=prisma/schema.intelligence.prisma && tsc",
-    "start": "node dist/server.js",
+    "start": "npx prisma db push --schema=prisma/schema.prisma --accept-data-loss && npx prisma db push --schema=prisma/schema.intelligence.prisma --accept-data-loss && node dist/server.js",
     "dev": "ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "prisma": "6.4.0",
+    "puppeteer": "^22.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",

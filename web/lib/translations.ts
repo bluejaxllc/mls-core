@@ -141,6 +141,7 @@ export const translations = {
                 logLabel: 'LOG'
             },
             claims: {
+                open: 'Open Claims',
                 dispute: 'OWNERSHIP DISPUTE',
                 review: 'Review Evidence'
             }
@@ -325,6 +326,7 @@ export const translations = {
                 logLabel: 'LOG'
             },
             claims: {
+                open: 'Reclamos Abiertos',
                 dispute: 'DISPUTA DE PROPIEDAD',
                 review: 'Revisar Evidencia'
             }
