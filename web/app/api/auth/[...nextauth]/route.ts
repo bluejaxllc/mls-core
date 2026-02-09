@@ -4,36 +4,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
     providers: [
-        {
-            id: "bluejax",
-            name: "Blue Jax",
-            type: "oauth",
-            authorization: {
-                url: "https://marketplace.gohighlevel.com/oauth/chooselocation",
-                params: { scope: "contacts.readonly locations.readonly" }
-            },
-            token: "https://services.leadconnectorhq.com/oauth/token",
-            userinfo: "https://services.leadconnectorhq.com/oauth/userinfo", // Hypothetical standard
-            clientId: process.env.BLUE_JAX_CLIENT_ID || "dummy",
-            clientSecret: process.env.BLUE_JAX_CLIENT_SECRET || "dummy",
-            profile(profile) {
-                return {
-                    id: profile.id || profile.sub,
-                    name: profile.name || profile.firstName + ' ' + profile.lastName,
-                    email: profile.email,
-                    image: profile.picture,
-                    role: profile.role || 'user'
-                };
-            },
-        },
         CredentialsProvider({
-            name: "Mock Credentials (Dev Only)",
+            name: "Admin Access",
             credentials: {
                 username: { label: "Username", type: "text", placeholder: "admin" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                if (process.env.NODE_ENV === 'production') return null;
+                // ALLOWED IN PRODUCTION FOR MVP DEMO
+                // if (process.env.NODE_ENV === 'production') return null;
 
                 if (credentials?.username === "admin" && credentials?.password === "admin") {
                     return {

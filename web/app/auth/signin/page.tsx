@@ -140,20 +140,6 @@ export default function RetroSignInPage() {
 
                     {/* Form */}
                     <div className="w-full">
-                        <button
-                            type="button"
-                            onClick={() => signIn("bluejax")}
-                            className="w-full bg-[#10b981] border-2 border-white text-white p-4 text-xs hover:bg-[#059669] active:translate-y-1 transition-all mb-4"
-                        >
-                            LOGIN WITH BLUE JAX
-                        </button>
-
-                        <div className="flex items-center gap-4 mb-4">
-                            <div className="flex-1 h-px bg-zinc-700"></div>
-                            <span className="text-[8px] text-zinc-500">OR DEV LOGIN</span>
-                            <div className="flex-1 h-px bg-zinc-700"></div>
-                        </div>
-
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[#3b82f6]">USERNAME</label>
