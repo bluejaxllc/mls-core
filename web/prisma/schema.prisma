@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id // Blue Jax User ID
+  email       String   @unique
+  firstName   String?
+  lastName    String?
+  roles       String   @default("user") // SQLite: Stored as comma-sep string
+  locationId  String?
+  mlsStatus   String   @default("ACTIVE")
+  syncedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Listing {
+  id                String   @id @default(uuid())
+  propertyId        String   @unique // The "MLS Property ID"
+  title             String?
+  description       String?
+  address           String?
+  city              String?
+  state             String?
+  zipCode           String?
+  propertyType      String   @default("commercial")
+  status            String   // DRAFT, ACTIVE, etc.
+  price             Float?
+  source            String   // MANUAL, MLS_FEED
+  sourceId          String?
+  ownerId           String?  // Reference to User.id (Broker/Agent)
+  trustScore        Int      @default(50)
+  lastVerifiedAt    DateTime @default(now())
+  createdAt         DateTime @default(now())
+  
+  // Rich Content
+  // SQLite doesn't support String[], so we use String and store JSON
+  images            String   @default("[]") 
+  videos            String   @default("[]")
+  mapUrl            String?
+
+  updatedAt         DateTime @updatedAt
+}
+
+model AuditLog {
+  id               String   @id @default(uuid())
+  eventId          String   @unique
+  eventType        String
+  timestamp        DateTime @default(now())
+  actorId          String
+  rulesEvaluated   Int
+  overallOutcome   String   // PASS, BLOCK, FLAG
+  // SQLite supports JSON via string, Prisma handles 'Json' type mapping usually, but String is safer if Json fails
+  results          String   @default("{}") 
+}
+
+model BetaUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  company   String?
+  phone     String?
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt DateTime @default(now())
+}
