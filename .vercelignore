@@ -1,12 +1,5 @@
 # Vercel Ignore Configuration
-# Tells Vercel to SKIP the Next.js frontend when deploying this project
-
-web/
-web/**/*
-**/web/**
 *.md
 !README.md
 build_errors*.log
 .next
-next.config.js
-next-env.d.ts

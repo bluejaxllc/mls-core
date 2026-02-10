@@ -8,7 +8,7 @@ export function RightPanel() {
     const { t } = useLanguage();
 
     return (
-        <div className="w-80 border-l bg-card flex flex-col h-full">
+        <div className="hidden lg:flex w-80 border-l bg-card flex-col h-full">
             <div className="p-4 border-b">
                 <h3 className="font-semibold flex items-center gap-2">
                     <Activity className="h-4 w-4 text-blue-400" />

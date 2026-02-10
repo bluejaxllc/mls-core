@@ -81,21 +81,22 @@ function ListingsContent() {
     return (
         <PageTransition className="space-y-6">
             {/* Header mejorado */}
-            <div className="flex justify-between items-start">
+            {/* Header mejorado - RESPONSIVE */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                         {t.sections.listings.title}
                     </h2>
-                    <p className="text-muted-foreground mt-1">{t.sections.listings.subtitle}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground mt-1">{t.sections.listings.subtitle}</p>
                 </div>
-                <div className="flex gap-2">
-                    <form onSubmit={handleSearch} className="flex gap-2">
-                        <div className="relative group">
+                <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                    <form onSubmit={handleSearch} className="flex gap-2 w-full sm:w-auto">
+                        <div className="relative group flex-1 sm:flex-none">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-blue-500 transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Buscar propiedades..."
-                                className="h-10 pl-10 pr-3 rounded-lg border border-input bg-background text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-64"
+                                className="h-10 pl-10 pr-3 rounded-lg border border-input bg-background text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all w-full sm:w-64"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
@@ -107,7 +108,7 @@ function ListingsContent() {
                     <AnimatedButton
                         variant="primary"
                         onClick={() => router.push('/listings/new')}
-                        className="text-sm font-medium flex items-center gap-2 h-10 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
+                        className="text-sm font-medium flex items-center justify-center gap-2 h-10 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 w-full sm:w-auto"
                     >
                         <Plus className="h-4 w-4" /> {t.sections.listings.create}
                     </AnimatedButton>
@@ -115,10 +116,11 @@ function ListingsContent() {
             </div>
 
             {/* Tabs mejorados */}
-            <div className="border-b flex gap-6 text-sm font-medium text-muted-foreground">
+            {/* Tabs mejorados - SCROLLABLE */}
+            <div className="border-b flex gap-6 text-sm font-medium text-muted-foreground overflow-x-auto pb-1 scrollbar-hide">
                 <button
                     onClick={() => setActiveTab('active')}
-                    className={`pb-3 border-b-2 transition-all duration-200 ${activeTab === 'active'
+                    className={`pb-2 border-b-2 transition-all duration-200 whitespace-nowrap ${activeTab === 'active'
                         ? 'border-blue-500 text-blue-600 font-semibold'
                         : 'border-transparent hover:text-foreground hover:border-border'
                         }`}
@@ -127,7 +129,7 @@ function ListingsContent() {
                 </button>
                 <button
                     onClick={() => setActiveTab('drafts')}
-                    className={`pb-3 border-b-2 transition-all duration-200 ${activeTab === 'drafts'
+                    className={`pb-2 border-b-2 transition-all duration-200 whitespace-nowrap ${activeTab === 'drafts'
                         ? 'border-blue-500 text-blue-600 font-semibold'
                         : 'border-transparent hover:text-foreground hover:border-border'
                         }`}
@@ -136,7 +138,7 @@ function ListingsContent() {
                 </button>
                 <button
                     onClick={() => setActiveTab('observed')}
-                    className={`pb-3 border-b-2 transition-all duration-200 ${activeTab === 'observed'
+                    className={`pb-2 border-b-2 transition-all duration-200 whitespace-nowrap ${activeTab === 'observed'
                         ? 'border-blue-500 text-blue-600 font-semibold'
                         : 'border-transparent hover:text-foreground hover:border-border'
                         }`}

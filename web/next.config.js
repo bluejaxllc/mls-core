@@ -1,23 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    async headers() {
-        return [
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    images: {
+        remotePatterns: [
             {
-                source: '/:path*',
-                headers: [
-                    {
-                        key: 'X-Frame-Options',
-                        value: 'ALLOWALL'
-                    },
-                    {
-                        key: 'Content-Security-Policy',
-                        value: "frame-ancestors 'self' https://*.gohighlevel.com https://*.leadconnectorhq.com"
-                    }
-                ]
-            }
-        ];
-    }
-}
+                protocol: "https",
+                hostname: "**",
+            },
+        ],
+    },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

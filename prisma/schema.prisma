@@ -62,3 +62,13 @@ model AuditLog {
   // SQLite supports JSON via string, Prisma handles 'Json' type mapping usually, but String is safer if Json fails
   results          String   @default("{}") 
 }
+
+model BetaUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  company   String?
+  phone     String?
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt DateTime @default(now())
+}
