@@ -1,56 +1,56 @@
+# Logs
+*.log
+error.log
+server*.log
+prisma_error.txt
+build_errors*.log
+
+# Build outputs
+dist/
+build/
+
 # Dependencies
 node_modules/
-web/node_modules/
-/.pnp
-.pnp.js
 
-# Testing
-/coverage
-
-# Next.js
-web/.next/
-web/out/
-.next/
-out/
-
-# Production
-build/
-dist/
-
-# Misc
-.DS_Store
-*.pem
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Local env files
+# Environment files (keep .env.example)
 .env
-.env*.local
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*.local
 
 # Vercel
-.vercel
+.vercel/
 
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-
-# IDE
+# Editor
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
 
 # OS
 .DS_Store
 Thumbs.db
-node_modules
 
-src/generated/
+# Test files
+test.csv
+test_import.csv
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local scripts (keep in local repo but don't deploy)
+*.ps1
+trigger-crawler.ps1
+deploy_fix.ps1
+run-test.ps1
+setup-native-stack.ps1
+start-dev-environment.ps1
+
+# Uploads
+uploads/
+
+# Backups
+_backup/
+
+# Debug files
+verify_search_ui.webp
+crawler_verification.json
+mercadolibre_tokens.json
