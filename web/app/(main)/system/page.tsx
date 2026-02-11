@@ -12,8 +12,8 @@ export default function SystemPage() {
     return (
         <PageTransition className="space-y-6">
             <div className="flex flex-col gap-2">
-                <h2 className="text-2xl font-bold tracking-tight">{t.sections.system.title}</h2>
-                <p className="text-muted-foreground">{t.sections.system.subtitle}</p>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t.sections.system.title}</h2>
+                <p className="text-sm md:text-base text-muted-foreground">{t.sections.system.subtitle}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

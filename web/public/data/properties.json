@@ -15,7 +15,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-1",
     "confidence": 0.9046461077363622,
     "updatedAt": "2026-02-02T10:34:19.957Z",
-    "createdAt": "2026-01-17T08:41:16.189Z"
+    "createdAt": "2026-01-17T08:41:16.189Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-1",
@@ -33,7 +36,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-2",
     "confidence": 0.8508074047048517,
     "updatedAt": "2026-02-02T07:07:54.833Z",
-    "createdAt": "2026-01-10T19:03:22.648Z"
+    "createdAt": "2026-01-10T19:03:22.648Z",
+    "bedrooms": 0,
+    "bathrooms": 1,
+    "parking": 10
   },
   {
     "id": "obs-chihuahua-2",
@@ -51,7 +57,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-3",
     "confidence": 0.857199154967282,
     "updatedAt": "2026-02-01T00:35:47.483Z",
-    "createdAt": "2026-01-27T21:36:24.332Z"
+    "createdAt": "2026-01-27T21:36:24.332Z",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "parking": 1
   },
   {
     "id": "obs-chihuahua-3",
@@ -69,7 +78,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-4",
     "confidence": 0.9309070832176963,
     "updatedAt": "2026-02-06T17:42:03.145Z",
-    "createdAt": "2026-01-28T17:33:42.677Z"
+    "createdAt": "2026-01-28T17:33:42.677Z",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "parking": 1
   },
   {
     "id": "obs-chihuahua-4",
@@ -87,7 +99,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-5",
     "confidence": 0.8234841831229497,
     "updatedAt": "2026-02-07T02:15:17.120Z",
-    "createdAt": "2026-01-23T05:27:29.380Z"
+    "createdAt": "2026-01-23T05:27:29.380Z",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "parking": 2
   },
   {
     "id": "obs-chihuahua-5",
@@ -105,7 +120,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-6",
     "confidence": 0.8316111158921207,
     "updatedAt": "2026-02-02T00:04:34.372Z",
-    "createdAt": "2026-01-23T04:58:04.070Z"
+    "createdAt": "2026-01-23T04:58:04.070Z",
+    "bedrooms": 0,
+    "bathrooms": 4,
+    "parking": 7
   },
   {
     "id": "obs-chihuahua-6",
@@ -123,7 +141,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-7",
     "confidence": 0.7569141261150071,
     "updatedAt": "2026-02-04T07:01:24.810Z",
-    "createdAt": "2026-02-03T20:39:34.987Z"
+    "createdAt": "2026-02-03T20:39:34.987Z",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-7",
@@ -141,7 +162,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-8",
     "confidence": 0.8127797010424485,
     "updatedAt": "2026-01-31T12:41:18.100Z",
-    "createdAt": "2026-01-10T14:35:36.116Z"
+    "createdAt": "2026-01-10T14:35:36.116Z",
+    "bedrooms": 0,
+    "bathrooms": 2,
+    "parking": 6
   },
   {
     "id": "obs-chihuahua-8",
@@ -159,7 +183,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-9",
     "confidence": 0.8851020712059621,
     "updatedAt": "2026-02-01T08:53:40.709Z",
-    "createdAt": "2026-01-27T14:09:14.029Z"
+    "createdAt": "2026-01-27T14:09:14.029Z",
+    "bedrooms": 1,
+    "bathrooms": 3,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-9",
@@ -177,7 +204,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-10",
     "confidence": 0.862990584362354,
     "updatedAt": "2026-02-06T13:10:57.655Z",
-    "createdAt": "2026-01-30T11:03:40.512Z"
+    "createdAt": "2026-01-30T11:03:40.512Z",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "parking": 2
   },
   {
     "id": "obs-chihuahua-10",
@@ -195,7 +225,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-11",
     "confidence": 0.7624847939848338,
     "updatedAt": "2026-02-05T23:16:36.892Z",
-    "createdAt": "2026-01-22T17:38:32.738Z"
+    "createdAt": "2026-01-22T17:38:32.738Z",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-11",
@@ -213,7 +246,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-12",
     "confidence": 0.7988170355477453,
     "updatedAt": "2026-02-01T17:00:32.059Z",
-    "createdAt": "2026-01-12T14:36:55.532Z"
+    "createdAt": "2026-01-12T14:36:55.532Z",
+    "bedrooms": 0,
+    "bathrooms": 3,
+    "parking": 4
   },
   {
     "id": "obs-chihuahua-12",
@@ -231,7 +267,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-13",
     "confidence": 0.8191250471264913,
     "updatedAt": "2026-02-02T17:25:26.336Z",
-    "createdAt": "2026-02-05T19:54:16.943Z"
+    "createdAt": "2026-02-05T19:54:16.943Z",
+    "bedrooms": 0,
+    "bathrooms": 1,
+    "parking": 3
   },
   {
     "id": "obs-chihuahua-13",
@@ -249,7 +288,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-14",
     "confidence": 0.8764710754822502,
     "updatedAt": "2026-01-31T13:12:48.698Z",
-    "createdAt": "2026-01-24T23:06:31.875Z"
+    "createdAt": "2026-01-24T23:06:31.875Z",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-14",
@@ -267,7 +309,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-15",
     "confidence": 0.9428962187786694,
     "updatedAt": "2026-02-03T20:51:22.694Z",
-    "createdAt": "2026-01-13T21:51:24.908Z"
+    "createdAt": "2026-01-13T21:51:24.908Z",
+    "bedrooms": 1,
+    "bathrooms": 3,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-15",
@@ -285,7 +330,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-16",
     "confidence": 0.9387973676619139,
     "updatedAt": "2026-02-07T00:57:27.862Z",
-    "createdAt": "2026-01-27T04:32:15.690Z"
+    "createdAt": "2026-01-27T04:32:15.690Z",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "parking": 1
   },
   {
     "id": "obs-chihuahua-16",
@@ -303,7 +351,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-17",
     "confidence": 0.8978557983536133,
     "updatedAt": "2026-02-01T04:48:48.146Z",
-    "createdAt": "2026-01-26T15:12:36.815Z"
+    "createdAt": "2026-01-26T15:12:36.815Z",
+    "bedrooms": 2,
+    "bathrooms": 3,
+    "parking": 0
   },
   {
     "id": "obs-chihuahua-17",
@@ -321,7 +372,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-18",
     "confidence": 0.7968080636259735,
     "updatedAt": "2026-02-04T23:53:17.849Z",
-    "createdAt": "2026-02-05T15:44:46.905Z"
+    "createdAt": "2026-02-05T15:44:46.905Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-juárez-18",
@@ -339,7 +393,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-19",
     "confidence": 0.7819411759402837,
     "updatedAt": "2026-02-01T03:30:38.220Z",
-    "createdAt": "2026-01-18T14:56:23.910Z"
+    "createdAt": "2026-01-18T14:56:23.910Z",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "parking": 1
   },
   {
     "id": "obs-juárez-19",
@@ -357,7 +414,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-20",
     "confidence": 0.8470588932411169,
     "updatedAt": "2026-02-05T02:35:43.603Z",
-    "createdAt": "2026-01-10T18:05:15.476Z"
+    "createdAt": "2026-01-10T18:05:15.476Z",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "parking": 2
   },
   {
     "id": "obs-juárez-20",
@@ -375,7 +435,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-21",
     "confidence": 0.877589115014595,
     "updatedAt": "2026-02-02T10:01:20.274Z",
-    "createdAt": "2026-01-14T18:19:49.546Z"
+    "createdAt": "2026-01-14T18:19:49.546Z",
+    "bedrooms": 1,
+    "bathrooms": 2,
+    "parking": 0
   },
   {
     "id": "obs-juárez-21",
@@ -393,7 +456,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-22",
     "confidence": 0.9267356126364368,
     "updatedAt": "2026-02-05T07:31:36.420Z",
-    "createdAt": "2026-01-15T14:00:27.298Z"
+    "createdAt": "2026-01-15T14:00:27.298Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-juárez-22",
@@ -411,7 +477,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-23",
     "confidence": 0.7341588252890792,
     "updatedAt": "2026-02-02T23:43:19.964Z",
-    "createdAt": "2026-01-12T15:22:03.221Z"
+    "createdAt": "2026-01-12T15:22:03.221Z",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "parking": 1
   },
   {
     "id": "obs-juárez-23",
@@ -429,7 +498,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-24",
     "confidence": 0.7494029789894885,
     "updatedAt": "2026-02-06T14:18:33.822Z",
-    "createdAt": "2026-01-18T20:59:20.208Z"
+    "createdAt": "2026-01-18T20:59:20.208Z",
+    "bedrooms": 1,
+    "bathrooms": 2,
+    "parking": 1
   },
   {
     "id": "obs-juárez-24",
@@ -447,7 +519,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-25",
     "confidence": 0.720113206542164,
     "updatedAt": "2026-02-07T01:02:45.935Z",
-    "createdAt": "2026-02-02T04:56:46.258Z"
+    "createdAt": "2026-02-02T04:56:46.258Z",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "parking": 1
   },
   {
     "id": "obs-juárez-25",
@@ -465,7 +540,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-26",
     "confidence": 0.7581268384433903,
     "updatedAt": "2026-02-02T22:38:18.877Z",
-    "createdAt": "2026-01-19T19:47:03.191Z"
+    "createdAt": "2026-01-19T19:47:03.191Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-juárez-26",
@@ -483,7 +561,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-27",
     "confidence": 0.870770309647884,
     "updatedAt": "2026-02-05T07:32:42.453Z",
-    "createdAt": "2026-01-23T18:57:30.021Z"
+    "createdAt": "2026-01-23T18:57:30.021Z",
+    "bedrooms": 0,
+    "bathrooms": 1,
+    "parking": 5
   },
   {
     "id": "obs-juárez-27",
@@ -501,7 +582,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-28",
     "confidence": 0.8627296641784035,
     "updatedAt": "2026-02-04T12:03:54.333Z",
-    "createdAt": "2026-01-30T07:57:20.876Z"
+    "createdAt": "2026-01-30T07:57:20.876Z",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "parking": 2
   },
   {
     "id": "obs-delicias-28",
@@ -519,7 +603,10 @@
     "sourceUrl": "https://example.com/propiedadesmx/listing-29",
     "confidence": 0.7911933628906367,
     "updatedAt": "2026-02-05T04:38:13.193Z",
-    "createdAt": "2026-01-16T05:50:55.491Z"
+    "createdAt": "2026-01-16T05:50:55.491Z",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "parking": 2
   },
   {
     "id": "obs-delicias-29",
@@ -537,7 +624,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-30",
     "confidence": 0.7304093957864042,
     "updatedAt": "2026-02-06T10:37:47.609Z",
-    "createdAt": "2026-01-26T14:26:07.513Z"
+    "createdAt": "2026-01-26T14:26:07.513Z",
+    "bedrooms": 4,
+    "bathrooms": 1,
+    "parking": 1
   },
   {
     "id": "obs-delicias-30",
@@ -555,7 +645,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-31",
     "confidence": 0.8883335381221629,
     "updatedAt": "2026-02-01T01:31:30.000Z",
-    "createdAt": "2026-02-06T12:05:44.939Z"
+    "createdAt": "2026-02-06T12:05:44.939Z",
+    "bedrooms": 1,
+    "bathrooms": 3,
+    "parking": 2
   },
   {
     "id": "obs-delicias-31",
@@ -573,7 +666,10 @@
     "sourceUrl": "https://example.com/propiedadesmx/listing-32",
     "confidence": 0.7121291973071349,
     "updatedAt": "2026-02-03T00:26:59.473Z",
-    "createdAt": "2026-02-07T04:30:39.967Z"
+    "createdAt": "2026-02-07T04:30:39.967Z",
+    "bedrooms": 0,
+    "bathrooms": 3,
+    "parking": 3
   },
   {
     "id": "obs-delicias-32",
@@ -591,7 +687,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-33",
     "confidence": 0.8367469365738468,
     "updatedAt": "2026-02-04T22:05:41.551Z",
-    "createdAt": "2026-01-31T13:11:59.239Z"
+    "createdAt": "2026-01-31T13:11:59.239Z",
+    "bedrooms": 0,
+    "bathrooms": 3,
+    "parking": 5
   },
   {
     "id": "obs-delicias-33",
@@ -609,7 +708,10 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-34",
     "confidence": 0.9186810435419162,
     "updatedAt": "2026-01-31T09:20:18.373Z",
-    "createdAt": "2026-01-31T23:37:26.116Z"
+    "createdAt": "2026-01-31T23:37:26.116Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-delicias-34",
@@ -627,7 +729,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-35",
     "confidence": 0.7475644172360348,
     "updatedAt": "2026-01-31T09:15:36.203Z",
-    "createdAt": "2026-02-06T18:27:29.241Z"
+    "createdAt": "2026-02-06T18:27:29.241Z",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "parking": 0
   },
   {
     "id": "obs-delicias-35",
@@ -645,7 +750,10 @@
     "sourceUrl": "https://example.com/propiedadesmx/listing-36",
     "confidence": 0.7726621816122559,
     "updatedAt": "2026-02-05T19:28:25.142Z",
-    "createdAt": "2026-02-03T16:26:42.294Z"
+    "createdAt": "2026-02-03T16:26:42.294Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-cuauhtémoc-36",
@@ -663,7 +771,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-37",
     "confidence": 0.9113752063862136,
     "updatedAt": "2026-02-06T12:16:28.297Z",
-    "createdAt": "2026-01-18T17:50:58.808Z"
+    "createdAt": "2026-01-18T17:50:58.808Z",
+    "bedrooms": 1,
+    "bathrooms": 3,
+    "parking": 2
   },
   {
     "id": "obs-cuauhtémoc-37",
@@ -681,7 +792,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-38",
     "confidence": 0.8566733563538321,
     "updatedAt": "2026-02-01T15:55:02.091Z",
-    "createdAt": "2026-01-24T20:28:44.926Z"
+    "createdAt": "2026-01-24T20:28:44.926Z",
+    "bedrooms": 4,
+    "bathrooms": 2,
+    "parking": 2
   },
   {
     "id": "obs-cuauhtémoc-38",
@@ -699,7 +813,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-39",
     "confidence": 0.8365699596400917,
     "updatedAt": "2026-02-02T08:14:36.254Z",
-    "createdAt": "2026-01-24T14:44:36.749Z"
+    "createdAt": "2026-01-24T14:44:36.749Z",
+    "bedrooms": 1,
+    "bathrooms": 2,
+    "parking": 0
   },
   {
     "id": "obs-cuauhtémoc-39",
@@ -717,7 +834,10 @@
     "sourceUrl": "https://example.com/mercadolibre/listing-40",
     "confidence": 0.8427317271340193,
     "updatedAt": "2026-02-06T18:03:14.955Z",
-    "createdAt": "2026-01-29T00:10:36.816Z"
+    "createdAt": "2026-01-29T00:10:36.816Z",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "parking": 0
   },
   {
     "id": "obs-cuauhtémoc-40",
@@ -735,7 +855,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-41",
     "confidence": 0.8222096370187592,
     "updatedAt": "2026-02-03T14:52:54.218Z",
-    "createdAt": "2026-02-05T07:27:19.983Z"
+    "createdAt": "2026-02-05T07:27:19.983Z",
+    "bedrooms": 1,
+    "bathrooms": 3,
+    "parking": 1
   },
   {
     "id": "obs-parral-41",
@@ -753,7 +876,10 @@
     "sourceUrl": "https://example.com/vivanuncios/listing-42",
     "confidence": 0.8257433403509559,
     "updatedAt": "2026-02-01T07:29:13.186Z",
-    "createdAt": "2026-02-05T14:10:15.250Z"
+    "createdAt": "2026-02-05T14:10:15.250Z",
+    "bedrooms": 2,
+    "bathrooms": 3,
+    "parking": 2
   },
   {
     "id": "obs-parral-42",
@@ -771,7 +897,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-43",
     "confidence": 0.8250445258615651,
     "updatedAt": "2026-02-04T20:10:16.110Z",
-    "createdAt": "2026-01-27T19:23:02.575Z"
+    "createdAt": "2026-01-27T19:23:02.575Z",
+    "bedrooms": 3,
+    "bathrooms": 1,
+    "parking": 2
   },
   {
     "id": "obs-parral-43",
@@ -789,7 +918,10 @@
     "sourceUrl": "https://example.com/lamudi/listing-44",
     "confidence": 0.8580302942654613,
     "updatedAt": "2026-02-05T19:07:44.515Z",
-    "createdAt": "2026-01-18T01:53:21.809Z"
+    "createdAt": "2026-01-18T01:53:21.809Z",
+    "bedrooms": 0,
+    "bathrooms": 1,
+    "parking": 7
   },
   {
     "id": "obs-parral-44",
@@ -807,6 +939,9 @@
     "sourceUrl": "https://example.com/inmuebles24/listing-45",
     "confidence": 0.7203043535264835,
     "updatedAt": "2026-02-06T16:25:24.739Z",
-    "createdAt": "2026-01-18T15:40:24.680Z"
+    "createdAt": "2026-01-18T15:40:24.680Z",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "parking": 0
   }
 ]

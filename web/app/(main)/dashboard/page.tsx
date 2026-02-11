@@ -58,9 +58,9 @@ export default function Dashboard() {
     return (
         <PageTransition className="space-y-6">
             {/* Header con botón de acción */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row items-start md:items-center md:justify-between gap-4">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                         {t.dashboard.title}
                     </h2>
                     <p className="text-muted-foreground mt-1">{t.dashboard.subtitle}</p>
@@ -68,7 +68,7 @@ export default function Dashboard() {
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
+                    className="hidden md:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
                 >
                     <Plus className="h-4 w-4" />
                     <span className="text-sm font-medium">Agregar Listado</span>
@@ -159,7 +159,7 @@ export default function Dashboard() {
                         <h3 className="text-lg font-semibold">Actividad Semanal</h3>
                         <p className="text-sm text-muted-foreground">Visualizaciones y listados agregados</p>
                     </div>
-                    <ResponsiveContainer width="100%" height={200}>
+                    <ResponsiveContainer width="100%" height={150} className="md:h-[200px]">
                         <AreaChart data={activityData}>
                             <defs>
                                 <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
@@ -189,7 +189,7 @@ export default function Dashboard() {
                         <h3 className="text-lg font-semibold">Listados Agregados</h3>
                         <p className="text-sm text-muted-foreground">Nuevos listados por día</p>
                     </div>
-                    <ResponsiveContainer width="100%" height={200}>
+                    <ResponsiveContainer width="100%" height={150} className="md:h-[200px]">
                         <LineChart data={activityData}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.5} />
                             <XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="#6b7280" />

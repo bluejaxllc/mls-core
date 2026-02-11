@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MobileMenu } from './MobileMenu';
 
 export function TopBar() {
     const { t, language, setLanguage } = useLanguage();
@@ -28,10 +29,13 @@ export function TopBar() {
 
     return (
         <div className="h-14 border-b bg-card flex items-center px-4 gap-4 justify-between">
+            {/* Mobile Menu - Only on mobile */}
+            <MobileMenu />
+
             <motion.div
                 initial={false}
                 animate={{ width: searchQuery || isFocused ? "100%" : "300px" }}
-                className="flex items-center gap-2 flex-1 max-w-xl bg-muted/30 px-3 py-1.5 rounded-full border border-transparent focus-within:border-primary/20 focus-within:bg-muted/50 transition-colors"
+                className="hidden sm:flex items-center gap-2 flex-1 max-w-xl bg-muted/30 px-3 py-1.5 rounded-full border border-transparent focus-within:border-primary/20 focus-within:bg-muted/50 transition-colors"
             >
                 <Search className="h-4 w-4 text-muted-foreground" />
                 <input

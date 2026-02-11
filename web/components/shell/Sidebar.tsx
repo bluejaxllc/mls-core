@@ -21,7 +21,7 @@ export function Sidebar() {
     ];
 
     return (
-        <div className="w-16 lg:w-64 border-r bg-gradient-to-b from-card to-card/50 backdrop-blur-sm flex flex-col items-center lg:items-stretch py-4 gap-1 relative overflow-hidden">
+        <div className="hidden md:flex md:w-16 lg:w-64 border-r bg-gradient-to-b from-card to-card/50 backdrop-blur-sm flex-col items-center lg:items-stretch py-4 gap-1 relative overflow-hidden">
             {/* Decorative gradient overlay */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
 

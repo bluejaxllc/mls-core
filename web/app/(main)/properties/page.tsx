@@ -23,11 +23,15 @@ export default function PropertiesPage() {
     const [limit, setLimit] = useState(50); // Default to 50 as requested
     const [city, setCity] = useState('Chihuahua'); // Default City
     const [listingType, setListingType] = useState('ALL'); // ALL, RENT, SALE
+    const [bedrooms, setBedrooms] = useState<number | 'Any'>('Any');
+    const [bathrooms, setBathrooms] = useState<number | 'Any'>('Any');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
         fetchListings(); // No auth check - endpoint is public
-    }, [page, limit, city, listingType]); // Re-fetch on filter change
+    }, [page, limit, city, listingType, bedrooms, bathrooms, minPrice, maxPrice]); // Re-fetch on filter change
 
     const fetchListings = async () => {
         try {
@@ -50,6 +54,20 @@ export default function PropertiesPage() {
             // Filter by listing type (RENT/SALE)
             if (listingType !== 'ALL') {
                 filtered = filtered.filter(p => p.status === listingType);
+            }
+
+            // Advanced Filters
+            if (bedrooms !== 'Any') {
+                filtered = filtered.filter(p => (p.bedrooms || 0) >= bedrooms);
+            }
+            if (bathrooms !== 'Any') {
+                filtered = filtered.filter(p => (p.bathrooms || 0) >= bathrooms);
+            }
+            if (minPrice) {
+                filtered = filtered.filter(p => (p.price || 0) >= Number(minPrice));
+            }
+            if (maxPrice) {
+                filtered = filtered.filter(p => (p.price || 0) <= Number(maxPrice));
             }
 
             // Filter by search query
@@ -101,20 +119,21 @@ export default function PropertiesPage() {
             </div>
 
             {/* Controls */}
-            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-card p-4 rounded-lg border">
+            <div className="flex flex-col gap-4 bg-card p-4 rounded-lg border">
 
-                {/* Filters Group */}
-                <div className="flex items-center gap-3">
-                    {/* City Selector */}
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">Ciudad:</span>
+                {/* Top Bar: Basic Filters & Search */}
+                <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
+
+                    {/* Primary Filters Group */}
+                    <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+                        {/* City Selector */}
                         <select
                             value={city}
                             onChange={(e) => {
                                 setCity(e.target.value);
                                 setPage(1);
                             }}
-                            className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-32"
+                            className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-32 flex-shrink-0"
                         >
                             <option value="All">Todas</option>
                             <option value="Chihuahua">Chihuahua</option>
@@ -123,86 +142,158 @@ export default function PropertiesPage() {
                             <option value="Cuauhtémoc">Cuauhtémoc</option>
                             <option value="Parral">Parral</option>
                         </select>
-                    </div>
 
-                    {/* Rent/Sale Filter */}
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">Tipo:</span>
+                        {/* Rent/Sale Filter */}
                         <select
                             value={listingType}
                             onChange={(e) => {
                                 setListingType(e.target.value);
                                 setPage(1);
                             }}
-                            className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-32"
+                            className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-32 flex-shrink-0"
                         >
                             <option value="ALL">Todos</option>
-                            <option value="RENT">Para Rentar</option>
-                            <option value="SALE">Para Vender</option>
+                            <option value="RENT">En Renta</option>
+                            <option value="SALE">En Venta</option>
                         </select>
-                    </div>
-                </div>
 
-                <div className="flex-1 w-full flex gap-2">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
-                        <AnimatedInput
-                            placeholder="Buscar por dirección, colonia..."
-                            className="w-full pl-9"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
+                        {/* More Filters Toggle */}
+                        <AnimatedButton
+                            onClick={() => setShowFilters(!showFilters)}
+                            variant={showFilters ? "primary" : "secondary"}
+                            className="h-9 px-3 flex items-center gap-2 flex-shrink-0"
+                        >
+                            <Filter className="h-4 w-4" />
+                            <span className="hidden sm:inline">{showFilters ? 'Menos Filtros' : 'Más Filtros'}</span>
+                        </AnimatedButton>
+                    </div>
+
+                    {/* Search & Pagination */}
+                    <div className="flex-1 w-full flex flex-col sm:flex-row gap-2">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
+                            <AnimatedInput
+                                placeholder="Buscar por dirección, colonia..."
+                                className="w-full pl-9 h-9"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        setPage(1);
+                                        fetchListings();
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-2 self-end sm:self-auto">
+                            <select
+                                value={limit}
+                                onChange={(e) => {
+                                    setLimit(Number(e.target.value));
                                     setPage(1);
-                                    fetchListings();
-                                }
-                            }}
-                        />
-                    </div>
-                    <AnimatedButton
-                        onClick={() => {
-                            setPage(1);
-                            fetchListings();
-                        }}
-                        variant="secondary"
-                    >
-                        <Search className="h-4 w-4" />
-                    </AnimatedButton>
-                </div>
+                                }}
+                                className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-20 sm:w-auto"
+                            >
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                            </select>
 
-                <div className="flex items-center gap-2">
-                    <select
-                        value={limit}
-                        onChange={(e) => {
-                            setLimit(Number(e.target.value));
-                            setPage(1);
-                        }}
-                        className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
-                        <option value={10}>10 por pág</option>
-                        <option value={20}>20 por pág</option>
-                        <option value={50}>50 por pág</option>
-                    </select>
-
-                    <div className="flex items-center gap-1 bg-muted rounded-md p-0.5">
-                        <AnimatedButton
-                            variant="ghost"
-                            disabled={page <= 1}
-                            onClick={() => setPage(p => Math.max(1, p - 1))}
-                            className="h-8 w-8 p-0 hover:bg-background"
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </AnimatedButton>
-                        <span className="text-sm font-medium w-6 text-center tabular-nums">{page}</span>
-                        <AnimatedButton
-                            variant="ghost"
-                            onClick={() => setPage(p => p + 1)}
-                            className="h-8 w-8 p-0 hover:bg-background"
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </AnimatedButton>
+                            <div className="flex items-center gap-1 bg-muted rounded-md p-0.5 h-9">
+                                <AnimatedButton
+                                    variant="ghost"
+                                    disabled={page <= 1}
+                                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                                    className="h-8 w-8 p-0 hover:bg-background"
+                                >
+                                    <ChevronLeft className="h-4 w-4" />
+                                </AnimatedButton>
+                                <span className="text-sm font-medium w-6 text-center tabular-nums">{page}</span>
+                                <AnimatedButton
+                                    variant="ghost"
+                                    onClick={() => setPage(p => p + 1)}
+                                    className="h-8 w-8 p-0 hover:bg-background"
+                                >
+                                    <ChevronRight className="h-4 w-4" />
+                                </AnimatedButton>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                {/* Advanced Filters Panel */}
+                {showFilters && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t animate-in fade-in slide-in-from-top-2">
+                        {/* Bedrooms */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">Recámaras</label>
+                            <div className="flex rounded-md shadow-sm">
+                                {['Any', 1, 2, 3, 4].map((num) => (
+                                    <button
+                                        key={num}
+                                        onClick={() => { setBedrooms(num as any); setPage(1); }}
+                                        className={`flex-1 h-8 text-xs font-medium border first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 focus:z-10 focus:ring-2 focus:ring-primary ${bedrooms === num
+                                            ? 'bg-primary text-primary-foreground border-primary z-10'
+                                            : 'bg-background text-muted-foreground hover:bg-muted'
+                                            }`}
+                                    >
+                                        {num === 'Any' ? 'Todas' : `${num}+`}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Bathrooms */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">Baños</label>
+                            <div className="flex rounded-md shadow-sm">
+                                {['Any', 1, 2, 3].map((num) => (
+                                    <button
+                                        key={num}
+                                        onClick={() => { setBathrooms(num as any); setPage(1); }}
+                                        className={`flex-1 h-8 text-xs font-medium border first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 focus:z-10 focus:ring-2 focus:ring-primary ${bathrooms === num
+                                            ? 'bg-primary text-primary-foreground border-primary z-10'
+                                            : 'bg-background text-muted-foreground hover:bg-muted'
+                                            }`}
+                                    >
+                                        {num === 'Any' ? 'Todos' : `${num}+`}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Price Min */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">Precio Min</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
+                                <input
+                                    type="number"
+                                    placeholder="Min"
+                                    className="h-8 w-full rounded-md border border-input bg-background pl-6 pr-3 text-xs focus:outline-none focus:ring-2 focus:ring-primary"
+                                    value={minPrice}
+                                    onChange={(e) => { setMinPrice(e.target.value); setPage(1); }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Price Max */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-medium text-muted-foreground">Precio Max</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">$</span>
+                                <input
+                                    type="number"
+                                    placeholder="Max"
+                                    className="h-8 w-full rounded-md border border-input bg-background pl-6 pr-3 text-xs focus:outline-none focus:ring-2 focus:ring-primary"
+                                    value={maxPrice}
+                                    onChange={(e) => { setMaxPrice(e.target.value); setPage(1); }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Grid */}
@@ -265,6 +356,14 @@ export default function PropertiesPage() {
                                 <h3 className="font-semibold text-sm line-clamp-2" title={listing.title}>
                                     {listing.title}
                                 </h3>
+                                {/* Property Features */}
+                                {(listing.propertyType === 'HOUSE' || listing.propertyType === 'APARTMENT') && (
+                                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                                        <span className="flex items-center gap-1">• {listing.bedrooms || 0} Recs</span>
+                                        <span className="flex items-center gap-1">• {listing.bathrooms || 0} Baños</span>
+                                        <span className="flex items-center gap-1">• {listing.parking || 0} Autos</span>
+                                    </div>
+                                )}
                                 <div className="flex items-start gap-1 text-xs text-muted-foreground mt-auto">
                                     <Globe className="h-3 w-3 mt-0.5" />
                                     <span className="line-clamp-2">{listing.address}</span>

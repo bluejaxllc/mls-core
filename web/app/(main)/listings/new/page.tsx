@@ -454,7 +454,7 @@ export default function NewListingPage() {
             >
 
                 {/* HERO ADDRESS INPUT - plain input (no Google here) to avoid typing glitches */}
-                <div className="space-y-4 bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border border-blue-100 shadow-sm relative z-20">
+                <div className="space-y-4 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 md:p-8 rounded-xl border border-blue-100 shadow-sm relative z-20">
                     <label className="text-lg font-semibold text-blue-900 flex flex-wrap justify-between items-center gap-2">
                         <span>Dirección de la Propiedad (Comience aquí)</span>
                         <div className="flex items-center gap-2 flex-wrap">
@@ -480,7 +480,7 @@ export default function NewListingPage() {
                             onBlur={handleAddressBlur}
                             onKeyDown={handleAddressKeyDown}
                             placeholder="Ingrese la dirección completa..."
-                            className="w-full pl-12 pr-4 py-4 text-xl bg-white text-gray-900 border-2 border-blue-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-blue-200/70"
+                            className="w-full pl-8 md:pl-12 pr-4 py-3 md:py-4 text-base md:text-xl bg-white text-gray-900 border-2 border-blue-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-blue-200/70"
                         />
                         <AddressSearchPopover
                             open={showAddressSearch}
@@ -503,11 +503,11 @@ export default function NewListingPage() {
                                         images: prev.images?.filter((_, i) => i !== idx)
                                     }));
                                 }}
-                                className="aspect-[21/9] h-[500px]"
+                                className="aspect-[21/9] h-[250px] sm:h-[350px] md:h-[500px]"
                             />
                             {/* File Upload Overlay Button */}
                             <div className="absolute top-4 right-4 z-40">
-                                <label className="cursor-pointer bg-white/90 hover:bg-white text-gray-800 px-4 py-2 rounded-full shadow-md text-sm font-medium flex items-center gap-2 transition-all backdrop-blur-sm border border-gray-200">
+                                <label className="cursor-pointer bg-white/90 hover:bg-white text-gray-800 px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-md text-xs md:text-sm font-medium flex items-center gap-2 transition-all backdrop-blur-sm border border-gray-200">
                                     <Sparkles className="w-4 h-4 text-blue-500" />
                                     <span>Agregar Fotos</span>
                                     <input
@@ -534,7 +534,7 @@ export default function NewListingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Main Form Area - Takes up 2/3 space now if we want, or full width */}
                     <div className="md:col-span-3 space-y-6">
-                        <AnimatedCard className="p-6 space-y-6">
+                        <AnimatedCard className="p-4 md:p-6 space-y-6">
                             {/* Row 1: Title & Type */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="md:col-span-2 space-y-2">

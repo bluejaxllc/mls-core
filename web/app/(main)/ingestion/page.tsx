@@ -67,23 +67,23 @@ export default function IngestionPage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-start">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">{t.sections.ingestion.title}</h2>
-                    <p className="text-muted-foreground">{t.sections.ingestion.subtitle}</p>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t.sections.ingestion.title}</h2>
+                    <p className="text-sm md:text-base text-muted-foreground">{t.sections.ingestion.subtitle}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                     <button
                         onClick={handleDownloadTemplate}
-                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 border border-slate-200"
+                        className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2 border border-slate-200"
                     >
-                        <Download className="h-4 w-4" /> Descargar Plantilla
+                        <Download className="h-4 w-4" /> <span className="hidden sm:inline">Descargar</span> Plantilla
                     </button>
                     <button
                         onClick={handleSync}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2"
                     >
-                        <RefreshCw className="h-4 w-4" /> Sincronizar Ahora
+                        <RefreshCw className="h-4 w-4" /> Sincronizar<span className="hidden sm:inline"> Ahora</span>
                     </button>
                 </div>
             </div>
