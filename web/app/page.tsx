@@ -22,13 +22,13 @@ export default function LandingPage() {
                 </div>
                 <div className="flex items-center gap-6">
                     <Link href="/auth/signin" className="text-sm text-zinc-400 hover:text-white transition-colors">
-                        Admin Access
+                        Acceso Admin
                     </Link>
                     <Link
                         href="/auth/signin"
                         className="bg-white text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-blue-50 transition-colors flex items-center gap-2"
                     >
-                        ENTER PROTOCOL
+                        ENTRAR AL SISTEMA
                     </Link>
                 </div>
             </nav>
@@ -46,7 +46,7 @@ export default function LandingPage() {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                     </span>
-                    System Online v1.0
+                    Sistema Activo v1.0
                 </motion.div>
 
                 <motion.h1
@@ -55,8 +55,8 @@ export default function LandingPage() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white via-white to-zinc-500 bg-clip-text text-transparent"
                 >
-                    DECENTRALIZED <br />
-                    MLS INTELLIGENCE
+                    INTELIGENCIA <br />
+                    MLS DESCENTRALIZADA
                 </motion.h1>
 
                 <motion.p
@@ -65,8 +65,8 @@ export default function LandingPage() {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed"
                 >
-                    The immutable infrastructure for Mexico's real estate market.
-                    Manage listings, verify ownership, and automate governance with protocol-level security.
+                    La infraestructura inmutable para el mercado inmobiliario de México.
+                    Gestiona listados, verifica propiedad y automatiza la gobernanza con seguridad de nivel protocolo.
                 </motion.p>
 
                 <motion.div
@@ -79,11 +79,14 @@ export default function LandingPage() {
                         href="/auth/signin"
                         className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(37,99,235,0.4)]"
                     >
-                        Initialize System <ArrowRight className="h-4 w-4" />
+                        Inicializar Sistema <ArrowRight className="h-4 w-4" />
                     </Link>
-                    <button className="px-8 py-4 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 rounded-lg font-medium transition-all flex items-center justify-center">
-                        Read Whitepaper
-                    </button>
+                    <Link
+                        href="#whitepaper"
+                        className="px-8 py-4 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 rounded-lg font-medium transition-all flex items-center justify-center"
+                    >
+                        Leer Whitepaper
+                    </Link>
                 </motion.div>
 
             </main>
@@ -92,27 +95,27 @@ export default function LandingPage() {
             <section className="relative z-10 grid md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 pb-20">
                 <FeatureCard
                     icon={ShieldCheck}
-                    title="Automated Governance"
-                    desc="Rules encoded in logic. Listings are verified against strict compliance standards automatically."
+                    title="Gobernanza Automatizada"
+                    desc="Reglas codificadas en lógica. Los listados se verifican automáticamente contra estándares estrictos de cumplimiento."
                     delay={0.8}
                 />
                 <FeatureCard
                     icon={Globe}
-                    title="Market Synchronization"
-                    desc="Real-time data propagation across the network. Single source of truth for property status."
+                    title="Sincronización de Mercado"
+                    desc="Propagación de datos en tiempo real a través de la red. Fuente única de verdad para el estado de propiedades."
                     delay={0.9}
                 />
                 <FeatureCard
                     icon={Zap}
-                    title="Instant Verification"
-                    desc="Zero-trust architecture. Identity and ownership verified cryptographically."
+                    title="Verificación Instantánea"
+                    desc="Arquitectura de confianza cero. Identidad y propiedad verificadas criptográficamente."
                     delay={1.0}
                 />
             </section>
 
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/10 py-10 text-center text-zinc-500 text-sm">
-                <p>&copy; 2026 BLUE JAX CORE. All systems operational.</p>
+                <p>&copy; 2026 BLUE JAX CORE. Todos los sistemas operativos.</p>
             </footer>
 
         </div>
