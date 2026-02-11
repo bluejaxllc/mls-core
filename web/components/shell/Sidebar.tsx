@@ -12,7 +12,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     const items = [
-        { name: t.sidebar.dashboard, href: '/', icon: Home, badge: null },
+        { name: t.sidebar.dashboard, href: '/dashboard', icon: Home, badge: null },
         { name: t.sidebar.search, href: '/properties', icon: Search, badge: null },
         { name: t.sidebar.listings, href: '/listings', icon: FileText, badge: 12 },
         { name: t.sidebar.ingestion, href: '/ingestion', icon: Upload, badge: null },

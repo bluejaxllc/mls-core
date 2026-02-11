@@ -45,7 +45,7 @@ export default function RetroSignInPage() {
         });
 
         if (result?.ok) {
-            router.push("/");
+            router.push("/dashboard");
         } else {
             alert("GAME OVER: Invalid Credentials");
         }
