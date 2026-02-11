@@ -82,7 +82,7 @@ export default function LandingPage() {
                         Inicializar Sistema <ArrowRight className="h-4 w-4" />
                     </Link>
                     <Link
-                        href="#whitepaper"
+                        href="/whitepaper"
                         className="px-8 py-4 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-300 rounded-lg font-medium transition-all flex items-center justify-center"
                     >
                         Leer Whitepaper
