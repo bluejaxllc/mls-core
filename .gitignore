@@ -1,0 +1,56 @@
+# Logs
+*.log
+error.log
+server*.log
+prisma_error.txt
+build_errors*.log
+
+# Build outputs
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Environment files (keep .env.example)
+.env
+.env.local
+.env*.local
+
+# Vercel
+.vercel/
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
+test.csv
+test_import.csv
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local scripts (keep in local repo but don't deploy)
+*.ps1
+trigger-crawler.ps1
+deploy_fix.ps1
+run-test.ps1
+setup-native-stack.ps1
+start-dev-environment.ps1
+
+# Uploads
+uploads/
+
+# Backups
+_backup/
+
+# Debug files
+verify_search_ui.webp
+crawler_verification.json
+mercadolibre_tokens.json

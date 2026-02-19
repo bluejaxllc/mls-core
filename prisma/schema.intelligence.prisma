@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client-intelligence"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./intelligence.db"
+}
+
+// Layer 3: Intelligence Store (Non-Canonical)
+// Append-only, immutable logs of what we see in the wild.
+
+model SourceProfile {
+  id              String   @id @default(uuid())
+  name            String   @unique // e.g., "CompetitorX", "PublicRegistry"
+  type            String   // PORTAL, BROKERAGE, REGISTRY
+  baseUrl         String
+  trustScore      Int      @default(10) // 0-100
+  isEnabled       Boolean  @default(true)
+  config          String   // JSON: selectors, pagination, auth, etc.
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  snapshots       SourceSnapshot[]
+  crawlEvents     CrawlEvent[]
+}
+
+model CrawlEvent {
+  id              String   @id @default(uuid())
+  sourceId        String
+  source          SourceProfile @relation(fields: [sourceId], references: [id])
+  startTime       DateTime @default(now())
+  endTime         DateTime?
+  status          String   // RUNNING, COMPLETED, FAILED
+  itemsFound      Int      @default(0)
+  itemsNew        Int      @default(0)
+  errors          String?  // JSON array of errors
+}
+
+model SourceSnapshot {
+  id              String   @id @default(uuid())
+  sourceId        String
+  source          SourceProfile @relation(fields: [sourceId], references: [id])
+  externalId      String   // ID on the source site
+  url             String
+  fetchedAt       DateTime @default(now())
+  
+  // Raw Data storage
+  rawHtml         String?  // Gzipped if needed, or massive string
+  rawJson         String?  // Extracted raw JSON if available
+  
+  // Hash for change detection
+  contentHash     String
+  
+  // Image enrichment tracking
+  imagesEnriched  Boolean  @default(false)
+  enrichedAt      DateTime?
+  enrichmentError String?
+  
+  // Relations
+  observedListing ObservedListing?
+}
+
+model ObservedListing {
+  id              String   @id @default(uuid())
+  snapshotId      String   @unique
+  snapshot        SourceSnapshot @relation(fields: [snapshotId], references: [id])
+  
+  // Normalized Data (Nullable because scraping is messy)
+  title           String?
+  description     String?
+  price           Float?
+  currency        String   @default("MXN")
+  address         String?
+  city            String?
+  state           String?
+  zipCode         String?
+  
+  // Geolocation (Normalized)
+  lat             Float?
+  lng             Float?
+  
+  // Meta
+  status          String?  // The status as listed on the source
+  listedAt        DateTime?
+  
+  // Fingerprints for Matching
+  geoHash         String?
+  addressHash     String?
+  mediaHash       String?
+  
+  // Confidence metadata
+  confidenceScore Float    @default(0.5) // 0.0 - 1.0
+  
+  // Signals generated from this observation
+  signals         Signal[]
+  
+  createdAt       DateTime @default(now())
+}
+
+model Signal {
+  id              String   @id @default(uuid())
+  type            String   // POSSIBLE_DUPLICATE, PRICE_DISCREPANCY, NEW_LISTING
+  severity        String   // INFO, WARNING, CRITICAL
+  
+  observedListingId String
+  observedListing   ObservedListing @relation(fields: [observedListingId], references: [id])
+  
+  // Linked Canonical Listing (if matched)
+  matchedListingId  String?
+  
+  // Details
+  payload         String   // JSON details about the signal
+  status          String   @default("OPEN") // OPEN, REVIEWED, DISMISSED, ACTED
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

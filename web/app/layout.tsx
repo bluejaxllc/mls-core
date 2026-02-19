@@ -1,0 +1,36 @@
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { LanguageProvider } from '@/lib/i18n'
+import { AuthProvider } from '@/components/auth/AuthProvider'
+import { ClickSparkle } from '@/components/ui/click-sparkle'
+import { ToastProvider } from '@/components/providers/ToastProvider'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+    title: 'BLUE JAX CORE',
+    description: 'Mexico MLS Market Infrastructure',
+}
+
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode
+}) {
+    return (
+        <html lang="en" className="dark">
+            <body className={inter.className}>
+                <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-background to-background pointer-events-none z-[-1]" />
+                <div className="fixed inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10 pointer-events-none z-[-1]" />
+                <AuthProvider>
+                    <LanguageProvider>
+                        <ToastProvider />
+                        <ClickSparkle />
+                        {children}
+                    </LanguageProvider>
+                </AuthProvider>
+            </body>
+        </html>
+    )
+}
