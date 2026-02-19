@@ -45,7 +45,7 @@ export function RightPanel() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     const fetchContext = async (isRefresh = false) => {
         if (!session?.accessToken) {

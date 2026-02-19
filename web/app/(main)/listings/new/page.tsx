@@ -96,7 +96,7 @@ export default function NewListingPage() {
         console.log('[DEBUG] generateAIContent called', { currentAddress, opts });
         setIsGenerating(true);
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const API_URL = '';
             const body: { address: string; type: string; lat?: number; lng?: number; city?: string; zipCode?: string } = {
                 address: currentAddress,
                 type: currentType
@@ -438,7 +438,7 @@ export default function NewListingPage() {
 
         setLoading(true);
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const API_URL = '';
             // Use current inputs
             const currentAddress = addressInputRef.current?.getValue() ?? inputValue ?? formData.address;
 
@@ -567,7 +567,7 @@ export default function NewListingPage() {
                                             const file = e.target.files[0];
                                             const form = new FormData();
                                             form.append('file', file);
-                                            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+                                            const API_URL = '';
                                             const res = await fetch(`${API_URL}/api/upload`, { method: 'POST', body: form });
                                             const data = await res.json();
                                             setFormData(prev => ({ ...prev, images: [...(prev.images || []), data.url] }));

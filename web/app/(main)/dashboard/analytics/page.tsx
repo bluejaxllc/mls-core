@@ -42,7 +42,7 @@ export default function AnalyticsPage() {
     const [deviceData, setDeviceData] = useState<{ name: string; value: number; icon: any }[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         const fetchAnalytics = async () => {

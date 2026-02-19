@@ -29,7 +29,7 @@ export default function AgentsPage() {
     const [search, setSearch] = useState('');
     const [specialty, setSpecialty] = useState('');
 
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API = '';
 
     const fetchAgents = async () => {
         setLoading(true);

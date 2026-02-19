@@ -1,0 +1,256 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client-core"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String  @id // Blue Jax User ID
+  email      String  @unique
+  firstName  String?
+  lastName   String?
+  roles      String  @default("user") // SQLite: Stored as comma-sep string
+  locationId String?
+  mlsStatus  String  @default("ACTIVE")
+
+  // Agent Profile Fields
+  bio           String?
+  licenseNumber String?
+  phoneNumber   String?
+  whatsapp      String?
+  instagram     String?
+  languages     String  @default("Spanish")
+  specialties   String  @default("[]") // JSON array of strings
+
+  syncedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Listing {
+  id             String   @id @default(uuid())
+  propertyId     String   @unique // The "MLS Property ID"
+  title          String?
+  description    String?
+  address        String?
+  city           String?
+  state          String?
+  zipCode        String?
+  propertyType   String   @default("commercial")
+  status         String // DRAFT, ACTIVE, etc.
+  price          Float?
+  source         String // MANUAL, MLS_FEED
+  sourceId       String?
+  ownerId        String? // Reference to User.id (Broker/Agent)
+  brokerId       String? // Organization/Brokerage ID
+  trustScore     Int      @default(50)
+  lastVerifiedAt DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  // Rich Content
+  // SQLite doesn't support String[], so we use String and store JSON
+  images String  @default("[]")
+  videos String  @default("[]")
+  mapUrl String?
+
+  updatedAt   DateTime      @updatedAt
+  Appointment Appointment[]
+}
+
+model AuditLog {
+  id             String   @id @default(uuid())
+  eventId        String   @unique
+  eventType      String
+  timestamp      DateTime @default(now())
+  actorId        String
+  rulesEvaluated Int
+  overallOutcome String // PASS, BLOCK, FLAG, ALLOW, WARN
+  source         String   @default("SYSTEM") // USER, RULE_ENGINE, SYSTEM
+  details        String? // Human readable description
+  results        String   @default("{}")
+}
+
+model BetaUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  company   String?
+  phone     String?
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt DateTime @default(now())
+}
+
+model RuleState {
+  id        String   @id // Rule ID (e.g., CORE_001)
+  isEnabled Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+model SystemConfig {
+  id        String   @id @default("default") // Singleton
+  region    String   @default("MX-CHH")
+  currency  String   @default("MXN")
+  timezone  String   @default("America/Chihuahua")
+  updatedAt DateTime @updatedAt
+}
+
+model Claim {
+  id         String   @id @default(uuid())
+  listingId  String
+  // listing     Listing  @relation(fields: [listingId], references: [id]) // Optional: Add relation if needed
+  claimantId String
+  // claimant    User     @relation(fields: [claimantId], references: [id]) // Optional: Add relation if needed
+  type       String // OWNERSHIP, DUPLICATE, INACCURATE_DATA
+  status     String   @default("OPEN") // OPEN, UNDER_REVIEW, RESOLVED, REJECTED
+  evidence   String   @default("{}") // JSON evidence
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  listingId String
+  name      String
+  email     String
+  phone     String?
+  message   String?
+  status    String   @default("NEW") // NEW, CONTACTED, CLOSED
+  createdAt DateTime @default(now())
+}
+
+model ListingView {
+  id        String   @id @default(uuid())
+  listingId String
+  viewerId  String? // Optional: User ID if logged in
+  ip        String? // Optional: For anonymous tracking/uniqueness
+  device    String? // mobile, desktop, etc.
+  createdAt DateTime @default(now())
+
+  @@index([listingId])
+  @@index([createdAt])
+}
+
+model SavedSearch {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  criteria  String // JSON string of filters
+  frequency String   @default("INSTANT") // INSTANT, DAILY, WEEKLY, OFF
+  lastRunAt DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  listingId String
+  agentId   String // The agent hosting/owning the listing
+  visitorId String // The user requesting the viewing
+  startTime DateTime
+  endTime   DateTime
+  status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED, COMPLETED
+  notes     String?
+  createdAt DateTime @default(now())
+
+  listing Listing @relation(fields: [listingId], references: [id])
+
+  @@index([agentId])
+  @@index([visitorId])
+  @@index([listingId])
+  @@index([startTime])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String // Recipient
+  type      String // APPOINTMENT_REQUEST, APPOINTMENT_CONFIRMED, SYSTEM
+  title     String
+  message   String
+  data      String   @default("{}") // JSON data (e.g. { listingId, appointmentId })
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+model Conversation {
+  id            String    @id @default(uuid())
+  participant1  String // User ID
+  participant2  String // User ID
+  listingId     String? // Optional: conversation about a specific listing
+  lastMessage   String?
+  lastMessageAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  messages Message[]
+
+  @@index([participant1])
+  @@index([participant2])
+  @@index([listingId])
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  senderId       String
+  content        String
+  isRead         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+
+  @@index([conversationId])
+  @@index([senderId])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  listingId String
+  notes     String? // Optional user note about why they liked it
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+  @@index([userId])
+  @@index([listingId])
+}
+
+model Collection {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String?
+  color       String   @default("#3B82F6") // UI color
+  listingIds  String   @default("[]") // JSON array of listing IDs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  agentId    String // The agent being reviewed
+  reviewerId String // The user leaving the review
+  listingId  String? // Optional: review related to a specific transaction
+  rating     Int // 1-5 stars
+  title      String?
+  comment    String
+  response   String? // Agent's reply
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([agentId])
+  @@index([reviewerId])
+}

@@ -28,7 +28,7 @@ export default function ProfileSettingsPage() {
     const { data: session, update }: any = useSession();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),

@@ -15,12 +15,8 @@ const nextConfig = {
         ],
     },
     async rewrites() {
-        return [
-            {
-                source: '/api/:path((?!auth).*)',
-                destination: 'http://localhost:3001/api/:path*',
-            },
-        ];
+        // Express proxy removed — API routes now served by Next.js App Router
+        return [];
     },
 };
 

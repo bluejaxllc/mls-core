@@ -32,7 +32,7 @@ export default function NotificationsPage() {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<string>('ALL');
 
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API = '';
 
     const fetchNotifications = async () => {
         try {

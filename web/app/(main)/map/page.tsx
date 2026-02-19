@@ -24,7 +24,7 @@ export default function MapPage() {
     const [searchCity, setSearchCity] = useState('');
     const [view, setView] = useState<'split' | 'list' | 'map'>('split');
 
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API = '';
 
     useEffect(() => {
         const fetchListings = async () => {

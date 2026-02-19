@@ -28,8 +28,8 @@ export function IntelligenceDashboard() {
     const fetchData = async () => {
         try {
             const [sourcesRes, eventsRes] = await Promise.all([
-                fetch('http://localhost:3001/api/intelligence/sources'),
-                fetch('http://localhost:3001/api/intelligence/crawl/events')
+                fetch('/api/intelligence/sources'),
+                fetch('/api/intelligence/crawl/events')
             ]);
             setSources(await sourcesRes.json());
             setEvents(await eventsRes.json());
@@ -45,7 +45,7 @@ export function IntelligenceDashboard() {
     }, []);
 
     const triggerCrawl = async (sourceId: string, url: string) => {
-        await fetch('http://localhost:3001/api/intelligence/crawl/trigger', {
+        await fetch('/api/intelligence/crawl/trigger', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sourceId, url })

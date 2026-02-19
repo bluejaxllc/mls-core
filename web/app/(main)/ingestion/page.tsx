@@ -15,7 +15,7 @@ export default function IngestionPage() {
     const [uploadResult, setUploadResult] = useState<{ success: number; errors: any[] } | null>(null);
     const [isSyncing, setIsSyncing] = useState(false);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     const handleSync = async () => {
         setIsSyncing(true);

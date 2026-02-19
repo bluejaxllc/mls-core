@@ -42,7 +42,7 @@ export default function FavoritesPage() {
     const [newCollName, setNewCollName] = useState('');
     const [newCollColor, setNewCollColor] = useState('#3B82F6');
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         if (session?.accessToken) {

@@ -39,7 +39,7 @@ export default function AppointmentsPage() {
     const [statusFilter, setStatusFilter] = useState<string>('ALL');
     const [updating, setUpdating] = useState<string | null>(null);
 
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API = '';
 
     const fetchAppointments = async () => {
         try {

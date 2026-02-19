@@ -39,7 +39,7 @@ export default function MessagesPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
     const userId = session?.user?.id || session?.accessToken?.split('.')?.[0]; // fallback
 
     useEffect(() => {

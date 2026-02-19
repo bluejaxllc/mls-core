@@ -26,7 +26,7 @@ export default function Dashboard() {
     const [unreadMessages, setUnreadMessages] = useState(0);
     const [marketStats, setMarketStats] = useState<any>(null);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         const fetchDashboardData = async () => {

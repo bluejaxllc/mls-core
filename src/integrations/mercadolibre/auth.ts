@@ -9,8 +9,8 @@ export class MercadoLibreAuth {
     private accessToken?: string;
     private refreshToken?: string;
     private expiresAt?: number;
+    private refreshTimer?: NodeJS.Timeout;
     private tokenFilePath = path.join(process.cwd(), 'mercadolibre_tokens.json');
-
 
     constructor() {
         this.clientId = process.env.ML_CLIENT_ID || '';
@@ -22,6 +22,16 @@ export class MercadoLibreAuth {
         }
 
         this.loadTokens();
+
+        // Auto-refresh on boot if we have tokens but they're expired
+        if (this.refreshToken && this.expiresAt && Date.now() >= this.expiresAt) {
+            console.log('[ML Auth] 🔄 Token expired on boot, auto-refreshing...');
+            this.refreshAccessToken()
+                .then(() => console.log('[ML Auth] ✅ Boot refresh successful'))
+                .catch((e) => console.warn('[ML Auth] ⚠️  Boot refresh failed:', e.message));
+        } else if (this.accessToken) {
+            this.scheduleAutoRefresh();
+        }
     }
 
     private loadTokens() {
@@ -30,41 +40,68 @@ export class MercadoLibreAuth {
                 const data = JSON.parse(fs.readFileSync(this.tokenFilePath, 'utf-8'));
                 this.accessToken = data.access_token;
                 this.refreshToken = data.refresh_token;
-                this.expiresAt = Date.now() + (data.expires_in * 1000);
-                console.log('[ML Auth] 💾 Loaded persisted tokens from file.');
+
+                // Use saved absolute expiry timestamp if available, otherwise fall back
+                if (data.expires_at) {
+                    this.expiresAt = data.expires_at;
+                } else if (data.saved_at && data.expires_in) {
+                    // Calculate from when token was saved
+                    this.expiresAt = data.saved_at + (data.expires_in * 1000);
+                } else {
+                    // Legacy: assume expired to force refresh
+                    this.expiresAt = 0;
+                }
+
+                const remaining = this.expiresAt ? Math.round((this.expiresAt - Date.now()) / 1000) : 0;
+                console.log(`[ML Auth] 💾 Loaded tokens from file. Expires in ${remaining}s (${remaining > 0 ? 'valid' : 'expired'})`);
             } catch (error: unknown) {
                 const err = error as any;
                 console.error('[ML Auth] Failed to load token file:', err);
             }
         } else {
-            // Vercel / Cloud Fallback: Load from Env Vars
+            // Cloud Fallback: Load from Env Vars
             if (process.env.ML_ACCESS_TOKEN || process.env.ML_REFRESH_TOKEN) {
                 console.log('[ML Auth] ☁️ Loading tokens from Environment Variables');
                 this.accessToken = process.env.ML_ACCESS_TOKEN;
                 this.refreshToken = process.env.ML_REFRESH_TOKEN;
-                // Assume expired if loading from env, so it refreshes immediately on first use if only refresh token provided
-                // Or if access token provided, assume valid for a bit but check. 
-                // We don't have expiry in env usually. Let's set it to 0 to force refresh if only refresh token is present, 
-                // or safely if access token is present.
-                // Best strategy: check validity. If expiry is unknown, we might want to validate or just try.
-                // For MVP: if we have Access Token, assume it works or let 401 trigger re-auth logic (if we had it).
-                // But our logic relies on expiresAt.
-                // Let's assume Env Var Access Token is fresh enough or valid for 1 hour from boot? No, that's risky.
-                // Better: If we have Refresh Token, force a refresh on first use.
-                // Setting expiresAt to 0 triggers refresh in getValidToken.
-                this.expiresAt = 0;
+                this.expiresAt = 0; // Force refresh on first use
             }
         }
     }
 
     private saveTokens(data: any) {
         try {
-            fs.writeFileSync(this.tokenFilePath, JSON.stringify(data, null, 2));
+            // Save with absolute timestamps so we know real expiry on reload
+            const enriched = {
+                ...data,
+                saved_at: Date.now(),
+                expires_at: Date.now() + (data.expires_in * 1000),
+            };
+            fs.writeFileSync(this.tokenFilePath, JSON.stringify(enriched, null, 2));
             console.log('[ML Auth] 💾 Tokens saved to disk.');
         } catch (error: unknown) {
             const err = error as any;
             console.error('[ML Auth] Failed to save tokens:', err);
         }
+    }
+
+    // Schedule auto-refresh 10 minutes before token expiry
+    private scheduleAutoRefresh() {
+        if (this.refreshTimer) clearTimeout(this.refreshTimer);
+        if (!this.expiresAt || !this.refreshToken) return;
+
+        const refreshIn = Math.max(this.expiresAt - Date.now() - 10 * 60 * 1000, 5000); // At least 5s
+        console.log(`[ML Auth] ⏰ Auto-refresh scheduled in ${Math.round(refreshIn / 60000)} minutes`);
+
+        this.refreshTimer = setTimeout(async () => {
+            try {
+                console.log('[ML Auth] 🔄 Auto-refreshing token...');
+                await this.refreshAccessToken();
+                console.log('[ML Auth] ✅ Auto-refresh successful');
+            } catch (e: any) {
+                console.error('[ML Auth] ❌ Auto-refresh failed:', e.message);
+            }
+        }, refreshIn);
     }
 
     // Generate authorization URL for user to grant access
@@ -101,12 +138,12 @@ export class MercadoLibreAuth {
                 }
             });
 
-
             this.accessToken = data.access_token;
             this.refreshToken = data.refresh_token;
             this.expiresAt = Date.now() + (data.expires_in * 1000);
 
             this.saveTokens(data);
+            this.scheduleAutoRefresh();
 
             console.log('[ML Auth] ✅ Access token obtained, expires in', data.expires_in, 'seconds');
         } catch (error: unknown) {
@@ -124,14 +161,16 @@ export class MercadoLibreAuth {
         }
 
         try {
-            const { data }: any = await axios.post('https://api.mercadolibre.com/oauth/token', {
-                grant_type: 'refresh_token',
-                client_id: this.clientId,
-                client_secret: this.clientSecret,
-                refresh_token: this.refreshToken
-            }, {
+            // FIX: Use URLSearchParams (form-encoded) instead of JSON object
+            const params = new URLSearchParams();
+            params.append('grant_type', 'refresh_token');
+            params.append('client_id', this.clientId);
+            params.append('client_secret', this.clientSecret);
+            params.append('refresh_token', this.refreshToken);
+
+            const { data }: any = await axios.post('https://api.mercadolibre.com/oauth/token', params, {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded', // Ensure correct content type for refresh too
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     'Accept': 'application/json'
                 }
             });
@@ -141,8 +180,9 @@ export class MercadoLibreAuth {
             this.expiresAt = Date.now() + (data.expires_in * 1000);
 
             this.saveTokens(data);
+            this.scheduleAutoRefresh();
 
-            console.log('[ML Auth] ✅ Access token refreshed');
+            console.log('[ML Auth] ✅ Access token refreshed, next expiry in', data.expires_in, 'seconds');
         } catch (error: unknown) {
             const err = error as any;
             console.error('[ML Auth] ❌ Failed to refresh access token:', err.response?.data || err.message);
@@ -153,7 +193,6 @@ export class MercadoLibreAuth {
     // Get valid access token (auto-refresh if expired)
     async getValidToken(): Promise<string> {
         if (!this.accessToken) {
-            // Try explicit load just in case
             this.loadTokens();
             if (!this.accessToken) {
                 throw new Error('Not authenticated. Please authorize first via /api/auth/mercadolibre/auth');
@@ -169,8 +208,8 @@ export class MercadoLibreAuth {
         return this.accessToken;
     }
 
-    // Check if authenticated
+    // Check if authenticated (has tokens, even if expired — refresh will handle it)
     isAuthenticated(): boolean {
-        return !!this.accessToken; // Simplified check. Even if expired, we have the refresh token so we are "authenticated" in principle.
+        return !!(this.accessToken || this.refreshToken);
     }
 }

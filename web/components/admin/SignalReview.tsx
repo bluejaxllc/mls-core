@@ -23,7 +23,7 @@ export function SignalReview() {
     const [signals, setSignals] = useState<Signal[]>([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/intelligence/signals')
+        fetch('/api/intelligence/signals')
             .then(res => res.json())
             .then(setSignals)
             .catch(console.error);

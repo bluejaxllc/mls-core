@@ -29,7 +29,7 @@ export function TopBar() {
     };
 
     return (
-        <div className="h-14 border-b border-blue-500/10 bg-card/80 backdrop-blur-xl flex items-center px-4 gap-4 justify-between relative">
+        <div className="h-14 border-b border-blue-500/10 bg-card/80 backdrop-blur-xl flex items-center pl-14 md:pl-4 pr-4 gap-4 justify-between relative">
             <div className="absolute bottom-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
             {/* Mobile Menu - Only on mobile */}
             <MobileMenu />

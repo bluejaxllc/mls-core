@@ -55,7 +55,7 @@ export default function SavedSearchesPage() {
     const [newFrequency, setNewFrequency] = useState('INSTANT');
     const [creating, setCreating] = useState(false);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         if (session?.accessToken) fetchSearches();

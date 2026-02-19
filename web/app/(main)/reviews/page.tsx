@@ -39,7 +39,7 @@ export default function ReviewsPage() {
     const [respondingTo, setRespondingTo] = useState<string | null>(null);
     const [responseText, setResponseText] = useState('');
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
     const userId = (session as any)?.user?.id;
 
     useEffect(() => {

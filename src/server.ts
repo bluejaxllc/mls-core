@@ -114,6 +114,10 @@ app.use('/api/public/agents', agentsRouter);
 import ingestRouter from './routes/ingest';
 app.use('/api/ingest', verifyBlueJaxToken, ingestRouter);
 
+// CSV Import API (template is public, csv upload is protected via route-level middleware)
+import importRouter from './routes/import';
+app.use('/api/import', importRouter);
+
 // Messaging API
 import messagesRouter from './routes/messages';
 app.use('/api/protected/messages', verifyBlueJaxToken, messagesRouter);

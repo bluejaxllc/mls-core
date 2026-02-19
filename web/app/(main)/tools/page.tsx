@@ -22,7 +22,7 @@ export default function ToolsPage() {
     const [stats, setStats] = useState<MarketStats | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         fetch(`${API_URL}/api/public/market-stats`)

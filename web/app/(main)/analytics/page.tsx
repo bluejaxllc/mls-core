@@ -30,7 +30,7 @@ export default function AnalyticsPage() {
     const [rankings, setRankings] = useState<ListingRanking[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API = '';
     const headers = { Authorization: `Bearer ${(session as any)?.accessToken}` };
 
     useEffect(() => {

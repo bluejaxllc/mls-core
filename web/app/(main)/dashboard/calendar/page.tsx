@@ -26,7 +26,7 @@ export default function CalendarPage() {
     const [loading, setLoading] = useState(true);
     const [viewRole, setViewRole] = useState<'visitor' | 'agent'>('agent');
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         if (session?.accessToken) fetchAppointments();
