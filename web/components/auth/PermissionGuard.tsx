@@ -50,7 +50,7 @@ export function PermissionGuard({ requiredPermission, children, fallback }: Perm
     const permissions = RolePermissionMap[userRole] || [];
 
     if (!permissions.includes(requiredPermission)) {
-        return fallback || <div className="p-4 bg-red-50 border border-red-200 rounded text-red-700">Access Denied: You do not have permission to perform this action.</div>;
+        return fallback || <div className="p-4 bg-red-500/10 border border-red-500/20 rounded text-red-500">Access Denied: You do not have permission to perform this action.</div>;
     }
 
     return <>{children}</>;

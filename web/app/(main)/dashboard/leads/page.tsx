@@ -79,10 +79,10 @@ export default function LeadsDashboard() {
 
     const statusColor = (status: string) => {
         switch (status) {
-            case 'NEW': return 'bg-blue-100 text-blue-700';
-            case 'CONTACTED': return 'bg-amber-100 text-amber-700';
-            case 'CLOSED': return 'bg-green-100 text-green-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'NEW': return 'bg-blue-500/10 text-blue-500';
+            case 'CONTACTED': return 'bg-amber-500/10 text-amber-500';
+            case 'CLOSED': return 'bg-green-500/10 text-green-500';
+            default: return 'bg-muted text-muted-foreground';
         }
     };
 

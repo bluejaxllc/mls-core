@@ -23,7 +23,7 @@ const MapPreviewComponent = ({ address, onUpdateStart }: MapPreviewProps) => {
     if (!debouncedAddress) return null;
 
     return (
-        <div className="mt-4 h-64 rounded-lg border-2 border-white shadow-md overflow-hidden bg-gray-100">
+        <div className="mt-4 h-64 rounded-lg border-2 border-border shadow-md overflow-hidden bg-muted">
             <iframe
                 width="100%"
                 height="100%"

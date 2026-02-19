@@ -56,7 +56,7 @@ export default function LegalDocsPage() {
                             <Shield className="h-6 w-6" />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-bold">Repositorio Legal</h1>
+                            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Repositorio Legal</h1>
                             <p className="text-sm text-blue-100">Documentación de reglas de gobernanza • Blue Jax MLS</p>
                         </div>
                     </div>
@@ -81,8 +81,8 @@ export default function LegalDocsPage() {
                                                 key={doc.id}
                                                 onClick={() => setCurrentDoc(doc.id)}
                                                 className={`w-full text-left px-3 py-2.5 rounded text-sm transition-all flex items-center gap-2 ${currentDoc === doc.id
-                                                        ? 'bg-blue-600 text-white shadow-md'
-                                                        : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                                                    ? 'bg-blue-600 text-white shadow-md'
+                                                    : 'hover:bg-muted text-muted-foreground hover:text-foreground'
                                                     }`}
                                             >
                                                 <DocIcon className="h-4 w-4 flex-shrink-0" />

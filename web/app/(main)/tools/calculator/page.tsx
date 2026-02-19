@@ -79,7 +79,7 @@ export default function MortgageCalculatorPage() {
                         <div className="h-10 w-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                             <Calculator className="h-5 w-5" />
                         </div>
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Calculadora Hipotecaria</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Calculadora Hipotecaria</h1>
                     </div>
                     <p className="text-white/80 text-sm md:text-base">Calcula tu pago mensual y tabla de amortización</p>
                 </div>

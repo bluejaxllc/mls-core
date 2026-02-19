@@ -87,7 +87,7 @@ export function SourceCard({ source }: SourceProps) {
                     onClick={handleRun}
                     disabled={isRunning || !source.isActive}
                     variant={lastRunStatus === 'success' ? 'secondary' : 'primary'}
-                    className={`w-full flex items-center justify-center gap-2 text-sm ${lastRunStatus === 'success' ? 'bg-green-100 text-green-700 border-green-200' : ''}`}
+                    className={`w-full flex items-center justify-center gap-2 text-sm ${lastRunStatus === 'success' ? 'bg-green-500/10 text-green-500 border-green-500/20' : ''}`}
                 >
                     {isRunning ? (
                         <>Iniciando...</>

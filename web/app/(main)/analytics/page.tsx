@@ -61,7 +61,7 @@ export default function AnalyticsPage() {
                         <div className="h-10 w-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                             <BarChart3 className="h-5 w-5" />
                         </div>
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Analíticas</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Analíticas</h1>
                     </div>
                     <p className="text-white/80 text-sm md:text-base max-w-xl">Rendimiento de tus listados en los últimos 30 días</p>
                 </div>
@@ -163,9 +163,9 @@ export default function AnalyticsPage() {
                                     >
                                         {/* Rank */}
                                         <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${idx === 0 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
-                                                idx === 1 ? 'bg-gray-200 text-gray-600 dark:bg-gray-800 dark:text-gray-400' :
-                                                    idx === 2 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
-                                                        'bg-muted text-muted-foreground'
+                                            idx === 1 ? 'bg-gray-200 text-gray-600 dark:bg-gray-800 dark:text-gray-400' :
+                                                idx === 2 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
+                                                    'bg-muted text-muted-foreground'
                                             }`}>
                                             {idx + 1}
                                         </span>

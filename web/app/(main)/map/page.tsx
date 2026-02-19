@@ -67,7 +67,7 @@ export default function MapPage() {
                             <MapPin className="h-4 w-4" />
                         </div>
                         <div>
-                            <h1 className="text-xl md:text-2xl font-bold tracking-tight">Mapa de Propiedades</h1>
+                            <h1 className="text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Mapa de Propiedades</h1>
                             <p className="text-white/70 text-xs">{listings.length} propiedades activas</p>
                         </div>
                     </div>
@@ -129,8 +129,8 @@ export default function MapPage() {
                                                 transition={{ delay: idx * 0.03 }}
                                                 onClick={() => setSelectedId(isSelected ? null : listing.id)}
                                                 className={`flex gap-3 p-3 rounded-xl border cursor-pointer transition-all hover:shadow-md ${isSelected
-                                                        ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-300 dark:border-blue-700 ring-1 ring-blue-400'
-                                                        : 'bg-card border-border hover:border-blue-200'
+                                                    ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-300 dark:border-blue-700 ring-1 ring-blue-400'
+                                                    : 'bg-card border-border hover:border-blue-200'
                                                     }`}
                                             >
                                                 <div className="h-16 w-20 rounded-lg overflow-hidden bg-muted shrink-0">

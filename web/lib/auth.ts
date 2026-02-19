@@ -36,6 +36,11 @@ export const authOptions: AuthOptions = {
             if (user) {
                 token.role = user.role;
                 token.accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJPeFN3YXZ6akc5NTBVYjRtM3RJWSIsImxvY2F0aW9uX2lkIjoiR0MzUTVlcXdES3cyTWhaUTBLU2oiLCJlbWFpbCI6ImFkbWluQHJlbWF4LXBvbGFuY28ubXgiLCJyb2xlcyI6WyJhZG1pbiJdfQ.mock_signature';
+                // Extract sub from accessToken so session.user.id matches backend user ID
+                try {
+                    const payload = JSON.parse(Buffer.from(token.accessToken.split('.')[1], 'base64').toString());
+                    if (payload.sub) token.sub = payload.sub;
+                } catch { }
             }
             if (!token.accessToken && process.env.NODE_ENV === 'development') {
                 token.accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJPeFN3YXZ6akc5NTBVYjRtM3RJWSIsImxvY2F0aW9uX2lkIjoiR0MzUTVlcXdES3cyTWhaUTBLU2oiLCJlbWFpbCI6ImFkbWluQHJlbWF4LXBvbGFuY28ubXgiLCJyb2xlcyI6WyJhZG1pbiJdfQ.mock_signature';

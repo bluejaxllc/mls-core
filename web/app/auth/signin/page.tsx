@@ -57,7 +57,8 @@ export default function RetroSignInPage() {
             {/* Beta Modal */}
             {showBeta && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-zinc-900 border-4 border-blue-500 p-6 max-w-md w-full shadow-[0_0_50px_rgba(59,130,246,0.3)] relative">
+                    <div className="bg-zinc-900 border-4 border-blue-500 p-6 max-w-md w-full shadow-[0_0_50px_rgba(59,130,246,0.3)] relative rounded-lg">
+                        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
                         <button
                             onClick={() => setShowBeta(false)}
                             className="absolute top-2 right-2 text-zinc-500 hover:text-white"
@@ -129,8 +130,9 @@ export default function RetroSignInPage() {
                 </div>
             )}
 
-            <div className="max-w-md w-full border-4 border-white p-2 bg-black shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
-                <div className="border-4 border-white p-8 flex flex-col items-center gap-8">
+            <div className="max-w-md w-full border-4 border-blue-500/40 p-2 bg-black shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)] rounded-lg">
+                <div className="border-4 border-blue-500/30 p-8 flex flex-col items-center gap-8 rounded-lg relative overflow-hidden">
+                    <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
                     {/* Header */}
                     <div className="text-center space-y-4">
@@ -147,7 +149,7 @@ export default function RetroSignInPage() {
                                     type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full bg-black border-2 border-white p-3 text-xs focus:outline-none focus:border-[#3b82f6] text-white font-mono"
+                                    className="w-full bg-black border-2 border-blue-500/30 p-3 text-xs focus:outline-none focus:border-blue-400 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] text-white font-mono rounded transition-all"
                                     style={{ imageRendering: 'pixelated' }}
                                 />
                             </div>
@@ -158,13 +160,13 @@ export default function RetroSignInPage() {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-black border-2 border-white p-3 text-xs focus:outline-none focus:border-[#3b82f6] text-white font-mono"
+                                    className="w-full bg-black border-2 border-blue-500/30 p-3 text-xs focus:outline-none focus:border-blue-400 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] text-white font-mono rounded transition-all"
                                 />
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full bg-black border-2 border-[#3b82f6] text-[#3b82f6] p-4 text-xs hover:bg-[#3b82f6] hover:text-white active:translate-y-1 transition-all"
+                                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 border-2 border-blue-400/30 text-white p-4 text-xs hover:from-blue-500 hover:to-cyan-500 active:translate-y-1 transition-all rounded shadow-[0_0_20px_-5px_rgba(59,130,246,0.4)]"
                             >
                                 AUTHENTICATE
                             </button>

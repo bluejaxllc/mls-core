@@ -5,7 +5,7 @@ export default function AdminIntelligencePage() {
     return (
         <div className="p-8">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight mb-2">Intelligence Control Room</h1>
+                <h1 className="text-3xl font-bold tracking-tight mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Intelligence Control Room</h1>
                 <p className="text-muted-foreground text-lg">
                     Monitor external data ingestion, crawler health, and signal governance.
                 </p>

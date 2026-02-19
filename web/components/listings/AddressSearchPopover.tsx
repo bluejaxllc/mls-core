@@ -6,7 +6,7 @@ import { useRef, useEffect, useState } from 'react';
 interface AddressSearchPopoverProps {
     open: boolean;
     onClose: () => void;
-    onPlaceSelected: (place: { formatted_address?: string; address_components?: any[]; name?: string; [k: string]: any }) => void;
+    onPlaceSelected: (place: { formatted_address?: string; address_components?: any[]; name?: string;[k: string]: any }) => void;
     className?: string;
 }
 
@@ -64,11 +64,11 @@ export function AddressSearchPopover({ open, onClose, onPlaceSelected, className
     if (!open) return null;
 
     return (
-        <div className={`absolute top-full left-0 right-0 mt-2 p-3 bg-white border border-blue-200 rounded-lg shadow-lg z-50 ${className ?? ''}`}>
+        <div className={`absolute top-full left-0 right-0 mt-2 p-3 bg-card border border-blue-500/20 rounded-lg shadow-lg z-50 ${className ?? ''}`}>
             <div className="flex items-center gap-2 mb-2">
                 <MapPin className="h-4 w-4 text-blue-500 shrink-0" />
-                <span className="text-sm font-medium text-gray-700">Buscar dirección (Google)</span>
-                <button type="button" onClick={onClose} className="ml-auto p-1 rounded hover:bg-gray-100" aria-label="Cerrar">
+                <span className="text-sm font-medium text-foreground">Buscar dirección (Google)</span>
+                <button type="button" onClick={onClose} className="ml-auto p-1 rounded hover:bg-muted" aria-label="Cerrar">
                     <X className="h-4 w-4" />
                 </button>
             </div>

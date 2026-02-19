@@ -154,13 +154,13 @@ function ListingsContent() {
                     <div className="flex p-1 bg-muted/50 rounded-lg border">
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-blue-600' : 'text-muted-foreground hover:text-foreground'}`}
+                            className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-card shadow-sm text-blue-500 ring-1 ring-blue-500/20' : 'text-muted-foreground hover:text-foreground'}`}
                         >
                             <LayoutGrid className="h-4 w-4" />
                         </button>
                         <button
                             onClick={() => setViewMode('map')}
-                            className={`p-2 rounded-md transition-all ${viewMode === 'map' ? 'bg-white shadow-sm text-blue-600' : 'text-muted-foreground hover:text-foreground'}`}
+                            className={`p-2 rounded-md transition-all ${viewMode === 'map' ? 'bg-card shadow-sm text-blue-500 ring-1 ring-blue-500/20' : 'text-muted-foreground hover:text-foreground'}`}
                         >
                             <MapIcon className="h-4 w-4" />
                         </button>
@@ -351,7 +351,7 @@ function ListingsContent() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                 >
-                    <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground bg-blue-50 border border-blue-100 p-3 rounded-md">
+                    <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground bg-blue-500/5 border border-blue-500/15 p-3 rounded-md">
                         <MapIcon className="h-4 w-4 text-blue-500" />
                         Mostrando <strong>{listings.length}</strong> propiedades en el mapa.
                     </div>
@@ -423,7 +423,7 @@ function ListingsContent() {
                                         <motion.button
                                             initial={{ scale: 0.8, opacity: 0 }}
                                             whileHover={{ scale: 1.1 }}
-                                            className="bg-white text-black px-6 py-2 rounded-lg font-semibold text-sm shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-2 rounded-lg font-semibold text-sm shadow-xl shadow-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                             onClick={() => router.push(`/listings/${listing.id}`)}
                                         >
                                             Ver Detalles →
@@ -488,7 +488,7 @@ function ListingsContent() {
                                             disabled={!isInComparison(listing.id) && isFull}
                                             className={`flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-all ${isInComparison(listing.id)
                                                 ? 'bg-blue-600 text-white'
-                                                : 'bg-muted hover:bg-blue-100 text-muted-foreground hover:text-blue-600'
+                                                : 'bg-muted hover:bg-blue-500/10 text-muted-foreground hover:text-blue-500'
                                                 } disabled:opacity-40 disabled:cursor-not-allowed`}
                                             title={isInComparison(listing.id) ? 'Quitar de comparación' : 'Agregar a comparación'}
                                         >

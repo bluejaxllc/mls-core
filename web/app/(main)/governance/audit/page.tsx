@@ -100,7 +100,7 @@ export default function AuditLogsPage() {
                         <div className="h-10 w-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                             <Shield className="h-5 w-5" />
                         </div>
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Registro de Auditoría</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Registro de Auditoría</h1>
                     </div>
                     <p className="text-white/70 text-sm md:text-base max-w-xl">Historial completo de evaluaciones de reglas del sistema</p>
                 </div>
@@ -139,8 +139,8 @@ export default function AuditLogsPage() {
                         key={s}
                         onClick={() => { setOutcomeFilter(s); setPage(1); }}
                         className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${outcomeFilter === s
-                                ? 'bg-gray-800 text-white dark:bg-white dark:text-gray-900 shadow'
-                                : 'bg-muted text-muted-foreground hover:text-foreground'
+                            ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow'
+                            : 'bg-muted text-muted-foreground hover:text-foreground'
                             }`}
                     >
                         {s === 'ALL' ? 'Todos' : OUTCOME_CONFIG[s]?.label || s}
@@ -151,7 +151,7 @@ export default function AuditLogsPage() {
             {/* Logs List */}
             {loading ? (
                 <div className="py-16 text-center">
-                    <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2 text-gray-500" />
+                    <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2 text-blue-500" />
                     <p className="text-muted-foreground text-sm">Cargando registros...</p>
                 </div>
             ) : logs.length === 0 ? (

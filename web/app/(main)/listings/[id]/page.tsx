@@ -17,12 +17,12 @@ import { cn } from '@/lib/utils';
 
 // ─── STATUS CONFIG ──────────────────────────────────────────
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-    VERIFIED: { label: 'Verificado', color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-    DRAFT: { label: 'Borrador', color: 'text-slate-600', bg: 'bg-slate-50', border: 'border-slate-200' },
-    PENDING_REVIEW: { label: 'En Revisión', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-200' },
-    SUSPENDED: { label: 'Suspendido', color: 'text-red-700', bg: 'bg-red-50', border: 'border-red-200' },
-    ARCHIVED: { label: 'Archivado', color: 'text-gray-500', bg: 'bg-gray-50', border: 'border-gray-200' },
-    active: { label: 'Activo', color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-200' },
+    VERIFIED: { label: 'Verificado', color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+    DRAFT: { label: 'Borrador', color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/20' },
+    PENDING_REVIEW: { label: 'En Revisión', color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+    SUSPENDED: { label: 'Suspendido', color: 'text-red-500', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+    ARCHIVED: { label: 'Archivado', color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border' },
+    active: { label: 'Activo', color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
 };
 
 const TYPE_LABELS: Record<string, string> = {
@@ -75,13 +75,13 @@ function HeroGallery({ images, title }: { images: string[]; title: string }) {
                     <>
                         <button
                             onClick={() => setCurrent(p => (p === 0 ? images.length - 1 : p - 1))}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 text-gray-800 shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-black/70 hover:scale-110 backdrop-blur-sm"
                         >
                             <ChevronLeft className="h-5 w-5" />
                         </button>
                         <button
                             onClick={() => setCurrent(p => (p + 1 === images.length ? 0 : p + 1))}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 text-gray-800 shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-black/70 hover:scale-110 backdrop-blur-sm"
                         >
                             <ChevronRight className="h-5 w-5" />
                         </button>
@@ -97,7 +97,7 @@ function HeroGallery({ images, title }: { images: string[]; title: string }) {
                 {/* Expand button */}
                 <button
                     onClick={() => setLightbox(true)}
-                    className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-white/90 text-gray-800 text-xs font-medium shadow-lg hover:bg-white transition-all flex items-center gap-1.5"
+                    className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-black/50 text-white text-xs font-medium shadow-lg hover:bg-black/70 transition-all flex items-center gap-1.5 backdrop-blur-sm"
                 >
                     <ExternalLink className="h-3.5 w-3.5" />
                     Ver Galería
@@ -450,7 +450,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                             className={cn(
                                 "p-2 rounded-lg border transition-all",
                                 isFavorite
-                                    ? "bg-red-50 border-red-200 text-red-500"
+                                    ? "bg-red-500/10 border-red-500/20 text-red-500"
                                     : "bg-card border-border text-muted-foreground hover:text-red-400"
                             )}
                         >
@@ -489,7 +489,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                 </span>
                             </div>
 
-                            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                            <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                                 {formData.title || 'Propiedad Sin Título'}
                             </h1>
 
@@ -512,7 +512,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                             <h2 className="text-lg font-semibold flex items-center gap-2">
                                 Descripción
                                 {formData.source === 'MANUAL' && (
-                                    <span className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-200 font-medium">
+                                    <span className="text-[10px] bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded-full border border-blue-500/20 font-medium">
                                         ✨ Generado por IA
                                     </span>
                                 )}
@@ -531,7 +531,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                         Ubicación
                                     </h2>
                                 </div>
-                                <div className="h-[300px] bg-gray-100">
+                                <div className="h-[300px] bg-muted">
                                     <iframe
                                         width="100%"
                                         height="100%"
@@ -703,7 +703,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                         <ArrowLeft className="h-4 w-4" />
                         Volver a Vista
                     </button>
-                    <span className="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full border border-amber-200 font-medium flex items-center gap-1">
+                    <span className="text-xs bg-amber-500/10 text-amber-500 px-2.5 py-1 rounded-full border border-amber-500/20 font-medium flex items-center gap-1">
                         <Pencil className="h-3 w-3" /> Modo Edición
                     </span>
                 </div>
@@ -746,15 +746,15 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                 {/* Address Section */}
                 <AnimatedCard className={cn(
                     "p-6 space-y-4",
-                    isVerified ? "bg-gray-50/50" : "bg-gradient-to-r from-blue-50/50 to-indigo-50/50"
+                    isVerified ? "bg-muted/50" : "bg-gradient-to-r from-blue-500/5 to-indigo-500/5"
                 )}>
-                    <label className="text-sm font-semibold text-blue-900 flex justify-between items-center">
+                    <label className="text-sm font-semibold text-blue-400 flex justify-between items-center">
                         <span className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-blue-500" />
                             Dirección de la Propiedad
                         </span>
                         {isVerified && (
-                            <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded border border-amber-200">
+                            <span className="text-xs bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded border border-amber-500/20">
                                 🔒 Verificado y Bloqueado
                             </span>
                         )}
@@ -775,11 +775,11 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                         onBlur={handleAddressBlur}
                         className={cn(
                             "w-full py-3 text-lg",
-                            isVerified && "bg-gray-100 text-gray-500 cursor-not-allowed"
+                            isVerified && "bg-muted text-muted-foreground cursor-not-allowed"
                         )}
                     />
                     {formData.address && (
-                        <div className="h-48 rounded-xl border shadow-sm overflow-hidden bg-gray-100">
+                        <div className="h-48 rounded-xl border shadow-sm overflow-hidden bg-muted">
                             <iframe
                                 width="100%"
                                 height="100%"
@@ -812,7 +812,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                     Precio (MXN) {isVerified && '🔒'}
                                 </label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
                                     <AnimatedInput
                                         type="number"
                                         required
@@ -820,7 +820,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                         disabled={isVerified}
                                         value={formData.price || ''}
                                         onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
-                                        className={cn("w-full pl-7", isVerified && "bg-gray-100 cursor-not-allowed")}
+                                        className={cn("w-full pl-7", isVerified && "bg-muted cursor-not-allowed")}
                                     />
                                 </div>
                             </div>
@@ -829,7 +829,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                 <select
                                     value={formData.type || 'commercial'}
                                     onChange={handleTypeChange}
-                                    className="w-full px-4 py-3 bg-card border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-card border border-blue-500/10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/40 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] transition-all"
                                 >
                                     <option value="commercial">Comercial</option>
                                     <option value="residential">Residencial</option>
@@ -847,7 +847,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                 value={formData.description || ''}
                                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                                 rows={8}
-                                className="w-full px-4 py-3 bg-card border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                className="w-full px-4 py-3 bg-card border border-blue-500/10 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/40 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] transition-all"
                             />
                         </div>
                     </AnimatedCard>

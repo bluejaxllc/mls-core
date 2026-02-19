@@ -88,7 +88,7 @@ export default function BetaAdminPage() {
                             <UserPlus className="h-5 w-5" />
                         </div>
                         <div>
-                            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Solicitudes Beta</h1>
+                            <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Solicitudes Beta</h1>
                             <p className="text-white/70 text-sm">{users.length} solicitudes totales</p>
                         </div>
                     </div>

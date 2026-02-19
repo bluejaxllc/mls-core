@@ -62,13 +62,13 @@ export function LeadForm({ listingId, listingTitle }: LeadFormProps) {
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-green-50 border border-green-200 rounded-xl p-8 text-center"
+                className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center"
             >
-                <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-bold text-green-800 mb-2">Inquiry Sent!</h3>
-                <p className="text-green-700 mb-6">Given the high interest in this property, an agent will contact you shortly.</p>
+                <h3 className="text-xl font-bold text-green-500 mb-2">Inquiry Sent!</h3>
+                <p className="text-green-400 mb-6">Given the high interest in this property, an agent will contact you shortly.</p>
                 <AnimatedButton
                     variant="outline"
                     onClick={() => setIsSubmitted(false)}
@@ -81,7 +81,7 @@ export function LeadForm({ listingId, listingTitle }: LeadFormProps) {
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-lg border p-6 sticky top-24">
+        <div className="bg-card rounded-xl shadow-lg border p-6 sticky top-24">
             <div className="mb-6">
                 <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                     Interested in this property?
@@ -131,7 +131,7 @@ export function LeadForm({ listingId, listingTitle }: LeadFormProps) {
                 </div>
 
                 {error && (
-                    <div className="p-3 bg-red-50 text-red-600 text-sm rounded-md border border-red-100">
+                    <div className="p-3 bg-red-500/10 text-red-500 text-sm rounded-md border border-red-500/20">
                         {error}
                     </div>
                 )}

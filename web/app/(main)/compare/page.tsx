@@ -68,7 +68,7 @@ export default function ComparePage() {
                         <div className="h-10 w-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                             <GitCompare className="h-5 w-5" />
                         </div>
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Comparación de Propiedades</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Comparación de Propiedades</h1>
                     </div>
                     <p className="text-white/70 text-sm">Comparando {items.length} propiedades lado a lado</p>
                 </div>

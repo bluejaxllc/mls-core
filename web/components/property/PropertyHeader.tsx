@@ -10,12 +10,12 @@ interface PropertyHeaderProps {
 export function PropertyHeader({ id, status, title, address }: PropertyHeaderProps) {
     const getStatusBadge = (status: string) => {
         const styles = {
-            SUSPENDED: "bg-red-500/10 text-red-600 border-red-200",
-            PENDING_REVIEW: "bg-orange-500/10 text-orange-600 border-orange-200",
-            VERIFIED: "bg-green-500/10 text-green-600 border-green-200",
-            DRAFT: "bg-gray-500/10 text-gray-600 border-gray-200",
-            ARCHIVED: "bg-slate-500/10 text-slate-600 border-slate-200",
-            active: "bg-blue-500/10 text-blue-600 border-blue-200"
+            SUSPENDED: "bg-red-500/10 text-red-600 border-red-500/20",
+            PENDING_REVIEW: "bg-orange-500/10 text-orange-600 border-orange-500/20",
+            VERIFIED: "bg-green-500/10 text-green-600 border-green-500/20",
+            DRAFT: "bg-gray-500/10 text-muted-foreground border-border",
+            ARCHIVED: "bg-slate-500/10 text-slate-600 border-slate-500/20",
+            active: "bg-blue-500/10 text-blue-600 border-blue-500/20"
         };
 
         const icons = {

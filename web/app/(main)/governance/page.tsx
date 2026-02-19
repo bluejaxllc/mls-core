@@ -119,7 +119,7 @@ export default function GovernancePage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex flex-col gap-2">
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t.sections.governance.title}</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{t.sections.governance.title}</h2>
                     <p className="text-sm md:text-base text-muted-foreground">{t.sections.governance.subtitle}</p>
                 </div>
                 <Link href="/governance/logs" className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">

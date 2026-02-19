@@ -126,7 +126,7 @@ export default function AuditLogsPage() {
                 </div>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Registro de Auditoría</h2>
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Registro de Auditoría</h2>
                         <p className="text-sm md:text-base text-muted-foreground">Historial completo de eventos y decisiones de gobernanza.</p>
                     </div>
                     <button

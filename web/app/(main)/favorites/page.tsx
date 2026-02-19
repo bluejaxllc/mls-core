@@ -141,7 +141,7 @@ export default function FavoritesPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                         Mis Favoritos
                     </h1>
                     <p className="text-muted-foreground mt-1">{favorites.length} propiedades guardadas</p>
@@ -160,8 +160,8 @@ export default function FavoritesPage() {
                 <button
                     onClick={() => setActiveTab('all')}
                     className={`pb-2 border-b-2 transition-all ${activeTab === 'all'
-                            ? 'border-red-500 text-red-600 font-semibold'
-                            : 'border-transparent text-muted-foreground hover:text-foreground'
+                        ? 'border-red-500 text-red-600 font-semibold'
+                        : 'border-transparent text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     <Heart className="h-4 w-4 inline mr-1" />
@@ -170,8 +170,8 @@ export default function FavoritesPage() {
                 <button
                     onClick={() => setActiveTab('collections')}
                     className={`pb-2 border-b-2 transition-all ${activeTab === 'collections'
-                            ? 'border-blue-500 text-blue-600 font-semibold'
-                            : 'border-transparent text-muted-foreground hover:text-foreground'
+                        ? 'border-blue-500 text-blue-600 font-semibold'
+                        : 'border-transparent text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     <Folder className="h-4 w-4 inline mr-1" />
@@ -234,7 +234,7 @@ export default function FavoritesPage() {
                 <div>
                     {loading ? (
                         <div className="py-12 text-center text-muted-foreground">
-                            <div className="animate-spin h-6 w-6 border-2 border-red-500 border-t-transparent rounded-full mx-auto mb-2" />
+                            <div className="animate-spin h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2" />
                             Cargando favoritos...
                         </div>
                     ) : favorites.length === 0 ? (
@@ -272,7 +272,7 @@ export default function FavoritesPage() {
                                             )}
                                             <button
                                                 onClick={() => removeFavorite(fav.listingId)}
-                                                className="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/90 flex items-center justify-center hover:bg-red-50 transition-colors group/btn"
+                                                className="absolute top-2 right-2 h-8 w-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center hover:bg-red-600/80 transition-colors group/btn"
                                             >
                                                 <Heart className="h-4 w-4 text-red-500 fill-red-500 group-hover/btn:scale-110 transition-transform" />
                                             </button>

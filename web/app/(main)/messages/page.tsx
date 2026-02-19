@@ -154,7 +154,7 @@ export default function MessagesPage() {
                 {/* Header */}
                 <div className="p-4 border-b bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20">
                     <div className="flex items-center justify-between mb-3">
-                        <h2 className="text-xl font-bold flex items-center gap-2">
+                        <h2 className="text-xl font-bold flex items-center gap-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                             <MessageCircle className="h-5 w-5 text-blue-600" />
                             Mensajes
                             {totalUnread > 0 && (
@@ -170,7 +170,7 @@ export default function MessagesPage() {
                             value={searchQuery}
                             onChange={e => setSearchQuery(e.target.value)}
                             placeholder="Buscar conversaciones..."
-                            className="w-full pl-9 pr-3 py-2 bg-background border rounded-lg text-sm"
+                            className="w-full pl-9 pr-3 py-2 bg-background border border-blue-500/10 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/40 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] focus:outline-none transition-all"
                         />
                     </div>
                 </div>
@@ -276,8 +276,8 @@ export default function MessagesPage() {
                                             className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}
                                         >
                                             <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${isMine
-                                                    ? 'bg-blue-600 text-white rounded-br-md'
-                                                    : 'bg-card border rounded-bl-md'
+                                                ? 'bg-blue-600 text-white rounded-br-md'
+                                                : 'bg-card border rounded-bl-md'
                                                 }`}>
                                                 <p>{msg.content}</p>
                                                 <div className={`text-[10px] mt-1 ${isMine ? 'text-blue-200' : 'text-muted-foreground'}`}>
@@ -302,7 +302,7 @@ export default function MessagesPage() {
                                     value={newMessage}
                                     onChange={e => setNewMessage(e.target.value)}
                                     placeholder="Escribe un mensaje..."
-                                    className="flex-1 px-4 py-2.5 bg-muted rounded-full text-sm border-0 outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="flex-1 px-4 py-2.5 bg-muted rounded-full text-sm border border-blue-500/10 outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/40 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] transition-all"
                                     disabled={sending}
                                 />
                                 <motion.button

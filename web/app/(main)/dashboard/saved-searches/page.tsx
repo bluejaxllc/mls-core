@@ -388,7 +388,7 @@ export default function SavedSearchesPage() {
                 {loading ? (
                     <>
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="animate-pulse bg-card/40 border border-white/10 rounded-xl p-5 space-y-3">
+                            <div key={i} className="animate-pulse bg-gradient-to-br from-blue-950/5 via-card/40 to-card/20 border border-blue-500/10 rounded-xl p-5 space-y-3">
                                 <div className="h-5 bg-muted/50 rounded w-2/3" />
                                 <div className="h-3 bg-muted/50 rounded w-1/2" />
                                 <div className="h-8 bg-muted/50 rounded w-full" />
@@ -434,8 +434,8 @@ export default function SavedSearchesPage() {
                                             initial={{ scale: 0 }}
                                             animate={{ scale: 1 }}
                                             className={`shrink-0 px-2 py-0.5 rounded-full text-xs font-bold ${search.matchCount > 0
-                                                    ? 'bg-green-500/10 text-green-500 border border-green-500/20'
-                                                    : 'bg-muted/50 text-muted-foreground'
+                                                ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                                : 'bg-muted/50 text-muted-foreground'
                                                 }`}
                                         >
                                             {search.matchCount} coincidencia{search.matchCount !== 1 ? 's' : ''}

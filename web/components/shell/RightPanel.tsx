@@ -117,12 +117,13 @@ export function RightPanel() {
     );
 
     return (
-        <div className="hidden lg:flex w-80 border-l bg-gradient-to-b from-card to-card/50 backdrop-blur-sm flex-col h-full relative overflow-hidden">
+        <div className="hidden lg:flex w-80 border-l border-blue-500/10 bg-gradient-to-b from-card to-card/50 backdrop-blur-sm flex-col h-full relative overflow-hidden">
             {/* Top gradient */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
 
             {/* Header */}
-            <div className="p-4 border-b relative z-10 flex items-center justify-between">
+            <div className="p-4 border-b border-blue-500/10 relative z-10 flex items-center justify-between">
+                <div className="absolute bottom-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-500/15 to-transparent" />
                 <h3 className="font-semibold flex items-center gap-2 text-sm">
                     <Activity className="h-4 w-4 text-blue-400" />
                     Contexto y Gobernanza
@@ -193,8 +194,8 @@ export function RightPanel() {
                                                     animate={{ width: `${(b.score / b.max) * 100}%` }}
                                                     transition={{ duration: 0.8, delay: 0.2 * i }}
                                                     className={`h-full rounded-full bg-gradient-to-r ${(b.score / b.max) >= 0.7 ? 'from-green-500 to-emerald-400' :
-                                                            (b.score / b.max) >= 0.4 ? 'from-blue-500 to-cyan-400' :
-                                                                'from-yellow-500 to-amber-400'
+                                                        (b.score / b.max) >= 0.4 ? 'from-blue-500 to-cyan-400' :
+                                                            'from-yellow-500 to-amber-400'
                                                         }`}
                                                 />
                                             </div>
@@ -228,14 +229,14 @@ export function RightPanel() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.2 + (i * 0.1) }}
                                     className={`bg-muted/50 p-2.5 rounded-lg text-xs border flex justify-between items-center ${rule.color === 'green' ? 'border-green-900/30' :
-                                            rule.color === 'red' ? 'border-red-900/30' :
-                                                rule.color === 'yellow' ? 'border-yellow-900/30' : 'border-border'
+                                        rule.color === 'red' ? 'border-red-900/30' :
+                                            rule.color === 'yellow' ? 'border-yellow-900/30' : 'border-border'
                                         }`}
                                 >
                                     <span className="truncate mr-2">{rule.name}</span>
                                     <span className={`font-mono font-bold flex items-center gap-1 shrink-0 ${rule.color === 'green' ? 'text-green-500' :
-                                            rule.color === 'red' ? 'text-red-500' :
-                                                rule.color === 'yellow' ? 'text-yellow-500' : 'text-muted-foreground'
+                                        rule.color === 'red' ? 'text-red-500' :
+                                            rule.color === 'yellow' ? 'text-yellow-500' : 'text-muted-foreground'
                                         }`}>
                                         {rule.status === 'PASS' && <CheckCircle2 className="h-3 w-3" />}
                                         {rule.status === 'BLOCK' && <XCircle className="h-3 w-3" />}
@@ -303,15 +304,15 @@ export function RightPanel() {
                         transition={{ delay: 0.5 }}
                         className="grid grid-cols-3 gap-2 pt-2"
                     >
-                        <div className="bg-muted/30 rounded-lg p-2 text-center">
+                        <div className="bg-gradient-to-br from-blue-950/20 to-zinc-900/40 border border-blue-500/10 rounded-lg p-2 text-center">
                             <p className="text-lg font-bold">{context.stats.totalListings}</p>
                             <p className="text-[9px] text-muted-foreground uppercase">Total</p>
                         </div>
-                        <div className="bg-muted/30 rounded-lg p-2 text-center">
+                        <div className="bg-gradient-to-br from-emerald-950/20 to-zinc-900/40 border border-emerald-500/10 rounded-lg p-2 text-center">
                             <p className="text-lg font-bold text-green-500">{context.stats.activeListings}</p>
                             <p className="text-[9px] text-muted-foreground uppercase">Activos</p>
                         </div>
-                        <div className="bg-muted/30 rounded-lg p-2 text-center">
+                        <div className="bg-gradient-to-br from-cyan-950/20 to-zinc-900/40 border border-cyan-500/10 rounded-lg p-2 text-center">
                             <p className="text-lg font-bold text-blue-500">{context.stats.unreadNotifications}</p>
                             <p className="text-[9px] text-muted-foreground uppercase">Alertas</p>
                         </div>

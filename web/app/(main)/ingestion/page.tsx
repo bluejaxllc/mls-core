@@ -109,7 +109,7 @@ export default function IngestionPage() {
                             <div className="h-10 w-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                                 <Database className="h-5 w-5" />
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{t.sections.ingestion.title}</h2>
+                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{t.sections.ingestion.title}</h2>
                         </div>
                         <p className="text-white/80 text-sm md:text-base max-w-xl">{t.sections.ingestion.subtitle}</p>
                     </div>
@@ -164,8 +164,8 @@ export default function IngestionPage() {
                     <motion.label
                         whileHover={{ scale: 1.005 }}
                         className={`border-2 border-dashed rounded-xl p-8 md:p-12 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${isUploading
-                                ? 'border-blue-400 bg-blue-50/50 dark:bg-blue-950/20 opacity-70 cursor-not-allowed'
-                                : 'border-muted-foreground/20 hover:border-blue-400 hover:bg-blue-50/30 dark:hover:bg-blue-950/10'
+                            ? 'border-blue-400 bg-blue-50/50 dark:bg-blue-950/20 opacity-70 cursor-not-allowed'
+                            : 'border-muted-foreground/20 hover:border-blue-400 hover:bg-blue-50/30 dark:hover:bg-blue-950/10'
                             }`}
                     >
                         <input
@@ -197,8 +197,8 @@ export default function IngestionPage() {
                                 className="overflow-hidden"
                             >
                                 <div className={`p-5 rounded-xl border-2 ${uploadResult.errors.length === 0
-                                        ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-800'
-                                        : 'bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 border-yellow-200 dark:border-yellow-800'
+                                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-800'
+                                    : 'bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-950/20 dark:to-amber-950/20 border-yellow-200 dark:border-yellow-800'
                                     }`}>
                                     <h4 className="font-semibold flex items-center gap-2 text-base">
                                         <CheckCircle className="h-5 w-5 text-green-600" />
@@ -246,8 +246,8 @@ export default function IngestionPage() {
                                         </div>
                                     </div>
                                     <span className={`text-xs px-3 py-1 rounded-full font-medium ${feed.status === 'healthy'
-                                            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800'
-                                            : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800'
+                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800'
+                                        : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800'
                                         }`}>
                                         {feed.statusLabel}
                                     </span>

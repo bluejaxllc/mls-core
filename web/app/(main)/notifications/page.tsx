@@ -121,7 +121,7 @@ export default function NotificationsPage() {
                                     </motion.span>
                                 )}
                             </div>
-                            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Notificaciones</h1>
+                            <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Notificaciones</h1>
                         </div>
                         <p className="text-white/80 text-sm md:text-base">
                             {unreadCount > 0
@@ -149,8 +149,8 @@ export default function NotificationsPage() {
                         key={f.key}
                         onClick={() => setFilter(f.key)}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filter === f.key
-                                ? 'bg-rose-600 text-white shadow'
-                                : 'bg-muted text-muted-foreground hover:text-foreground'
+                            ? 'bg-rose-600 text-white shadow'
+                            : 'bg-muted text-muted-foreground hover:text-foreground'
                             }`}
                     >
                         {f.label}
@@ -187,8 +187,8 @@ export default function NotificationsPage() {
                                 >
                                     <div
                                         className={`group flex items-start gap-3 p-4 rounded-xl border transition-all cursor-pointer hover:shadow-md ${notif.isRead
-                                                ? 'bg-card/50 border-border/50'
-                                                : 'bg-card border-rose-200 dark:border-rose-800/50 shadow-sm'
+                                            ? 'bg-card/50 border-border/50'
+                                            : 'bg-card border-rose-200 dark:border-rose-800/50 shadow-sm'
                                             }`}
                                         onClick={() => !notif.isRead && markRead(notif.id)}
                                     >

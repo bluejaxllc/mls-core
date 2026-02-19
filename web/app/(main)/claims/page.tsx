@@ -68,7 +68,7 @@ export default function ClaimsPage() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-amber-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
                             Reclamos y Disputas
                         </span>
                         <Shield className="h-5 w-5 text-red-500" />
@@ -157,7 +157,7 @@ export default function ClaimsPage() {
             {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[1, 2, 3].map(i => (
-                        <div key={i} className="animate-pulse bg-card/40 border border-white/10 rounded-xl p-5 space-y-3">
+                        <div key={i} className="animate-pulse bg-gradient-to-br from-blue-950/5 via-card/40 to-card/20 border border-blue-500/10 rounded-xl p-5 space-y-3">
                             <div className="h-5 bg-muted/50 rounded w-2/3" />
                             <div className="h-3 bg-muted/50 rounded w-1/2" />
                             <div className="h-8 bg-muted/50 rounded w-full" />

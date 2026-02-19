@@ -278,7 +278,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
                             </span>
                         )}
                     </div>
-                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{listing.title}</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{listing.title}</h1>
                     <p className="text-muted-foreground flex items-center gap-1.5">
                         <MapPin className="h-4 w-4 text-blue-500 shrink-0" />
                         {listing.address}

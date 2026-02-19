@@ -325,7 +325,7 @@ export default function PropertiesPage() {
                 ) : (
                     listings.map((listing, index) => (
                         <AnimatedCard key={listing.id} className="overflow-hidden group flex flex-col h-full bg-card" index={index}>
-                            <div className="h-48 bg-gray-100 relative overflow-hidden">
+                            <div className="h-48 bg-muted relative overflow-hidden">
                                 {listing.image ? (
                                     <img
                                         src={listing.image}
@@ -337,7 +337,7 @@ export default function PropertiesPage() {
                                         }}
                                     />
                                 ) : null}
-                                <div className={`w-full h-full flex items-center justify-center text-muted-foreground absolute inset-0 bg-gray-100 ${listing.image ? 'hidden' : ''}`}>
+                                <div className={`w-full h-full flex items-center justify-center text-muted-foreground absolute inset-0 bg-muted ${listing.image ? 'hidden' : ''}`}>
                                     <span className="text-xs">Sin Imagen</span>
                                 </div>
 
@@ -387,7 +387,7 @@ export default function PropertiesPage() {
                             </div>
 
                             <div className="p-3 border-t bg-muted/10 flex justify-between items-center">
-                                <span className="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                                <span className="text-[10px] bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded-full">
                                     {Math.round((listing.confidence || 0) * 100)}% Confianza
                                 </span>
                                 <div className="flex gap-2">

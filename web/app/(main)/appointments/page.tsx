@@ -121,7 +121,7 @@ export default function AppointmentsPage() {
                         <div className="h-10 w-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                             <CalendarDays className="h-5 w-5" />
                         </div>
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Citas</h1>
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Citas</h1>
                     </div>
                     <p className="text-white/80 text-sm md:text-base max-w-xl">Gestiona tus visitas a propiedades</p>
 
@@ -132,8 +132,8 @@ export default function AppointmentsPage() {
                                 key={r}
                                 onClick={() => setRole(r)}
                                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${role === r
-                                        ? 'bg-white text-purple-700 shadow-lg'
-                                        : 'bg-white/15 text-white/80 hover:bg-white/25'
+                                    ? 'bg-white text-purple-700 shadow-lg'
+                                    : 'bg-white/15 text-white/80 hover:bg-white/25'
                                     }`}
                             >
                                 {r === 'agent' ? 'Como Agente' : 'Como Visitante'}
@@ -172,8 +172,8 @@ export default function AppointmentsPage() {
                         key={s}
                         onClick={() => setStatusFilter(s)}
                         className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${statusFilter === s
-                                ? 'bg-purple-600 text-white shadow'
-                                : 'bg-muted text-muted-foreground hover:text-foreground'
+                            ? 'bg-purple-600 text-white shadow'
+                            : 'bg-muted text-muted-foreground hover:text-foreground'
                             }`}
                     >
                         {s === 'ALL' ? 'Todas' : STATUS_CONFIG[s]?.label || s}

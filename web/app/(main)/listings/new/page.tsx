@@ -484,7 +484,7 @@ export default function NewListingPage() {
         <div className="space-y-8 max-w-5xl mx-auto pb-10">
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Nueva Propiedad</h2>
+                    <h2 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Nueva Propiedad</h2>
                     <p className="text-muted-foreground">Crear un nuevo listado comercial</p>
                 </div>
                 <AnimatedButton
@@ -502,8 +502,8 @@ export default function NewListingPage() {
             >
 
                 {/* HERO ADDRESS INPUT - plain input (no Google here) to avoid typing glitches */}
-                <div className="space-y-4 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 md:p-8 rounded-xl border border-blue-100 shadow-sm relative z-20">
-                    <label className="text-lg font-semibold text-blue-900 flex flex-wrap justify-between items-center gap-2">
+                <div className="space-y-4 bg-gradient-to-r from-blue-500/5 to-indigo-500/5 p-4 md:p-8 rounded-xl border border-blue-500/15 shadow-sm relative z-20">
+                    <label className="text-lg font-semibold text-blue-400 flex flex-wrap justify-between items-center gap-2">
                         <span>Dirección de la Propiedad (Comience aquí)</span>
                         <div className="flex items-center gap-2 flex-wrap">
                             <button
@@ -528,7 +528,7 @@ export default function NewListingPage() {
                             onBlur={handleAddressBlur}
                             onKeyDown={handleAddressKeyDown}
                             placeholder="Ingrese la dirección completa..."
-                            className="w-full pl-8 md:pl-12 pr-4 py-3 md:py-4 text-base md:text-xl bg-white text-gray-900 border-2 border-blue-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-blue-200/70"
+                            className="w-full pl-8 md:pl-12 pr-4 py-3 md:py-4 text-base md:text-xl bg-card text-foreground border-2 border-blue-500/20 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/40 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] placeholder:text-muted-foreground/50"
                         />
                         <AddressSearchPopover
                             open={showAddressSearch}
@@ -542,7 +542,7 @@ export default function NewListingPage() {
                 {/* HERO CAROUSEL SECTION */}
                 <div className="w-full">
                     {formData.images && formData.images.length > 0 && (
-                        <div className="relative w-full rounded-xl overflow-hidden shadow-lg border-2 border-slate-100 bg-white group animate-in fade-in zoom-in duration-500">
+                        <div className="relative w-full rounded-xl overflow-hidden shadow-lg border-2 border-blue-500/10 bg-card group animate-in fade-in zoom-in duration-500">
                             <ImageCarousel
                                 images={formData.images}
                                 onRemove={(idx) => {
@@ -555,7 +555,7 @@ export default function NewListingPage() {
                             />
                             {/* File Upload Overlay Button */}
                             <div className="absolute top-4 right-4 z-40">
-                                <label className="cursor-pointer bg-white/90 hover:bg-white text-gray-800 px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-md text-xs md:text-sm font-medium flex items-center gap-2 transition-all backdrop-blur-sm border border-gray-200">
+                                <label className="cursor-pointer bg-card/90 hover:bg-card text-foreground px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-md text-xs md:text-sm font-medium flex items-center gap-2 transition-all backdrop-blur-sm border border-blue-500/20">
                                     <Sparkles className="w-4 h-4 text-blue-500" />
                                     <span>Agregar Fotos</span>
                                     <input
@@ -630,7 +630,7 @@ export default function NewListingPage() {
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Precio (MXN)</label>
                                     <div className="relative">
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
                                         <AnimatedInput
                                             type="number"
                                             required

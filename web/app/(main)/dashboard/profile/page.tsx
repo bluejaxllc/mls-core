@@ -119,7 +119,7 @@ export default function ProfileSettingsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
             >
-                <h1 className="text-3xl font-bold mb-2">Editar Perfil</h1>
+                <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Editar Perfil</h1>
                 <p className="text-muted-foreground mb-8">Administra tu información pública visible para los clientes.</p>
 
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

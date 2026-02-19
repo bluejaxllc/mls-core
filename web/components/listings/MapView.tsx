@@ -49,7 +49,7 @@ export function MapView({ listings, center, zoom = 12 }: MapViewProps) {
     const mapUrl = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${encodeURIComponent(locationQuery)}&zoom=${zoom}`;
 
     return (
-        <div className="w-full h-[600px] bg-white rounded-xl overflow-hidden shadow-sm border relative">
+        <div className="w-full h-[600px] bg-card rounded-xl overflow-hidden shadow-sm border relative">
             <iframe
                 width="100%"
                 height="100%"

@@ -99,7 +99,7 @@ export default function SystemPage() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(59,130,246,0.2),transparent_60%)]" />
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                             <div className="p-2.5 rounded-xl bg-white/10 backdrop-blur-sm">
                                 <Settings className="h-6 w-6" />
                             </div>
@@ -311,7 +311,7 @@ export default function SystemPage() {
                                         org: 'RE/MAX Polanco',
                                         color: 'bg-blue-500/20 text-blue-500',
                                         role: 'Administrador',
-                                        roleColor: 'bg-blue-50 text-blue-700 border-blue-200',
+                                        roleColor: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
                                         online: true,
                                     },
                                     {
@@ -321,7 +321,7 @@ export default function SystemPage() {
                                         org: 'Blue Jax Core',
                                         color: 'bg-violet-500/20 text-violet-500',
                                         role: 'Super Admin',
-                                        roleColor: 'bg-violet-50 text-violet-700 border-violet-200',
+                                        roleColor: 'bg-violet-500/10 text-violet-500 border-violet-500/20',
                                         online: false,
                                     },
                                 ].map((user, i) => (
@@ -347,7 +347,7 @@ export default function SystemPage() {
                                             </span>
                                             <span className={cn(
                                                 "flex items-center gap-1.5 text-xs px-2 py-1 rounded-full",
-                                                user.online ? "bg-emerald-50 text-emerald-600" : "bg-muted text-muted-foreground"
+                                                user.online ? "bg-emerald-500/10 text-emerald-500" : "bg-muted text-muted-foreground"
                                             )}>
                                                 <span className={cn("h-1.5 w-1.5 rounded-full", user.online ? "bg-emerald-500" : "bg-gray-400")} />
                                                 {user.online ? t.common.online : t.common.offline}
@@ -388,11 +388,11 @@ export default function SystemPage() {
                                 Estado de Base de Datos
                             </h3>
                             <div className="space-y-4">
-                                <div className="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+                                <div className="flex items-center gap-3 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                                     <Check className="h-5 w-5 text-emerald-600" />
                                     <div>
-                                        <p className="text-sm font-semibold text-emerald-800">Conexión Activa</p>
-                                        <p className="text-xs text-emerald-600">PostgreSQL (Prisma ORM)</p>
+                                        <p className="text-sm font-semibold text-emerald-500">Conexión Activa</p>
+                                        <p className="text-xs text-emerald-400">PostgreSQL (Prisma ORM)</p>
                                     </div>
                                 </div>
                                 {[
@@ -465,28 +465,28 @@ export default function SystemPage() {
                                         title: 'Autenticación',
                                         description: 'NextAuth.js con JWT tokens y sesiones de servidor',
                                         status: 'Activo',
-                                        statusColor: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+                                        statusColor: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
                                         icon: Shield,
                                     },
                                     {
                                         title: 'Motor de Reglas',
                                         description: 'Gobernanza activa con evaluación de reglas en tiempo real',
                                         status: 'Activo',
-                                        statusColor: 'text-blue-600 bg-blue-50 border-blue-200',
+                                        statusColor: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
                                         icon: Zap,
                                     },
                                     {
                                         title: 'Cifrado en Tránsito',
                                         description: 'TLS/SSL habilitado para todas las conexiones',
                                         status: 'Habilitado',
-                                        statusColor: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+                                        statusColor: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
                                         icon: Shield,
                                     },
                                     {
                                         title: 'Auditoría',
                                         description: 'Registro completo de acciones en el motor de gobernanza',
                                         status: 'Activo',
-                                        statusColor: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+                                        statusColor: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
                                         icon: Activity,
                                     },
                                 ].map((item, i) => {
@@ -668,7 +668,7 @@ export default function SystemPage() {
                                         <div className="flex items-center gap-2">
                                             <span className={cn(
                                                 "text-xs px-2 py-1 rounded-full",
-                                                user.online ? "bg-emerald-50 text-emerald-600" : "bg-muted text-muted-foreground"
+                                                user.online ? "bg-emerald-500/10 text-emerald-500" : "bg-muted text-muted-foreground"
                                             )}>
                                                 {user.online ? 'En línea' : 'Fuera de línea'}
                                             </span>

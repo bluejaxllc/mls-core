@@ -10,7 +10,7 @@ interface TrustBadgeProps {
 export function TrustBadge({ source }: TrustBadgeProps) {
     let level: TrustLevel = 'UNKNOWN';
     let label = source;
-    let color = 'bg-gray-100 text-gray-600 border-gray-200';
+    let color = 'bg-muted text-muted-foreground border-border';
     let Icon = Globe;
 
     const normalizedSource = source?.toUpperCase() || 'UNKNOWN';
@@ -18,12 +18,12 @@ export function TrustBadge({ source }: TrustBadgeProps) {
     if (normalizedSource === 'MANUAL' || normalizedSource === 'MLS_FEED' || normalizedSource.includes('FEED')) {
         level = 'VERIFIED';
         label = normalizedSource === 'MANUAL' ? 'Agents Verified' : 'MLS Feed';
-        color = 'bg-green-50 text-green-700 border-green-200';
+        color = 'bg-green-500/10 text-green-500 border-green-500/20';
         Icon = ShieldCheck;
     } else if (normalizedSource === 'SCRAPER' || normalizedSource.includes('CRAWL')) {
         level = 'SCRAPED';
         label = 'AI Detected';
-        color = 'bg-amber-50 text-amber-700 border-amber-200';
+        color = 'bg-amber-500/10 text-amber-500 border-amber-500/20';
         Icon = ShieldAlert;
     }
 

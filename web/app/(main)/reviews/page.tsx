@@ -142,7 +142,7 @@ export default function ReviewsPage() {
                         disabled={!interactive}
                     >
                         <Star
-                            className={`${sizes[size]} ${star <= rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'} transition-colors`}
+                            className={`${sizes[size]} ${star <= rating ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground/30'} transition-colors`}
                         />
                     </button>
                 ))}
@@ -157,7 +157,7 @@ export default function ReviewsPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                         Reseñas
                     </h1>
                     <p className="text-muted-foreground mt-1">Gestiona y escribe reseñas de agentes</p>
@@ -166,7 +166,7 @@ export default function ReviewsPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowWriteForm(!showWriteForm)}
-                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg text-sm font-medium"
+                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium shadow-lg shadow-blue-500/20"
                 >
                     <Star className="h-4 w-4" />
                     Escribir Reseña
@@ -231,7 +231,7 @@ export default function ReviewsPage() {
                                 <button
                                     onClick={submitReview}
                                     disabled={submitting}
-                                    className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm font-medium hover:bg-yellow-600 disabled:opacity-50"
+                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg text-sm font-medium hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50"
                                 >
                                     <Send className="h-4 w-4" />
                                     {submitting ? 'Publicando...' : 'Publicar'}
@@ -279,8 +279,8 @@ export default function ReviewsPage() {
                 <button
                     onClick={() => setActiveTab('received')}
                     className={`pb-2 border-b-2 transition-all ${activeTab === 'received'
-                            ? 'border-yellow-500 text-yellow-600 font-semibold'
-                            : 'border-transparent text-muted-foreground hover:text-foreground'
+                        ? 'border-yellow-500 text-yellow-600 font-semibold'
+                        : 'border-transparent text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     <ThumbsUp className="h-4 w-4 inline mr-1" />
@@ -289,8 +289,8 @@ export default function ReviewsPage() {
                 <button
                     onClick={() => setActiveTab('written')}
                     className={`pb-2 border-b-2 transition-all ${activeTab === 'written'
-                            ? 'border-blue-500 text-blue-600 font-semibold'
-                            : 'border-transparent text-muted-foreground hover:text-foreground'
+                        ? 'border-blue-500 text-blue-600 font-semibold'
+                        : 'border-transparent text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     <MessageSquare className="h-4 w-4 inline mr-1" />
@@ -302,7 +302,7 @@ export default function ReviewsPage() {
             <div className="space-y-4">
                 {loading ? (
                     <div className="py-12 text-center text-muted-foreground">
-                        <div className="animate-spin h-6 w-6 border-2 border-yellow-500 border-t-transparent rounded-full mx-auto mb-2" />
+                        <div className="animate-spin h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-2" />
                         Cargando reseñas...
                     </div>
                 ) : (
