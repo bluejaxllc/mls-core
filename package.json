@@ -133,6 +133,9 @@
     "zod": "^3.25.76"
   },
   "scripts": {
+    "build": "npx prisma generate --schema=prisma/schema.prisma && npx prisma generate --schema=prisma/schema.intelligence.prisma && tsc",
+    "start": "node dist/server.js",
+    "dev": "npx tsx watch src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
