@@ -20,11 +20,13 @@ export const metadata: Metadata = {
         siteName: 'BLUE JAX CORE',
         title: 'BLUE JAX CORE',
         description: 'Mexico MLS Market Infrastructure — Real estate intelligence, listings and market data.',
+        images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'BLUE JAX CORE' }],
     },
     twitter: {
         card: 'summary_large_image',
         title: 'BLUE JAX CORE',
         description: 'Mexico MLS Market Infrastructure',
+        images: ['/og-image.svg'],
     },
     icons: {
         icon: '/icon.svg',
