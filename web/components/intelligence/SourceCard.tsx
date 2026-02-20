@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Play, Globe, CheckCircle, XCircle, Clock, Database } from 'lucide-react';
+import { Play, Globe, CheckCircle, XCircle, Database } from 'lucide-react';
 import { AnimatedCard, AnimatedButton } from '@/components/ui/animated';
 import { authFetch } from '@/lib/api';
 import { useSession } from 'next-auth/react';
@@ -11,9 +11,8 @@ interface SourceProps {
         name: string;
         type: string;
         baseUrl: string;
-        isActive: boolean;
+        isEnabled: boolean;
         trustScore: number;
-        lastCrawl?: string;
     };
     onTrigger?: () => void;
 }
@@ -61,7 +60,7 @@ export function SourceCard({ source }: SourceProps) {
                             <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{source.type}</p>
                         </div>
                     </div>
-                    {source.isActive ? (
+                    {source.isEnabled ? (
                         <span className="flex h-2 w-2 rounded-full bg-green-500" title="Active" />
                     ) : (
                         <span className="flex h-2 w-2 rounded-full bg-slate-300" title="Inactive" />
@@ -73,19 +72,14 @@ export function SourceCard({ source }: SourceProps) {
                         <Database className="w-4 h-4 text-slate-400" />
                         <span className="text-xs">Confianza: <span className="font-medium text-slate-900">{source.trustScore}%</span></span>
                     </div>
-                    {source.lastCrawl && (
-                        <div className="flex items-center text-sm text-slate-600 gap-2">
-                            <Clock className="w-4 h-4 text-slate-400" />
-                            <span className="text-xs">Última: {new Date(source.lastCrawl).toLocaleDateString()}</span>
-                        </div>
-                    )}
+
                 </div>
             </div>
 
             <div className="mt-6">
                 <AnimatedButton
                     onClick={handleRun}
-                    disabled={isRunning || !source.isActive}
+                    disabled={isRunning || !source.isEnabled}
                     variant={lastRunStatus === 'success' ? 'secondary' : 'primary'}
                     className={`w-full flex items-center justify-center gap-2 text-sm ${lastRunStatus === 'success' ? 'bg-green-500/10 text-green-500 border-green-500/20' : ''}`}
                 >

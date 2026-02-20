@@ -6,13 +6,12 @@ import { AnimatedCard, AnimatedButton } from '@/components/ui/animated';
 interface ObservedListingProps {
     listing: {
         id: string;
-        title: string;
-        description: string;
-        price: number;
-        currency: string;
-        address: string;
-        source: string;
-        confidenceScore: number;
+        title?: string | null;
+        description?: string | null;
+        price?: number | null;
+        currency?: string;
+        address?: string | null;
+        confidenceScore?: number;
         snapshot?: {
             url?: string;
             source?: {
@@ -35,7 +34,7 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
             {/* Header / Image Placeholder */}
             <div className="h-32 bg-gradient-to-r from-slate-800 to-slate-700 relative flex items-center justify-center p-4">
                 <div className="text-center">
-                    <h3 className="text-white font-medium line-clamp-2">{listing.title}</h3>
+                    <h3 className="text-white font-medium line-clamp-2">{listing.title || 'Propiedad Detectada'}</h3>
                     <p className="text-slate-300 text-xs mt-1 flex items-center justify-center gap-1">
                         <Globe className="w-3 h-3" />
                         {listing.snapshot?.source?.name || 'Fuente Desconocida'}
@@ -57,7 +56,7 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
 
                     <div className="flex justify-between items-center text-sm">
                         <span className="font-semibold text-lg text-blue-600">
-                            ${listing.price.toLocaleString()} <span className="text-xs text-muted-foreground">{listing.currency}</span>
+                            ${(listing.price ?? 0).toLocaleString()} <span className="text-xs text-muted-foreground">{listing.currency || 'MXN'}</span>
                         </span>
                         {listing.confidenceScore && (
                             <div className="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 px-2 py-1 rounded">

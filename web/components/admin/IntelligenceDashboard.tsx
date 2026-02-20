@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 // import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { authFetch } from '@/lib/api';
 
 interface SourceProfile {
     id: string;
@@ -27,12 +28,12 @@ export function IntelligenceDashboard() {
 
     const fetchData = async () => {
         try {
-            const [sourcesRes, eventsRes] = await Promise.all([
-                fetch('/api/intelligence/sources'),
-                fetch('/api/intelligence/crawl/events')
+            const [sourcesData, eventsData] = await Promise.all([
+                authFetch('/api/intelligence/sources'),
+                authFetch('/api/intelligence/crawl/events')
             ]);
-            setSources(await sourcesRes.json());
-            setEvents(await eventsRes.json());
+            if (Array.isArray(sourcesData)) setSources(sourcesData);
+            if (Array.isArray(eventsData)) setEvents(eventsData);
         } catch (e) {
             console.error('Failed to fetch intelligence data', e);
         } finally {
@@ -45,9 +46,8 @@ export function IntelligenceDashboard() {
     }, []);
 
     const triggerCrawl = async (sourceId: string, url: string) => {
-        await fetch('/api/intelligence/crawl/trigger', {
+        await authFetch('/api/intelligence/crawl/trigger', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sourceId, url })
         });
         // Refresh events after a delay

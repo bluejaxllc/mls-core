@@ -109,7 +109,7 @@ export default function IntelligenceDashboard() {
     const handleSeed = async () => {
         setRefreshing(true);
         try {
-            await authFetch('/api/intelligence/debug/seed?sourceId=', {}, (session as any)?.accessToken);
+            await authFetch('/api/intelligence/debug/seed', {}, (session as any)?.accessToken);
             setTimeout(fetchData, 1000); // Wait a bit for DB
         } catch (e) {
             console.error('Seed failed', e);

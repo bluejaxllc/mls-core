@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { authFetch } from '@/lib/api';
 
 interface Signal {
     id: string;
@@ -23,8 +24,12 @@ export function SignalReview() {
     const [signals, setSignals] = useState<Signal[]>([]);
 
     useEffect(() => {
+<<<<<<< HEAD
         fetch('/api/intelligence/signals')
             .then(res => res.json())
+=======
+        authFetch('/api/intelligence/signals')
+>>>>>>> 2bbc1d8c (fix: resolve 8 errors in inteligencia section - null-safe price, field name mismatches, hardcoded localhost, import paths)
             .then(setSignals)
             .catch(console.error);
     }, []);
