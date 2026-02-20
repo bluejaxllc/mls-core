@@ -9,8 +9,26 @@ import { ToastProvider } from '@/components/providers/ToastProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'BLUE JAX CORE',
-    description: 'Mexico MLS Market Infrastructure',
+    metadataBase: new URL('https://mls.bluejax.ai'),
+    title: {
+        default: 'BLUE JAX CORE',
+        template: '%s | BLUE JAX CORE',
+    },
+    description: 'Mexico MLS Market Infrastructure — Real estate intelligence, listings and market data.',
+    openGraph: {
+        type: 'website',
+        siteName: 'BLUE JAX CORE',
+        title: 'BLUE JAX CORE',
+        description: 'Mexico MLS Market Infrastructure — Real estate intelligence, listings and market data.',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'BLUE JAX CORE',
+        description: 'Mexico MLS Market Infrastructure',
+    },
+    icons: {
+        icon: '/icon.svg',
+    },
 }
 
 export default function RootLayout({
