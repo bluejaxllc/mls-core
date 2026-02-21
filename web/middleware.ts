@@ -10,6 +10,6 @@ export const config = {
          * - favicon.ico (favicon file)
          * - auth/signin (custom sign-in page)
          */
-        '/((?!api/auth|_next/static|_next/image|favicon.ico|icon.png|og-image|opengraph-image|twitter-image|grid.svg|auth/signin|whitepaper).{2,})',
+        '/((?!api/auth|_next/static|_next/image|favicon.ico|icon\\.png|og-image|opengraph-image|twitter-image|grid\\.svg|auth/signin|whitepaper).*)',
     ],
 }
