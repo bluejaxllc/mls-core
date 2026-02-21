@@ -14,22 +14,23 @@ export const metadata: Metadata = {
         default: 'BLUE JAX CORE',
         template: '%s | BLUE JAX CORE',
     },
-    description: 'Mexico MLS Market Infrastructure — Real estate intelligence, listings and market data.',
+    description: 'Mexico MLS Market Infrastructure — Sistema de registro y gobernanza inmobiliaria. Real estate intelligence, listings and market data.',
     openGraph: {
         type: 'website',
         siteName: 'BLUE JAX CORE',
-        title: 'BLUE JAX CORE',
-        description: 'Mexico MLS Market Infrastructure — Real estate intelligence, listings and market data.',
-        images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'BLUE JAX CORE' }],
+        title: 'BLUE JAX CORE — Mexico MLS Market Infrastructure',
+        description: 'Sistema de registro y gobernanza inmobiliaria. La verdad compartida del mercado inmobiliario.',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'BLUE JAX CORE',
-        description: 'Mexico MLS Market Infrastructure',
-        images: ['/og-image.svg'],
+        description: 'Mexico MLS Market Infrastructure — Sistema de registro y gobernanza inmobiliaria.',
     },
     icons: {
-        icon: '/icon.svg',
+        icon: [
+            { url: '/icon.png', type: 'image/png' },
+        ],
+        apple: '/icon.png',
     },
 }
 
