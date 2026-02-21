@@ -17,21 +17,38 @@ export const metadata: Metadata = {
     description: 'Mexico MLS Market Infrastructure — Sistema de registro y gobernanza inmobiliaria. Real estate intelligence, listings and market data.',
     openGraph: {
         type: 'website',
+        locale: 'es_MX',
         siteName: 'BLUE JAX CORE',
         title: 'BLUE JAX CORE — Mexico MLS Market Infrastructure',
         description: 'Sistema de registro y gobernanza inmobiliaria. La verdad compartida del mercado inmobiliario.',
+        images: [
+            {
+                url: '/opengraph-image.png',
+                width: 1024,
+                height: 1024,
+                alt: 'BLUE JAX CORE — México MLS',
+            },
+        ],
     },
     twitter: {
         card: 'summary_large_image',
         title: 'BLUE JAX CORE',
         description: 'Mexico MLS Market Infrastructure — Sistema de registro y gobernanza inmobiliaria.',
+        images: ['/opengraph-image.png'],
     },
     icons: {
         icon: [
-            { url: '/icon.png', type: 'image/png' },
+            { url: '/favicon.ico', sizes: 'any' },
+            { url: '/icon.png', type: 'image/png', sizes: '1024x1024' },
         ],
-        apple: '/icon.png',
+        shortcut: '/favicon.ico',
+        apple: { url: '/apple-icon.png', sizes: '1024x1024' },
     },
+    robots: {
+        index: true,
+        follow: true,
+    },
+    manifest: '/manifest.webmanifest',
 }
 
 export default function RootLayout({
