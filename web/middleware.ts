@@ -36,6 +36,10 @@ export default withAuth(
                 if (PUBLIC_PATHS.some(p => path === p || path.startsWith(p + '/') || path.startsWith(p + '.'))) {
                     return true
                 }
+                // Also allow common static file extensions through
+                if (/\.(ico|png|jpg|jpeg|gif|svg|webp|txt|xml|webmanifest|json|css|js|woff|woff2|ttf|eot)$/i.test(path)) {
+                    return true
+                }
                 // Everything else requires auth
                 return !!token
             },
