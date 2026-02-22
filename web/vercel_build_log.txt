@@ -1,0 +1,4614 @@
+﻿node.exe : Vercel CLI 
+50.22.1
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (Vercel CLI   
+  50.22.1:String)     
+[], RemoteExcepti    
+on
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+WARN! Build not 
+running on Vercel. 
+System environment 
+variables will not be 
+available.
+WARNING: You should 
+not upload the 
+`.next` directory.
+Running "install" command: `npm install`...
+
+> mls-governance-web@0.1.0 postinstall
+> prisma generate
+
+Prisma schema loaded from prisma\schema.prisma
+
+Γ£ö Generated Prisma Client (v5.10.2) to .\node_modules\@prisma\client in 151ms
+
+Start using Prisma Client in Node.js (See: https://pris.ly/d/client)
+```
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+```
+or start using Prisma Client at the edge (See: https://pris.ly/d/accelerate)
+```
+import { PrismaClient } from '@prisma/client/edge'
+const prisma = new PrismaClient()
+```
+
+See other ways of importing Prisma Client: http://pris.ly/d/importing-client
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé  Deploying your app to serverless or edge functions?        Γöé
+Γöé  Try Prisma Accelerate for connection pooling and caching.  Γöé
+Γöé  https://pris.ly/cli/accelerate                             Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+É
+Γöé  Update available 
+5.10.2 -> 7.4.1       
+                Γöé
+Γöé                   
+                      
+                Γöé
+Γöé  This is a major 
+update - please 
+follow the guide at   
+ Γöé
+Γöé  https://pris.ly/d
+/major-version-upgrade
+                Γöé
+Γöé                   
+                      
+                Γöé
+Γöé  Run the 
+following to update   
+                      
+   Γöé
+Γöé    npm i 
+--save-dev 
+prisma@latest         
+              Γöé
+Γöé    npm i 
+@prisma/client@latest 
+                      
+   Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÿ
+
+up to date, audited 609 packages in 11s
+
+239 packages are looking for funding
+  run `npm fund` for details
+
+16 vulnerabilities (1 moderate, 14 high, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+Detected Next.js version: 14.1.0
+Running "npm run build"
+
+> mls-governance-web@0.1.0 build
+> next build
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+Compiler edge-server 
+unexpectedly exited 
+with code: null and 
+signal: SIGTERM
+ Γ£ô Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/60) ...
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 8662 (C:\Users\
+edgar\OneDrive\Desktop
+\AI APPS\MLS\web\.next
+\server\app\(main)\ana
+lytics\page.js:1:3014)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/analytics". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 8662 (C:\Users\
+edgar\OneDrive\Desktop
+\AI APPS\MLS\web\.next
+\server\app\(main)\ana
+lytics\page.js:1:3014)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/provision". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/legal". Read more: h
+ttps://nextjs.org/docs
+/messages/prerender-er
+ror
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 4951 (C:\Users\
+edgar\OneDrive\Desktop
+\AI APPS\MLS\web\.next
+\server\app\(main)\int
+elligence\page.js:1:30
+43)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/intelligence". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 4951 (C:\Users\
+edgar\OneDrive\Desktop
+\AI APPS\MLS\web\.next
+\server\app\(main)\int
+elligence\page.js:1:30
+43)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 35177 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\no
+tifications\page.js:1:
+3040)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/notifications". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 35177 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\no
+tifications\page.js:1:
+3040)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/whitepaper". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/admin/staff". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 43714 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\go
+vernance\page.js:11:14
+1)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/governance". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 43714 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\go
+vernance\page.js:11:14
+1)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 18117 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\in
+gestion\page.js:1:1642
+0)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 63306 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\in
+gestion\page.js:1:3016
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+ {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/ingestion". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 18117 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\in
+gestion\page.js:1:1642
+0)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 63306 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\in
+gestion\page.js:1:3016
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/tools/calculator". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 28107 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\me
+ssages\page.js:1:3010)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+
+   Generating static pages (15/60) 
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/messages". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 28107 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\me
+ssages\page.js:1:3010)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/map". Read more: htt
+ps://nextjs.org/docs/m
+essages/prerender-erro
+r
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page "/ad
+min/intelligence". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 18117 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\li
+stings\new\page.js:1:2
+6680)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 36685 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\li
+stings\new\page.js:1:3
+055)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+ {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/listings/new". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 18117 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\li
+stings\new\page.js:1:2
+6680)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 36685 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\li
+stings\new\page.js:1:3
+055)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 17941 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\go
+vernance\logs\page.js:
+6:122)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/governance/logs". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 17941 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\go
+vernance\logs\page.js:
+6:122)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 11593 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\li
+stings\page.js:6:626)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/listings". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 11593 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\li
+stings\page.js:6:626)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/tools". Read more: h
+ttps://nextjs.org/docs
+/messages/prerender-er
+ror
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/claims". Read more: 
+https://nextjs.org/doc
+s/messages/prerender-e
+rror
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 20057 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\calendar\page.
+js:1:3101)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page "/da
+shboard/calendar". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 20057 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\calendar\page.
+js:1:3101)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/". Read more: https:
+//nextjs.org/docs/mess
+ages/prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 50963 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\saved-searches
+\page.js:1:3137)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page "/da
+shboard/saved-searches
+". Read more: https://
+nextjs.org/docs/messag
+es/prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 50963 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\saved-searches
+\page.js:1:3137)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 21076 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\leads\page.js:
+1:3072)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/dashboard/leads". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 21076 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\leads\page.js:
+1:3072)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+
+   Generating static pages (30/60) 
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 66847 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\auth\sign
+in\page.js:1:2739)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/auth/signin". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 66847 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\auth\sign
+in\page.js:1:2739)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 62023 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\re
+views\page.js:1:3004)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/reviews". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 62023 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\re
+views\page.js:1:3004)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 74131 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\ap
+pointments\page.js:1:3
+034)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/appointments". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 74131 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\ap
+pointments\page.js:1:3
+034)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 38362 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\profile\page.j
+s:1:3084)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/dashboard/profile". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 38362 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\profile\page.j
+s:1:3084)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/compare". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 91059 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\analytics\page
+.js:1:3107)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page "/da
+shboard/analytics". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 91059 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\analytics\page
+.js:1:3107)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/agents". Read more: 
+https://nextjs.org/doc
+s/messages/prerender-e
+rror
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/unauthorized". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 13714 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\fa
+vorites\page.js:1:3014
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/favorites". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 13714 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\fa
+vorites\page.js:1:3014
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 18117 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\sy
+stem\page.js:16:23453)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 581 (C:\Users\e
+dgar\OneDrive\Desktop\
+AI APPS\MLS\web\.next\
+server\app\(main)\syst
+em\page.js:1:2994)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+ {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/system". Read more: 
+https://nextjs.org/doc
+s/messages/prerender-e
+rror
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 18117 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\sy
+stem\page.js:16:23453)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 581 (C:\Users\e
+dgar\OneDrive\Desktop\
+AI APPS\MLS\web\.next\
+server\app\(main)\syst
+em\page.js:1:2994)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/admin/beta". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+
+   Generating static pages (45/60) 
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/_not-found". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 83048 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\pr
+operties\page.js:6:189
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/properties". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 83048 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\pr
+operties\page.js:6:189
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/governance/audit". 
+Read more: https://nex
+tjs.org/docs/messages/
+prerender-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 12144 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\5144.j
+s:1:1380)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at j (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:93
+244)
+    at rP (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:3
+3905)
+    at nN (C:\Users\ed
+gar\OneDrive\Desktop\A
+I APPS\MLS\web\node_mo
+dules\next\dist\compil
+ed\next-server\app-pag
+e.runtime.prod.js:12:6
+2423)
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 94198 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\page.js:1:3016
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>) {
+  code: 
+'ERR_INVALID_URL',
+  input: ''
+}
+
+Error occurred 
+prerendering page 
+"/dashboard". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+
+TypeError: Invalid URL
+    at new URL (node:i
+nternal/url:828:25)
+    at t.default (C:\U
+sers\edgar\OneDrive\De
+sktop\AI APPS\MLS\web\
+.next\server\chunks\82
+2.js:1:18725)
+    at 47674 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\chunks\822.js
+:1:12902)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at 94198 (C:\Users
+\edgar\OneDrive\Deskto
+p\AI APPS\MLS\web\.nex
+t\server\app\(main)\da
+shboard\page.js:1:3016
+)
+    at t (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\.next\se
+rver\webpack-runtime.j
+s:1:128)
+    at F (C:\Users\edg
+ar\OneDrive\Desktop\AI
+ APPS\MLS\web\node_mod
+ules\next\dist\compile
+d\next-server\app-page
+.runtime.prod.js:12:94
+693)
+    at C:\Users\edgar\
+OneDrive\Desktop\AI AP
+PS\MLS\web\node_module
+s\next\dist\compiled\n
+ext-server\app-page.ru
+ntime.prod.js:12:97108
+    at W._fromJSON (C:
+\Users\edgar\OneDrive\
+Desktop\AI APPS\MLS\we
+b\node_modules\next\di
+st\compiled\next-serve
+r\app-page.runtime.pro
+d.js:12:97546)
+    at JSON.parse 
+(<anonymous>)
+
+ Γ£ô Generating static pages (60/60) 
+
+> Export encountered 
+errors on following 
+paths:
+	/(main)/admin/beta/pa
+ge: /admin/beta
+	/(main)/admin/intelli
+gence/page: 
+/admin/intelligence
+	/(main)/admin/staff/p
+age: /admin/staff
+	/(main)/agents/page: 
+/agents
+	/(main)/analytics/pag
+e: /analytics
+	/(main)/appointments/
+page: /appointments
+	/(main)/claims/page: 
+/claims
+	
+/(main)/compare/page: 
+/compare
+	/(main)/dashboard/ana
+lytics/page: 
+/dashboard/analytics
+	/(main)/dashboard/cal
+endar/page: 
+/dashboard/calendar
+	/(main)/dashboard/lea
+ds/page: 
+/dashboard/leads
+	/(main)/dashboard/pag
+e: /dashboard
+	/(main)/dashboard/pro
+file/page: 
+/dashboard/profile
+	/(main)/dashboard/sav
+ed-searches/page: /das
+hboard/saved-searches
+	/(main)/favorites/pag
+e: /favorites
+	/(main)/governance/au
+dit/page: 
+/governance/audit
+	/(main)/governance/lo
+gs/page: 
+/governance/logs
+	/(main)/governance/pa
+ge: /governance
+	/(main)/ingestion/pag
+e: /ingestion
+	/(main)/intelligence/
+page: /intelligence
+	/(main)/legal/page: 
+/legal
+	/(main)/listings/new/
+page: /listings/new
+	/(main)/listings/page
+: /listings
+	/(main)/map/page: 
+/map
+	/(main)/messages/page
+: /messages
+	/(main)/notifications
+/page: /notifications
+	/(main)/properties/pa
+ge: /properties
+	/(main)/provision/pag
+e: /provision
+	
+/(main)/reviews/page: 
+/reviews
+	/(main)/system/page: 
+/system
+	/(main)/tools/calcula
+tor/page: 
+/tools/calculator
+	/(main)/tools/page: 
+/tools
+	/_not-found
+	/auth/signin/page: 
+/auth/signin
+	/page: /
+	/unauthorized/page: 
+/unauthorized
+	/whitepaper/page: 
+/whitepaper
+Error: Command "npm 
+run build" exited 
+with 1

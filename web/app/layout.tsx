@@ -6,6 +6,10 @@ import { AuthProvider } from '@/components/auth/AuthProvider'
 import { ClickSparkle } from '@/components/ui/click-sparkle'
 import { ToastProvider } from '@/components/providers/ToastProvider'
 
+// Force dynamic rendering — all pages require auth, static prerendering
+// causes TypeError: Invalid URL during Vercel build
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
