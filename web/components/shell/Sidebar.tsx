@@ -1,15 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, FileText, Upload, ShieldAlert, Settings, Sparkles, Globe, MessageCircle, Heart, Star, Wrench, CalendarDays, Bell, BarChart3, Users, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Home, Search, FileText, Upload, ShieldAlert, Settings, Sparkles, Globe, MessageCircle, Heart, Star, Wrench, CalendarDays, Bell, BarChart3, Users, MapPin, Shield, ChevronDown, UserCog, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/lib/i18n';
 
 export function Sidebar() {
     const { t } = useLanguage();
     const pathname = usePathname();
+    const [adminOpen, setAdminOpen] = useState(pathname.startsWith('/admin'));
 
     const items = [
         { name: t.sidebar.dashboard, href: '/dashboard', icon: Home, badge: null },
@@ -28,6 +30,12 @@ export function Sidebar() {
         { name: 'Mapa', href: '/map', icon: MapPin, badge: null },
         { name: 'Herramientas', href: '/tools', icon: Wrench, badge: null },
         { name: t.sidebar.system, href: '/system', icon: Settings, badge: null },
+    ];
+
+    const adminItems = [
+        { name: 'Personal', href: '/admin/staff', icon: UserCog },
+        { name: 'Beta Users', href: '/admin/beta', icon: Users },
+        { name: 'Intelligence', href: '/admin/intelligence', icon: Zap },
     ];
 
     return (
@@ -145,6 +153,65 @@ export function Sidebar() {
                         </motion.div>
                     );
                 })}
+            </div>
+
+            {/* Admin Section */}
+            <div className="relative z-10 mt-2 mx-2">
+                <button
+                    onClick={() => setAdminOpen(!adminOpen)}
+                    className={cn(
+                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group",
+                        pathname.startsWith('/admin')
+                            ? "text-foreground bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    )}
+                >
+                    <Shield className={cn("h-5 w-5", pathname.startsWith('/admin') && "text-violet-500")} />
+                    <span className="hidden lg:block text-sm font-medium flex-1 text-left">Admin</span>
+                    <motion.div
+                        animate={{ rotate: adminOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="hidden lg:block"
+                    >
+                        <ChevronDown className="h-4 w-4" />
+                    </motion.div>
+                </button>
+                <AnimatePresence>
+                    {adminOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                        >
+                            {adminItems.map((item, index) => {
+                                const isActive = pathname === item.href;
+                                return (
+                                    <motion.div
+                                        key={item.href}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.05 }}
+                                    >
+                                        <Link
+                                            href={item.href}
+                                            className={cn(
+                                                "flex items-center gap-3 px-3 py-2 ml-4 rounded-lg transition-all duration-200 text-sm",
+                                                isActive
+                                                    ? "text-violet-500 font-semibold bg-violet-500/10"
+                                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                            )}
+                                        >
+                                            <item.icon className={cn("h-4 w-4", isActive && "text-violet-500")} />
+                                            <span className="hidden lg:block">{item.name}</span>
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
             {/* Bottom decorative element */}
