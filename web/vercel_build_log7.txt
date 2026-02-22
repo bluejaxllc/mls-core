@@ -1,0 +1,265 @@
+﻿node.exe : Vercel CLI 
+50.22.1
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (Vercel CLI   
+  50.22.1:String)     
+[], RemoteExcepti    
+on
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+WARN! Build not 
+running on Vercel. 
+System environment 
+variables will not be 
+available.
+Running "install" command: `npm install`...
+
+> mls-governance-web@0.1.0 postinstall
+> prisma generate
+
+Prisma schema loaded from prisma\schema.prisma
+
+Γ£ö Generated Prisma Client (v5.10.2) to .\node_modules\@prisma\client in 175ms
+
+Start using Prisma Client in Node.js (See: https://pris.ly/d/client)
+```
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+```
+or start using Prisma Client at the edge (See: https://pris.ly/d/accelerate)
+```
+import { PrismaClient } from '@prisma/client/edge'
+const prisma = new PrismaClient()
+```
+
+See other ways of importing Prisma Client: http://pris.ly/d/importing-client
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé  Deploying your app to serverless or edge functions?        Γöé
+Γöé  Try Prisma Accelerate for connection pooling and caching.  Γöé
+Γöé  https://pris.ly/cli/accelerate                             Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+
+up to date, audited 609 packages in 9s
+
+239 packages are looking for funding
+  run `npm fund` for details
+
+16 vulnerabilities (1 moderate, 14 high, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+Detected Next.js version: 14.1.0
+Running "npm run build"
+
+> mls-governance-web@0.1.0 build
+> next build
+
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/59) ...
+
+   Generating static pages (14/59) 
+
+   Generating static pages (29/59) 
+
+   Generating static pages (44/59) 
+
+ Γ£ô Generating static pages (59/59) 
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size     First Load JS
+Γöî ╬╗ /                                       7.07 kB         138 kB
+Γö£ ╬╗ /_not-found                             891 B          85.3 kB
+Γö£ ╬╗ /admin/beta                             6.95 kB         143 kB
+Γö£ ╬╗ /admin/intelligence                     4.43 kB         105 kB
+Γö£ ╬╗ /admin/staff                            7.4 kB          143 kB
+Γö£ ╬╗ /agents                                 4.41 kB         142 kB
+Γö£ ╬╗ /agents/[id]                            4.98 kB         143 kB
+Γö£ ╬╗ /analytics                              4.84 kB         145 kB
+Γö£ ╬╗ /api/agents                             0 B                0 B
+Γö£ ╬╗ /api/agents/[id]                        0 B                0 B
+Γö£ ╬╗ /api/analytics                          0 B                0 B
+Γö£ ╬╗ /api/analytics/view                     0 B                0 B
+Γö£ ╬╗ /api/appointments                       0 B                0 B
+Γö£ ╬╗ /api/auth/[...nextauth]                 0 B                0 B
+Γö£ ╬╗ /api/beta                               0 B                0 B
+Γö£ ╬╗ /api/dashboard                          0 B                0 B
+Γö£ ╬╗ /api/favorites                          0 B                0 B
+Γö£ ╬╗ /api/leads                              0 B                0 B
+Γö£ ╬╗ /api/listings                           0 B                0 B
+Γö£ ╬╗ /api/listings/[id]                      0 B                0 B
+Γö£ ╬╗ /api/messages                           0 B                0 B
+Γö£ ╬╗ /api/messages/[id]                      0 B                0 B
+Γö£ ╬╗ /api/notifications                      0 B                0 B
+Γö£ ╬╗ /api/protected/appointments             0 B                0 B
+Γö£ ╬╗ /api/protected/appointments/[id]        0 B                0 B
+Γö£ ╬╗ /api/protected/dashboard/chart-data     0 B                0 B
+Γö£ ╬╗ /api/protected/notifications            0 B                0 B
+Γö£ ╬╗ /api/protected/notifications/[id]/read  0 B                0 B
+Γö£ ╬╗ /api/protected/saved-searches           0 B                0 B
+Γö£ ╬╗ /api/protected/saved-searches/[id]      0 B                0 B
+Γö£ ╬╗ /api/public/leads                       0 B                0 B
+Γö£ ╬╗ /api/reviews                            0 B                0 B
+Γö£ ╬╗ /api/saved-searches                     0 B                0 B
+Γö£ ╬╗ /api/search                             0 B                0 B
+Γö£ ╬╗ /api/staff                              0 B                0 B
+Γö£ Γùï /apple-icon.png                         0 B                0 B
+Γö£ ╬╗ /appointments                           4.64 kB         152 kB
+Γö£ ╬╗ /auth/signin                            3.05 kB        96.6 kB
+Γö£ ╬╗ /claims                                 7.88 kB         139 kB
+Γö£ ╬╗ /compare                                4.61 kB         135 kB
+Γö£ ╬╗ /dashboard                              9.82 kB         265 kB
+Γö£ ╬╗ /dashboard/analytics                    13.3 kB         268 kB
+Γö£ ╬╗ /dashboard/calendar                     3.77 kB         149 kB
+Γö£ ╬╗ /dashboard/leads                        4.23 kB         149 kB
+Γö£ ╬╗ /dashboard/profile                      3 kB            182 kB
+Γö£ ╬╗ /dashboard/saved-searches               8.71 kB         161 kB
+Γö£ ╬╗ /favorites                              3.3 kB          146 kB
+Γö£ ╬╗ /governance                             10 kB           162 kB
+Γö£ ╬╗ /governance/audit                       6.74 kB         144 kB
+Γö£ ╬╗ /governance/logs                        8.99 kB         156 kB
+Γö£ Γùï /icon.png                               0 B                0 B
+Γö£ ╬╗ /ingestion                              11.4 kB         156 kB
+Γö£ ╬╗ /intelligence                           9.81 kB         150 kB
+Γö£ ╬╗ /legal                                  49.1 kB         133 kB
+Γö£ ╬╗ /listings                               35.7 kB         186 kB
+Γö£ ╬╗ /listings/[id]                          14.2 kB         203 kB
+Γö£ ╬╗ /listings/new                           12.9 kB         164 kB
+Γö£ Γùï /manifest.webmanifest                   0 B                0 B
+Γö£ ╬╗ /map                                    6.44 kB         144 kB
+Γö£ ╬╗ /messages                               3.71 kB         137 kB
+Γö£ ╬╗ /notifications                          4.08 kB         152 kB
+Γö£ Γùï /opengraph-image.png                    0 B                0 B
+Γö£ ╬╗ /properties                             8.98 kB         154 kB
+Γö£ ╬╗ /properties/[id]                        9.89 kB         165 kB
+Γö£ ╬╗ /provision                              1.67 kB        86.1 kB
+Γö£ ╬╗ /reviews                                6.1 kB          144 kB
+Γö£ Γùï /robots.txt                             0 B                0 B
+Γö£ Γùï /sitemap.xml                            0 B                0 B
+Γö£ ╬╗ /system                                 13.3 kB         158 kB
+Γö£ ╬╗ /tools                                  5.07 kB         143 kB
+Γö£ ╬╗ /tools/calculator                       7.19 kB         145 kB
+Γö£ ╬╗ /unauthorized                           180 B          91.4 kB
+Γöö ╬╗ /whitepaper                             7.32 kB         138 kB
++ First Load JS shared by all               84.4 kB
+  Γö£ chunks/8069-10fbc3c5e3b0a9d8.js         29.1 kB
+  Γö£ chunks/fd9d1056-caa447d3131172f2.js     53.4 kB
+  Γöö other shared chunks (total)             1.97 kB
+
+
+╞Æ Middleware                                75.3 kB
+
+Γùï  (Static)   prerendered as static content
+╬╗  (Dynamic)  server-rendered on demand using Node.js
+
+Traced Next.js server files in: 460.7ms
+Tracing entries due to missing build traces:
+[
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/auth/signin/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/unauthorized/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/whitepaper/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/admin/beta/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/agents/[id]/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/admin/intelligence/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/agents/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/appointments/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/dashboard/leads/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/admin/staff/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/compare/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/dashboard/profile/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/dashboard/analytics/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/dashboard/calendar/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/governance/logs/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/dashboard/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/favorites/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/governance/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/intelligence/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/dashboard/saved-searches/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/ingestion/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/legal/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/claims/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/map/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/listings/new/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/analytics/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/listings/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/notifications/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/listings/[id]/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/properties/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/properties/[id]/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/messages/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/governance/audit/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/tools/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/provision/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/reviews/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/system/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/(main)/tools/calculator/page.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/agents/[id]/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/auth/[...nextauth]/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/beta/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/analytics/view/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/favorites/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/appointments/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/leads/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/messages/[id]/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/listings/[id]/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/listings/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/appointments/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/messages/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/appointments/[id]/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/saved-searches/[id]/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/staff/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/notifications/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/notifications/[id]/read/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/manifest.webmanifest/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/saved-searches/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/robots.txt/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/sitemap.xml/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/public/leads/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/saved-searches/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/reviews/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/agents/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/dashboard/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/analytics/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/dashboard/chart-data/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/protected/notifications/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/apple-icon.png/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/api/search/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/icon.png/route.js",
+  "C:/Users/edgar/OneDrive/Desktop/AI APPS/MLS/web/.next/server/app/opengraph-image.png/route.js"
+]: 6.823s
+Created all serverless functions in: 7.341s
+Collected static files (public/, static/, .next/static): 32.551ms
+Build Completed in 
+.vercel\output [2m]

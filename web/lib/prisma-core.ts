@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../src/generated/client-core';
+import { PrismaClient } from '@prisma/client';
 import path from 'path';
 
 // Resolve the database path from project root (MLS/prisma/dev.db)
@@ -17,4 +17,3 @@ export const prismaCore =
     });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prismaCore = prismaCore;
-

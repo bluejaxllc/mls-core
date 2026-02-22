@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../src/generated/client-intelligence';
+import { PrismaClient } from '@prisma/client';
 import path from 'path';
 
 const intDbPath = process.env.INTELLIGENCE_DATABASE_URL || `file:${path.resolve(process.cwd(), '..', 'prisma', 'intelligence.db')}`;
@@ -16,4 +16,3 @@ export const prismaIntelligence =
     });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prismaIntelligence = prismaIntelligence;
-
