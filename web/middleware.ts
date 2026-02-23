@@ -4,6 +4,7 @@ import { NextResponse } from "next/server"
 // Paths that should NEVER be protected by auth
 const PUBLIC_PATHS = [
     '/api/auth',
+    '/api/intelligence',
     '/_next/static',
     '/_next/image',
     '/favicon.ico',

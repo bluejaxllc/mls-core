@@ -1,5 +1,5 @@
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from './generated/client-core';
 import { notificationService, NotificationType } from './services/NotificationService';
 
 const prisma = new PrismaClient();

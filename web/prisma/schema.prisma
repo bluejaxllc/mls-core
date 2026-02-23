@@ -7,20 +7,30 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:../prisma/dev.db"
 }
 
 model User {
-  id         String   @id // Blue Jax User ID
-  email      String   @unique
-  firstName  String?
-  lastName   String?
-  roles      String   @default("user") // SQLite: Stored as comma-sep string
-  locationId String?
-  mlsStatus  String   @default("ACTIVE")
-  syncedAt   DateTime @default(now())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            String   @id // Blue Jax User ID
+  email         String   @unique
+  firstName     String?
+  lastName      String?
+  roles         String   @default("user") // SQLite: Stored as comma-sep string
+  locationId    String?
+  mlsStatus     String   @default("ACTIVE")
+  
+  // Agent Profile Fields
+  bio           String?
+  licenseNumber String?
+  phoneNumber   String?
+  whatsapp      String?
+  instagram     String?
+  languages     String   @default("Spanish")
+  specialties   String   @default("[]") // JSON array of strings
+
+  syncedAt      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Listing {
@@ -115,15 +125,6 @@ model Lead {
   createdAt DateTime @default(now())
 }
 
-model Favorite {
-  id        String   @id @default(uuid())
-  userId    String
-  listingId String
-  createdAt DateTime @default(now())
-
-  @@unique([userId, listingId])
-}
-
 model ListingView {
   id        String   @id @default(uuid())
   listingId String
@@ -179,4 +180,76 @@ model Notification {
 
   @@index([userId])
   @@index([isRead])
+}
+
+model Conversation {
+  id           String   @id @default(uuid())
+  participant1 String   // User ID
+  participant2 String   // User ID
+  listingId    String?  // Optional: conversation about a specific listing
+  lastMessage  String?
+  lastMessageAt DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  messages     Message[]
+
+  @@index([participant1])
+  @@index([participant2])
+  @@index([listingId])
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  senderId       String
+  content        String
+  isRead         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+
+  @@index([conversationId])
+  @@index([senderId])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  listingId String
+  notes     String?  // Optional user note about why they liked it
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+  @@index([userId])
+  @@index([listingId])
+}
+
+model Collection {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String?
+  color       String   @default("#3B82F6") // UI color
+  listingIds  String   @default("[]") // JSON array of listing IDs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  agentId   String   // The agent being reviewed
+  reviewerId String  // The user leaving the review
+  listingId String?  // Optional: review related to a specific transaction
+  rating    Int      // 1-5 stars
+  title     String?
+  comment   String
+  response  String?  // Agent's reply
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agentId])
+  @@index([reviewerId])
 }

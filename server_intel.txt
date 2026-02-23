@@ -1,0 +1,25 @@
+﻿node.exe : [ML Auth] 
+Missing ML_CLIENT_ID 
+or ML_CLIENT_SECRET 
+in .env
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([ML Auth]    
+ Missi..._SECRET i    
+n .env:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+[STARTUP] MLS Core API v2 (Edit Listing Enabled) running on port 3001

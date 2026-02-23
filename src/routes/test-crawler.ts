@@ -1,3 +1,9 @@
+import { Router } from 'express';
+import { MercadoLibreAuth } from '../integrations/mercadolibre/auth';
+
+const router = Router();
+const mlAuth = new MercadoLibreAuth();
+
 // Simple test route to check if everything loads
 router.get('/test-crawler', async (req, res) => {
     try {

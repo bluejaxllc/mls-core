@@ -327,7 +327,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\edgar\\OneDrive\\Desktop\\MLS\\src\\generated\\client-core",
+      "value": "C:\\Users\\edgar\\OneDrive\\Desktop\\AI APPS\\MLS\\src\\generated\\client-core",
       "fromEnvVar": null
     },
     "config": {
@@ -341,7 +341,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\edgar\\OneDrive\\Desktop\\MLS\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\edgar\\OneDrive\\Desktop\\AI APPS\\MLS\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
