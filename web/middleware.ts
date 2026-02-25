@@ -53,8 +53,8 @@ export const config = {
     matcher: [
         /*
          * Match all request paths except _next/static, _next/image,
-         * and files with common static extensions.
+         * api/integrations, api/intelligence, and files with common static extensions.
          */
-        '/((?!_next/static|_next/image|.*\\.(?:ico|png|jpg|jpeg|gif|svg|webp|txt|xml|webmanifest)$).*)',
+        '/((?!_next/static|_next/image|api/integrations|api/intelligence|.*\\.(?:ico|png|jpg|jpeg|gif|svg|webp|txt|xml|webmanifest)$).*)',
     ],
 }

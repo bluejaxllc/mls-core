@@ -1,0 +1,33 @@
+* Host mls.bluejax.ai:443 was resolved.
+* IPv6: (none)
+* IPv4: 66.33.60.67, 76.76.21.98
+*   Trying 66.33.60.67:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to mls.bluejax.ai (66.33.60.67 port 443) from 192.168.0.12 port 57901 
+* using HTTP/1.x
+> GET /api/integrations/mercadolibre/status HTTP/1.1
+> Host: mls.bluejax.ai
+> User-Agent: curl/8.18.0
+> Accept: */*
+> 
+* Request completely sent off
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 307 Temporary Redirect
+< Cache-Control: public, max-age=0, must-revalidate
+< Content-Security-Policy: frame-ancestors *
+< Content-Type: text/plain
+< Date: Wed, 25 Feb 2026 22:14:45 GMT
+< Location: /api/auth/signin?callbackUrl=%2Fapi%2Fintegrations%2Fmercadolibre%2Fstatus
+< Referrer-Policy: strict-origin-when-cross-origin
+< Server: Vercel
+< Strict-Transport-Security: max-age=63072000
+< X-Content-Type-Options: nosniff
+< X-Frame-Options: ALLOWALL
+< X-Vercel-Id: sfo1::b6rp2-1772057685144-f0be4df4fcb1
+< Transfer-Encoding: chunked
+< 
+* Connection #0 to host mls.bluejax.ai:443 left intact
