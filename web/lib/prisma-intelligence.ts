@@ -2,8 +2,7 @@ import { PrismaClient } from '.prisma/client-intelligence';
 import path from 'path';
 
 // Resolve absolute path to the shared intelligence database
-// __dirname = web/lib/, intelligence.db = MLS/prisma/intelligence.db
-const dbPath = `file:${path.resolve(__dirname, '..', '..', 'prisma', 'intelligence.db')}`;
+const dbPath = `file:${path.join(process.cwd(), 'prisma', 'intelligence.db')}`;
 
 const globalForPrisma = globalThis as unknown as { prismaIntelligence: PrismaClient | undefined };
 
