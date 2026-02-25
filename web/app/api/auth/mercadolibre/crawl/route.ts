@@ -4,7 +4,7 @@ import { mlAuth, mlCrawler } from '@/lib/integrations/mercadolibre';
 export const dynamic = 'force-dynamic';
 
 export async function POST() {
-    if (!mlAuth.isAuthenticated()) {
+    if (!(await mlAuth.isAuthenticated())) {
         return NextResponse.json({
             success: false,
             error: 'Not authenticated',

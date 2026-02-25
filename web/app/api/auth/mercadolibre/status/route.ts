@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const authenticated = mlAuth.isAuthenticated();
+        const authenticated = await mlAuth.isAuthenticated();
         return NextResponse.json({
             authenticated,
             message: authenticated
