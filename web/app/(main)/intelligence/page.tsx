@@ -51,7 +51,7 @@ export default function IntelligenceDashboard() {
 
         try {
             // Check if ML is authenticated first
-            const statusRes = await fetch(`${API_URL}/api/auth/mercadolibre/status`);
+            const statusRes = await fetch(`${API_URL}/api/integrations/mercadolibre/status`);
             const statusData = await statusRes.json();
 
             if (!statusData.authenticated) {
@@ -62,7 +62,7 @@ export default function IntelligenceDashboard() {
 
             setCrawlStatus('crawling');
 
-            const crawlRes = await fetch(`${API_URL}/api/auth/mercadolibre/crawl`, {
+            const crawlRes = await fetch(`${API_URL}/api/integrations/mercadolibre/crawl`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -181,7 +181,7 @@ export default function IntelligenceDashboard() {
                     {crawlStatus === 'not_auth' && (
                         <>
                             <XCircle className="w-4 h-4" />
-                            <span>{crawlResult} — <a href="/api/auth/mercadolibre" className="underline font-semibold">Conectar</a></span>
+                            <span>{crawlResult} — <a href="/api/integrations/mercadolibre/auth" className="underline font-semibold">Conectar</a></span>
                         </>
                     )}
                 </div>

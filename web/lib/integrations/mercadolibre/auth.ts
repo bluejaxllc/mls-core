@@ -13,7 +13,7 @@ export class MercadoLibreAuth {
     constructor() {
         this.clientId = process.env.ML_CLIENT_ID || '';
         this.clientSecret = process.env.ML_CLIENT_SECRET || '';
-        this.redirectUri = process.env.ML_REDIRECT_URI || 'http://localhost:3000/api/auth/mercadolibre/callback';
+        this.redirectUri = process.env.ML_REDIRECT_URI || 'http://localhost:3000/api/integrations/mercadolibre/callback';
 
         if (!this.clientId || !this.clientSecret) {
             console.warn('[ML Auth] Missing ML_CLIENT_ID or ML_CLIENT_SECRET in .env');
