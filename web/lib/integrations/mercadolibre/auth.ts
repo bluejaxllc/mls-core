@@ -112,11 +112,11 @@ export class MercadoLibreAuth {
         }
     }
 
-    getAuthUrl(state?: string): string {
+    getAuthUrl(state?: string, overrideRedirectUri?: string): string {
         const params = new URLSearchParams({
             response_type: 'code',
             client_id: this.clientId,
-            redirect_uri: this.redirectUri
+            redirect_uri: overrideRedirectUri || this.redirectUri
         });
 
         if (state) {
@@ -127,14 +127,14 @@ export class MercadoLibreAuth {
         return `https://auth.mercadolibre.com.mx/authorization?${params.toString()}`;
     }
 
-    async getAccessToken(code: string): Promise<void> {
+    async getAccessToken(code: string, overrideRedirectUri?: string): Promise<void> {
         try {
             const params = new URLSearchParams();
             params.append('grant_type', 'authorization_code');
             params.append('client_id', this.clientId);
             params.append('client_secret', this.clientSecret);
             params.append('code', code.trim());
-            params.append('redirect_uri', this.redirectUri);
+            params.append('redirect_uri', overrideRedirectUri || this.redirectUri);
 
             const { data } = await axios.post('https://api.mercadolibre.com/oauth/token', params, {
                 headers: {
