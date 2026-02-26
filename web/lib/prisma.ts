@@ -1,7 +1,13 @@
 import { PrismaClient } from '@prisma/client';
 
 const prismaClientSingleton = () => {
-    return new PrismaClient();
+    return new PrismaClient({
+        datasources: {
+            db: {
+                url: process.env.POSTGRES_PRISMA_URL || "postgres://postgres.erapajgkukxqwvmwxefq:1sMfsHUkqgVj6Dlx@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true",
+            },
+        },
+    });
 };
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
