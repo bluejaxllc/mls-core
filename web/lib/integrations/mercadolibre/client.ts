@@ -65,7 +65,7 @@ export class MercadoLibreClient {
         offset: number = 0
     ): Promise<MLSearchResponse> {
         try {
-            await this.auth.getValidToken(); // Ensure valid token exists
+            const token = await this.auth.getValidToken(); // Ensure valid token exists
 
             const params: any = {
                 category: 'MLM1459',
@@ -76,11 +76,14 @@ export class MercadoLibreClient {
             if (stateCode) params.state = stateCode;
             if (city) params.city = city;
 
-            const { data } = await axios.get(`${this.baseUrl}/sites/MLM/search`, { params });
+            const { data } = await axios.get(`${this.baseUrl}/sites/MLM/search`, {
+                params,
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             return data;
         } catch (error: any) {
             console.error('[ML Client] ❌ Search failed:', error.response?.data || error.message);
-            throw new Error('Failed to search real estate listings');
+            throw new Error(`Failed to search real estate listings: ${JSON.stringify(error.response?.data || error.message)}`);
         }
     }
 
