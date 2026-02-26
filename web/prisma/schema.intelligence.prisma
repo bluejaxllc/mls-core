@@ -5,8 +5,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url       = env("INTELLIGENCE_DATABASE_URL")
+  directUrl = env("INTELLIGENCE_DATABASE_URL_UNPOOLED")
 }
 
 // Layer 3: Intelligence Store (Non-Canonical)
