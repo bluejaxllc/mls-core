@@ -52,31 +52,36 @@ export default function NewListingPage() {
         const importId = searchParams.get('import');
         if (importId) {
             setLoading(true);
-            fetch('/data/properties.json')
-                .then(res => res.json())
-                .then((data: any[]) => {
-                    const found = data.find(p => p.id === importId);
-                    if (found) {
+            const token = (session as any)?.accessToken;
+
+            // Re-wired to pull from live Intelligence Database instead of static properties.json
+            authFetch(`/api/intelligence/observed/${importId}`, {}, token)
+                .then((listing: any) => {
+                    if (listing && !listing.error) {
                         setFormData(prev => ({
                             ...prev,
-                            title: found.title,
-                            description: found.description,
-                            price: found.price?.toString() || '',
-                            address: found.address,
-                            city: found.city,
-                            type: found.propertyType?.toLowerCase() || 'commercial',
-                            images: found.image ? [found.image] : [],
-                            mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(found.address)}`
+                            title: listing.title || '',
+                            description: listing.description || '',
+                            price: listing.price?.toString() || '',
+                            address: listing.address || '',
+                            city: listing.city || '',
+                            type: listing.propertyType?.toLowerCase() || 'commercial',
+                            images: listing.images && listing.images.length > 0 ? listing.images : (listing.imageUrl ? [listing.imageUrl] : []),
+                            mapUrl: listing.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}` : ''
                         }));
                         // Trigger AI analysis for the imported address
-                        if (found.address) {
-                            runAddressAI(found.address);
+                        if (listing.address) {
+                            runAddressAI(listing.address);
                         }
                     }
                 })
+                .catch(err => {
+                    console.error("Failed to load intelligence observed listing:", err);
+                    toast.error("Error al cargar la propiedad importada");
+                })
                 .finally(() => setLoading(false));
         }
-    }, []);
+    }, [session]);
 
     const buildStreetViewAndSatelliteUrls = useCallback((lat: number, lng: number): string[] => {
         const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;

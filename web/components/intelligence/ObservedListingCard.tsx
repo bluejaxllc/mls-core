@@ -12,6 +12,7 @@ interface ObservedListingProps {
         currency?: string;
         address?: string | null;
         confidenceScore?: number;
+        imageUrl?: string | null;
         snapshot?: {
             url?: string;
             source?: {
@@ -32,15 +33,25 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
     return (
         <AnimatedCard className="overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
             {/* Header / Image Placeholder */}
-            <div className="h-32 bg-gradient-to-r from-slate-800 to-slate-700 relative flex items-center justify-center p-4">
-                <div className="text-center">
-                    <h3 className="text-white font-medium line-clamp-2">{listing.title || 'Propiedad Detectada'}</h3>
-                    <p className="text-slate-300 text-xs mt-1 flex items-center justify-center gap-1">
+            <div className={`h-40 relative flex flex-col justify-end p-4 bg-slate-800`}>
+                {listing.imageUrl ? (
+                    <img
+                        src={listing.imageUrl}
+                        alt={listing.title || 'Propiedad'}
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity"
+                    />
+                ) : (
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-800 to-slate-700" />
+                )}
+
+                <div className="relative z-10">
+                    <h3 className="text-white font-medium line-clamp-2 drop-shadow-md">{listing.title || 'Propiedad Detectada'}</h3>
+                    <p className="text-slate-200 text-xs mt-1 flex items-center gap-1 drop-shadow-md">
                         <Globe className="w-3 h-3" />
                         {listing.snapshot?.source?.name || 'Fuente Desconocida'}
                     </p>
                 </div>
-                <div className="absolute top-2 right-2 bg-green-500/20 text-green-300 text-xs px-2 py-0.5 rounded-full border border-green-500/30 flex items-center gap-1">
+                <div className="absolute top-2 right-2 z-10 bg-green-500/90 text-white text-xs px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     <Activity className="w-3 h-3" />
                     Detectado
                 </div>

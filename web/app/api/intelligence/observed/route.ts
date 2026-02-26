@@ -10,7 +10,31 @@ export async function GET() {
             orderBy: { createdAt: 'desc' },
             include: { snapshot: { include: { source: true } } }
         });
-        return NextResponse.json(observed);
+
+        // Inject the thumbnail images
+        const mappedListings = observed.map(item => {
+            let imageUrl = null;
+            if (item.snapshot?.rawJson) {
+                try {
+                    const parsed = JSON.parse(item.snapshot.rawJson);
+                    // Mercado Libre format maps pictures to an array
+                    if (parsed.pictures && parsed.pictures.length > 0) {
+                        imageUrl = parsed.pictures[0].url || parsed.pictures[0].secure_url;
+                    }
+                } catch (err) { }
+            }
+            // Return item with added imageUrl
+            return {
+                ...item,
+                imageUrl,
+                snapshot: {
+                    ...item.snapshot,
+                    rawJson: undefined // Don't bloat the network response
+                }
+            };
+        });
+
+        return NextResponse.json(mappedListings);
     } catch (e: any) {
         console.error('[INTELLIGENCE] Failed to fetch observed listings', e);
         return NextResponse.json({ error: e.message }, { status: 500 });
