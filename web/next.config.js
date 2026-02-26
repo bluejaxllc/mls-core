@@ -1,11 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    env: {
-        DATABASE_URL: process.env.POSTGRES_PRISMA_URL,
-        DATABASE_URL_UNPOOLED: process.env.POSTGRES_URL_NON_POOLING,
-        INTELLIGENCE_DATABASE_URL: process.env.POSTGRES_PRISMA_URL,
-        INTELLIGENCE_DATABASE_URL_UNPOOLED: process.env.POSTGRES_URL_NON_POOLING,
-    },
     eslint: {
         ignoreDuringBuilds: true,
     },
