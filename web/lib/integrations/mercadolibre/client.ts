@@ -62,31 +62,98 @@ export class MercadoLibreClient {
         city: string = 'Chihuahua',
         stateCode: string = 'MLM-CHH',
         limit: number = 50,
-        offset: number = 0
+        offset: number = 0,
+        searchQuery?: string
     ): Promise<MLSearchResponse> {
         try {
-            const params: any = {
-                category: 'MLM1459',
-                limit: Math.min(limit, 50),
-                offset: offset
-            };
+            // Instead of the blocked API, scrape the hydration JSON from the public frontend.
+            let baseUrl = 'https://inmuebles.mercadolibre.com.mx/chihuahua/chihuahua/';
+            if (searchQuery) {
+                const slug = searchQuery.trim().toLowerCase().replace(/\s+/g, '-');
+                baseUrl = `https://listado.mercadolibre.com.mx/inmuebles/chihuahua/chihuahua/${slug}/`;
+            }
 
-            if (stateCode) params.state = stateCode;
-            if (city) params.city = city;
+            const url = offset > 0 ? `${baseUrl}_Desde_${offset + 1}_NoIndex_True` : baseUrl;
 
-            const { data } = await axios.get(`${this.baseUrl}/sites/MLM/search`, {
-                params
+            const { data: html } = await axios.get(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9,es;q=0.8'
+                }
             });
-            return data;
+
+            // Extract the React Hydration JSON payload
+            const match = html.match(/_n\.ctx\.r\s*=\s*(\{[\s\S]*?\})\s*;/);
+            if (!match) {
+                throw new Error("Could not find ML hydration token in HTML");
+            }
+
+            const parsedObj = JSON.parse(match[1]);
+            const appProps = parsedObj.appProps || {};
+            const pageProps = appProps.pageProps || {};
+            const initialState = pageProps.initialState || {};
+            const resultsData = initialState.results || pageProps.results || [];
+
+            const results: MLRealEstateItem[] = resultsData.map((item: any) => {
+                const metadata = item.polycard?.metadata || {};
+                const components = item.polycard?.components || [];
+
+                const titleCmp = components.find((c: any) => c.type === 'title')?.title;
+                const priceCmp = components.find((c: any) => c.type === 'price')?.price?.current_price;
+                const locationCmp = components.find((c: any) => c.type === 'location')?.location;
+                const attributesCmp = components.find((c: any) => c.type === 'attributes_list')?.attributes_list;
+
+                // Map pictures correctly
+                const pics = item.polycard?.pictures?.pictures || [];
+                const mappedPics: MLPicture[] = pics.map((p: any) => ({
+                    id: p.id,
+                    url: `https://http2.mlstatic.com/D_NQ_NP_${p.id}-O.webp`,
+                    secure_url: `https://http2.mlstatic.com/D_NQ_NP_${p.id}-O.webp`,
+                    size: '',
+                    max_size: ''
+                }));
+
+                // Map location
+                const locParts = (locationCmp?.text || '').split(',').map((s: string) => s.trim());
+                const mappedLoc: MLLocation = {
+                    city: { name: locParts[1] || city },
+                    state: { name: locParts[2] || 'Chihuahua', id: stateCode },
+                    address_line: locParts[0] || ''
+                };
+
+                return {
+                    id: metadata.id,
+                    title: titleCmp?.text || 'Sin título',
+                    price: priceCmp?.value || 0,
+                    currency_id: priceCmp?.currency || 'MXN',
+                    location: mappedLoc,
+                    pictures: mappedPics,
+                    attributes: (attributesCmp?.texts || []).map((t: string, i: number) => ({ id: `attr_${i}`, name: t })),
+                    permalink: metadata.url ? `https://${metadata.url}` : ''
+                };
+            });
+
+            console.log(`[ML Client] ✅ Native Extraction found ${results.length} items on offset ${offset}`);
+
+            return {
+                site_id: 'MLM',
+                query: city,
+                paging: { total: 2000, offset, limit },
+                results
+            };
         } catch (error: any) {
-            console.error('[ML Client] ❌ Search failed:', error.response?.data || error.message);
-            throw new Error(`Failed to search real estate listings: ${JSON.stringify(error.response?.data || error.message)}`);
+            console.error('[ML Client] ❌ Native Extraction failed:', error.message);
+            throw new Error(`Failed to extract real estate listings: ${error.message}`);
         }
     }
 
     async getItemDetails(itemId: string): Promise<MLRealEstateItem> {
         try {
-            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}`);
+            const token = await this.auth.getValidToken();
+            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             return data;
         } catch (error: any) {
             console.error(`[ML Client] ❌ Failed to get item ${itemId}:`, error.response?.data || error.message);
@@ -96,7 +163,10 @@ export class MercadoLibreClient {
 
     async getItemDescription(itemId: string): Promise<string> {
         try {
-            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}/description`);
+            const token = await this.auth.getValidToken();
+            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}/description`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             return data.plain_text || data.text || '';
         } catch (error: any) {
             return '';

@@ -4,13 +4,8 @@ import { mlAuth, mlCrawler } from '@/lib/integrations/mercadolibre';
 export const dynamic = 'force-dynamic';
 
 export async function POST() {
-    if (!(await mlAuth.isAuthenticated())) {
-        return NextResponse.json({
-            success: false,
-            error: 'Not authenticated',
-            message: 'Please authorize first via /api/auth/mercadolibre/auth'
-        }, { status: 401 });
-    }
+    // The native DOM structure extraction operates on the public catalog,
+    // so we no longer require users to connect their Mercado Libre account via OAuth.
 
     try {
         console.log('[ML Crawler] Starting manual crawl via Next.js API...');

@@ -18,6 +18,11 @@ export default function IntelligenceDashboard() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
+    // Live Search Pagination State
+    const [searchQuery, setSearchQuery] = useState('');
+    const [offset, setOffset] = useState(0);
+    const [loadingMore, setLoadingMore] = useState(false);
+
     // Crawl state
     const [crawlStatus, setCrawlStatus] = useState<'idle' | 'crawling' | 'done' | 'error' | 'not_auth'>('idle');
     const [crawlResult, setCrawlResult] = useState<string>('');
@@ -100,9 +105,31 @@ export default function IntelligenceDashboard() {
 
     const handleRefresh = () => {
         setRefreshing(true);
+        setSearchQuery('');
+        setOffset(0);
         crawlTriggered.current = false;
         triggerCrawl();
         fetchData();
+    };
+
+    const handleLoadMore = async () => {
+        if (!searchQuery) return;
+        setLoadingMore(true);
+        try {
+            const nextOffset = offset + 50; // Mercado Libre paginate by 50
+            const token = (session as any)?.accessToken;
+            const results = await authFetch(`/api/intelligence/search_live?q=${encodeURIComponent(searchQuery)}&offset=${nextOffset}`, {}, token);
+            if (Array.isArray(results) && results.length > 0) {
+                setListings(prev => [...prev, ...results]);
+                setOffset(nextOffset);
+            } else {
+                // End of results or error
+            }
+        } catch (err) {
+            console.error('Failed to load more live search:', err);
+        } finally {
+            setLoadingMore(false);
+        }
     };
 
     // Seed handler for demo purposes
@@ -228,8 +255,31 @@ export default function IntelligenceDashboard() {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                             <input
                                 type="text"
-                                placeholder="Buscar por dirección..."
+                                placeholder="Buscar propiedades en ML..."
                                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+                                onKeyDown={async (e) => {
+                                    if (e.key === 'Enter') {
+                                        const query = e.currentTarget.value.trim();
+                                        setSearchQuery(query);
+                                        setOffset(0);
+                                        if (!query) return fetchData();
+
+                                        setLoading(true);
+                                        try {
+                                            const token = (session as any)?.accessToken;
+                                            const results = await authFetch(`/api/intelligence/search_live?q=${encodeURIComponent(query)}&offset=0`, {}, token);
+                                            if (Array.isArray(results)) {
+                                                setListings(results);
+                                            } else {
+                                                setListings([]);
+                                            }
+                                        } catch (err) {
+                                            console.error('Failed live search:', err);
+                                        } finally {
+                                            setLoading(false);
+                                        }
+                                    }
+                                }}
                             />
                         </div>
                         <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-slate-600 text-sm hover:bg-slate-50">
@@ -253,10 +303,30 @@ export default function IntelligenceDashboard() {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {listings.map(item => (
-                            <ObservedListingCard key={item.id} listing={item} />
-                        ))}
+                    <div className="space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {listings.map((item, idx) => (
+                                <ObservedListingCard key={`${item.id}-${idx}`} listing={item} />
+                            ))}
+                        </div>
+
+                        {/* Load More Button - Only show when Searching Live */}
+                        {searchQuery && (
+                            <div className="flex justify-center pt-4">
+                                <AnimatedButton
+                                    variant="secondary"
+                                    onClick={handleLoadMore}
+                                    disabled={loadingMore}
+                                    className="px-8 py-2.5 rounded-full border-2 border-blue-500/20 hover:border-blue-500/40 text-blue-600 font-medium flex items-center gap-2 transition-all shadow-sm"
+                                >
+                                    {loadingMore ? (
+                                        <><RefreshCw className="w-4 h-4 animate-spin" /> Cargando más...</>
+                                    ) : (
+                                        'Cargar más resultados'
+                                    )}
+                                </AnimatedButton>
+                            </div>
+                        )}
                     </div>
                 )}
             </section>

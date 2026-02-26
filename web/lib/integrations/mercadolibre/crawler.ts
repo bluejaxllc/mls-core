@@ -47,11 +47,7 @@ export class MercadoLibreCrawler {
                 const item = items[i];
 
                 try {
-                    const fullItem = await this.client.getItemDetails(item.id);
-                    let description = '';
-                    try {
-                        description = await this.client.getItemDescription(item.id);
-                    } catch (e) { }
+                    const fullItem = item; // Natively extracted payload is fully formed
 
                     const existing = await prismaIntelligence.sourceSnapshot.findFirst({
                         where: {
@@ -66,7 +62,6 @@ export class MercadoLibreCrawler {
                     }
 
                     const normalized = normalizeMercadoLibre(fullItem);
-                    if (description) normalized.description = description;
 
                     const snapshot = await prismaIntelligence.sourceSnapshot.create({
                         data: {

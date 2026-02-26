@@ -1,0 +1,5 @@
+4632509b Fix ML Dashboard: Thumbnails, Importer, Live Search
+69718fa4 fix(crawler): proxy trigger endpoint to railway backend to actually run the facebook crawler
+03347756 fix(crawler): append authorization bearer token to mercado libre search api request
+70366e85 fix(prisma): Revert to standard DATABASE_URL over Vercel Postgres keys to resolve 500 error
+11a63204 fix(db): add hardcoded connection strings as fallback to bypass vercel production env blockage
