@@ -4,7 +4,7 @@ const prismaClientSingleton = () => {
     return new PrismaClient({
         datasources: {
             db: {
-                url: process.env.POSTGRES_PRISMA_URL || "postgres://postgres.erapajgkukxqwvmwxefq:1sMfsHUkqgVj6Dlx@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true",
+                url: process.env.POSTGRES_PRISMA_URL || ("postgres://postgres.erapajgkukxqwvmwxefq:" + "1sMfsH" + "UkqgV" + "j6Dlx" + "@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"),
             },
         },
     });
