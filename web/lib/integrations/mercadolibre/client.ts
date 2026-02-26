@@ -65,8 +65,6 @@ export class MercadoLibreClient {
         offset: number = 0
     ): Promise<MLSearchResponse> {
         try {
-            const token = await this.auth.getValidToken(); // Ensure valid token exists
-
             const params: any = {
                 category: 'MLM1459',
                 limit: Math.min(limit, 50),
@@ -77,8 +75,7 @@ export class MercadoLibreClient {
             if (city) params.city = city;
 
             const { data } = await axios.get(`${this.baseUrl}/sites/MLM/search`, {
-                params,
-                headers: { 'Authorization': `Bearer ${token}` }
+                params
             });
             return data;
         } catch (error: any) {
@@ -89,10 +86,7 @@ export class MercadoLibreClient {
 
     async getItemDetails(itemId: string): Promise<MLRealEstateItem> {
         try {
-            const token = await this.auth.getValidToken();
-            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}`);
             return data;
         } catch (error: any) {
             console.error(`[ML Client] ❌ Failed to get item ${itemId}:`, error.response?.data || error.message);
@@ -102,10 +96,7 @@ export class MercadoLibreClient {
 
     async getItemDescription(itemId: string): Promise<string> {
         try {
-            const token = await this.auth.getValidToken();
-            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}/description`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            const { data } = await axios.get(`${this.baseUrl}/items/${itemId}/description`);
             return data.plain_text || data.text || '';
         } catch (error: any) {
             return '';
