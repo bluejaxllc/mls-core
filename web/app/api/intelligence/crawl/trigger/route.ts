@@ -6,19 +6,33 @@ export async function POST(req: Request) {
     try {
         const { sourceId, url } = await req.json();
 
-        // Since we are running in Next.js (serverless/edge environment), 
-        // we cannot easily spawn long-running Puppeteer crawler jobs directly.
-        // For now, we simulate a successful trigger to prevent UI errors.
-        // In a full production setup, this would queue a job in Redis/SQS.
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-        console.log(`[INTELLIGENCE] Simulated crawl trigger for SourceID: ${sourceId}, URL: ${url}`);
+        console.log(`[INTELLIGENCE] Proxying crawl trigger to backend: ${backendUrl}/api/intelligence/crawl/trigger`);
 
-        return NextResponse.json({
-            jobId: `simulated-${Date.now()}`,
-            message: 'Crawl scheduled (Simulated in Vercel environment)'
+        const authHeader = req.headers.get('authorization');
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json'
+        };
+        if (authHeader) {
+            headers['Authorization'] = authHeader;
+        }
+
+        const response = await fetch(`${backendUrl}/api/intelligence/crawl/trigger`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ sourceId, url })
         });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Backend error: ${response.status} ${errorText}`);
+        }
+
+        const data = await response.json();
+        return NextResponse.json(data);
     } catch (e: any) {
-        console.error('[INTELLIGENCE] Failed to trigger crawl', e);
+        console.error('[INTELLIGENCE] Failed to trigger crawl proxy', e);
         return NextResponse.json({ error: e.message }, { status: 500 });
     }
 }
