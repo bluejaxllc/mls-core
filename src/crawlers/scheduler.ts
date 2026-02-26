@@ -1,5 +1,6 @@
 import { CrawlJob, SourceConfig } from './types';
 import { PuppeteerCrawler } from './puppeteer_crawler';
+import { FacebookCrawler } from './facebook_crawler';
 import { normalizerService } from '../ingestion/normalizer';
 import { sourceProfileService } from './profiles/service';
 import { fingerprintService } from '../ingestion/fingerprint';
@@ -48,7 +49,12 @@ export class CrawlScheduler {
     private async runJob(job: CrawlJob) {
         try {
             // 1. Create Crawler
-            const crawler = new PuppeteerCrawler(job);
+            let crawler: PuppeteerCrawler | FacebookCrawler;
+            if (job.url.includes('facebook.com')) {
+                crawler = new FacebookCrawler(job);
+            } else {
+                crawler = new PuppeteerCrawler(job);
+            }
 
             // 2. Run Crawl
             const result = await crawler.run();

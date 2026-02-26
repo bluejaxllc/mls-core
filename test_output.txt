@@ -1,0 +1,250 @@
+Starting Facebook Crawler Test...
+[FBCrawler-Apify] Starting job test-fb-job-1772074982168 for https://www.facebook.com/marketplace/chihuahua/propertyrentals/
+[FBCrawler-Apify] Calling Apify Actor with input: {
+  urls: [ 'https://www.facebook.com/marketplace/chihuahua/propertyrentals/' ],
+  deepScrape: false,
+  strictFiltering: true
+}
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:03.881Z ACTOR: Pulling container image of build cScXk8mKydYz6v2Va from registry.
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:03.883Z ACTOR: Creating container.
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:04.199Z ACTOR: Starting container.
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:06.980Z [32mINFO[39m  System info[90m {"apifyVersion":"3.6.0","apifyClientVersion":"2.22.2","crawleeVersion":"3.16.0","osType":"Linux","nodeVersion":"v20.20.0"}[39m
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:13.869Z [32mINFO[39m  Fetched 24 listings
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.099Z 🟠 Retrying failed request:
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.101Z 	- 🏷️ Label: SEARCH
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.103Z 	- 🔗 URL: https://www.facebook.com/marketplace/chihuahua/propertyrentals/
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.104Z 	- 🔃 Retries remaining: 3
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.108Z 	- ⭕️ Error: Rate limit exceeded
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.352Z 🟠 Retrying failed request:
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.354Z 	- 🏷️ Label: SEARCH
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.356Z 	- 🔗 URL: https://www.facebook.com/marketplace/chihuahua/propertyrentals/
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.358Z 	- 🔃 Retries remaining: 2
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:15.360Z 	- ⭕️ Error: Rate limit exceeded
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.148Z 🟠 Retrying failed request:
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.150Z 	- 🏷️ Label: SEARCH
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.152Z 	- 🔗 URL: https://www.facebook.com/marketplace/chihuahua/propertyrentals/
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.154Z 	- 🔃 Retries remaining: 1
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.156Z 	- ⭕️ Error: Rate limit exceeded
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.422Z 🟠 Retrying failed request:
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.423Z 	- 🏷️ Label: SEARCH
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.425Z 	- 🔗 URL: https://www.facebook.com/marketplace/chihuahua/propertyrentals/
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.426Z 	- 🔃 Retries remaining: 0
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:17.428Z 	- ⭕️ Error: Rate limit exceeded
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:18.122Z ❌ All retries failed for request:
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:18.124Z 	- 🏷️ Action Label: SEARCH
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:18.126Z 	- 🔗 URL: https://www.facebook.com/marketplace/chihuahua/propertyrentals/
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:18.127Z 	- ⭕️ Error: Rate limit exceeded
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:18.199Z [32mINFO[39m  State saved
+[36mfacebook-marketplace runId:oc8RWaCcYp6T4JRz5 -> [39m2026-02-26T03:03:18.201Z [32mINFO[39m  [Status message]: Scraped all urls
+[FBCrawler-Apify] Actor finished. Fetching dataset: UMTRVitN3mwX2t9R5
+[FBCrawler-Apify] Found 24 items via Apify.
+
+--- Extraction Result ---
+Success: true
+Items Found: 24
+Errors: 0
+
+Sample Items (First 3):
+[
+  {
+    "externalId": "886676707571937",
+    "url": "https://www.facebook.com/marketplace/item/886676707571937",
+    "title": "3 habitaciones 3.5 baños Casa",
+    "price": "undefined",
+    "address": "Chihuahua, Chih",
+    "images": [
+      "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.84726-6/629446509_937579515443254_5353292681042899579_n.jpg?stp=c65.0.260.260a_dst-jpg_p261x260_tt6&_nc_cat=107&ccb=1-7&_nc_sid=92e707&_nc_ohc=2vtRKnZ9nuUQ7kNvwGyWTIC&_nc_oc=AdkA1DBOkPZLzNmLgAsWYxvHraHLDY3ysV7XopEbdJtMOhHEidfVbM9x20kqmrZx9SveORCe405G0Es19_MCnYYW&_nc_zt=14&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=aVsSdXin9TSvKEeaWgyZqw&oh=00_Aft6PK11B6G08-mJ1XAdroLpXMvGmocmBigTDVXP4xRayQ&oe=69A5A193"
+    ],
+    "description": "Chihuahua, Chih",
+    "rawJson": {
+      "id": "886676707571937",
+      "primary_listing_photo": {
+        "id": "937579505443255",
+        "listing_image": {
+          "uri": "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.84726-6/629446509_937579515443254_5353292681042899579_n.jpg?stp=c65.0.260.260a_dst-jpg_p261x260_tt6&_nc_cat=107&ccb=1-7&_nc_sid=92e707&_nc_ohc=2vtRKnZ9nuUQ7kNvwGyWTIC&_nc_oc=AdkA1DBOkPZLzNmLgAsWYxvHraHLDY3ysV7XopEbdJtMOhHEidfVbM9x20kqmrZx9SveORCe405G0Es19_MCnYYW&_nc_zt=14&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=aVsSdXin9TSvKEeaWgyZqw&oh=00_Aft6PK11B6G08-mJ1XAdroLpXMvGmocmBigTDVXP4xRayQ&oe=69A5A193"
+        }
+      },
+      "if_gk_just_listed_tag_on_search_feed": null,
+      "listing_price": {
+        "formatted_amount": "MX$15,000,000",
+        "amount_with_offset_in_currency": "87019317",
+        "amount": "15000000.00"
+      },
+      "strikethrough_price": null,
+      "comparable_price": null,
+      "comparable_price_type": null,
+      "location": {
+        "reverse_geocode": {
+          "city": "Chihuahua",
+          "state": "Chih",
+          "city_page": {
+            "display_name": "Chihuahua, Chihuahua",
+            "id": "107710535925692"
+          }
+        }
+      },
+      "is_hidden": false,
+      "is_live": true,
+      "is_pending": false,
+      "is_sold": false,
+      "is_viewer_seller": false,
+      "min_listing_price": null,
+      "max_listing_price": null,
+      "marketplace_listing_category_id": "821056594720130",
+      "marketplace_listing_title": "3 habitaciones 3.5 baños Casa",
+      "custom_title": "3 bedrooms · 3.5 bathrooms",
+      "custom_sub_titles_with_rendering_flags": [
+        {
+          "subtitle": "Chihuahua, Chih"
+        }
+      ],
+      "origin_group": null,
+      "listing_video": null,
+      "parent_listing": null,
+      "marketplace_listing_seller": null,
+      "delivery_types": [
+        "IN_PERSON"
+      ],
+      "product_feedback": null,
+      "isBroadMatch": false,
+      "listingUrl": "https://www.facebook.com/marketplace/item/886676707571937",
+      "inputUrl": "https://www.facebook.com/marketplace/chihuahua/propertyrentals/",
+      "position": 1
+    }
+  },
+  {
+    "externalId": "1231980502247340",
+    "url": "https://www.facebook.com/marketplace/item/1231980502247340",
+    "title": "2 habitaciones 1 baño - Townhouse",
+    "price": "undefined",
+    "address": "Chihuahua, Chih",
+    "images": [
+      "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.30808-6/630626753_3055916937942332_1631858613252192096_n.jpg?stp=c0.106.960.960a_dst-jpg_s261x260_tt6&_nc_cat=107&ccb=1-7&_nc_sid=4f26a2&_nc_ohc=wTXNHUcD8UcQ7kNvwEmByE0&_nc_oc=AdkqFxoFpFWd4qkPMAT10kwUNJgV8ugloncnwQAFoqld7rNKBBYR0e_f912zvi1Tb3VJ3ESLfmbL_3mMaH-JOoBv&_nc_zt=23&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=aVsSdXin9TSvKEeaWgyZqw&oh=00_AfvTQZFQxPnvCpcY6IjOJHot5ofTz9-Dn4BSaxANS-snfA&oe=69A581C1"
+    ],
+    "description": "Calle M. Fábregas | Chihuahua, Chih",
+    "rawJson": {
+      "id": "1231980502247340",
+      "primary_listing_photo": {
+        "id": "3055916917942334",
+        "listing_image": {
+          "uri": "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.30808-6/630626753_3055916937942332_1631858613252192096_n.jpg?stp=c0.106.960.960a_dst-jpg_s261x260_tt6&_nc_cat=107&ccb=1-7&_nc_sid=4f26a2&_nc_ohc=wTXNHUcD8UcQ7kNvwEmByE0&_nc_oc=AdkqFxoFpFWd4qkPMAT10kwUNJgV8ugloncnwQAFoqld7rNKBBYR0e_f912zvi1Tb3VJ3ESLfmbL_3mMaH-JOoBv&_nc_zt=23&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=aVsSdXin9TSvKEeaWgyZqw&oh=00_AfvTQZFQxPnvCpcY6IjOJHot5ofTz9-Dn4BSaxANS-snfA&oe=69A581C1"
+        }
+      },
+      "if_gk_just_listed_tag_on_search_feed": null,
+      "listing_price": {
+        "formatted_amount": "MX$480,000",
+        "amount_with_offset_in_currency": "2784618",
+        "amount": "480000.00"
+      },
+      "strikethrough_price": null,
+      "comparable_price": null,
+      "comparable_price_type": null,
+      "location": {
+        "reverse_geocode": {
+          "city": "Chihuahua",
+          "state": "Chih",
+          "city_page": {
+            "display_name": "Chihuahua, Chihuahua",
+            "id": "107710535925692"
+          }
+        }
+      },
+      "is_hidden": false,
+      "is_live": true,
+      "is_pending": false,
+      "is_sold": false,
+      "is_viewer_seller": false,
+      "min_listing_price": null,
+      "max_listing_price": null,
+      "marketplace_listing_category_id": "821056594720130",
+      "marketplace_listing_title": "2 habitaciones 1 baño - Townhouse",
+      "custom_title": "2 bedrooms · 1 bathroom",
+      "custom_sub_titles_with_rendering_flags": [
+        {
+          "subtitle": "Calle M. Fábregas"
+        },
+        {
+          "subtitle": "Chihuahua, Chih"
+        }
+      ],
+      "origin_group": null,
+      "listing_video": null,
+      "parent_listing": null,
+      "marketplace_listing_seller": null,
+      "delivery_types": [
+        "IN_PERSON"
+      ],
+      "product_feedback": null,
+      "isBroadMatch": false,
+      "listingUrl": "https://www.facebook.com/marketplace/item/1231980502247340",
+      "inputUrl": "https://www.facebook.com/marketplace/chihuahua/propertyrentals/",
+      "position": 2
+    }
+  },
+  {
+    "externalId": "1458972418531235",
+    "url": "https://www.facebook.com/marketplace/item/1458972418531235",
+    "title": "3 habitaciones 2 baños - Casa",
+    "price": "undefined",
+    "address": "Chihuahua, Chih",
+    "images": [
+      "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.30808-6/597331068_833240602810281_2869354492596100170_n.jpg?stp=c160.0.960.960a_dst-jpg_s261x260_tt6&_nc_cat=107&ccb=1-7&_nc_sid=4f26a2&_nc_ohc=YSUhaYBIu4oQ7kNvwHeec2e&_nc_oc=Adl_KQwAbQOou7F2ZBXgO8zFcvYhzQxADCgaUOA8ouHyNh50stFHN6XEMdw2mtcwpyGcjpnJlszbHkW42xlLrK43&_nc_zt=23&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=aVsSdXin9TSvKEeaWgyZqw&oh=00_AfvXgbzSvAm-zjLwxXfzkn1zwLu9XpBC2O4sXecMwVIopw&oe=69A59737"
+    ],
+    "description": "Chihuahua, Chih",
+    "rawJson": {
+      "id": "1458972418531235",
+      "primary_listing_photo": {
+        "id": "811816521619356",
+        "listing_image": {
+          "uri": "https://scontent.fcmb8-1.fna.fbcdn.net/v/t39.30808-6/597331068_833240602810281_2869354492596100170_n.jpg?stp=c160.0.960.960a_dst-jpg_s261x260_tt6&_nc_cat=107&ccb=1-7&_nc_sid=4f26a2&_nc_ohc=YSUhaYBIu4oQ7kNvwHeec2e&_nc_oc=Adl_KQwAbQOou7F2ZBXgO8zFcvYhzQxADCgaUOA8ouHyNh50stFHN6XEMdw2mtcwpyGcjpnJlszbHkW42xlLrK43&_nc_zt=23&_nc_ht=scontent.fcmb8-1.fna&_nc_gid=aVsSdXin9TSvKEeaWgyZqw&oh=00_AfvXgbzSvAm-zjLwxXfzkn1zwLu9XpBC2O4sXecMwVIopw&oe=69A59737"
+        }
+      },
+      "if_gk_just_listed_tag_on_search_feed": null,
+      "listing_price": {
+        "formatted_amount": "MX$3,980,000",
+        "amount_with_offset_in_currency": "23089125",
+        "amount": "3980000.00"
+      },
+      "strikethrough_price": null,
+      "comparable_price": null,
+      "comparable_price_type": null,
+      "location": {
+        "reverse_geocode": {
+          "city": "Chihuahua",
+          "state": "Chih",
+          "city_page": {
+            "display_name": "Chihuahua, Chihuahua",
+            "id": "107710535925692"
+          }
+        }
+      },
+      "is_hidden": false,
+      "is_live": true,
+      "is_pending": false,
+      "is_sold": false,
+      "is_viewer_seller": false,
+      "min_listing_price": null,
+      "max_listing_price": null,
+      "marketplace_listing_category_id": "821056594720130",
+      "marketplace_listing_title": "3 habitaciones 2 baños - Casa",
+      "custom_title": "3 bedrooms · 2 bathrooms",
+      "custom_sub_titles_with_rendering_flags": [
+        {
+          "subtitle": "Chihuahua, Chih"
+        }
+      ],
+      "origin_group": null,
+      "listing_video": null,
+      "parent_listing": null,
+      "marketplace_listing_seller": null,
+      "delivery_types": [
+        "IN_PERSON"
+      ],
+      "product_feedback": null,
+      "isBroadMatch": false,
+      "listingUrl": "https://www.facebook.com/marketplace/item/1458972418531235",
+      "inputUrl": "https://www.facebook.com/marketplace/chihuahua/propertyrentals/",
+      "position": 3
+    }
+  }
+]
