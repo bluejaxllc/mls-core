@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
         const { searchParams } = new URL(req.url);
         const status = searchParams.get('status') || undefined;
-        const where: any = {};
+        const where: import('@prisma/client').Prisma.ListingWhereInput = {};
         if (status) where.status = status;
 
         const listings = await prismaCore.listing.findMany({

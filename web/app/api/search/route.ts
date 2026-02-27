@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         const skip = (page - 1) * limit;
 
         // 1. Fetch Canonical Listings
-        const where: any = {};
+        const where: import('@prisma/client').Prisma.ListingWhereInput = {};
         if (status && status !== 'OBSERVED') where.status = status;
 
         if (city && city !== 'All') {
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
         // 2. Fetch Observed Listings (Intelligence)
         let observed: any[] = [];
         if (!status || status === 'OBSERVED') {
-            const whereObs: any = {};
+            const whereObs: import('.prisma/client-intelligence').Prisma.ObservedListingWhereInput = {};
             if (city && city !== 'All') {
                 whereObs.address = { contains: city };
             }
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
                     take: limit,
                     skip,
                     include: { snapshot: { include: { source: true } } }
-                });
+                } as any);
             } catch (e) {
                 // Intelligence DB may not exist yet — graceful fallback
                 console.warn('[Search] Intelligence DB query failed, skipping observed listings');

@@ -3,7 +3,7 @@ import { prismaCore } from '@/lib/prisma-core';
 import { verifyAuth, isAuthError } from '@/lib/auth-middleware';
 
 function buildListingWhere(criteria: any) {
-    const where: any = {};
+    const where: import('@prisma/client').Prisma.ListingWhereInput = {};
     if (criteria.minPrice || criteria.maxPrice) {
         where.price = {};
         if (criteria.minPrice) where.price.gte = Number(criteria.minPrice);
