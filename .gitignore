@@ -54,3 +54,4 @@ _backup/
 verify_search_ui.webp
 crawler_verification.json
 mercadolibre_tokens.json
+.vercel
