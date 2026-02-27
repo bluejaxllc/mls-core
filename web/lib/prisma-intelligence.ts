@@ -1,5 +1,4 @@
-import { PrismaClient } from '.prisma/client-intelligence';
-import path from 'path';
+import { PrismaClient } from '../prisma/generated/client-intelligence';
 
 const globalForPrisma = globalThis as unknown as { prismaIntelligence: PrismaClient | undefined };
 
