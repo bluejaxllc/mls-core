@@ -24,6 +24,7 @@ export default function PropertiesPage() {
     const [limit, setLimit] = useState(50); // Default to 50 as requested
     const [city, setCity] = useState('Chihuahua'); // Default City
     const [listingType, setListingType] = useState('ALL'); // ALL, RENT, SALE
+    const [propertyType, setPropertyType] = useState('ALL'); // ALL, RESIDENTIAL, HOUSE, APARTMENT, LAND, COMMERCIAL
     const [bedrooms, setBedrooms] = useState<number | 'Any'>('Any');
     const [bathrooms, setBathrooms] = useState<number | 'Any'>('Any');
     const [minPrice, setMinPrice] = useState('');
@@ -34,7 +35,7 @@ export default function PropertiesPage() {
 
     useEffect(() => {
         fetchListings();
-    }, [page, limit, city, listingType, bedrooms, bathrooms, minPrice, maxPrice]);
+    }, [page, limit, city, listingType, propertyType, bedrooms, bathrooms, minPrice, maxPrice]);
 
     const fetchListings = async () => {
         try {
@@ -44,11 +45,12 @@ export default function PropertiesPage() {
             const params = new URLSearchParams();
             if (city !== 'All') params.set('city', city);
             if (listingType !== 'ALL') params.set('listingType', listingType);
+            if (propertyType !== 'ALL') params.set('propertyType', propertyType);
             if (searchQuery.trim()) params.set('q', searchQuery.trim());
             params.set('page', String(page));
             params.set('limit', String(limit));
 
-            const res = await fetch(`${API_URL}/api/public/search?${params.toString()}`);
+            const res = await fetch(`${API_URL}/api/search?${params.toString()}`);
             if (!res.ok) throw new Error('Failed to load properties');
 
             const result = await res.json();
@@ -161,6 +163,22 @@ export default function PropertiesPage() {
                             <option value="ALL">Todos</option>
                             <option value="RENT">En Renta</option>
                             <option value="SALE">En Venta</option>
+                        </select>
+
+                        {/* Property Type Filter */}
+                        <select
+                            value={propertyType}
+                            onChange={(e) => {
+                                setPropertyType(e.target.value);
+                                setPage(1);
+                            }}
+                            className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-32 flex-shrink-0"
+                        >
+                            <option value="ALL">Todo Tipo</option>
+                            <option value="HOUSE">Casas</option>
+                            <option value="APARTMENT">Departamentos</option>
+                            <option value="LAND">Terrenos</option>
+                            <option value="COMMERCIAL">Comercial</option>
                         </select>
 
                         {/* More Filters Toggle */}

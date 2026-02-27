@@ -18,10 +18,18 @@ export default function IntelligenceDashboard() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    // Live Search Pagination State
+    // Live Search Pagination & Filters State
     const [searchQuery, setSearchQuery] = useState('');
     const [offset, setOffset] = useState(0);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
+    const [city, setCity] = useState('All');
+    const [listingType, setListingType] = useState('ALL');
+    const [propertyType, setPropertyType] = useState('ALL');
+    const [bedrooms, setBedrooms] = useState<number | 'Any'>('Any');
+    const [bathrooms, setBathrooms] = useState<number | 'Any'>('Any');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
 
     // Crawl state
     const [crawlStatus, setCrawlStatus] = useState<'idle' | 'crawling' | 'done' | 'error' | 'not_auth'>('idle');
@@ -144,6 +152,17 @@ export default function IntelligenceDashboard() {
         }
     };
 
+    const filteredListings = listings.filter((item) => {
+        if (city !== 'All' && !item.address?.toLowerCase().includes(city.toLowerCase())) return false;
+        if (propertyType !== 'ALL' && item.propertyType !== propertyType) return false;
+        if (listingType !== 'ALL' && item.status !== listingType && item.status !== `DETECTED_${listingType}`) return false;
+        if (bedrooms !== 'Any' && (item.bedrooms || 0) < bedrooms) return false;
+        if (bathrooms !== 'Any' && (item.bathrooms || 0) < bathrooms) return false;
+        if (minPrice && (item.price || 0) < Number(minPrice)) return false;
+        if (maxPrice && (item.price || 0) > Number(maxPrice)) return false;
+        return true;
+    });
+
     return (
         <div className="space-y-8 max-w-7xl mx-auto pb-10">
             {/* Header */}
@@ -257,10 +276,11 @@ export default function IntelligenceDashboard() {
                                 type="text"
                                 placeholder="Buscar propiedades en ML..."
                                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={async (e) => {
                                     if (e.key === 'Enter') {
                                         const query = e.currentTarget.value.trim();
-                                        setSearchQuery(query);
                                         setOffset(0);
                                         if (!query) return fetchData();
 
@@ -282,11 +302,65 @@ export default function IntelligenceDashboard() {
                                 }}
                             />
                         </div>
-                        <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg text-slate-600 text-sm hover:bg-slate-50">
+                        <button
+                            onClick={() => setShowFilters(!showFilters)}
+                            className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-colors ${showFilters ? 'bg-blue-50 border-blue-200 text-blue-600' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                        >
                             <Filter className="w-4 h-4" /> Filtros
                         </button>
                     </div>
                 </div>
+
+                {/* Advanced Filters Panel */}
+                {showFilters && (
+                    <div className="bg-white border rounded-xl p-4 mb-6 shadow-sm animate-in fade-in slide-in-from-top-2">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-slate-500">Ciudad</label>
+                                <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                    <option value="All">Todas</option>
+                                    <option value="Chihuahua">Chihuahua</option>
+                                    <option value="Juárez">Juárez</option>
+                                    <option value="Delicias">Delicias</option>
+                                </select>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-slate-500">Operación</label>
+                                <select value={listingType} onChange={(e) => setListingType(e.target.value)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                    <option value="ALL">Todo</option>
+                                    <option value="RENT">Renta</option>
+                                    <option value="SALE">Venta</option>
+                                </select>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-slate-500">Tipo</label>
+                                <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                    <option value="ALL">Todos</option>
+                                    <option value="HOUSE">Casas</option>
+                                    <option value="APARTMENT">Depas</option>
+                                    <option value="LAND">Terrenos</option>
+                                </select>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-slate-500">Recámaras</label>
+                                <select value={bedrooms} onChange={(e) => setBedrooms(e.target.value as any)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                    <option value="Any">Cualquiera</option>
+                                    <option value={1}>1+</option>
+                                    <option value={2}>2+</option>
+                                    <option value={3}>3+</option>
+                                </select>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-slate-500">Precio Min</label>
+                                <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} placeholder="Min $" className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50" />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-slate-500">Precio Max</label>
+                                <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} placeholder="Max $" className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50" />
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Grid */}
                 {loading ? (
@@ -295,9 +369,9 @@ export default function IntelligenceDashboard() {
                             <div key={i} className="h-64 bg-slate-100 animate-pulse rounded-xl" />
                         ))}
                     </div>
-                ) : listings.length === 0 ? (
+                ) : filteredListings.length === 0 ? (
                     <div className="text-center py-20 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-                        <p className="text-slate-500">No se han detectado propiedades nuevas.</p>
+                        <p className="text-slate-500">No se encontraron propiedades con estos filtros {listings.length > 0 && `(Total sin filtros: ${listings.length})`}.</p>
                         <button onClick={handleSeed} className="text-blue-600 hover:underline mt-2 text-sm font-medium">
                             Generar datos de prueba
                         </button>
@@ -305,7 +379,7 @@ export default function IntelligenceDashboard() {
                 ) : (
                     <div className="space-y-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {listings.map((item, idx) => (
+                            {filteredListings.map((item, idx) => (
                                 <ObservedListingCard key={`${item.id}-${idx}`} listing={item} />
                             ))}
                         </div>

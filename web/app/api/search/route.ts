@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         if (city && city !== 'All') {
             where.address = { contains: city };
         }
-        if (propertyType) {
+        if (propertyType && propertyType !== 'ALL') {
             where.propertyType = propertyType;
         }
         if (minPrice || maxPrice) {
@@ -88,7 +88,10 @@ export async function GET(req: NextRequest) {
                 price: c.price,
                 address: c.address,
                 status: c.status,
-                image: c.images ? JSON.parse(c.images)[0] : null,
+                image: (function () {
+                    try { return c.images ? JSON.parse(c.images)[0] : null; }
+                    catch (e) { return null; }
+                })(),
                 trustScore: c.trustScore,
                 source: c.source,
                 updatedAt: c.updatedAt

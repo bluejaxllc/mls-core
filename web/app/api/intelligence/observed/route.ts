@@ -21,7 +21,9 @@ export async function GET() {
                     if (parsed.pictures && parsed.pictures.length > 0) {
                         imageUrl = parsed.pictures[0].url || parsed.pictures[0].secure_url;
                     }
-                } catch (err) { }
+                } catch (e) {
+                    // Ignore parse errors
+                }
             }
             // Return item with added imageUrl
             return {

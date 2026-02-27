@@ -1,0 +1,118 @@
+﻿
+> mls-governance-web@0.1.0 build
+> next build
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local, .env.production
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/56) ...
+
+   Generating static pages (14/56) 
+
+   Generating static pages (28/56) 
+
+   Generating static pages (42/56) 
+
+ Γ£ô Generating static pages (56/56) 
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size     First Load JS
+Γöî ╬╗ /                                        7.07 kB         138 kB
+Γö£ ╬╗ /_not-found                              891 B          85.3 kB
+Γö£ ╬╗ /admin/beta                              6.95 kB         143 kB
+Γö£ ╬╗ /admin/intelligence                      4.43 kB         105 kB
+Γö£ ╬╗ /admin/staff                             7.4 kB          143 kB
+Γö£ ╬╗ /agents                                  4.41 kB         142 kB
+Γö£ ╬╗ /agents/[id]                             4.95 kB         143 kB
+Γö£ ╬╗ /analytics                               4.84 kB         145 kB
+Γö£ ╬╗ /api/agents                              0 B                0 B
+Γö£ ╬╗ /api/agents/[id]                         0 B                0 B
+Γö£ ╬╗ /api/analytics                           0 B                0 B
+Γö£ ╬╗ /api/analytics/view                      0 B                0 B
+Γö£ ╬╗ /api/appointments                        0 B                0 B
+Γö£ ╬╗ /api/auth/[...nextauth]                  0 B                0 B
+Γö£ ╬╗ /api/beta                                0 B                0 B
+Γö£ ╬╗ /api/dashboard                           0 B                0 B
+Γö£ ╬╗ /api/favorites                           0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/auth      0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/callback  0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/crawl     0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/status    0 B                0 B
+Γö£ ╬╗ /api/integrations/test                   0 B                0 B
+Γö£ ╬╗ /api/intelligence/crawl/events           0 B                0 B
+Γö£ ╬╗ /api/intelligence/crawl/trigger          0 B                0 B
+Γö£ ╬╗ /api/intelligence/debug/seed             0 B                0 B
+Γö£ ╬╗ /api/intelligence/observed               0 B                0 B
+Γö£ ╬╗ /api/intelligence/observed/[id]          0 B                0 B
+Γö£ ╬╗ /api/intelligence/search_live            0 B                0 B
+Γö£ ╬╗ /api/intelligence/sources                0 B                0 B
+Γö£ ╬╗ /api/leads                               0 B                0 B
+Γö£ ╬╗ /api/listings                            0 B                0 B
+Γö£ ╬╗ /api/listings/[id]                       0 B                0 B
+Γö£ ╬╗ /api/messages                            0 B                0 B
+Γö£ ╬╗ /api/messages/[id]                       0 B                0 B
+Γö£ ╬╗ /api/notifications                       0 B                0 B
+Γö£ ╬╗ /api/protected/appointments              0 B                0 B
+Γö£ ╬╗ /api/protected/appointments/[id]         0 B                0 B
+Γö£ ╬╗ /api/protected/dashboard/chart-data      0 B                0 B
+Γö£ ╬╗ /api/protected/notifications             0 B                0 B
+Γö£ ╬╗ /api/protected/notifications/[id]/read   0 B                0 B
+Γö£ ╬╗ /api/protected/saved-searches            0 B                0 B
+Γö£ ╬╗ /api/protected/saved-searches/[id]       0 B                0 B
+Γö£ ╬╗ /api/public/leads                        0 B                0 B
+Γö£ ╬╗ /api/reviews                             0 B                0 B
+Γö£ ╬╗ /api/saved-searches                      0 B                0 B
+Γö£ ╬╗ /api/search                              0 B                0 B
+Γö£ ╬╗ /api/staff                               0 B                0 B
+Γö£ ╬╗ /appointments                            4.64 kB         152 kB
+Γö£ ╬╗ /auth/signin                             3.05 kB        96.6 kB
+Γö£ ╬╗ /claims                                  7.88 kB         139 kB
+Γö£ ╬╗ /compare                                 4.61 kB         135 kB
+Γö£ ╬╗ /dashboard                               9.82 kB         265 kB
+Γö£ ╬╗ /dashboard/analytics                     13.3 kB         268 kB
+Γö£ ╬╗ /dashboard/calendar                      3.77 kB         149 kB
+Γö£ ╬╗ /dashboard/leads                         4.23 kB         149 kB
+Γö£ ╬╗ /dashboard/profile                       3 kB            182 kB
+Γö£ ╬╗ /dashboard/saved-searches                8.71 kB         161 kB
+Γö£ ╬╗ /favorites                               3.3 kB          146 kB
+Γö£ ╬╗ /governance                              10 kB           162 kB
+Γö£ ╬╗ /governance/audit                        6.74 kB         144 kB
+Γö£ ╬╗ /governance/logs                         8.99 kB         156 kB
+Γö£ ╬╗ /ingestion                               11.4 kB         156 kB
+Γö£ ╬╗ /intelligence                            10.3 kB         150 kB
+Γö£ ╬╗ /legal                                   49.1 kB         133 kB
+Γö£ ╬╗ /listings                                35.7 kB         186 kB
+Γö£ ╬╗ /listings/[id]                           14.1 kB         203 kB
+Γö£ ╬╗ /listings/new                            13 kB           164 kB
+Γö£ Γùï /manifest.webmanifest                    0 B                0 B
+Γö£ ╬╗ /map                                     6.44 kB         144 kB
+Γö£ ╬╗ /messages                                3.71 kB         137 kB
+Γö£ ╬╗ /notifications                           4.08 kB         152 kB
+Γö£ ╬╗ /properties                              8.98 kB         154 kB
+Γö£ ╬╗ /properties/[id]                         9.86 kB         165 kB
+Γö£ ╬╗ /provision                               1.67 kB        86.1 kB
+Γö£ ╬╗ /reviews                                 6.1 kB          144 kB
+Γö£ Γùï /robots.txt                              0 B                0 B
+Γö£ Γùï /sitemap.xml                             0 B                0 B
+Γö£ ╬╗ /system                                  13.3 kB         158 kB
+Γö£ ╬╗ /tools                                   5.07 kB         143 kB
+Γö£ ╬╗ /tools/calculator                        7.19 kB         145 kB
+Γö£ ╬╗ /unauthorized                            180 B          91.4 kB
+Γöö ╬╗ /whitepaper                              7.32 kB         138 kB
++ First Load JS shared by all                84.4 kB
+  Γö£ chunks/8069-10fbc3c5e3b0a9d8.js          29.1 kB
+  Γö£ chunks/fd9d1056-caa447d3131172f2.js      53.4 kB
+  Γöö other shared chunks (total)              1.97 kB
+
+
+╞Æ Middleware                                 75.6 kB
+
+Γùï  (Static)   prerendered as static content
+╬╗  (Dynamic)  server-rendered on demand using Node.js
+
