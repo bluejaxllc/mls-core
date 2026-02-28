@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client-core';
 
 // Resolve absolute path to the shared backend database correctly without __dirname
 const dbPath = process.env.DATABASE_URL || "file:./dev.db";
