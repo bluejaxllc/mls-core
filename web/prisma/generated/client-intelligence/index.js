@@ -193,7 +193,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\edgar\\OneDrive\\Desktop\\AI APPS\\MLS\\web\\prisma\\generated\\client-intelligence",
+      "value": "C:\\Users\\edgar\\OneDrive\\Desktop\\MLS\\web\\prisma\\generated\\client-intelligence",
       "fromEnvVar": null
     },
     "config": {
@@ -210,7 +210,8 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
   "clientVersion": "5.10.2",
