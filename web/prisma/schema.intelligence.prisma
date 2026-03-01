@@ -1,12 +1,12 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../node_modules/@prisma/client-intelligence"
+  engineType    = "library"
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("INTELLIGENCE_DATABASE_URL")
-  directUrl = env("INTELLIGENCE_DATABASE_URL_UNPOOLED")
 }
 
 // Layer 3: Intelligence Store (Non-Canonical)
