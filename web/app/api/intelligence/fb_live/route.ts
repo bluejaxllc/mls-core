@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { prismaIntelligence } from '@/lib/prisma-intelligence';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,8 +12,7 @@ const PAGE_SIZE = 12;
  * Strategy:
  * 1. Try to proxy to Express backend /fb/drip (where Puppeteer runs)
  * 2. If backend is unavailable, serve directly from the intelligence DB
- *
- * This ensures the endpoint ALWAYS works, even if Railway backend is down.
+ * 3. If Prisma engine is unavailable (Vercel), return graceful empty result
  */
 export async function GET(request: Request) {
     try {
@@ -34,7 +32,7 @@ export async function GET(request: Request) {
 
                 const response = await fetch(url, {
                     headers,
-                    signal: AbortSignal.timeout(30000), // 30s timeout
+                    signal: AbortSignal.timeout(30000),
                 });
 
                 if (response.ok) {
@@ -47,12 +45,11 @@ export async function GET(request: Request) {
             }
         }
 
-        // Fallback: serve directly from intelligence DB (always works)
+        // Fallback: try serving from intelligence DB
         return await serveFromDb(page);
 
     } catch (e: any) {
         console.error('[FB_LIVE] Error:', e.message);
-        // Graceful degradation if Prisma engine is missing on Vercel
         return NextResponse.json({
             items: [],
             total: 0,
@@ -60,15 +57,33 @@ export async function GET(request: Request) {
             hasMore: false,
             cached: false,
             source: 'error',
-            note: 'Facebook crawler is not yet configured for production. Data is available locally.',
+            note: 'Facebook data unavailable. Configure NEXT_PUBLIC_API_URL or deploy Railway backend.',
         });
     }
 }
 
 /**
- * Serve Facebook listings directly from the intelligence database.
+ * Serve Facebook listings from the intelligence database.
+ * Uses dynamic import to avoid runtime crash when Prisma engine is missing.
  */
 async function serveFromDb(page: number) {
+    let prismaIntelligence: any;
+    try {
+        const mod = await import('@/lib/prisma-intelligence');
+        prismaIntelligence = mod.prismaIntelligence;
+    } catch (e: any) {
+        console.warn('[FB_LIVE] Prisma intelligence client unavailable:', e.message);
+        return NextResponse.json({
+            items: [],
+            total: 0,
+            page,
+            hasMore: false,
+            cached: false,
+            source: 'unavailable',
+            note: 'Intelligence database not configured for this environment.',
+        });
+    }
+
     // Find Facebook source profile
     const source = await prismaIntelligence.sourceProfile.findFirst({
         where: {
@@ -102,7 +117,6 @@ async function serveFromDb(page: number) {
         })
     ]);
 
-    // Extract images from rawJson
     const mapped = items.map((item: any) => {
         let imageUrl = null;
         if (item.snapshot?.rawJson) {
