@@ -157,7 +157,6 @@ export default function IntelligenceDashboard() {
 
     useEffect(() => {
         fetchData();
-        triggerCrawl();
         triggerFbCrawl();
     }, [session]);
 
@@ -165,9 +164,9 @@ export default function IntelligenceDashboard() {
         setRefreshing(true);
         setSearchQuery('');
         setOffset(0);
-        crawlTriggered.current = false;
+        setCrawlStatus('idle');
+        setCrawlResult('');
         fbTriggered.current = false;
-        triggerCrawl();
         triggerFbCrawl();
         fetchData();
     };
