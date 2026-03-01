@@ -82,14 +82,14 @@ async function serveFromDb(page: number) {
 
     const [items, total] = await Promise.all([
         prismaIntelligence.observedListing.findMany({
-            where: { snapshot: { is: { sourceId: source.id } } },
+            where: { snapshot: { sourceId: source.id } },
             include: { snapshot: { include: { source: true } } },
             orderBy: { createdAt: 'desc' },
             take: PAGE_SIZE,
             skip,
         }),
         prismaIntelligence.observedListing.count({
-            where: { snapshot: { is: { sourceId: source.id } } }
+            where: { snapshot: { sourceId: source.id } }
         })
     ]);
 
