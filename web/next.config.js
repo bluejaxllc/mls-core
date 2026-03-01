@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        outputFileTracingIncludes: {
+            '/api/**': [
+                './node_modules/@prisma/client-intelligence/**',
+                './node_modules/@prisma/client-core/**',
+            ],
+        },
+        serverComponentsExternalPackages: ['@prisma/client-core', '@prisma/client-intelligence'],
+    },
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -34,6 +43,22 @@ const nextConfig = {
                         value: 'nosniff',
                     },
                 ],
+            },
+        ];
+    },
+    async redirects() {
+        // TEMPORARY: Hide landing page and login during troubleshooting
+        // To restore: replace the return array with: return [];
+        return [
+            {
+                source: '/',
+                destination: '/intelligence',
+                permanent: false,
+            },
+            {
+                source: '/auth/signin',
+                destination: '/intelligence',
+                permanent: false,
             },
         ];
     },
