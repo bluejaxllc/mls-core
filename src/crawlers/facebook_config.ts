@@ -1,9 +1,16 @@
 import { SourceConfig } from './types';
 
+/**
+ * Facebook Marketplace config.
+ * 
+ * Used by the Puppeteer drip crawler for DOM extraction.
+ * Selectors target the main marketplace listing grid on desktop Facebook.
+ * Anti-bot settings control the drip delay between actions.
+ */
 export const facebookConfig: SourceConfig = {
     selectors: {
         listWrapper: 'div[role="main"]',
-        listItem: 'div[style*="max-width"] a[role="link"][tabindex="0"], a[href*="/marketplace/item/"]',
+        listItem: 'a[href*="/marketplace/item/"]',
         listingTitle: 'span[dir="auto"]',
         listingPrice: 'span[dir="auto"]',
         listingAddress: 'span[dir="auto"]',
@@ -12,11 +19,11 @@ export const facebookConfig: SourceConfig = {
     },
     pagination: {
         strategy: 'SCROLL',
-        maxPages: 3
+        maxPages: 1          // Single page — avoid rate limits
     },
     antiBot: {
-        useProxies: false,
-        delayRange: [3000, 8000],
+        useProxies: true,    // Residential proxies via Apify
+        delayRange: [5000, 10000],  // Longer delays for FB
         stealthMode: true
     }
 };

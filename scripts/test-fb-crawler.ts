@@ -16,23 +16,34 @@ async function main() {
 
     const crawler = new FacebookCrawler(job);
 
-    console.log("Starting Facebook Crawler Test...");
+    console.log("Starting Facebook Crawler Test (throttled + proxied)...\n");
+    const startTime = Date.now();
     const result = await crawler.run();
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
 
     console.log("\n--- Extraction Result ---");
     console.log(`Success: ${result.success}`);
     console.log(`Items Found: ${result.items.length}`);
     console.log(`Errors: ${result.errors.length}`);
+    console.log(`Time: ${elapsed}s`);
 
     if (result.errors.length > 0) {
-        console.error(result.errors);
+        console.error("\nErrors:", result.errors);
     }
 
     if (result.items.length > 0) {
         console.log("\nSample Items (First 3):");
-        console.log(JSON.stringify(result.items.slice(0, 3), null, 2));
+        const samples = result.items.slice(0, 3).map(item => ({
+            externalId: item.externalId,
+            title: item.title,
+            price: item.price,         // Should now show "MX$15,000,000" not "undefined"
+            address: item.address,
+            images: item.images?.length || 0,
+            url: item.url,
+        }));
+        console.log(JSON.stringify(samples, null, 2));
     } else {
-        console.log("No items found. Facebook might be blocking the request or the DOM changed.");
+        console.log("\nNo items found. Facebook might be blocking or the actor needs updating.");
     }
 }
 

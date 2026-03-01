@@ -47,6 +47,181 @@ router.post('/crawl/trigger', async (req, res) => {
     }
 });
 
+// --- Facebook Drip Crawl (On-Demand) ---
+// In-memory cache to rate-limit FB crawls (10 min)
+let fbLastCrawl = 0;
+let fbCachedItems: any[] = [];
+const FB_CACHE_TTL = 10 * 60 * 1000;
+const FB_PAGE_SIZE = 12;
+
+router.get('/fb/drip', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page as string || '0', 10);
+
+        // Find FB source profile
+        const fbSource = await prismaIntelligence.sourceProfile.findFirst({
+            where: {
+                OR: [
+                    { name: { contains: 'Facebook' } },
+                    { name: { contains: 'facebook' } },
+                    { baseUrl: { contains: 'facebook.com' } }
+                ]
+            }
+        });
+
+        if (!fbSource) {
+            return res.json({ items: [], total: 0, page, hasMore: false, error: 'No FB source profile found' });
+        }
+
+        // Pagination from DB for page > 0
+        if (page > 0) {
+            const skip = page * FB_PAGE_SIZE;
+            const [items, total] = await Promise.all([
+                prismaIntelligence.observedListing.findMany({
+                    where: { snapshot: { is: { sourceId: fbSource.id } } },
+                    include: { snapshot: { include: { source: true } } },
+                    orderBy: { createdAt: 'desc' },
+                    take: FB_PAGE_SIZE,
+                    skip,
+                }),
+                prismaIntelligence.observedListing.count({
+                    where: { snapshot: { is: { sourceId: fbSource.id } } }
+                })
+            ]);
+            return res.json({
+                items: items.map(enrichImage),
+                total,
+                page,
+                hasMore: skip + FB_PAGE_SIZE < total,
+                cached: true,
+            });
+        }
+
+        // Check cache for page 0
+        const cacheAge = Date.now() - fbLastCrawl;
+        if (cacheAge < FB_CACHE_TTL && fbCachedItems.length > 0) {
+            console.log(`[FB_DRIP] Cache hit (${Math.round(cacheAge / 1000)}s old)`);
+            return res.json({
+                items: fbCachedItems.slice(0, FB_PAGE_SIZE),
+                total: fbCachedItems.length,
+                page: 0,
+                hasMore: fbCachedItems.length > FB_PAGE_SIZE,
+                cached: true,
+            });
+        }
+
+        // Trigger drip crawl
+        console.log(`[FB_DRIP] Starting on-demand drip crawl...`);
+        const { FacebookCrawler } = await import('../crawlers/facebook_crawler');
+        const { facebookConfig } = await import('../crawlers/facebook_config');
+
+        const job = {
+            id: 'drip-' + Date.now(),
+            sourceId: fbSource.id,
+            url: fbSource.baseUrl || 'https://www.facebook.com/marketplace/chihuahua/propertyrentals/',
+            profileName: fbSource.name,
+            config: facebookConfig,
+            status: 'PENDING' as const,
+            attempt: 1,
+        };
+
+        const crawler = new FacebookCrawler(job);
+        const result = await crawler.run();
+
+        if (!result.success || result.items.length === 0) {
+            // Return whatever we have from DB
+            const dbItems = await prismaIntelligence.observedListing.findMany({
+                where: { snapshot: { is: { sourceId: fbSource.id } } },
+                include: { snapshot: { include: { source: true } } },
+                orderBy: { createdAt: 'desc' },
+                take: FB_PAGE_SIZE,
+            });
+            const total = await prismaIntelligence.observedListing.count({
+                where: { snapshot: { is: { sourceId: fbSource.id } } }
+            });
+            return res.json({
+                items: dbItems.map(enrichImage),
+                total,
+                page: 0,
+                hasMore: total > FB_PAGE_SIZE,
+                cached: true,
+                crawlErrors: result.errors,
+            });
+        }
+
+        // Store new items in DB with dedup
+        const storedItems: any[] = [];
+        for (const item of result.items) {
+            const externalId = item.externalId || 'unknown';
+
+            const existing = await prismaIntelligence.sourceSnapshot.findFirst({
+                where: { sourceId: fbSource.id, externalId },
+                include: { observedListing: true }
+            });
+
+            if (existing?.observedListing) {
+                storedItems.push({ ...existing.observedListing, imageUrl: item.images?.[0] });
+                continue;
+            }
+
+            const snapshot = await prismaIntelligence.sourceSnapshot.create({
+                data: {
+                    sourceId: fbSource.id,
+                    externalId,
+                    url: item.url || job.url,
+                    rawJson: JSON.stringify(item.rawJson || item),
+                    contentHash: externalId + '-' + Date.now(),
+                }
+            });
+
+            const observed = await prismaIntelligence.observedListing.create({
+                data: {
+                    snapshotId: snapshot.id,
+                    title: item.title,
+                    price: item.price ? parseFloat(String(item.price).replace(/[^0-9.]/g, '')) || null : null,
+                    currency: 'MXN',
+                    address: item.address,
+                    status: 'active',
+                    confidenceScore: 0.7,
+                }
+            });
+
+            storedItems.push({ ...observed, imageUrl: item.images?.[0] });
+        }
+
+        // Update cache
+        fbCachedItems = storedItems;
+        fbLastCrawl = Date.now();
+
+        console.log(`[FB_DRIP] ✅ Stored ${storedItems.length} FB listings`);
+        res.json({
+            items: storedItems.slice(0, FB_PAGE_SIZE),
+            total: storedItems.length,
+            page: 0,
+            hasMore: storedItems.length > FB_PAGE_SIZE,
+            cached: false,
+        });
+    } catch (e: any) {
+        console.error('[FB_DRIP] Error:', e);
+        res.status(500).json({ error: e.message, items: [], total: 0 });
+    }
+});
+
+function enrichImage(item: any) {
+    let imageUrl = null;
+    if (item.snapshot?.rawJson) {
+        try {
+            const parsed = JSON.parse(item.snapshot.rawJson);
+            imageUrl = parsed.imageUrl || parsed.images?.[0] || parsed.primary_listing_photo?.listing_image?.uri || null;
+        } catch (_e) { /* ignore */ }
+    }
+    return {
+        ...item,
+        imageUrl,
+        snapshot: { ...item.snapshot, rawJson: undefined },
+    };
+}
+
 router.get('/crawl/events', async (req, res) => {
     try {
         const events = await prismaIntelligence.crawlEvent.findMany({
