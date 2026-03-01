@@ -1,0 +1,203 @@
+﻿node.exe : Vercel CLI 
+50.23.2
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Vercel CLI 50   
+ .23.2:String) [],     
+RemoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Retrieving projectΓÇª
+Deploying eds-projects-
+bc846511/web
+Uploading 
+[--------------------] 
+(0.0B/3.5KB)
+Uploading 
+[====================] 
+(3.5KB/3.5KB)
+Inspect: https://vercel
+.com/eds-projects-bc846
+511/web/43w9wAQFy3pjX5J
+BhjtanKWLymuh [3s]
+Production: https://web
+-4j86i4tz7-eds-projects
+-bc846511.vercel.app 
+[3s]
+Building...
+Building: Running 
+build in Washington, 
+D.C., USA (East) ΓÇô 
+iad1
+Building: Build 
+machine configuration: 
+2 cores, 8 GB
+Building: Retrieving 
+list of deployment 
+files...
+Building: Skipping 
+build cache, 
+deployment was 
+triggered without 
+cache.
+Building: Downloading 
+457 deployment files...
+Building: Downloading 
+457 deployment files...
+Building: Running 
+"vercel build"
+Building: Vercel CLI 
+50.23.2
+Building: Running 
+"install" command: 
+`npm install`...
+Building: npm warn 
+deprecated 
+lodash.isequal@4.5.0: 
+This package is 
+deprecated. Use require
+('node:util').isDeepStr
+ictEqual instead.
+Building: npm warn 
+deprecated 
+next@14.1.0: This 
+version has a security 
+vulnerability. Please 
+upgrade to a patched 
+version. See https://ne
+xtjs.org/blog/security-
+update-2025-12-11 for 
+more details.
+Building: > mls-governa
+nce-web@0.1.0 
+postinstall
+Building: > prisma 
+generate && prisma 
+generate --schema=prism
+a/schema.intelligence.p
+risma
+Building: Error: 
+Unknown binaryTarget 
+native and no custom 
+engine files were 
+provided
+Building: npm error 
+code 1
+Building: npm error 
+path /vercel/path0/web
+Building: npm error 
+command failed
+Building: npm error 
+command sh -c prisma 
+generate && prisma 
+generate --schema=prism
+a/schema.intelligence.p
+risma
+Building: npm error A 
+complete log of this 
+run can be found in: /v
+ercel/.npm/_logs/2026-0
+3-01T07_42_30_711Z-debu
+g-0.log
+Building: Error: 
+Command "npm install" 
+exited with 1
+2026-03-01T07:42:23.550
+Z  Running build in 
+Washington, D.C., USA 
+(East) ΓÇô iad1
+2026-03-01T07:42:23.551
+Z  Build machine 
+configuration: 2 
+cores, 8 GB
+2026-03-01T07:42:23.561
+Z  Retrieving list of 
+deployment files...
+2026-03-01T07:42:23.564
+Z  Skipping build 
+cache, deployment was 
+triggered without 
+cache.
+2026-03-01T07:42:24.073
+Z  Downloading 457 
+deployment files...
+2026-03-01T07:42:29.585
+Z  Running "vercel 
+build"
+2026-03-01T07:42:30.203
+Z  Vercel CLI 50.23.2
+2026-03-01T07:42:30.584
+Z  Running "install" 
+command: `npm 
+install`...
+2026-03-01T07:42:35.265
+Z  npm warn deprecated 
+lodash.isequal@4.5.0: 
+This package is 
+deprecated. Use require
+('node:util').isDeepStr
+ictEqual instead.
+2026-03-01T07:42:48.956
+Z  npm warn deprecated 
+next@14.1.0: This 
+version has a security 
+vulnerability. Please 
+upgrade to a patched 
+version. See https://ne
+xtjs.org/blog/security-
+update-2025-12-11 for 
+more details.
+2026-03-01T07:42:50.008
+Z  
+2026-03-01T07:42:50.009
+Z  > mls-governance-web
+@0.1.0 postinstall
+2026-03-01T07:42:50.009
+Z  > prisma generate 
+&& prisma generate --sc
+hema=prisma/schema.inte
+lligence.prisma
+2026-03-01T07:42:50.009
+Z  
+2026-03-01T07:42:50.392
+Z  Error: Unknown 
+binaryTarget native 
+and no custom engine 
+files were provided
+2026-03-01T07:42:50.404
+Z  npm error code 1
+2026-03-01T07:42:50.405
+Z  npm error path 
+/vercel/path0/web
+2026-03-01T07:42:50.405
+Z  npm error command 
+failed
+2026-03-01T07:42:50.406
+Z  npm error command 
+sh -c prisma generate 
+&& prisma generate --sc
+hema=prisma/schema.inte
+lligence.prisma
+2026-03-01T07:42:50.406
+Z  npm error A 
+complete log of this 
+run can be found in: /v
+ercel/.npm/_logs/2026-0
+3-01T07_42_30_711Z-debu
+g-0.log
+2026-03-01T07:42:50.432
+Z  Error: Command "npm 
+install" exited with 1
+https://web-4j86i4tz7-eds-projects-bc846511.vercel.app
