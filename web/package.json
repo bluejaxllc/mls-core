@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "prisma generate && prisma generate --schema=prisma/schema.intelligence.prisma && next build",
+        "build": "PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && next build",
         "start": "next start",
         "lint": "next lint"
     },
