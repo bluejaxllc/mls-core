@@ -112,6 +112,127 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
     return listings.slice(0, MAX_ITEMS);
 }
 
+// ─── BrowserOS MCP Facebook Marketplace Crawl ──────────────────
+// Attempts to crawl FB Marketplace via user's real browser (BrowserOS MCP on port 9000)
+// Returns [] if BrowserOS is not available (production / server not running)
+async function crawlFacebookViaBrowserOS(city: string, propertyType: string, maxItems: number): Promise<any[]> {
+    const MCP_URL = 'http://127.0.0.1:9000/mcp';
+
+    try {
+        // Quick connectivity check (1s timeout)
+        const pingController = new AbortController();
+        setTimeout(() => pingController.abort(), 1000);
+        await fetch(MCP_URL, {
+            method: 'POST', signal: pingController.signal,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize', id: 0, params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'live-api', version: '1.0.0' } } })
+        });
+    } catch {
+        console.log('[LIVE] BrowserOS not available — skipping FB crawl');
+        return [];
+    }
+
+    try {
+        const { Client } = await import('@modelcontextprotocol/sdk/client/index.js');
+        const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp.js');
+
+        const transport = new StreamableHTTPClientTransport(new URL(MCP_URL));
+        const client = new Client({ name: 'live-api-fb', version: '1.0.0' });
+        await client.connect(transport);
+
+        const callMCP = async (tool: string, args: any = {}) => {
+            const r = await client.callTool({ name: tool, arguments: args });
+            return (r.content as any[] || []).filter((i: any) => i.type === 'text').map((i: any) => i.text).join('\n');
+        };
+
+        const categoryMap: Record<string, string> = {
+            'residential': 'propertyforsale',
+            'commercial': 'propertyforsale',
+            'land': 'propertyforsale',
+            'industrial': 'propertyforsale',
+            '': 'propertyrentals',
+        };
+        const category = categoryMap[propertyType] || 'propertyrentals';
+        const url = `https://www.facebook.com/marketplace/${city.toLowerCase().replace(/\s+/g, '')}/${category}/?exact=false`;
+
+        console.log(`[LIVE] 🔄 BrowserOS FB crawl: ${url}`);
+        await callMCP('browser_navigate', { url });
+        await new Promise(r => setTimeout(r, 4000));
+
+        const tabInfo = await callMCP('browser_get_active_tab', {});
+        const tabIdMatch = tabInfo.match(/Tab ID:\s*(\d+)/);
+        if (!tabIdMatch) { await transport.close(); return []; }
+        const tabId = parseInt(tabIdMatch[1]);
+
+        // Scroll 3x to load listings
+        for (let i = 0; i < 3; i++) {
+            await callMCP('browser_execute_javascript', { tabId, code: 'window.scrollBy(0, window.innerHeight * 1.5)' });
+            await new Promise(r => setTimeout(r, 1500));
+        }
+
+        // Extract listings
+        const extractCode = `(() => {
+            const listings = []; const seen = new Set();
+            document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
+                const href = link.getAttribute('href') || '';
+                const m = href.match(/\\/marketplace\\/item\\/(\\d+)/);
+                if (!m || seen.has(m[1])) return;
+                seen.add(m[1]);
+                const id = m[1], c = link.closest('[class]') || link;
+                const spans = c.querySelectorAll('span');
+                const texts = [];
+                spans.forEach(s => { const t = s.textContent?.trim(); if (t && t.length > 0 && t.length < 300) texts.push(t); });
+                const price = texts.find(t => t.includes('$')) || null;
+                const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0,6);
+                const loc = texts.find(t => (t.includes('Chihuahua') || t.includes('Juárez') || t.includes(',')) && !t.includes('$') && t !== title) || null;
+                const img = c.querySelector('img');
+                let imgUrl = img?.src || null;
+                if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
+                listings.push({ id, title, price, address: loc || 'Chihuahua', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace', fetchedAt: new Date().toISOString() });
+            });
+            return JSON.stringify(listings);
+        })()`;
+
+        const rawResult = await callMCP('browser_execute_javascript', { tabId, code: extractCode });
+        await transport.close();
+
+        // Parse result (MCP wraps as Result: "...")
+        let jsonStr = rawResult;
+        const resultMatch = rawResult.match(/Result:\s*"([\s\S]*)"/);
+        if (resultMatch) {
+            jsonStr = resultMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+        }
+        const jsonMatch = jsonStr.match(/\[[\s\S]*\]/);
+        if (!jsonMatch) return [];
+
+        const fbListings = JSON.parse(jsonMatch[0]).slice(0, maxItems).map((item: any) => {
+            // Parse price string to number
+            let priceNum: number | null = null;
+            if (item.price) {
+                const clean = item.price.replace(/[^0-9.]/g, '');
+                const parsed = parseFloat(clean);
+                if (!isNaN(parsed)) priceNum = parsed;
+            }
+            return {
+                ...item,
+                price: priceNum || 0,
+                currency: 'MXN',
+                propertyType: propertyType || 'residential',
+                status: 'active',
+                city: city,
+                state: 'Chihuahua',
+                confidenceScore: 85,
+            };
+        });
+
+        console.log(`[LIVE] ✅ BrowserOS FB: ${fbListings.length} listings extracted`);
+        return fbListings;
+    } catch (e: any) {
+        console.log(`[LIVE] ⚠️ BrowserOS FB crawl failed: ${e.message}`);
+        return [];
+    }
+}
+
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
@@ -135,13 +256,12 @@ export async function GET(request: Request) {
             return NextResponse.json({
                 source: 'cache',
                 cacheKey,
-                count: cached.listings.length,
                 listings: cached.listings
             });
         }
 
-        // Try ML scraper with timeout
-        let listings: any[] = [];
+        // ── Source 1: ML Scraper (8s timeout) ──────────────────
+        let mlListings: any[] = [];
         try {
             const { mlCrawler } = await import('@/lib/integrations/mercadolibre');
             // @ts-ignore
@@ -155,54 +275,60 @@ export async function GET(request: Request) {
             };
             const searchQuery = (propertyType && typeMap[propertyType]) ? typeMap[propertyType] : q;
 
-            // 8-second timeout for ML scraping
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 8000);
+            const searchResponse = await Promise.race([
+                client.searchRealEstate(city, 'MLM-CHH', MAX_ITEMS, 0, searchQuery || undefined),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('ML timeout')), 8000))
+            ]) as any;
 
-            try {
-                const searchResponse = await Promise.race([
-                    client.searchRealEstate(city, 'MLM-CHH', MAX_ITEMS, 0, searchQuery || undefined),
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('ML scraper timeout')), 8000))
-                ]) as any;
+            mlListings = searchResponse.results.map((item: any) => {
+                let imageUrl = null;
+                if (item.pictures?.length > 0) {
+                    imageUrl = item.pictures[0].url || item.pictures[0].secure_url;
+                }
+                return {
+                    id: item.id,
+                    title: item.title,
+                    price: item.price,
+                    currency: item.currency_id || 'MXN',
+                    address: item.location?.address_line || item.location?.city?.name || city,
+                    city: item.location?.city?.name || city,
+                    state: item.location?.state?.name || 'Chihuahua',
+                    status: 'active',
+                    imageUrl,
+                    source: 'Mercado Libre',
+                    sourceUrl: item.permalink,
+                    attributes: item.attributes?.map((a: any) => a.name) || [],
+                    propertyType,
+                    fetchedAt: new Date().toISOString()
+                };
+            });
 
-                clearTimeout(timeout);
-
-                listings = searchResponse.results.map((item: any) => {
-                    let imageUrl = null;
-                    if (item.pictures?.length > 0) {
-                        imageUrl = item.pictures[0].url || item.pictures[0].secure_url;
-                    }
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        price: item.price,
-                        currency: item.currency_id || 'MXN',
-                        address: item.location?.address_line || item.location?.city?.name || city,
-                        city: item.location?.city?.name || city,
-                        state: item.location?.state?.name || 'Chihuahua',
-                        status: 'active',
-                        imageUrl,
-                        source: 'Mercado Libre',
-                        sourceUrl: item.permalink,
-                        attributes: item.attributes?.map((a: any) => a.name) || [],
-                        propertyType,
-                        fetchedAt: new Date().toISOString()
-                    };
-                });
-
-                // Apply price filters
-                if (minPrice) listings = listings.filter((l: any) => l.price >= parseFloat(minPrice));
-                if (maxPrice) listings = listings.filter((l: any) => l.price <= parseFloat(maxPrice));
-            } catch (scraperErr: any) {
-                console.log(`[LIVE] ⚠️ ML scraper failed: ${scraperErr.message} — using generated data`);
-            }
-        } catch (importErr: any) {
-            console.log(`[LIVE] ⚠️ ML import failed: ${importErr.message}`);
+            if (minPrice) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
+            if (maxPrice) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+        } catch (e: any) {
+            console.log(`[LIVE] ⚠️ ML scraper: ${e.message}`);
         }
 
-        // Fallback: generate realistic listings if scraper returned nothing
+        // ── Source 2: Facebook via BrowserOS (12s timeout) ─────
+        let fbListings: any[] = [];
+        try {
+            fbListings = await Promise.race([
+                crawlFacebookViaBrowserOS(city, propertyType, MAX_ITEMS),
+                new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 15000))
+            ]);
+
+            if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
+            if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+        } catch (e: any) {
+            console.log(`[LIVE] ⚠️ FB crawl: ${e.message}`);
+        }
+
+        // ── Merge real results ────────────────────────────────
+        let listings = [...mlListings, ...fbListings];
+
+        // ── Source 3: Generated fallback if no real data ──────
         if (listings.length === 0) {
-            console.log(`[LIVE] 📊 Generating ${MAX_ITEMS} listings for: ${city} / ${propertyType || 'all'}`);
+            console.log(`[LIVE] 📊 No real data — generating ${MAX_ITEMS} listings`);
             listings = generateListings(city, propertyType, minPrice, maxPrice);
         }
 
@@ -219,12 +345,12 @@ export async function GET(request: Request) {
             }
         }
 
-        console.log(`[LIVE] ✅ Returning ${listings.length} listings`);
+        const source = fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
+        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length})`);
 
         return NextResponse.json({
-            source: listings[0]?.id?.startsWith('ML-') ? 'generated' : 'live',
+            source,
             cacheKey,
-            count: listings.length,
             listings
         });
 
