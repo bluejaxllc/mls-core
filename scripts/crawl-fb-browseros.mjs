@@ -163,14 +163,35 @@ async function main() {
 
         let listings = [];
         try {
-            // The result may have extra text around the JSON
-            const jsonMatch = rawResult.match(/\[[\s\S]*\]/);
+            // MCP wraps result as: Result: "[{\"id\":...}]"
+            // Need to extract and unescape the JSON
+            let jsonStr = rawResult;
+
+            // Try to extract from Result: "..." wrapper
+            const resultMatch = rawResult.match(/Result:\s*"([\s\S]*)"/);
+            if (resultMatch) {
+                jsonStr = resultMatch[1]
+                    .replace(/\\"/g, '"')
+                    .replace(/\\\\/g, '\\');
+            }
+
+            // Find the JSON array
+            const jsonMatch = jsonStr.match(/\[[\s\S]*\]/);
             if (jsonMatch) {
                 listings = JSON.parse(jsonMatch[0]);
+            } else {
+                // Try parsing the whole thing
+                listings = JSON.parse(jsonStr);
             }
         } catch (e) {
             console.error('❌ Failed to parse extraction result');
             console.log('Raw result (first 500 chars):', rawResult.substring(0, 500));
+            // Ensure data dir exists for debug file
+            const dataDir = resolve(__dirname, '..', 'data');
+            if (!existsSync(dataDir)) {
+                const { mkdirSync } = await import('fs');
+                mkdirSync(dataDir, { recursive: true });
+            }
             writeFileSync(resolve(__dirname, '..', 'data', 'fb-raw-debug.txt'), rawResult);
             return;
         }
