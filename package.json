@@ -104,7 +104,6 @@
     "process-nextick-args": "^2.0.1",
     "proxy-addr": "^2.0.7",
     "proxy-from-env": "^1.1.0",
-    "puppeteer": "^24.37.2",
     "qs": "^6.14.1",
     "range-parser": "^1.2.1",
     "resolve-pkg-maps": "^1.0.0",
@@ -154,5 +153,8 @@
   "bugs": {
     "url": "https://github.com/bluejaxllc/mls-core/issues"
   },
-  "homepage": "https://github.com/bluejaxllc/mls-core#readme"
+  "homepage": "https://github.com/bluejaxllc/mls-core#readme",
+  "devDependencies": {
+    "puppeteer": "^24.37.5"
+  }
 }
