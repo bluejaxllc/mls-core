@@ -38,14 +38,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setResolved(r);
         document.documentElement.classList.toggle('dark', r === 'dark');
         document.documentElement.classList.toggle('light', r === 'light');
+        document.documentElement.setAttribute('data-theme', r);
     }, [theme]);
 
     // Re-check auto theme every minute
     useEffect(() => {
         if (theme !== 'auto') return;
         const interval = setInterval(() => {
-            setResolved(getAutoTheme());
-            document.documentElement.classList.toggle('dark', getAutoTheme() === 'dark');
+            const autoTheme = getAutoTheme();
+            setResolved(autoTheme);
+            document.documentElement.classList.toggle('dark', autoTheme === 'dark');
+            document.documentElement.classList.toggle('light', autoTheme === 'light');
+            document.documentElement.setAttribute('data-theme', autoTheme);
         }, 60000);
         return () => clearInterval(interval);
     }, [theme]);

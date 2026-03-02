@@ -57,43 +57,45 @@ function ListingsContent() {
     const { addItem, removeItem, isInComparison, isFull } = useComparison();
 
     useEffect(() => {
-        if (session?.accessToken) {
-            fetchListings();
-        } else if (session === null) {
-            // No session — load mock data
-            setListings(MOCK_LISTINGS);
-        }
-    }, [session, activeTab, cityFilter, propertyTypeFilter]); // Refetch on filter change
+        fetchListings();
+    }, [activeTab, cityFilter, propertyTypeFilter, minPrice, maxPrice]); // Refetch on filter change
 
     const fetchListings = async () => {
         try {
             setLoading(true);
-            const API_URL = '';
 
-            let status = 'ACTIVE';
-            if (activeTab === 'drafts') status = 'DRAFT';
-            if (activeTab === 'observed') status = 'OBSERVED';
+            // Build query params for the live endpoint
+            const params = new URLSearchParams();
+            if (cityFilter) params.set('city', cityFilter);
+            if (propertyTypeFilter) params.set('propertyType', propertyTypeFilter);
+            if (minPrice) params.set('minPrice', minPrice);
+            if (maxPrice) params.set('maxPrice', maxPrice);
+            if (searchQuery) params.set('q', searchQuery);
 
-            // Construct query params
-            const params = new URLSearchParams({
-                status: status,
-                q: searchQuery,
-                ...(cityFilter && { city: cityFilter }),
-                ...(propertyTypeFilter && { propertyType: propertyTypeFilter }),
-                ...(minPrice && { minPrice }),
-                ...(maxPrice && { maxPrice })
-            });
-
-            const res = await fetch(`${API_URL}/api/protected/search?${params.toString()}`, {
-                headers: {
-                    'Authorization': `Bearer ${session.accessToken}`
-                }
-            });
+            const res = await fetch(`/api/listings/live?${params.toString()}`);
 
             if (res.ok) {
                 const response = await res.json();
-                const listingsData = Array.isArray(response) ? response : (response.data || []);
-                setListings(listingsData.length > 0 ? listingsData : MOCK_LISTINGS);
+                const listingsData = response.listings || [];
+
+                // Map the live API response to our UnifiedListing format
+                const mapped: UnifiedListing[] = listingsData.map((item: any) => ({
+                    id: item.id || item.snapshotId || crypto.randomUUID(),
+                    type: 'OBSERVED' as const,
+                    title: item.title || 'Sin título',
+                    price: item.price || null,
+                    address: item.address || item.city || 'Chihuahua',
+                    status: item.status || 'active',
+                    image: item.imageUrl || null,
+                    trustScore: 90,
+                    source: item.source || 'Mercado Libre',
+                    sourceUrl: item.sourceUrl || item.snapshot?.source?.baseUrl || '',
+                    updatedAt: item.createdAt || new Date().toISOString(),
+                    confidence: item.confidenceScore || 0.8,
+                }));
+
+                setListings(mapped.length > 0 ? mapped : MOCK_LISTINGS);
+                console.log(`[Listings] Loaded ${mapped.length} properties (source: ${response.source})`);
             } else {
                 setListings(MOCK_LISTINGS);
             }

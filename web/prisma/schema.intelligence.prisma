@@ -94,6 +94,10 @@ model ObservedListing {
   // Confidence metadata
   confidenceScore Float    @default(0.5) // 0.0 - 1.0
   
+  // Cache metadata for on-demand fetching
+  cacheKey       String?  // Filter hash for cache lookup
+  propertyType   String?  // residencial, comercial, terreno, industrial
+  
   // Signals generated from this observation
   signals         Signal[]
   
