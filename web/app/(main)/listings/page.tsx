@@ -94,6 +94,8 @@ function ListingsContent() {
                 const response = await res.json();
                 const listingsData = Array.isArray(response) ? response : (response.data || []);
                 setListings(listingsData.length > 0 ? listingsData : MOCK_LISTINGS);
+            } else {
+                setListings(MOCK_LISTINGS);
             }
         } catch (error) {
             console.error(error);

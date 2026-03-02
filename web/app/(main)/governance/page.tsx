@@ -68,7 +68,7 @@ export default function GovernancePage() {
 
             if (rulesData && Array.isArray(rulesData) && rulesData.length > 0) setRules(rulesData);
             else setRules(MOCK_GOVERNANCE_RULES as GovernanceRule[]);
-            if (statsData) setStats(statsData);
+            if (statsData && statsData.totalEvents > 0) setStats(statsData);
             else setStats({
                 totalEvents: 127, totalBlocks: 8, totalPasses: 112, totalWarnings: 7, perRuleStats: {
                     'rule-1': { evaluations: 48, blocks: 2, passed: 44, warnings: 2 },

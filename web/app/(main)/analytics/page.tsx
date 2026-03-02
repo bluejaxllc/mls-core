@@ -35,6 +35,23 @@ export default function AnalyticsPage() {
     const headers = { Authorization: `Bearer ${(session as any)?.accessToken}` };
 
     useEffect(() => {
+        if (session === null) {
+            // No session — load mock data directly
+            setOverview({
+                totalViews: 1247, uniqueViewers: 432, weekTrend: 12.5, thisWeekViews: 247,
+                dailyViews: Array.from({ length: 30 }, (_, i) => ({
+                    date: new Date(Date.now() - (29 - i) * 86400000).toISOString().split('T')[0],
+                    views: Math.floor(Math.random() * 50) + 10,
+                })),
+                topListing: { id: 'mock-1', title: 'Casa Residencial en Lomas del Santuario', views: 312 },
+            });
+            setRankings(MOCK_LISTINGS.map(l => ({
+                listingId: l.id, title: l.title, price: l.price || 0, status: l.status, image: null,
+                views: Math.floor(Math.random() * 200) + 50,
+            })));
+            setLoading(false);
+            return;
+        }
         if (!session) return;
         Promise.all([
             fetch(`${API}/api/protected/analytics/overview`, { headers }).then(r => r.json()),
