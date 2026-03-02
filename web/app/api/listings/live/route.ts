@@ -4,7 +4,7 @@ import crypto from 'crypto';
 export const dynamic = 'force-dynamic';
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
-const MAX_ITEMS = 25;
+const MAX_ITEMS = 100;
 
 // In-memory cache: cacheKey -> { timestamp, listings[] }
 const memoryCache = new Map<string, { timestamp: number; listings: any[] }>();
@@ -15,41 +15,49 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
 
     const cityData: Record<string, { neighborhoods: string[], prefix: string }> = {
         'Chihuahua': {
-            neighborhoods: ['Lomas del Santuario', 'Zona Centro', 'Periférico de la Juventud', 'Complejo Industrial', 'Las Granjas', 'Quintas del Sol', 'Cumbres', 'Villa Juárez', 'Haciendas', 'Santa Rita', 'Riberas del Sacramento', 'San Felipe', 'Nombre de Dios', 'Palmas'],
+            neighborhoods: ['Lomas del Santuario', 'Zona Centro', 'Periférico de la Juventud', 'Complejo Industrial', 'Las Granjas', 'Quintas del Sol', 'Cumbres', 'Villa Juárez', 'Haciendas', 'Santa Rita', 'Riberas del Sacramento', 'San Felipe', 'Nombre de Dios', 'Palmas', 'Campestre', 'Paseos de Chihuahua', 'Jardines del Sol', 'Residencial Universidad', 'Los Nogales', 'Los Pinos', 'San Pedro', 'Villas del Real', 'Sierra Vista', 'Colinas del Sol', 'Punta Oriente'],
             prefix: 'Chihuahua'
         },
         'Ciudad Juárez': {
-            neighborhoods: ['Pronaf', 'Campestre', 'Gómez Morín', 'Misión de los Lagos', 'Las Torres', 'Fuentes del Valle', 'Paseo de las Torres', 'Rincón de las Palmas'],
+            neighborhoods: ['Pronaf', 'Campestre', 'Gómez Morín', 'Misión de los Lagos', 'Las Torres', 'Fuentes del Valle', 'Paseo de las Torres', 'Rincón de las Palmas', 'Jardines de San José', 'Los Nogales', 'Partido Romero', 'Bosques del Sol', 'Las Haciendas', 'Zaragoza', 'Rivera del Bravo', 'Portal del Norte', 'Quintas del Valle', 'Cordilleras', 'Montecarlo', 'Pradera Dorada'],
             prefix: 'Cd. Juárez'
         },
         'Delicias': {
-            neighborhoods: ['Centro', 'Las Brisas', 'Industrial', 'Los Álamos', 'Vista Hermosa'],
+            neighborhoods: ['Centro', 'Las Brisas', 'Industrial', 'Los Álamos', 'Vista Hermosa', 'Col. del Valle', 'Jardines', 'Praderas', 'Nueva Esperanza', 'Los Girasoles', 'La Cañada', 'San José', 'Los Cedros'],
             prefix: 'Delicias'
         },
         'Cuauhtémoc': {
-            neighborhoods: ['Centro', 'Col. Obrera', 'Anáhuac', 'Las Granjas'],
+            neighborhoods: ['Centro', 'Col. Obrera', 'Anáhuac', 'Las Granjas', 'Industrial Norte', 'Los Pinos', 'Campestre', 'Del Valle', 'San Antonio', 'La Hacienda', 'Los Olivos'],
             prefix: 'Cuauhtémoc'
+        },
+        'Hidalgo del Parral': {
+            neighborhoods: ['Centro Histórico', 'Del Valle', 'Industrial', 'Las Palmas', 'San José', 'Col. Emiliano Zapata', 'El Molinito', 'Los Fresnos', 'La Prieta'],
+            prefix: 'Hidalgo del Parral'
+        },
+        'Nuevo Casas Grandes': {
+            neighborhoods: ['Centro', 'Col. Progreso', 'Campestre', 'Industrial', 'Las Quintas', 'Los Portales', 'San José', 'Paquimé', 'El Porvenir'],
+            prefix: 'Nuevo Casas Grandes'
         },
     };
 
     const typeConfig: Record<string, { titles: string[], priceRange: [number, number], icon: string }> = {
         'residential': {
-            titles: ['Casa Residencial', 'Casa de 3 Recámaras', 'Residencia Premium', 'Casa Familiar', 'Casa Nueva', 'Casa con Jardín', 'Casa Moderna'],
+            titles: ['Casa Residencial', 'Casa de 3 Recámaras', 'Residencia Premium', 'Casa Familiar', 'Casa Nueva', 'Casa con Jardín', 'Casa Moderna', 'Casa en Condominio', 'Casa de 2 Pisos', 'Departamento Amueblado', 'Penthouse', 'Casa Estilo Californiano', 'Casa con Alberca', 'Casa Remodelada', 'Duplex'],
             priceRange: [1800000, 8500000],
             icon: '🏠'
         },
         'commercial': {
-            titles: ['Local Comercial', 'Oficina Premium', 'Plaza Comercial', 'Consultorio', 'Restaurante en Traspaso', 'Bodega Comercial'],
+            titles: ['Local Comercial', 'Oficina Premium', 'Plaza Comercial', 'Consultorio', 'Restaurante en Traspaso', 'Bodega Comercial', 'Oficina Ejecutiva', 'Centro Médico', 'Edificio de Oficinas', 'Local en Plaza', 'Salón de Eventos', 'Estética en Traspaso'],
             priceRange: [2500000, 15000000],
             icon: '🏢'
         },
         'land': {
-            titles: ['Terreno Residencial', 'Terreno Comercial', 'Lote Urbanizado', 'Terreno para Desarrollo', 'Rancho', 'Predio Rústico'],
+            titles: ['Terreno Residencial', 'Terreno Comercial', 'Lote Urbanizado', 'Terreno para Desarrollo', 'Rancho', 'Predio Rústico', 'Lote Esquinero', 'Terreno con Servicios', 'Parcela Agrícola', 'Hectárea en Venta', 'Terreno en Fraccionamiento'],
             priceRange: [500000, 12000000],
             icon: '🌎'
         },
         'industrial': {
-            titles: ['Nave Industrial', 'Bodega Industrial', 'Planta de Producción', 'Centro de Distribución', 'Almacén'],
+            titles: ['Nave Industrial', 'Bodega Industrial', 'Planta de Producción', 'Centro de Distribución', 'Almacén', 'Parque Industrial', 'Taller Mecánico', 'Fábrica', 'Warehouse', 'Cedis'],
             priceRange: [5000000, 25000000],
             icon: '🏭'
         },

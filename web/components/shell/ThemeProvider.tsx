@@ -18,10 +18,15 @@ export function useTheme() {
     return useContext(ThemeContext);
 }
 
-function getAutoTheme(): 'light' | 'dark' {
-    const hour = new Date().getHours();
-    // Dark from 7PM to 7AM
-    return (hour >= 19 || hour < 7) ? 'dark' : 'light';
+function getSystemTheme(): 'light' | 'dark' {
+    if (typeof window === 'undefined') return 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(r: 'light' | 'dark') {
+    document.documentElement.classList.toggle('dark', r === 'dark');
+    document.documentElement.classList.toggle('light', r === 'light');
+    document.documentElement.setAttribute('data-theme', r);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -34,24 +39,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     useEffect(() => {
-        const r = theme === 'auto' ? getAutoTheme() : theme;
+        const r = theme === 'auto' ? getSystemTheme() : theme;
         setResolved(r);
-        document.documentElement.classList.toggle('dark', r === 'dark');
-        document.documentElement.classList.toggle('light', r === 'light');
-        document.documentElement.setAttribute('data-theme', r);
+        applyTheme(r);
     }, [theme]);
 
-    // Re-check auto theme every minute
+    // Listen for OS theme changes in real-time (only in auto mode)
     useEffect(() => {
         if (theme !== 'auto') return;
-        const interval = setInterval(() => {
-            const autoTheme = getAutoTheme();
-            setResolved(autoTheme);
-            document.documentElement.classList.toggle('dark', autoTheme === 'dark');
-            document.documentElement.classList.toggle('light', autoTheme === 'light');
-            document.documentElement.setAttribute('data-theme', autoTheme);
-        }, 60000);
-        return () => clearInterval(interval);
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (e: MediaQueryListEvent) => {
+            const r = e.matches ? 'dark' : 'light';
+            setResolved(r);
+            applyTheme(r);
+        };
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
     }, [theme]);
 
     const setTheme = (t: Theme) => {
