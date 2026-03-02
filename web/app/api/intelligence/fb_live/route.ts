@@ -19,33 +19,7 @@ export async function GET(request: Request) {
         const { searchParams } = new URL(request.url);
         const page = parseInt(searchParams.get('page') || '0', 10);
 
-        // Try backend proxy first (for on-demand Puppeteer crawl)
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL;
-        if (backendUrl) {
-            try {
-                const url = `${backendUrl}/api/intelligence/fb/drip?page=${page}`;
-                console.log(`[FB_LIVE] Proxying to backend: ${url}`);
-
-                const authHeader = request.headers.get('authorization');
-                const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-                if (authHeader) headers['Authorization'] = authHeader;
-
-                const response = await fetch(url, {
-                    headers,
-                    signal: AbortSignal.timeout(30000),
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    return NextResponse.json(data);
-                }
-                console.warn(`[FB_LIVE] Backend returned ${response.status}, falling back to DB`);
-            } catch (e: any) {
-                console.warn(`[FB_LIVE] Backend unreachable: ${e.message}. Serving from DB.`);
-            }
-        }
-
-        // Fallback: try serving from intelligence DB
+        // Serve from intelligence DB directly
         return await serveFromDb(page);
 
     } catch (e: any) {
@@ -57,7 +31,7 @@ export async function GET(request: Request) {
             hasMore: false,
             cached: false,
             source: 'error',
-            note: 'Facebook data unavailable. Configure NEXT_PUBLIC_API_URL or deploy Railway backend.',
+            note: 'Facebook data unavailable.',
         });
     }
 }

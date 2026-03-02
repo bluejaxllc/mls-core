@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { ThemeProvider } from '@/components/shell/ThemeProvider'
 import { LanguageProvider } from '@/lib/i18n'
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { ClickSparkle } from '@/components/ui/click-sparkle'
@@ -61,16 +62,18 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en" suppressHydrationWarning>
             <body className={inter.className}>
                 <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-background to-background pointer-events-none z-[-1]" />
                 <div className="fixed inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10 pointer-events-none z-[-1]" />
                 <AuthProvider>
-                    <LanguageProvider>
-                        <ToastProvider />
-                        <ClickSparkle />
-                        {children}
-                    </LanguageProvider>
+                    <ThemeProvider>
+                        <LanguageProvider>
+                            <ToastProvider />
+                            <ClickSparkle />
+                            {children}
+                        </LanguageProvider>
+                    </ThemeProvider>
                 </AuthProvider>
             </body>
         </html>

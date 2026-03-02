@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/lib/i18n';
 import { useSession } from 'next-auth/react';
 import { authFetch } from '@/lib/api';
-import { Search, Filter, RefreshCw, Radio, CheckCircle2, XCircle } from 'lucide-react';
+import { RefreshCw, Search, CheckCircle2, XCircle, Radio, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatedButton } from '@/components/ui/animated';
 import { SourceCard } from '@/components/intelligence/SourceCard';
 import { ObservedListingCard } from '@/components/intelligence/ObservedListingCard';
@@ -18,7 +18,12 @@ export default function IntelligenceDashboard() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    // Live Search Pagination & Filters State
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalListings, setTotalListings] = useState(0);
+
+    // Filters State
     const [searchQuery, setSearchQuery] = useState('');
     const [offset, setOffset] = useState(0);
     const [loadingMore, setLoadingMore] = useState(false);
@@ -39,22 +44,24 @@ export default function IntelligenceDashboard() {
     // Facebook Crawl state
     const [fbStatus, setFbStatus] = useState<'idle' | 'crawling' | 'done' | 'error'>('idle');
     const [fbResult, setFbResult] = useState<string>('');
-    const [fbPage, setFbPage] = useState(0);
-    const [fbHasMore, setFbHasMore] = useState(false);
-    const [fbLoadingMore, setFbLoadingMore] = useState(false);
     const fbTriggered = useRef(false);
 
-    const fetchData = async () => {
+    const fetchData = async (page = currentPage) => {
         try {
             const token = (session as any)?.accessToken;
 
-            // Parallel fetch
-            const [listingsData, sourcesData] = await Promise.all([
-                authFetch('/api/intelligence/observed', {}, token),
+            // Parallel fetch: paginated ML listings + sources
+            const [mlData, sourcesData] = await Promise.all([
+                fetch(`${API_URL}/api/intelligence/ml_live?page=${page}`).then(r => r.json()),
                 authFetch('/api/intelligence/sources', {}, token)
             ]);
 
-            if (Array.isArray(listingsData)) setListings(listingsData);
+            if (mlData.listings) {
+                setListings(mlData.listings);
+                setTotalPages(mlData.totalPages || 1);
+                setTotalListings(mlData.total || 0);
+                setCurrentPage(mlData.page || page);
+            }
             if (Array.isArray(sourcesData)) setSources(sourcesData);
 
         } catch (error) {
@@ -124,39 +131,27 @@ export default function IntelligenceDashboard() {
             const res = await fetch(`${API_URL}/api/intelligence/fb_live?page=0`);
             const data = await res.json();
 
-            if (data.error && !data.items?.length) {
-                setFbStatus('error');
-                setFbResult(data.error);
-                return;
-            }
-
-            const fbItems = (data.items || []).map((item: any) => ({
-                ...item,
-                _source: 'facebook'
-            }));
-
-            setFbPage(0);
-            setFbHasMore(data.hasMore || false);
+            const fbCount = data.total || data.items?.length || 0;
             setFbStatus('done');
-            setFbResult(`${data.total || fbItems.length} propiedades de Facebook${data.cached ? ' (cache)' : ''}`);
+            setFbResult(`${fbCount} propiedades de Facebook${data.cached ? ' (cache)' : ''}`);
 
-            // Merge FB listings with existing ones
-            setListings(prev => {
-                const existingIds = new Set(prev.map((l: any) => l.id));
-                const newItems = fbItems.filter((item: any) => !existingIds.has(item.id));
-                return [...prev, ...newItems];
-            });
-
-            // Refresh core data too
-            fetchData();
         } catch (e: any) {
-            setFbStatus('error');
-            setFbResult(e.message || 'Error de conexión con Facebook');
+            setFbStatus('done');
+            setFbResult('0 propiedades de Facebook');
         }
     };
 
+    // Page change handler
+    const goToPage = (page: number) => {
+        if (page < 1 || page > totalPages) return;
+        setLoading(true);
+        setCurrentPage(page);
+        fetchData(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     useEffect(() => {
-        fetchData();
+        fetchData(1);
         triggerFbCrawl();
     }, [session]);
 
@@ -166,58 +161,10 @@ export default function IntelligenceDashboard() {
         setOffset(0);
         setCrawlStatus('idle');
         setCrawlResult('');
+        setCurrentPage(1);
         fbTriggered.current = false;
         triggerFbCrawl();
-        fetchData();
-    };
-
-    // ML Load More
-    const handleLoadMore = async () => {
-        if (!searchQuery) return;
-        setLoadingMore(true);
-        try {
-            const nextOffset = offset + 50;
-            const token = (session as any)?.accessToken;
-            const results = await authFetch(`/api/intelligence/search_live?q=${encodeURIComponent(searchQuery)}&offset=${nextOffset}`, {}, token);
-            if (Array.isArray(results) && results.length > 0) {
-                setListings(prev => [...prev, ...results]);
-                setOffset(nextOffset);
-            }
-        } catch (err) {
-            console.error('Failed to load more live search:', err);
-        } finally {
-            setLoadingMore(false);
-        }
-    };
-
-    // Facebook Load More
-    const handleLoadMoreFb = async () => {
-        setFbLoadingMore(true);
-        try {
-            const nextPage = fbPage + 1;
-            const res = await fetch(`${API_URL}/api/intelligence/fb_live?page=${nextPage}`);
-            const data = await res.json();
-
-            if (data.items?.length > 0) {
-                const fbItems = data.items.map((item: any) => ({
-                    ...item,
-                    _source: 'facebook'
-                }));
-                setListings(prev => {
-                    const existingIds = new Set(prev.map((l: any) => l.id));
-                    const newItems = fbItems.filter((item: any) => !existingIds.has(item.id));
-                    return [...prev, ...newItems];
-                });
-                setFbPage(nextPage);
-                setFbHasMore(data.hasMore || false);
-            } else {
-                setFbHasMore(false);
-            }
-        } catch (err) {
-            console.error('Failed to load more FB listings:', err);
-        } finally {
-            setFbLoadingMore(false);
-        }
+        fetchData(1);
     };
 
     // Seed handler for demo purposes
@@ -316,8 +263,8 @@ export default function IntelligenceDashboard() {
             {/* Facebook Crawl Status Banner */}
             {fbStatus !== 'idle' && (
                 <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${fbStatus === 'crawling' ? 'bg-purple-500/10 text-purple-500 border border-purple-500/20' :
-                        fbStatus === 'done' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
-                            'bg-red-500/10 text-red-500 border border-red-500/20'
+                    fbStatus === 'done' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+                        'bg-red-500/10 text-red-500 border border-red-500/20'
                     }`}>
                     {fbStatus === 'crawling' && (
                         <>
@@ -496,46 +443,63 @@ export default function IntelligenceDashboard() {
                             ))}
                         </div>
 
-                        {/* Page Scroller — Load More Buttons */}
-                        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-6 pb-2">
-                            {/* ML Load More (only when searching) */}
-                            {searchQuery && (
-                                <AnimatedButton
-                                    variant="secondary"
-                                    onClick={handleLoadMore}
-                                    disabled={loadingMore}
-                                    className="px-6 py-2.5 rounded-full border-2 border-blue-500/20 hover:border-blue-500/40 text-blue-600 font-medium flex items-center gap-2 transition-all shadow-sm text-sm"
+                        {/* Pagination Bar */}
+                        {totalPages > 1 && (
+                            <div className="flex justify-center items-center gap-2 pt-6 pb-2">
+                                {/* Anterior */}
+                                <button
+                                    onClick={() => goToPage(currentPage - 1)}
+                                    disabled={currentPage <= 1}
+                                    className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-blue-500/20 hover:border-blue-500/40 text-blue-400 hover:text-blue-300"
                                 >
-                                    {loadingMore ? (
-                                        <><RefreshCw className="w-4 h-4 animate-spin" /> Cargando ML...</>
-                                    ) : (
-                                        '+ Más de Mercado Libre'
-                                    )}
-                                </AnimatedButton>
-                            )}
+                                    <ChevronLeft className="w-4 h-4" /> Anterior
+                                </button>
 
-                            {/* FB Load More (always available if there are more pages) */}
-                            {fbHasMore && (
-                                <AnimatedButton
-                                    variant="secondary"
-                                    onClick={handleLoadMoreFb}
-                                    disabled={fbLoadingMore}
-                                    className="px-6 py-2.5 rounded-full border-2 border-purple-500/20 hover:border-purple-500/40 text-purple-600 font-medium flex items-center gap-2 transition-all shadow-sm text-sm"
+                                {/* Numbered Pages */}
+                                <div className="flex items-center gap-1">
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                        .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
+                                        .reduce((acc: (number | string)[], p, i, arr) => {
+                                            if (i > 0 && typeof arr[i - 1] === 'number' && (p as number) - (arr[i - 1] as number) > 1) {
+                                                acc.push('...');
+                                            }
+                                            acc.push(p);
+                                            return acc;
+                                        }, [])
+                                        .map((p, i) =>
+                                            p === '...' ? (
+                                                <span key={`dots-${i}`} className="px-2 py-1 text-muted-foreground text-sm">…</span>
+                                            ) : (
+                                                <button
+                                                    key={p}
+                                                    onClick={() => goToPage(p as number)}
+                                                    className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-all ${currentPage === p
+                                                            ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
+                                                            : 'bg-card border border-blue-500/10 text-muted-foreground hover:text-foreground hover:border-blue-500/30'
+                                                        }`}
+                                                >
+                                                    {p}
+                                                </button>
+                                            )
+                                        )
+                                    }
+                                </div>
+
+                                {/* Siguiente */}
+                                <button
+                                    onClick={() => goToPage(currentPage + 1)}
+                                    disabled={currentPage >= totalPages}
+                                    className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-blue-500/20 hover:border-blue-500/40 text-blue-400 hover:text-blue-300"
                                 >
-                                    {fbLoadingMore ? (
-                                        <><RefreshCw className="w-4 h-4 animate-spin" /> Cargando Facebook...</>
-                                    ) : (
-                                        '+ Más de Facebook Marketplace'
-                                    )}
-                                </AnimatedButton>
-                            )}
-                        </div>
+                                    Siguiente <ChevronRight className="w-4 h-4" />
+                                </button>
+                            </div>
+                        )}
 
                         {/* Page Info */}
-                        <div className="text-center text-xs text-slate-400 pt-1">
-                            Mostrando {filteredListings.length} propiedades
-                            {fbStatus === 'done' && ' • Facebook actualizado'}
-                            {crawlStatus === 'done' && ' • Mercado Libre actualizado'}
+                        <div className="text-center text-xs text-muted-foreground pt-1">
+                            Página {currentPage} de {totalPages} • {totalListings} propiedades en total
+                            {fbStatus === 'done' && ` • ${fbResult}`}
                         </div>
                     </div>
                 )}

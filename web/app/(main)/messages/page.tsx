@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Send, ArrowLeft, Search, User, Clock } from 'lucide-react';
+import { MOCK_MESSAGES } from '@/lib/mock-data';
 
 interface ConversationSummary {
     id: string;
@@ -43,7 +44,12 @@ export default function MessagesPage() {
     const userId = session?.user?.id || session?.accessToken?.split('.')?.[0]; // fallback
 
     useEffect(() => {
-        if (session?.accessToken) fetchConversations();
+        if (session?.accessToken) {
+            fetchConversations();
+        } else if (session === null) {
+            setConversations(MOCK_MESSAGES as any);
+            setLoading(false);
+        }
     }, [session]);
 
     useEffect(() => {
@@ -55,9 +61,15 @@ export default function MessagesPage() {
             const res = await fetch(`${API_URL}/api/protected/messages/conversations`, {
                 headers: { 'Authorization': `Bearer ${session.accessToken}` }
             });
-            if (res.ok) setConversations(await res.json());
+            if (res.ok) {
+                const data = await res.json();
+                setConversations(data.length > 0 ? data : MOCK_MESSAGES as any);
+            } else {
+                setConversations(MOCK_MESSAGES as any);
+            }
         } catch (e) {
             console.error('Failed to fetch conversations', e);
+            setConversations(MOCK_MESSAGES as any);
         } finally {
             setLoading(false);
         }

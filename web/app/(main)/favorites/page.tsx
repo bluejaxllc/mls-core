@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trash2, Building2, MapPin, ExternalLink, FolderPlus, Folder, Plus, X } from 'lucide-react';
 import Link from 'next/link';
+import { MOCK_FAVORITES } from '@/lib/mock-data';
 
 interface FavoriteWithListing {
     id: string;
@@ -48,6 +49,9 @@ export default function FavoritesPage() {
         if (session?.accessToken) {
             fetchFavorites();
             fetchCollections();
+        } else if (session === null) {
+            setFavorites(MOCK_FAVORITES as any);
+            setLoading(false);
         }
     }, [session]);
 
@@ -56,9 +60,15 @@ export default function FavoritesPage() {
             const res = await fetch(`${API_URL}/api/protected/favorites`, {
                 headers: { 'Authorization': `Bearer ${session.accessToken}` }
             });
-            if (res.ok) setFavorites(await res.json());
+            if (res.ok) {
+                const data = await res.json();
+                setFavorites(data.length > 0 ? data : MOCK_FAVORITES as any);
+            } else {
+                setFavorites(MOCK_FAVORITES as any);
+            }
         } catch (e) {
             console.error('Failed to fetch favorites', e);
+            setFavorites(MOCK_FAVORITES as any);
         } finally {
             setLoading(false);
         }

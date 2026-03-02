@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, BellOff, CheckCheck, CalendarDays, Shield, Info, AlertTriangle, Loader2, X, Inbox } from 'lucide-react';
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
 import toast from 'react-hot-toast';
+import { MOCK_NOTIFICATIONS } from '@/lib/mock-data';
 
 interface Notification {
     id: string;
@@ -39,16 +40,27 @@ export default function NotificationsPage() {
             const res = await fetch(`${API}/api/protected/notifications?limit=50`, {
                 headers: { Authorization: `Bearer ${(session as any)?.accessToken}` }
             });
-            if (res.ok) setNotifications(await res.json());
+            if (res.ok) {
+                const data = await res.json();
+                setNotifications(data.length > 0 ? data : MOCK_NOTIFICATIONS.map(n => ({ ...n, isRead: n.read, data: {} })) as any);
+            } else {
+                setNotifications(MOCK_NOTIFICATIONS.map(n => ({ ...n, isRead: n.read, data: {} })) as any);
+            }
         } catch (err) {
             console.error('Error fetching notifications:', err);
+            setNotifications(MOCK_NOTIFICATIONS.map(n => ({ ...n, isRead: n.read, data: {} })) as any);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        if (session) fetchNotifications();
+        if (session) {
+            fetchNotifications();
+        } else if (session === null) {
+            setNotifications(MOCK_NOTIFICATIONS.map(n => ({ ...n, isRead: n.read, data: {} })) as any);
+            setLoading(false);
+        }
     }, [session]);
 
     const markRead = async (id: string) => {

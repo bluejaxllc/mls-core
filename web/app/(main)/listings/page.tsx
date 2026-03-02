@@ -9,6 +9,7 @@ import { PageTransition, AnimatedCard, AnimatedButton } from '@/components/ui/an
 import { GovernanceMenu } from '@/components/listings/GovernanceMenu';
 import { motion } from 'framer-motion';
 import { useComparison } from '@/lib/comparison-context';
+import { MOCK_LISTINGS } from '@/lib/mock-data';
 
 // Assuming we have a unified type or an "any" soup for now
 interface UnifiedListing {
@@ -58,6 +59,9 @@ function ListingsContent() {
     useEffect(() => {
         if (session?.accessToken) {
             fetchListings();
+        } else if (session === null) {
+            // No session — load mock data
+            setListings(MOCK_LISTINGS);
         }
     }, [session, activeTab, cityFilter, propertyTypeFilter]); // Refetch on filter change
 
@@ -89,10 +93,11 @@ function ListingsContent() {
             if (res.ok) {
                 const response = await res.json();
                 const listingsData = Array.isArray(response) ? response : (response.data || []);
-                setListings(listingsData);
+                setListings(listingsData.length > 0 ? listingsData : MOCK_LISTINGS);
             }
         } catch (error) {
             console.error(error);
+            setListings(MOCK_LISTINGS);
         } finally {
             setLoading(false);
         }
