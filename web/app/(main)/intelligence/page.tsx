@@ -50,17 +50,25 @@ export default function IntelligenceDashboard() {
         try {
             const token = (session as any)?.accessToken;
 
-            // Parallel fetch: paginated ML listings + sources
-            const [mlData, sourcesData] = await Promise.all([
-                fetch(`${API_URL}/api/intelligence/ml_live?page=${page}`).then(r => r.json()),
+            // Fetch live listings (returns ML + FB combined) + sources
+            const cityParam = city !== 'All' ? city : 'Chihuahua';
+            const [liveData, sourcesData] = await Promise.all([
+                fetch(`${API_URL}/api/listings/live?city=${encodeURIComponent(cityParam)}&propertyType=${propertyType !== 'ALL' ? propertyType.toLowerCase() : ''}`).then(r => r.json()),
                 authFetch('/api/intelligence/sources', {}, token)
             ]);
 
-            if (mlData.listings) {
-                setListings(mlData.listings);
-                setTotalPages(mlData.totalPages || 1);
-                setTotalListings(mlData.total || 0);
-                setCurrentPage(mlData.page || page);
+            if (liveData.listings) {
+                setListings(liveData.listings);
+                setTotalPages(1);
+                setTotalListings(liveData.listings.length);
+                setCurrentPage(1);
+
+                // Update FB status from the live response
+                const fbCount = liveData.listings.filter((l: any) => l.source === 'Facebook Marketplace').length;
+                if (fbCount > 0) {
+                    setFbStatus('done');
+                    setFbResult(`${fbCount} propiedades de Facebook`);
+                }
             }
             if (Array.isArray(sourcesData)) setSources(sourcesData);
 
@@ -121,24 +129,13 @@ export default function IntelligenceDashboard() {
         }
     };
 
-    // Auto-trigger Facebook Marketplace crawl on page load
+    // Facebook status is now set automatically in fetchData
     const triggerFbCrawl = async () => {
+        // FB data is already included in the live listings response
+        // This function is kept for compatibility but the status is set in fetchData
         if (fbTriggered.current) return;
         fbTriggered.current = true;
-
-        try {
-            setFbStatus('crawling');
-            const res = await fetch(`${API_URL}/api/intelligence/fb_live?page=0`);
-            const data = await res.json();
-
-            const fbCount = data.total || data.items?.length || 0;
-            setFbStatus('done');
-            setFbResult(`${fbCount} propiedades de Facebook${data.cached ? ' (cache)' : ''}`);
-
-        } catch (e: any) {
-            setFbStatus('done');
-            setFbResult('0 propiedades de Facebook');
-        }
+        // Status already set by fetchData
     };
 
     // Page change handler
@@ -474,8 +471,8 @@ export default function IntelligenceDashboard() {
                                                     key={p}
                                                     onClick={() => goToPage(p as number)}
                                                     className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-all ${currentPage === p
-                                                            ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
-                                                            : 'bg-card border border-blue-500/10 text-muted-foreground hover:text-foreground hover:border-blue-500/30'
+                                                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
+                                                        : 'bg-card border border-blue-500/10 text-muted-foreground hover:text-foreground hover:border-blue-500/30'
                                                         }`}
                                                 >
                                                     {p}
