@@ -42,22 +42,27 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
     };
 
     const typeConfig: Record<string, { titles: string[], priceRange: [number, number], icon: string }> = {
-        'residential': {
-            titles: ['Casa Residencial', 'Casa de 3 Recámaras', 'Residencia Premium', 'Casa Familiar', 'Casa Nueva', 'Casa con Jardín', 'Casa Moderna', 'Casa en Condominio', 'Casa de 2 Pisos', 'Departamento Amueblado', 'Penthouse', 'Casa Estilo Californiano', 'Casa con Alberca', 'Casa Remodelada', 'Duplex'],
+        'HOUSE': {
+            titles: ['Casa Residencial', 'Casa de 3 Recámaras', 'Residencia Premium', 'Casa Familiar', 'Casa Nueva', 'Casa con Jardín', 'Casa Moderna', 'Casa en Condominio', 'Casa de 2 Pisos', 'Casa Estilo Californiano', 'Casa con Alberca', 'Casa Remodelada', 'Duplex'],
             priceRange: [1800000, 8500000],
             icon: '🏠'
         },
-        'commercial': {
+        'APARTMENT': {
+            titles: ['Departamento Amueblado', 'Penthouse', 'Loft Céntrico', 'Departamento 2 Recámaras', 'Departamento con Amenidades'],
+            priceRange: [1200000, 5500000],
+            icon: '🏢'
+        },
+        'COMMERCIAL': {
             titles: ['Local Comercial', 'Oficina Premium', 'Plaza Comercial', 'Consultorio', 'Restaurante en Traspaso', 'Bodega Comercial', 'Oficina Ejecutiva', 'Centro Médico', 'Edificio de Oficinas', 'Local en Plaza', 'Salón de Eventos', 'Estética en Traspaso'],
             priceRange: [2500000, 15000000],
             icon: '🏢'
         },
-        'land': {
+        'LAND': {
             titles: ['Terreno Residencial', 'Terreno Comercial', 'Lote Urbanizado', 'Terreno para Desarrollo', 'Rancho', 'Predio Rústico', 'Lote Esquinero', 'Terreno con Servicios', 'Parcela Agrícola', 'Hectárea en Venta', 'Terreno en Fraccionamiento'],
             priceRange: [500000, 12000000],
             icon: '🌎'
         },
-        'industrial': {
+        'INDUSTRIAL': {
             titles: ['Nave Industrial', 'Bodega Industrial', 'Planta de Producción', 'Centro de Distribución', 'Almacén', 'Parque Industrial', 'Taller Mecánico', 'Fábrica', 'Warehouse', 'Cedis'],
             priceRange: [5000000, 25000000],
             icon: '🏭'
@@ -65,7 +70,7 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
     };
 
     const activeCityData = cityData[city] || cityData['Chihuahua'];
-    const types = propertyType ? [propertyType] : ['residential', 'commercial', 'land', 'industrial'];
+    const types = propertyType ? [propertyType.toUpperCase()] : ['HOUSE', 'APARTMENT', 'LAND', 'COMMERCIAL', 'INDUSTRIAL'];
 
     const listings: any[] = [];
 
@@ -100,10 +105,10 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
             sourceUrl: `https://inmueble.mercadolibre.com.mx/MLM-${(700000000 + i * 13337)}`,
             attributes: [
                 `${area} m²`,
-                type === 'residential' ? `${2 + (i % 3)} recámaras` : '',
-                type === 'residential' ? `${1 + (i % 2)} baños` : '',
-                type === 'commercial' ? 'Estacionamiento' : '',
-                type === 'land' ? 'Escrituras al corriente' : '',
+                ['HOUSE', 'APARTMENT'].includes(type) ? `${2 + (i % 3)} recámaras` : '',
+                ['HOUSE', 'APARTMENT'].includes(type) ? `${1 + (i % 2)} baños` : '',
+                type === 'COMMERCIAL' ? 'Estacionamiento' : '',
+                type === 'LAND' ? 'Escrituras al corriente' : '',
             ].filter(Boolean),
             propertyType: type,
             fetchedAt: new Date().toISOString()
@@ -272,9 +277,10 @@ export async function GET(request: Request) {
             const client = mlCrawler.client;
 
             const typeMap: Record<string, string> = {
-                'residential': 'casas',
-                'commercial': 'locales comerciales',
+                'house': 'casas',
+                'apartment': 'departamentos',
                 'land': 'terrenos',
+                'commercial': 'locales comerciales',
                 'industrial': 'bodegas',
             };
             const searchQuery = (propertyType && typeMap[propertyType]) ? typeMap[propertyType] : q;
@@ -302,7 +308,7 @@ export async function GET(request: Request) {
                     source: 'Mercado Libre',
                     sourceUrl: item.permalink,
                     attributes: item.attributes?.map((a: any) => a.name) || [],
-                    propertyType,
+                    propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
                     fetchedAt: new Date().toISOString()
                 };
             });
@@ -344,7 +350,7 @@ export async function GET(request: Request) {
                             imageUrl: item.imageUrl,
                             source: 'Facebook Marketplace',
                             sourceUrl: item.url,
-                            propertyType: propertyType || 'residential',
+                            propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
                             fetchedAt: item.fetchedAt || new Date().toISOString(),
                         };
                     });
