@@ -46,6 +46,8 @@ export default function IntelligenceDashboard() {
     const [fbResult, setFbResult] = useState<string>('');
     const fbTriggered = useRef(false);
 
+    const ITEMS_PER_PAGE = 9;
+
     const fetchData = async (page = currentPage) => {
         try {
             const token = (session as any)?.accessToken;
@@ -59,9 +61,10 @@ export default function IntelligenceDashboard() {
 
             if (liveData.listings) {
                 setListings(liveData.listings);
-                setTotalPages(1);
+                const pages = Math.ceil(liveData.listings.length / ITEMS_PER_PAGE);
+                setTotalPages(pages);
                 setTotalListings(liveData.listings.length);
-                setCurrentPage(1);
+                setCurrentPage(page > pages ? 1 : page);
 
                 // Update FB status from the live response
                 const fbCount = liveData.listings.filter((l: any) => l.source === 'Facebook Marketplace').length;
@@ -150,6 +153,7 @@ export default function IntelligenceDashboard() {
     useEffect(() => {
         fetchData(1);
         triggerFbCrawl();
+        triggerCrawl(); // Also trigger ML crawl
     }, [session]);
 
     const handleRefresh = () => {
@@ -186,6 +190,13 @@ export default function IntelligenceDashboard() {
         if (maxPrice && (item.price || 0) > Number(maxPrice)) return false;
         return true;
     });
+
+    // Client-side pagination
+    const paginatedListings = filteredListings.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+    const filteredTotalPages = Math.max(1, Math.ceil(filteredListings.length / ITEMS_PER_PAGE));
 
     return (
         <div className="space-y-8 max-w-7xl mx-auto pb-10">
@@ -331,7 +342,7 @@ export default function IntelligenceDashboard() {
                             <input
                                 type="text"
                                 placeholder="Buscar propiedades en ML..."
-                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-blue-500/20 bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm placeholder:text-muted-foreground"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={async (e) => {
@@ -360,7 +371,7 @@ export default function IntelligenceDashboard() {
                         </div>
                         <button
                             onClick={() => setShowFilters(!showFilters)}
-                            className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-colors ${showFilters ? 'bg-blue-50 border-blue-200 text-blue-600' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+                            className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-colors ${showFilters ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'border-blue-500/20 text-muted-foreground hover:bg-muted/50'}`}
                         >
                             <Filter className="w-4 h-4" /> Filtros
                         </button>
@@ -369,28 +380,29 @@ export default function IntelligenceDashboard() {
 
                 {/* Advanced Filters Panel */}
                 {showFilters && (
-                    <div className="bg-white border rounded-xl p-4 mb-6 shadow-sm animate-in fade-in slide-in-from-top-2">
+                    <div className="bg-card border border-blue-500/10 rounded-xl p-4 mb-6 shadow-sm animate-in fade-in slide-in-from-top-2">
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-slate-500">Ciudad</label>
-                                <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                <label className="text-xs font-medium text-muted-foreground">Ciudad</label>
+                                <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="All">Todas</option>
                                     <option value="Chihuahua">Chihuahua</option>
                                     <option value="Juárez">Juárez</option>
                                     <option value="Delicias">Delicias</option>
+                                    <option value="Cuauhtémoc">Cuauhtémoc</option>
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-slate-500">Operación</label>
-                                <select value={listingType} onChange={(e) => setListingType(e.target.value)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                <label className="text-xs font-medium text-muted-foreground">Operación</label>
+                                <select value={listingType} onChange={(e) => setListingType(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="ALL">Todo</option>
                                     <option value="RENT">Renta</option>
                                     <option value="SALE">Venta</option>
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-slate-500">Tipo</label>
-                                <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                <label className="text-xs font-medium text-muted-foreground">Tipo</label>
+                                <select value={propertyType} onChange={(e) => setPropertyType(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="ALL">Todos</option>
                                     <option value="HOUSE">Casas</option>
                                     <option value="APARTMENT">Depas</option>
@@ -398,8 +410,8 @@ export default function IntelligenceDashboard() {
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-slate-500">Recámaras</label>
-                                <select value={bedrooms} onChange={(e) => setBedrooms(e.target.value as any)} className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50">
+                                <label className="text-xs font-medium text-muted-foreground">Recámaras</label>
+                                <select value={bedrooms} onChange={(e) => setBedrooms(e.target.value as any)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="Any">Cualquiera</option>
                                     <option value={1}>1+</option>
                                     <option value={2}>2+</option>
@@ -407,12 +419,12 @@ export default function IntelligenceDashboard() {
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-slate-500">Precio Min</label>
-                                <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} placeholder="Min $" className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50" />
+                                <label className="text-xs font-medium text-muted-foreground">Precio Min</label>
+                                <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} placeholder="Min $" className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground placeholder:text-muted-foreground" />
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-slate-500">Precio Max</label>
-                                <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} placeholder="Max $" className="w-full h-8 text-xs border rounded-md px-2 bg-slate-50" />
+                                <label className="text-xs font-medium text-muted-foreground">Precio Max</label>
+                                <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} placeholder="Max $" className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground placeholder:text-muted-foreground" />
                             </div>
                         </div>
                     </div>
@@ -422,31 +434,31 @@ export default function IntelligenceDashboard() {
                 {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-64 bg-slate-100 animate-pulse rounded-xl" />
+                            <div key={i} className="h-64 bg-muted/50 animate-pulse rounded-xl" />
                         ))}
                     </div>
                 ) : filteredListings.length === 0 ? (
-                    <div className="text-center py-20 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-                        <p className="text-slate-500">No se encontraron propiedades con estos filtros {listings.length > 0 && `(Total sin filtros: ${listings.length})`}.</p>
-                        <button onClick={handleSeed} className="text-blue-600 hover:underline mt-2 text-sm font-medium">
+                    <div className="text-center py-20 bg-muted/30 rounded-2xl border-2 border-dashed border-blue-500/10">
+                        <p className="text-muted-foreground">No se encontraron propiedades con estos filtros {listings.length > 0 && `(Total sin filtros: ${listings.length})`}.</p>
+                        <button onClick={handleSeed} className="text-blue-400 hover:underline mt-2 text-sm font-medium">
                             Generar datos de prueba
                         </button>
                     </div>
                 ) : (
                     <div className="space-y-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredListings.map((item, idx) => (
+                            {paginatedListings.map((item, idx) => (
                                 <ObservedListingCard key={`${item.id}-${idx}`} listing={item} />
                             ))}
                         </div>
 
                         {/* Pagination Bar */}
-                        {totalPages > 1 && (
+                        {filteredTotalPages > 1 && (
                             <div className="flex justify-center items-center gap-2 pt-6 pb-2">
                                 {/* Anterior */}
                                 <button
                                     onClick={() => goToPage(currentPage - 1)}
-                                    disabled={currentPage <= 1}
+                                    disabled={currentPage <= 1 || loading}
                                     className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-blue-500/20 hover:border-blue-500/40 text-blue-400 hover:text-blue-300"
                                 >
                                     <ChevronLeft className="w-4 h-4" /> Anterior
@@ -454,7 +466,7 @@ export default function IntelligenceDashboard() {
 
                                 {/* Numbered Pages */}
                                 <div className="flex items-center gap-1">
-                                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                    {Array.from({ length: filteredTotalPages }, (_, i) => i + 1)
                                         .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
                                         .reduce((acc: (number | string)[], p, i, arr) => {
                                             if (i > 0 && typeof arr[i - 1] === 'number' && (p as number) - (arr[i - 1] as number) > 1) {
@@ -485,7 +497,7 @@ export default function IntelligenceDashboard() {
                                 {/* Siguiente */}
                                 <button
                                     onClick={() => goToPage(currentPage + 1)}
-                                    disabled={currentPage >= totalPages}
+                                    disabled={currentPage >= filteredTotalPages || loading}
                                     className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-blue-500/20 hover:border-blue-500/40 text-blue-400 hover:text-blue-300"
                                 >
                                     Siguiente <ChevronRight className="w-4 h-4" />
@@ -495,7 +507,7 @@ export default function IntelligenceDashboard() {
 
                         {/* Page Info */}
                         <div className="text-center text-xs text-muted-foreground pt-1">
-                            Página {currentPage} de {totalPages} • {totalListings} propiedades en total
+                            Página {currentPage} de {filteredTotalPages} • {filteredListings.length} propiedades
                             {fbStatus === 'done' && ` • ${fbResult}`}
                         </div>
                     </div>
