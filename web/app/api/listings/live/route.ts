@@ -321,21 +321,30 @@ export async function GET(request: Request) {
                 new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 15000))
             ]);
 
-            // Fallback: read bundled FB data if live crawl returned nothing
+            // Fallback: read bundled FB data from filesystem
             if (fbListings.length === 0) {
                 try {
-                    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-                        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-                        : process.env.VERCEL_URL
-                            ? `https://${process.env.VERCEL_URL}`
-                            : 'http://localhost:3000';
+                    const fs = await import('fs/promises');
+                    const path = await import('path');
 
-                    const fbDataRes = await fetch(`${baseUrl}/data/fb-listings.json`, {
-                        signal: AbortSignal.timeout(3000)
-                    });
+                    // Try multiple possible paths (works on both local and Vercel)
+                    const possiblePaths = [
+                        path.join(process.cwd(), 'public', 'data', 'fb-listings.json'),
+                        path.join(process.cwd(), '.next', 'static', 'data', 'fb-listings.json'),
+                        path.join(process.cwd(), 'data', 'fb-listings.json'),
+                    ];
 
-                    if (fbDataRes.ok) {
-                        const rawFB = await fbDataRes.json();
+                    let rawData: string | null = null;
+                    for (const p of possiblePaths) {
+                        try {
+                            rawData = await fs.readFile(p, 'utf-8');
+                            console.log(`[LIVE] 📦 Found FB data at: ${p}`);
+                            break;
+                        } catch { continue; }
+                    }
+
+                    if (rawData) {
+                        const rawFB = JSON.parse(rawData);
                         fbListings = rawFB.map((item: any) => {
                             let priceNum = 0;
                             if (item.price) {
