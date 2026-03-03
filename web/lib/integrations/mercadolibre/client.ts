@@ -65,86 +65,87 @@ export class MercadoLibreClient {
         offset: number = 0,
         searchQuery?: string
     ): Promise<MLSearchResponse> {
+        // Use official ML REST API (works from Vercel serverless)
+        const token = await this.auth.getValidToken();
+
+        // Build search params
+        const params = new URLSearchParams({
+            // MLM1459 = Real Estate category in Mexico
+            category: 'MLM1459',
+            state: stateCode,
+            limit: Math.min(limit, 50).toString(),
+            offset: offset.toString(),
+        });
+
+        if (searchQuery) {
+            params.append('q', searchQuery);
+        }
+
+        // City-specific filtering
+        const cityMap: Record<string, string> = {
+            'Chihuahua': 'TUxNQ0NISjkzMTU',
+            'Ciudad Juárez': 'TUxNQ0NKVTg5OTQ',
+            'Delicias': 'TUxNQ0RFTDg1MTI',
+            'Cuauhtémoc': 'TUxNQ0NVQTkwMzE',
+        };
+        if (cityMap[city]) {
+            params.append('city', cityMap[city]);
+        }
+
         try {
-            // Instead of the blocked API, scrape the hydration JSON from the public frontend.
-            let baseUrl = 'https://inmuebles.mercadolibre.com.mx/chihuahua/chihuahua/';
-            if (searchQuery) {
-                const slug = searchQuery.trim().toLowerCase().replace(/\s+/g, '-');
-                baseUrl = `https://listado.mercadolibre.com.mx/inmuebles/chihuahua/chihuahua/${slug}/`;
-            }
+            const url = `${this.baseUrl}/sites/MLM/search?${params.toString()}`;
+            console.log(`[ML Client] 🔍 API search: ${url.substring(0, 100)}...`);
 
-            const url = offset > 0 ? `${baseUrl}_Desde_${offset + 1}_NoIndex_True` : baseUrl;
-
-            const { data: html } = await axios.get(url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-                    'Accept-Language': 'en-US,en;q=0.9,es;q=0.8'
-                }
+            const { data } = await axios.get(url, {
+                headers: { 'Authorization': `Bearer ${token}` },
+                timeout: 8000,
             });
 
-            // Extract the React Hydration JSON payload
-            const match = html.match(/_n\.ctx\.r\s*=\s*(\{[\s\S]*?\})\s*;/);
-            if (!match) {
-                throw new Error("Could not find ML hydration token in HTML");
-            }
-
-            const parsedObj = JSON.parse(match[1]);
-            const appProps = parsedObj.appProps || {};
-            const pageProps = appProps.pageProps || {};
-            const initialState = pageProps.initialState || {};
-            const resultsData = initialState.results || pageProps.results || [];
-
-            const results: MLRealEstateItem[] = resultsData.map((item: any) => {
-                const metadata = item.polycard?.metadata || {};
-                const components = item.polycard?.components || [];
-
-                const titleCmp = components.find((c: any) => c.type === 'title')?.title;
-                const priceCmp = components.find((c: any) => c.type === 'price')?.price?.current_price;
-                const locationCmp = components.find((c: any) => c.type === 'location')?.location;
-                const attributesCmp = components.find((c: any) => c.type === 'attributes_list')?.attributes_list;
-
-                // Map pictures correctly
-                const pics = item.polycard?.pictures?.pictures || [];
-                const mappedPics: MLPicture[] = pics.map((p: any) => ({
+            const results: MLRealEstateItem[] = (data.results || []).map((item: any) => ({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                currency_id: item.currency_id || 'MXN',
+                location: {
+                    city: { name: item.location?.city?.name || city },
+                    state: { name: item.location?.state?.name || 'Chihuahua', id: stateCode },
+                    address_line: item.address?.city_name || item.location?.address_line || '',
+                },
+                pictures: (item.pictures || []).map((p: any) => ({
                     id: p.id,
-                    url: `https://http2.mlstatic.com/D_NQ_NP_${p.id}-O.webp`,
-                    secure_url: `https://http2.mlstatic.com/D_NQ_NP_${p.id}-O.webp`,
-                    size: '',
-                    max_size: ''
-                }));
+                    url: p.url || p.secure_url || '',
+                    secure_url: p.secure_url || p.url || '',
+                    size: p.size || '',
+                    max_size: p.max_size || '',
+                })),
+                attributes: (item.attributes || []).map((a: any) => ({
+                    id: a.id,
+                    name: a.name || a.value_name || '',
+                    value_id: a.value_id,
+                    value_name: a.value_name || '',
+                })),
+                permalink: item.permalink || '',
+            }));
 
-                // Map location
-                const locParts = (locationCmp?.text || '').split(',').map((s: string) => s.trim());
-                const mappedLoc: MLLocation = {
-                    city: { name: locParts[1] || city },
-                    state: { name: locParts[2] || 'Chihuahua', id: stateCode },
-                    address_line: locParts[0] || ''
-                };
-
-                return {
-                    id: metadata.id,
-                    title: titleCmp?.text || 'Sin título',
-                    price: priceCmp?.value || 0,
-                    currency_id: priceCmp?.currency || 'MXN',
-                    location: mappedLoc,
-                    pictures: mappedPics,
-                    attributes: (attributesCmp?.texts || []).map((t: string, i: number) => ({ id: `attr_${i}`, name: t })),
-                    permalink: metadata.url ? `https://${metadata.url}` : ''
-                };
-            });
-
-            console.log(`[ML Client] ✅ Native Extraction found ${results.length} items on offset ${offset}`);
+            console.log(`[ML Client] ✅ API returned ${results.length} items (total: ${data.paging?.total || 0})`);
 
             return {
-                site_id: 'MLM',
-                query: city,
-                paging: { total: 2000, offset, limit },
-                results
+                site_id: data.site_id || 'MLM',
+                query: searchQuery || city,
+                paging: data.paging || { total: 0, offset, limit },
+                results,
             };
         } catch (error: any) {
-            console.error('[ML Client] ❌ Native Extraction failed:', error.message);
-            throw new Error(`Failed to extract real estate listings: ${error.message}`);
+            const status = error.response?.status;
+            const errMsg = error.response?.data?.message || error.message;
+            console.error(`[ML Client] ❌ API search failed (${status}): ${errMsg}`);
+
+            // If 401/403, token might be invalid — let auth handle refresh on next call
+            if (status === 401 || status === 403) {
+                console.log('[ML Client] Token may be invalid. Will attempt refresh on next request.');
+            }
+
+            throw new Error(`ML API search failed: ${errMsg}`);
         }
     }
 
