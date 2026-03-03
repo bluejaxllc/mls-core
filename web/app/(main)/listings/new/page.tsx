@@ -50,37 +50,70 @@ export default function NewListingPage() {
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
         const importId = searchParams.get('import');
-        if (importId) {
-            setLoading(true);
-            const token = (session as any)?.accessToken;
+        if (!importId) return;
 
-            // Re-wired to pull from live Intelligence Database instead of static properties.json
-            authFetch(`/api/intelligence/observed/${importId}`, {}, token)
-                .then((listing: any) => {
-                    if (listing && !listing.error) {
-                        setFormData(prev => ({
-                            ...prev,
-                            title: listing.title || '',
-                            description: listing.description || '',
-                            price: listing.price?.toString() || '',
-                            address: listing.address || '',
-                            city: listing.city || '',
-                            type: listing.propertyType?.toLowerCase() || 'commercial',
-                            images: listing.images && listing.images.length > 0 ? listing.images : (listing.imageUrl ? [listing.imageUrl] : []),
-                            mapUrl: listing.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}` : ''
-                        }));
-                        // Trigger AI analysis for the imported address
-                        if (listing.address) {
-                            runAddressAI(listing.address);
-                        }
+        // Helper: prefill form from query params (for live API listings not in DB)
+        const prefillFromParams = () => {
+            const title = searchParams.get('title');
+            const price = searchParams.get('price');
+            const address = searchParams.get('address');
+            const city = searchParams.get('city');
+            const type = searchParams.get('type');
+            const imageUrl = searchParams.get('imageUrl');
+
+            if (title || price || address) {
+                setFormData(prev => ({
+                    ...prev,
+                    title: title || prev.title,
+                    price: price || prev.price,
+                    address: address || prev.address,
+                    city: city || prev.city,
+                    type: type?.toLowerCase() || prev.type,
+                    images: imageUrl ? [imageUrl] : prev.images,
+                    mapUrl: address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : prev.mapUrl,
+                }));
+                if (address) {
+                    runAddressAI(address);
+                }
+                return true;
+            }
+            return false;
+        };
+
+        setLoading(true);
+        const token = (session as any)?.accessToken;
+
+        // Try fetching from intelligence DB first
+        authFetch(`/api/intelligence/observed/${importId}`, {}, token)
+            .then((listing: any) => {
+                if (listing && !listing.error) {
+                    setFormData(prev => ({
+                        ...prev,
+                        title: listing.title || '',
+                        description: listing.description || '',
+                        price: listing.price?.toString() || '',
+                        address: listing.address || '',
+                        city: listing.city || '',
+                        type: listing.propertyType?.toLowerCase() || 'commercial',
+                        images: listing.images && listing.images.length > 0 ? listing.images : (listing.imageUrl ? [listing.imageUrl] : []),
+                        mapUrl: listing.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}` : ''
+                    }));
+                    if (listing.address) {
+                        runAddressAI(listing.address);
                     }
-                })
-                .catch(err => {
-                    console.error("Failed to load intelligence observed listing:", err);
+                } else {
+                    // DB returned empty/error — try query params
+                    prefillFromParams();
+                }
+            })
+            .catch(err => {
+                console.warn("Intelligence DB fetch failed, using query params:", err.message);
+                // Fallback: prefill from query params
+                if (!prefillFromParams()) {
                     toast.error("Error al cargar la propiedad importada");
-                })
-                .finally(() => setLoading(false));
-        }
+                }
+            })
+            .finally(() => setLoading(false));
     }, [session]);
 
     const buildStreetViewAndSatelliteUrls = useCallback((lat: number, lng: number): string[] => {

@@ -11,8 +11,12 @@ interface ObservedListingProps {
         price?: number | null;
         currency?: string;
         address?: string | null;
+        city?: string | null;
         confidenceScore?: number;
         imageUrl?: string | null;
+        source?: string | null;
+        sourceUrl?: string | null;
+        propertyType?: string | null;
         snapshot?: {
             url?: string;
             source?: {
@@ -27,7 +31,19 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
     const router = useRouter();
 
     const handleImport = () => {
-        router.push(`/listings/new?import=${listing.id}`);
+        // Pass listing data as query params so the form can prefill
+        // even if the listing isn't in the intelligence database
+        const params = new URLSearchParams();
+        params.set('import', listing.id);
+        if (listing.title) params.set('title', listing.title);
+        if (listing.price) params.set('price', String(listing.price));
+        if (listing.address) params.set('address', listing.address);
+        if (listing.city) params.set('city', listing.city);
+        if (listing.imageUrl) params.set('imageUrl', listing.imageUrl);
+        if (listing.source) params.set('source', listing.source);
+        if (listing.propertyType) params.set('type', listing.propertyType);
+        if (listing.sourceUrl) params.set('sourceUrl', listing.sourceUrl);
+        router.push(`/listings/new?${params.toString()}`);
     };
 
     return (
@@ -48,7 +64,7 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
                     <h3 className="text-white font-medium line-clamp-2 drop-shadow-md">{listing.title || 'Propiedad Detectada'}</h3>
                     <p className="text-slate-200 text-xs mt-1 flex items-center gap-1 drop-shadow-md">
                         <Globe className="w-3 h-3" />
-                        {listing.snapshot?.source?.name || 'Fuente Desconocida'}
+                        {listing.snapshot?.source?.name || listing.source || 'Fuente Desconocida'}
                     </p>
                 </div>
                 <div className="absolute top-2 right-2 z-10 bg-green-500/90 text-white text-xs px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
