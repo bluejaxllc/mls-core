@@ -309,13 +309,59 @@ export async function GET(request: Request) {
             console.log(`[LIVE] ⚠️ ML scraper: ${e.message}`);
         }
 
-        // ── Source 2: Facebook via BrowserOS (12s timeout) ─────
+        // ── Source 2: Facebook via BrowserOS (live) or bundled data ──
         let fbListings: any[] = [];
         try {
+            // Try live crawl via BrowserOS first
             fbListings = await Promise.race([
                 crawlFacebookViaBrowserOS(city, propertyType, MAX_ITEMS),
                 new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 15000))
             ]);
+
+            // Fallback: read bundled FB data if live crawl returned nothing
+            if (fbListings.length === 0) {
+                try {
+                    const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+                        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+                        : process.env.VERCEL_URL
+                            ? `https://${process.env.VERCEL_URL}`
+                            : 'http://localhost:3000';
+
+                    const fbDataRes = await fetch(`${baseUrl}/data/fb-listings.json`, {
+                        signal: AbortSignal.timeout(3000)
+                    });
+
+                    if (fbDataRes.ok) {
+                        const rawFB = await fbDataRes.json();
+                        fbListings = rawFB.map((item: any) => {
+                            let priceNum = 0;
+                            if (item.price) {
+                                const clean = String(item.price).replace(/[^0-9.]/g, '');
+                                const parsed = parseFloat(clean);
+                                if (!isNaN(parsed)) priceNum = parsed;
+                            }
+                            return {
+                                id: item.id,
+                                title: item.title,
+                                price: priceNum,
+                                currency: 'MXN',
+                                address: item.address || 'Chihuahua',
+                                city: city,
+                                state: 'Chihuahua',
+                                status: 'active',
+                                imageUrl: item.imageUrl,
+                                source: 'Facebook Marketplace',
+                                sourceUrl: item.url,
+                                propertyType: propertyType || 'residential',
+                                fetchedAt: item.fetchedAt || new Date().toISOString(),
+                            };
+                        });
+                        console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings`);
+                    }
+                } catch (bundledErr: any) {
+                    console.log(`[LIVE] ⚠️ Bundled FB data unavailable: ${bundledErr.message}`);
+                }
+            }
 
             if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
             if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
