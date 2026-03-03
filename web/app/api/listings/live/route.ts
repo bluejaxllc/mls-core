@@ -113,19 +113,37 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
 }
 
 // ─── BrowserOS MCP Facebook Marketplace Crawl ──────────────────
-// Attempts to crawl FB Marketplace via user's real browser (BrowserOS MCP on port 9000)
-// Returns [] if BrowserOS is not available (production / server not running)
+// Uses raw fetch JSON-RPC (no SDK needed) to control user's real browser
+// Returns [] instantly if BrowserOS is not running (production/Vercel)
+let mcpRequestId = 1;
+async function mcpCall(tool: string, args: any = {}): Promise<string> {
+    const MCP_URL = 'http://127.0.0.1:9000/mcp';
+    const res = await fetch(MCP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'tools/call',
+            id: mcpRequestId++,
+            params: { name: tool, arguments: args }
+        }),
+        signal: AbortSignal.timeout(30000),
+    });
+    const json = await res.json();
+    const content = json?.result?.content || [];
+    return content.filter((i: any) => i.type === 'text').map((i: any) => i.text).join('\n');
+}
+
 async function crawlFacebookViaBrowserOS(city: string, propertyType: string, maxItems: number): Promise<any[]> {
     const MCP_URL = 'http://127.0.0.1:9000/mcp';
 
     try {
-        // Quick connectivity check (1s timeout)
-        const pingController = new AbortController();
-        setTimeout(() => pingController.abort(), 1000);
+        // Quick connectivity check (1s timeout) — instant fail on Vercel
         await fetch(MCP_URL, {
-            method: 'POST', signal: pingController.signal,
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize', id: 0, params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'live-api', version: '1.0.0' } } })
+            body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize', id: 0, params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'live-api', version: '1.0.0' } } }),
+            signal: AbortSignal.timeout(1000),
         });
     } catch {
         console.log('[LIVE] BrowserOS not available — skipping FB crawl');
@@ -133,18 +151,6 @@ async function crawlFacebookViaBrowserOS(city: string, propertyType: string, max
     }
 
     try {
-        const { Client } = await import('@modelcontextprotocol/sdk/client/index.js');
-        const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp.js');
-
-        const transport = new StreamableHTTPClientTransport(new URL(MCP_URL));
-        const client = new Client({ name: 'live-api-fb', version: '1.0.0' });
-        await client.connect(transport);
-
-        const callMCP = async (tool: string, args: any = {}) => {
-            const r = await client.callTool({ name: tool, arguments: args });
-            return (r.content as any[] || []).filter((i: any) => i.type === 'text').map((i: any) => i.text).join('\n');
-        };
-
         const categoryMap: Record<string, string> = {
             'residential': 'propertyforsale',
             'commercial': 'propertyforsale',
@@ -156,17 +162,17 @@ async function crawlFacebookViaBrowserOS(city: string, propertyType: string, max
         const url = `https://www.facebook.com/marketplace/${city.toLowerCase().replace(/\s+/g, '')}/${category}/?exact=false`;
 
         console.log(`[LIVE] 🔄 BrowserOS FB crawl: ${url}`);
-        await callMCP('browser_navigate', { url });
+        await mcpCall('browser_navigate', { url });
         await new Promise(r => setTimeout(r, 4000));
 
-        const tabInfo = await callMCP('browser_get_active_tab', {});
+        const tabInfo = await mcpCall('browser_get_active_tab', {});
         const tabIdMatch = tabInfo.match(/Tab ID:\s*(\d+)/);
-        if (!tabIdMatch) { await transport.close(); return []; }
+        if (!tabIdMatch) return [];
         const tabId = parseInt(tabIdMatch[1]);
 
         // Scroll 3x to load listings
         for (let i = 0; i < 3; i++) {
-            await callMCP('browser_execute_javascript', { tabId, code: 'window.scrollBy(0, window.innerHeight * 1.5)' });
+            await mcpCall('browser_execute_javascript', { tabId, code: 'window.scrollBy(0, window.innerHeight * 1.5)' });
             await new Promise(r => setTimeout(r, 1500));
         }
 
@@ -193,8 +199,7 @@ async function crawlFacebookViaBrowserOS(city: string, propertyType: string, max
             return JSON.stringify(listings);
         })()`;
 
-        const rawResult = await callMCP('browser_execute_javascript', { tabId, code: extractCode });
-        await transport.close();
+        const rawResult = await mcpCall('browser_execute_javascript', { tabId, code: extractCode });
 
         // Parse result (MCP wraps as Result: "...")
         let jsonStr = rawResult;
@@ -206,7 +211,6 @@ async function crawlFacebookViaBrowserOS(city: string, propertyType: string, max
         if (!jsonMatch) return [];
 
         const fbListings = JSON.parse(jsonMatch[0]).slice(0, maxItems).map((item: any) => {
-            // Parse price string to number
             let priceNum: number | null = null;
             if (item.price) {
                 const clean = item.price.replace(/[^0-9.]/g, '');
@@ -221,7 +225,6 @@ async function crawlFacebookViaBrowserOS(city: string, propertyType: string, max
                 status: 'active',
                 city: city,
                 state: 'Chihuahua',
-                confidenceScore: 85,
             };
         });
 
