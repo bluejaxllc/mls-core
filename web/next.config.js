@@ -47,20 +47,7 @@ const nextConfig = {
         ];
     },
     async redirects() {
-        // TEMPORARY: Hide landing page and login during troubleshooting
-        // To restore: replace the return array with: return [];
-        return [
-            {
-                source: '/',
-                destination: '/intelligence',
-                permanent: false,
-            },
-            {
-                source: '/auth/signin',
-                destination: '/intelligence',
-                permanent: false,
-            },
-        ];
+        return [];
     },
     async rewrites() {
         return [];
