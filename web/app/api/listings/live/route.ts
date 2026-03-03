@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import fbDataRaw from './fb-data.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -321,57 +322,35 @@ export async function GET(request: Request) {
                 new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 15000))
             ]);
 
-            // Fallback: read bundled FB data from filesystem
-            if (fbListings.length === 0) {
+            // Fallback: use bundled FB data (compiled into the serverless function)
+            if (fbListings.length === 0 && fbDataRaw && fbDataRaw.length > 0) {
                 try {
-                    const fs = await import('fs/promises');
-                    const path = await import('path');
-
-                    // Try multiple possible paths (works on both local and Vercel)
-                    const possiblePaths = [
-                        path.join(process.cwd(), 'public', 'data', 'fb-listings.json'),
-                        path.join(process.cwd(), '.next', 'static', 'data', 'fb-listings.json'),
-                        path.join(process.cwd(), 'data', 'fb-listings.json'),
-                    ];
-
-                    let rawData: string | null = null;
-                    for (const p of possiblePaths) {
-                        try {
-                            rawData = await fs.readFile(p, 'utf-8');
-                            console.log(`[LIVE] 📦 Found FB data at: ${p}`);
-                            break;
-                        } catch { continue; }
-                    }
-
-                    if (rawData) {
-                        const rawFB = JSON.parse(rawData);
-                        fbListings = rawFB.map((item: any) => {
-                            let priceNum = 0;
-                            if (item.price) {
-                                const clean = String(item.price).replace(/[^0-9.]/g, '');
-                                const parsed = parseFloat(clean);
-                                if (!isNaN(parsed)) priceNum = parsed;
-                            }
-                            return {
-                                id: item.id,
-                                title: item.title,
-                                price: priceNum,
-                                currency: 'MXN',
-                                address: item.address || 'Chihuahua',
-                                city: city,
-                                state: 'Chihuahua',
-                                status: 'active',
-                                imageUrl: item.imageUrl,
-                                source: 'Facebook Marketplace',
-                                sourceUrl: item.url,
-                                propertyType: propertyType || 'residential',
-                                fetchedAt: item.fetchedAt || new Date().toISOString(),
-                            };
-                        });
-                        console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings`);
-                    }
+                    fbListings = (fbDataRaw as any[]).map((item: any) => {
+                        let priceNum = 0;
+                        if (item.price) {
+                            const clean = String(item.price).replace(/[^0-9.]/g, '');
+                            const parsed = parseFloat(clean);
+                            if (!isNaN(parsed)) priceNum = parsed;
+                        }
+                        return {
+                            id: item.id,
+                            title: item.title,
+                            price: priceNum,
+                            currency: 'MXN',
+                            address: item.address || 'Chihuahua',
+                            city: city,
+                            state: 'Chihuahua',
+                            status: 'active',
+                            imageUrl: item.imageUrl,
+                            source: 'Facebook Marketplace',
+                            sourceUrl: item.url,
+                            propertyType: propertyType || 'residential',
+                            fetchedAt: item.fetchedAt || new Date().toISOString(),
+                        };
+                    });
+                    console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings`);
                 } catch (bundledErr: any) {
-                    console.log(`[LIVE] ⚠️ Bundled FB data unavailable: ${bundledErr.message}`);
+                    console.log(`[LIVE] ⚠️ Bundled FB data error: ${bundledErr.message}`);
                 }
             }
 
