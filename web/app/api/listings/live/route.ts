@@ -322,14 +322,8 @@ export async function GET(request: Request) {
         // ── Source 2: Facebook via BrowserOS (live) or bundled data ──
         let fbListings: any[] = [];
         try {
-            // Try live crawl via BrowserOS first
-            fbListings = await Promise.race([
-                crawlFacebookViaBrowserOS(city, propertyType, MAX_ITEMS),
-                new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 15000))
-            ]);
-
-            // Fallback: use bundled FB data (compiled into the serverless function)
-            if (fbListings.length === 0 && fbDataRaw && fbDataRaw.length > 0) {
+            // Use bundled FB data (no live BrowserOS crawl to avoid hijacking user's browser)
+            if (fbDataRaw && fbDataRaw.length > 0) {
                 try {
                     fbListings = (fbDataRaw as any[]).map((item: any) => {
                         let priceNum = 0;
@@ -369,10 +363,9 @@ export async function GET(request: Request) {
         // ── Merge real results ────────────────────────────────
         let listings = [...mlListings, ...fbListings];
 
-        // ── Source 3: Generated fallback if no real data ──────
+        // No fake data fallback — show empty state if no real sources available
         if (listings.length === 0) {
-            console.log(`[LIVE] 📊 No real data — generating ${MAX_ITEMS} listings`);
-            listings = generateListings(city, propertyType, minPrice, maxPrice);
+            console.log(`[LIVE] 📊 No data from ML or FB — returning empty`);
         }
 
         // Cache results

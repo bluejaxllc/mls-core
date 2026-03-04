@@ -52,10 +52,16 @@ export default function IntelligenceDashboard() {
         try {
             const token = (session as any)?.accessToken;
 
-            // Fetch live listings (returns ML + FB combined) + sources
+            // Build query params from all active filters
             const cityParam = city !== 'All' ? city : 'Chihuahua';
+            const params = new URLSearchParams();
+            params.set('city', cityParam);
+            if (propertyType !== 'ALL') params.set('propertyType', propertyType.toLowerCase());
+            if (minPrice) params.set('minPrice', minPrice);
+            if (maxPrice) params.set('maxPrice', maxPrice);
+
             const [liveData, sourcesData] = await Promise.all([
-                fetch(`${API_URL}/api/listings/live?city=${encodeURIComponent(cityParam)}&propertyType=${propertyType !== 'ALL' ? propertyType.toLowerCase() : ''}`).then(r => r.json()),
+                fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.json()),
                 authFetch('/api/intelligence/sources', {}, token)
             ]);
 
@@ -156,6 +162,16 @@ export default function IntelligenceDashboard() {
         triggerCrawl(); // Also trigger ML crawl
     }, [session]);
 
+    // Re-fetch when filters change
+    useEffect(() => {
+        if (!loading) {
+            setLoading(true);
+            setCurrentPage(1);
+            fetchData(1);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [city, propertyType, minPrice, maxPrice, listingType]);
+
     const handleRefresh = () => {
         setRefreshing(true);
         setSearchQuery('');
@@ -180,14 +196,14 @@ export default function IntelligenceDashboard() {
         }
     };
 
+    // Client-side secondary filter (API already handles city/propertyType/price)
     const filteredListings = listings.filter((item) => {
-        if (city !== 'All' && !item.address?.toLowerCase().includes(city.toLowerCase())) return false;
-        if (propertyType !== 'ALL' && item.propertyType !== propertyType) return false;
-        if (listingType !== 'ALL' && item.status !== listingType && item.status !== `DETECTED_${listingType}`) return false;
-        if (bedrooms !== 'Any' && (item.bedrooms || 0) < bedrooms) return false;
-        if (bathrooms !== 'Any' && (item.bathrooms || 0) < bathrooms) return false;
-        if (minPrice && (item.price || 0) < Number(minPrice)) return false;
-        if (maxPrice && (item.price || 0) > Number(maxPrice)) return false;
+        if (listingType !== 'ALL') {
+            const status = (item.status || '').toUpperCase();
+            if (status !== listingType && status !== `DETECTED_${listingType}`) return false;
+        }
+        if (bedrooms !== 'Any' && (item.bedrooms || 0) < Number(bedrooms)) return false;
+        if (bathrooms !== 'Any' && (item.bathrooms || 0) < Number(bathrooms)) return false;
         return true;
     });
 
