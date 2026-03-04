@@ -18,6 +18,10 @@ model User {
   email         String   @unique
   firstName     String?
   lastName      String?
+  passwordHash  String?
+  emailVerified Boolean  @default(false)
+  verifyToken   String?  @unique
+  verifyExpires DateTime?
   roles         String   @default("user") // SQLite: Stored as comma-sep string
   locationId    String?
   mlsStatus     String   @default("ACTIVE")

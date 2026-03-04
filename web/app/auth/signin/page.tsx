@@ -60,6 +60,9 @@ export default function SignInPage() {
 
         if (result?.ok) {
             router.push("/dashboard");
+        } else if (result?.error?.includes("EMAIL_NOT_VERIFIED")) {
+            setError("Su email no ha sido verificado. Revise su bandeja de entrada.");
+            setLoading(false);
         } else {
             setError("Credenciales inválidas. Verifique e intente nuevamente.");
             setLoading(false);
@@ -285,17 +288,17 @@ export default function SignInPage() {
                             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-zinc-800"></div>
                         </div>
 
-                        {/* Beta Access */}
+                        {/* Register Link */}
                         <motion.div {...fadeUp(0.4)} className="text-center">
-                            <button
-                                onClick={() => setShowBeta(true)}
+                            <Link
+                                href="/auth/register"
                                 className="text-xs text-zinc-500 hover:text-blue-400 transition-colors group"
                             >
                                 ¿No tiene cuenta?{' '}
                                 <span className="text-blue-500/70 group-hover:text-blue-400 underline decoration-dashed underline-offset-4 decoration-blue-500/30">
-                                    Solicitar acceso beta
+                                    Crear cuenta
                                 </span>
-                            </button>
+                            </Link>
                         </motion.div>
                     </div>
                 </motion.div>
