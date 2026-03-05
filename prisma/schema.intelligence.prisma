@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./intelligence.db"
+  provider  = "postgresql"
+  url       = env("INTELLIGENCE_DATABASE_URL")
 }
 
 // Layer 3: Intelligence Store (Non-Canonical)
