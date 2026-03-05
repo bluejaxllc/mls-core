@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("INTELLIGENCE_DATABASE_URL")
+  url       = env("MLS_INTELLIGENCE_URL")
 }
 
 // Layer 3: Intelligence Store (Non-Canonical)

@@ -6,7 +6,7 @@ export const prismaIntelligence =
     new PrismaClient({
         datasources: {
             db: {
-                url: process.env.INTELLIGENCE_DATABASE_URL || "file:./prisma/intelligence.db",
+                url: process.env.MLS_INTELLIGENCE_URL || "file:./prisma/intelligence.db",
             }
         }
     });
