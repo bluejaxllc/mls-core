@@ -4,7 +4,7 @@ const prismaClientSingleton = () => {
     return new PrismaClient({
         datasources: {
             db: {
-                url: process.env.DATABASE_URL,
+                url: process.env.DATABASE_URL || "postgres://root:TqDWeNnZqjWdIXjWqLwIawbNnNnjWixw@autorack.proxy.rlwy.net:18659/railway",
             },
         },
     });
