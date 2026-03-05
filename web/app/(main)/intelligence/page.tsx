@@ -105,6 +105,11 @@ export default function IntelligenceDashboard() {
                 return;
             }
 
+            // Show public API mode info if not OAuth-connected
+            if (!statusData.oauthConnected) {
+                setCrawlResult('API pública (conectar OAuth para más velocidad)');
+            }
+
             setCrawlStatus('crawling');
 
             const crawlRes = await fetch(`${API_URL}/api/integrations/mercadolibre/crawl`, {
@@ -278,7 +283,7 @@ export default function IntelligenceDashboard() {
                     {crawlStatus === 'not_auth' && (
                         <>
                             <XCircle className="w-4 h-4 flex-shrink-0" />
-                            <span>{crawlResult} — <a href="/api/integrations/mercadolibre/auth" className="underline font-semibold">Conectar</a></span>
+                            <span>{crawlResult} — <a href="/api/integrations/mercadolibre/auth" className="underline font-semibold">Conectar OAuth</a></span>
                         </>
                     )}
                 </div>

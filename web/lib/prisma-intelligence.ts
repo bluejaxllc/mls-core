@@ -6,9 +6,10 @@ export const prismaIntelligence =
     new PrismaClient({
         datasources: {
             db: {
-                url: process.env.POSTGRES_PRISMA_URL || ("postgres://postgres.erapajgkukxqwvmwxefq:" + "1sMfsH" + "UkqgV" + "j6Dlx" + "@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"),
+                url: process.env.INTELLIGENCE_DATABASE_URL || "file:./prisma/intelligence.db",
             }
         }
     });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prismaIntelligence = prismaIntelligence;
+

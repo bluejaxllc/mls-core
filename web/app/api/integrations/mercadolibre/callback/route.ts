@@ -17,10 +17,14 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        let host = req.headers.get('x-forwarded-host') || req.headers.get('host') || req.nextUrl.host;
-        let protocol = req.headers.get('x-forwarded-proto') || 'https';
-        if (host?.includes('localhost')) protocol = 'http';
-        const redirectUri = `${protocol}://${host}/api/integrations/mercadolibre/callback`;
+        // Use configured redirect URI (must match what was used in auth request AND what's registered in ML portal)
+        let redirectUri = process.env.ML_REDIRECT_URI;
+        if (!redirectUri) {
+            let host = req.headers.get('x-forwarded-host') || req.headers.get('host') || req.nextUrl.host;
+            let protocol = req.headers.get('x-forwarded-proto') || 'https';
+            if (host?.includes('localhost')) protocol = 'http';
+            redirectUri = `${protocol}://${host}/api/integrations/mercadolibre/callback`;
+        }
 
         await mlAuth.getAccessToken(code, redirectUri);
 

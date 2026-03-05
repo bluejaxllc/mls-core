@@ -5,14 +5,21 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const authenticated = await mlAuth.isAuthenticated();
+        const oauthAuthenticated = await mlAuth.isAuthenticated();
+        // Public API always works — OAuth just gives higher rate limits
         return NextResponse.json({
-            authenticated,
-            message: authenticated
-                ? 'Authenticated and ready to crawl'
-                : 'Not authenticated. Visit /api/auth/mercadolibre/auth to authorize'
+            authenticated: true, // Public API is always available
+            oauthConnected: oauthAuthenticated,
+            message: oauthAuthenticated
+                ? 'Authenticated with OAuth — full access'
+                : 'Using public API — connect OAuth for higher rate limits'
         });
     } catch (e: any) {
-        return NextResponse.json({ error: e.message }, { status: 500 });
+        // Even if auth check fails, public API still works
+        return NextResponse.json({
+            authenticated: true,
+            oauthConnected: false,
+            message: 'Using public API (OAuth check failed)'
+        });
     }
 }

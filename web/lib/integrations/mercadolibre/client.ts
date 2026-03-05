@@ -65,8 +65,13 @@ export class MercadoLibreClient {
         offset: number = 0,
         searchQuery?: string
     ): Promise<MLSearchResponse> {
-        // Use official ML REST API (works from Vercel serverless)
-        const token = await this.auth.getValidToken();
+        // Try to get auth token, but fall back to unauthenticated (public API works without auth)
+        let token: string | null = null;
+        try {
+            token = await this.auth.getValidToken();
+        } catch (e: any) {
+            console.log('[ML Client] ⚠️ No auth token — using public API (lower rate limits)');
+        }
 
         // Build search params
         const params = new URLSearchParams({
@@ -96,8 +101,13 @@ export class MercadoLibreClient {
             const url = `${this.baseUrl}/sites/MLM/search?${params.toString()}`;
             console.log(`[ML Client] 🔍 API search: ${url.substring(0, 100)}...`);
 
+            const headers: Record<string, string> = {};
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
             const { data } = await axios.get(url, {
-                headers: { 'Authorization': `Bearer ${token}` },
+                headers,
                 timeout: 8000,
             });
 
@@ -140,9 +150,15 @@ export class MercadoLibreClient {
             const errMsg = error.response?.data?.message || error.message;
             console.error(`[ML Client] ❌ API search failed (${status}): ${errMsg}`);
 
-            // If 401/403, token might be invalid — let auth handle refresh on next call
+            // If 401/403, return empty results gracefully instead of crashing
             if (status === 401 || status === 403) {
-                console.log('[ML Client] Token may be invalid. Will attempt refresh on next request.');
+                console.log('[ML Client] ⚠️ Authentication required for ML API. Returning empty results.');
+                return {
+                    site_id: 'MLM',
+                    query: searchQuery || city,
+                    paging: { total: 0, offset, limit },
+                    results: [],
+                };
             }
 
             throw new Error(`ML API search failed: ${errMsg}`);

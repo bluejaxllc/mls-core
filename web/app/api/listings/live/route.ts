@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { scrapeMLViaZenRows } from '@/lib/integrations/zenrows-ml';
 import crypto from 'crypto';
 import fbDataRaw from './fb-data.json';
 
@@ -272,51 +273,13 @@ export async function GET(request: Request) {
         // ── Source 1: ML Scraper (8s timeout) ──────────────────
         let mlListings: any[] = [];
         try {
-            const { mlCrawler } = await import('@/lib/integrations/mercadolibre');
-            // @ts-ignore
-            const client = mlCrawler.client;
+            mlListings = ((await scrapeMLViaZenRows(city, propertyType, minPrice, maxPrice, q, MAX_ITEMS)) || []) as any[];
 
-            const typeMap: Record<string, string> = {
-                'house': 'casas',
-                'apartment': 'departamentos',
-                'land': 'terrenos',
-                'commercial': 'locales comerciales',
-                'industrial': 'bodegas',
-            };
-            const searchQuery = (propertyType && typeMap[propertyType]) ? typeMap[propertyType] : q;
+            if (minPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
+            if (maxPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
 
-            const searchResponse = await Promise.race([
-                client.searchRealEstate(city, 'MLM-CHH', MAX_ITEMS, 0, searchQuery || undefined),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('ML timeout')), 8000))
-            ]) as any;
-
-            mlListings = searchResponse.results.map((item: any) => {
-                let imageUrl = null;
-                if (item.pictures?.length > 0) {
-                    imageUrl = item.pictures[0].url || item.pictures[0].secure_url;
-                }
-                return {
-                    id: item.id,
-                    title: item.title,
-                    price: item.price,
-                    currency: item.currency_id || 'MXN',
-                    address: item.location?.address_line || item.location?.city?.name || city,
-                    city: item.location?.city?.name || city,
-                    state: item.location?.state?.name || 'Chihuahua',
-                    status: 'active',
-                    imageUrl,
-                    source: 'Mercado Libre',
-                    sourceUrl: item.permalink,
-                    attributes: item.attributes?.map((a: any) => a.name) || [],
-                    propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
-                    fetchedAt: new Date().toISOString()
-                };
-            });
-
-            if (minPrice) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
-            if (maxPrice) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
         } catch (e: any) {
-            console.log(`[LIVE] ⚠️ ML scraper: ${e.message}`);
+            console.log(`[LIVE] ⚠️ ZenRows ML scraper: ${e.message}`);
         }
 
         // ── Source 2: Facebook via BrowserOS (live) or bundled data ──
@@ -332,23 +295,54 @@ export async function GET(request: Request) {
                             const parsed = parseFloat(clean);
                             if (!isNaN(parsed)) priceNum = parsed;
                         }
+
+                        // Extract bedrooms/bathrooms from FB titles like "3 habitaciones 2 baños - Casa"
+                        const titleStr = item.title || '';
+                        const bedroomMatch = titleStr.match(/(\d+)\s*(?:habitacion|hab|recámara|bed|Bed)/i);
+                        const bathroomMatch = titleStr.match(/(\d+)\s*(?:baño|bath|Bath)/i);
+
+                        // Detect property type from title
+                        let detectedType = 'HOUSE';
+                        if (/departamento|depa|apartment/i.test(titleStr)) detectedType = 'APARTMENT';
+                        else if (/terreno|land|lote/i.test(titleStr)) detectedType = 'LAND';
+                        else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
+                        else if (/townhouse/i.test(titleStr)) detectedType = 'HOUSE';
+
                         return {
                             id: item.id,
                             title: item.title,
                             price: priceNum,
                             currency: 'MXN',
                             address: item.address || 'Chihuahua',
-                            city: city,
+                            city: item.address?.split(',')[0]?.trim() || city,
                             state: 'Chihuahua',
                             status: 'active',
                             imageUrl: item.imageUrl,
                             source: 'Facebook Marketplace',
                             sourceUrl: item.url,
-                            propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
+                            propertyType: propertyType ? propertyType.toUpperCase() : detectedType,
+                            bedrooms: bedroomMatch ? parseInt(bedroomMatch[1]) : undefined,
+                            bathrooms: bathroomMatch ? parseInt(bathroomMatch[1]) : undefined,
                             fetchedAt: item.fetchedAt || new Date().toISOString(),
                         };
                     });
-                    console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings`);
+
+                    // City filter: match FB items by address containing the city name
+                    if (city && city !== 'All') {
+                        fbListings = fbListings.filter((l: any) => {
+                            const addr = (l.address || '').toLowerCase();
+                            return addr.includes(city.toLowerCase());
+                        });
+                    }
+
+                    // Property type filter
+                    if (propertyType) {
+                        fbListings = fbListings.filter((l: any) =>
+                            l.propertyType === propertyType.toUpperCase()
+                        );
+                    }
+
+                    console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
                 } catch (bundledErr: any) {
                     console.log(`[LIVE] ⚠️ Bundled FB data error: ${bundledErr.message}`);
                 }
@@ -356,6 +350,7 @@ export async function GET(request: Request) {
 
             if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
             if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+
         } catch (e: any) {
             console.log(`[LIVE] ⚠️ FB crawl: ${e.message}`);
         }
