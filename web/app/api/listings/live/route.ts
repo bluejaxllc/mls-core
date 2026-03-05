@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { scrapeMLViaZenRows } from '@/lib/integrations/zenrows-ml';
+import { scrapeMLViaZenRows } from '@/lib/integrations/zenrows';
 import crypto from 'crypto';
 import fbDataRaw from './fb-data.json';
 
