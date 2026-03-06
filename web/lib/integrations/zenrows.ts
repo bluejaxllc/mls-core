@@ -23,7 +23,7 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
         path = typeMap[propertyType.toLowerCase()];
     }
 
-    const formattedCity = city.toLowerCase().replace(/\s+/g, '-');
+    const formattedCity = (city || 'chihuahua').toLowerCase().replace(/\s+/g, '-');
     const state = 'chihuahua';
     let url = `https://inmuebles.mercadolibre.com.mx/${path}/${state}/${formattedCity}/`;
 
