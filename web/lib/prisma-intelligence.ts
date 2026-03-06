@@ -6,7 +6,7 @@ export const prismaIntelligence =
     new PrismaClient({
         datasources: {
             db: {
-                url: process.env.MLS_INTELLIGENCE_URL || "postgres://root:TqDWeNnZqjWdIXjWqLwIawbNnNnjWixw@autorack.proxy.rlwy.net:18659/railway",
+                url: process.env.POSTGRES_PRISMA_URL || process.env.MLS_INTELLIGENCE_URL,
             }
         }
     });
