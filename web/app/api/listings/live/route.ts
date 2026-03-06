@@ -322,6 +322,10 @@ export async function GET(request: Request) {
                             else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
                             else if (/townhouse/i.test(titleStr)) detectedType = 'HOUSE';
 
+                            // Detect rent/sale from title
+                            let detectedStatus = 'DETECTED_SALE';
+                            if (/renta|rento|alquiler/i.test(titleStr)) detectedStatus = 'DETECTED_RENT';
+
                             return {
                                 id: item.id,
                                 title: item.title,
@@ -330,7 +334,7 @@ export async function GET(request: Request) {
                                 address: item.address || 'Chihuahua',
                                 city: item.address?.split(',')[0]?.trim() || city,
                                 state: 'Chihuahua',
-                                status: 'active',
+                                status: detectedStatus,
                                 imageUrl: item.imageUrl,
                                 source: 'Facebook Marketplace',
                                 sourceUrl: item.url,
@@ -353,6 +357,13 @@ export async function GET(request: Request) {
                         if (propertyType) {
                             fbListings = fbListings.filter((l: any) =>
                                 l.propertyType === propertyType.toUpperCase()
+                            );
+                        }
+
+                        // Listing type filter
+                        if (listingType) {
+                            fbListings = fbListings.filter((l: any) =>
+                                l.status === `DETECTED_${listingType.toUpperCase()}`
                             );
                         }
 

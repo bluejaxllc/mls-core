@@ -19,6 +19,7 @@ interface ObservedListingProps {
         source?: string | null;
         sourceUrl?: string | null;
         propertyType?: string | null;
+        status?: string | null;
         snapshot?: {
             url?: string;
             source?: {
@@ -170,15 +171,42 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
 
                     {/* Image count */}
                     {allImages.length > 1 && (
-                        <div className="absolute top-2 left-2 z-10 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-full backdrop-blur-sm font-medium">
+                        <div className="absolute top-2 right-2 z-10 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-full backdrop-blur-sm font-medium">
                             {currentImg + 1}/{allImages.length}
                         </div>
                     )}
 
-                    {/* Source Badge — top right, color-coded */}
-                    <div className={`absolute top-2 right-2 z-10 ${theme.badgeBg} ${theme.badge} text-xs px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1.5 font-semibold backdrop-blur-sm`}>
-                        <span>{theme.icon}</span>
+                    {/* Source Badge — top left, color-coded */}
+                    <div className={`absolute top-2 left-2 z-10 ${theme.badgeBg} ${theme.badge} text-[10px] px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1 font-semibold backdrop-blur-sm`}>
+                        <span className="text-[10px]">{theme.icon}</span>
                         {theme.label}
+                    </div>
+
+                    {/* Metadata Badges (Rent/Sale & Property Type) */}
+                    <div className="absolute top-8 left-2 z-10 flex flex-col gap-1.5 items-start">
+                        {/* Status (Rent / Sale) */}
+                        {listing.status && (
+                            <div className={`text-[9px] px-2 py-0.5 rounded shadow-sm font-bold uppercase tracking-wider text-white backdrop-blur-md ${(listing.status.includes('RENT') || listing.status === 'RENT') ? 'bg-purple-500/80 border border-purple-400/30' :
+                                (listing.status.includes('SALE') || listing.status === 'SALE') ? 'bg-emerald-500/80 border border-emerald-400/30' :
+                                    'bg-slate-700/80 border border-slate-500/30'
+                                }`}>
+                                {(listing.status.includes('RENT') || listing.status === 'RENT') ? 'RENTA' : 'VENTA'}
+                            </div>
+                        )}
+
+                        {/* Property Type */}
+                        {listing.propertyType && (
+                            <div className="text-[9px] px-2 py-0.5 rounded shadow-sm font-bold uppercase tracking-wider bg-black/60 text-slate-200 border border-white/20 backdrop-blur-md">
+                                {
+                                    listing.propertyType === 'HOUSE' ? 'Casa' :
+                                        listing.propertyType === 'APARTMENT' ? 'Departamento' :
+                                            listing.propertyType === 'COMMERCIAL' ? 'Comercial' :
+                                                listing.propertyType === 'LAND' ? 'Terreno' :
+                                                    listing.propertyType === 'INDUSTRIAL' ? 'Industrial' :
+                                                        listing.propertyType
+                                }
+                            </div>
+                        )}
                     </div>
 
                     {/* Title overlay */}
