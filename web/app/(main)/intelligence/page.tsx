@@ -231,14 +231,6 @@ export default function IntelligenceDashboard() {
                 </div>
                 <div className="flex gap-2">
                     <AnimatedButton
-                        variant="secondary"
-                        onClick={handleSeed}
-                        disabled={refreshing}
-                        className="text-sm"
-                    >
-                        + Simular Detección (Seed)
-                    </AnimatedButton>
-                    <AnimatedButton
                         variant="primary"
                         onClick={handleRefresh}
                         disabled={refreshing || crawlStatus === 'crawling'}
@@ -461,9 +453,7 @@ export default function IntelligenceDashboard() {
                 ) : filteredListings.length === 0 ? (
                     <div className="text-center py-20 bg-muted/30 rounded-2xl border-2 border-dashed border-blue-500/10">
                         <p className="text-muted-foreground">No se encontraron propiedades con estos filtros {listings.length > 0 && `(Total sin filtros: ${listings.length})`}.</p>
-                        <button onClick={handleSeed} className="text-blue-400 hover:underline mt-2 text-sm font-medium">
-                            Generar datos de prueba
-                        </button>
+                        <p className="text-sm text-muted-foreground mt-2">Los crawlers se actualizan automáticamente al cargar la página.</p>
                     </div>
                 ) : (
                     <div className="space-y-8">
