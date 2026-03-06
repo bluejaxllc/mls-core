@@ -35,6 +35,7 @@ export default function IntelligenceDashboard() {
     const [bathrooms, setBathrooms] = useState<number | 'Any'>('Any');
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
+    const [source, setSource] = useState('All');
 
     // ML Crawl state
     const [crawlStatus, setCrawlStatus] = useState<'idle' | 'crawling' | 'done' | 'error' | 'not_auth'>('idle');
@@ -56,6 +57,9 @@ export default function IntelligenceDashboard() {
             const params = new URLSearchParams();
             if (city !== 'All') {
                 params.set('city', city);
+            }
+            if (source !== 'All') {
+                params.set('source', source);
             }
             if (propertyType !== 'ALL') params.set('propertyType', propertyType.toLowerCase());
             if (minPrice) params.set('minPrice', minPrice);
@@ -176,7 +180,7 @@ export default function IntelligenceDashboard() {
             fetchData(1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [city, propertyType, minPrice, maxPrice, listingType]);
+    }, [city, propertyType, minPrice, maxPrice, listingType, source]);
 
     const handleRefresh = () => {
         setRefreshing(true);
@@ -395,7 +399,22 @@ export default function IntelligenceDashboard() {
                 {/* Advanced Filters Panel */}
                 {showFilters && (
                     <div className="bg-card border border-blue-500/10 rounded-xl p-4 mb-6 shadow-sm animate-in fade-in slide-in-from-top-2">
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-muted-foreground">Fuente</label>
+                                <select value={source} onChange={(e) => setSource(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
+                                    <option value="All">Todas</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="Mercado Libre">Mercado Libre</option>
+                                    <option value="Propiedades.com">Propiedades.com</option>
+                                    <option value="Inmuebles24">Inmuebles24</option>
+                                    <option value="Lamudi">Lamudi</option>
+                                    <option value="Vivanuncios">Vivanuncios</option>
+                                    <option value="Century21">Century 21</option>
+                                    <option value="Remax">RE/MAX</option>
+                                    <option value="Coldwell Banker">Coldwell Banker</option>
+                                </select>
+                            </div>
                             <div className="space-y-1.5">
                                 <label className="text-xs font-medium text-muted-foreground">Ciudad</label>
                                 <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">

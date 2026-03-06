@@ -247,6 +247,7 @@ export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const city = searchParams.get('city') || '';
+        const source = searchParams.get('source') || '';
         const propertyType = searchParams.get('propertyType') || '';
         const minPrice = searchParams.get('minPrice') || '';
         const maxPrice = searchParams.get('maxPrice') || '';
@@ -254,10 +255,10 @@ export async function GET(request: Request) {
 
         // Build cache key from all filter params
         const cacheKey = crypto.createHash('md5')
-            .update(`${city}|${propertyType}|${minPrice}|${maxPrice}|${q}`)
+            .update(`${city}|${source}|${propertyType}|${minPrice}|${maxPrice}|${q}`)
             .digest('hex');
 
-        console.log(`[LIVE] Filters: city=${city} type=${propertyType} price=${minPrice}-${maxPrice} q=${q}`);
+        console.log(`[LIVE] Filters: city=${city} source=${source} type=${propertyType} price=${minPrice}-${maxPrice} q=${q}`);
 
         // Check cache
         const cached = memoryCache.get(cacheKey);
@@ -272,88 +273,96 @@ export async function GET(request: Request) {
 
         // ── Source 1: ML Scraper (8s timeout) ──────────────────
         let mlListings: any[] = [];
-        try {
-            mlListings = ((await scrapeMLViaZenRows(city, propertyType, minPrice, maxPrice, q, MAX_ITEMS)) || []) as any[];
+        const isMLSource = !source || source === 'All' || source.includes('Mercado Libre') || source === 'ML';
 
-            if (minPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
-            if (maxPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+        if (isMLSource) {
+            try {
+                mlListings = ((await scrapeMLViaZenRows(city, propertyType, minPrice, maxPrice, q, MAX_ITEMS)) || []) as any[];
 
-        } catch (e: any) {
-            console.log(`[LIVE] ⚠️ ZenRows ML scraper: ${e.message}`);
+                if (minPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
+                if (maxPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+
+            } catch (e: any) {
+                console.log(`[LIVE] ⚠️ ZenRows ML scraper: ${e.message}`);
+            }
         }
 
         // ── Source 2: Facebook via BrowserOS (live) or bundled data ──
         let fbListings: any[] = [];
-        try {
-            // Use bundled FB data (no live BrowserOS crawl to avoid hijacking user's browser)
-            if (fbDataRaw && fbDataRaw.length > 0) {
-                try {
-                    fbListings = (fbDataRaw as any[]).map((item: any) => {
-                        let priceNum = 0;
-                        if (item.price) {
-                            const clean = String(item.price).replace(/[^0-9.]/g, '');
-                            const parsed = parseFloat(clean);
-                            if (!isNaN(parsed)) priceNum = parsed;
+        const isFBSource = !source || source === 'All' || source.includes('Facebook') || source === 'FB';
+
+        if (isFBSource) {
+            try {
+                // Use bundled FB data (no live BrowserOS crawl to avoid hijacking user's browser)
+                if (fbDataRaw && fbDataRaw.length > 0) {
+                    try {
+                        fbListings = (fbDataRaw as any[]).map((item: any) => {
+                            let priceNum = 0;
+                            if (item.price) {
+                                const clean = String(item.price).replace(/[^0-9.]/g, '');
+                                const parsed = parseFloat(clean);
+                                if (!isNaN(parsed)) priceNum = parsed;
+                            }
+
+                            // Extract bedrooms/bathrooms from FB titles like "3 habitaciones 2 baños - Casa"
+                            const titleStr = item.title || '';
+                            const bedroomMatch = titleStr.match(/(\d+)\s*(?:habitacion|hab|recámara|bed|Bed)/i);
+                            const bathroomMatch = titleStr.match(/(\d+)\s*(?:baño|bath|Bath)/i);
+
+                            // Detect property type from title
+                            let detectedType = 'HOUSE';
+                            if (/departamento|depa|apartment/i.test(titleStr)) detectedType = 'APARTMENT';
+                            else if (/terreno|land|lote/i.test(titleStr)) detectedType = 'LAND';
+                            else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
+                            else if (/townhouse/i.test(titleStr)) detectedType = 'HOUSE';
+
+                            return {
+                                id: item.id,
+                                title: item.title,
+                                price: priceNum,
+                                currency: 'MXN',
+                                address: item.address || 'Chihuahua',
+                                city: item.address?.split(',')[0]?.trim() || city,
+                                state: 'Chihuahua',
+                                status: 'active',
+                                imageUrl: item.imageUrl,
+                                source: 'Facebook Marketplace',
+                                sourceUrl: item.url,
+                                propertyType: propertyType ? propertyType.toUpperCase() : detectedType,
+                                bedrooms: bedroomMatch ? parseInt(bedroomMatch[1]) : undefined,
+                                bathrooms: bathroomMatch ? parseInt(bathroomMatch[1]) : undefined,
+                                fetchedAt: item.fetchedAt || new Date().toISOString(),
+                            };
+                        });
+
+                        // City filter: match FB items by address containing the city name
+                        if (city && city !== 'All') {
+                            fbListings = fbListings.filter((l: any) => {
+                                const addr = (l.address || '').toLowerCase();
+                                return addr.includes(city.toLowerCase());
+                            });
                         }
 
-                        // Extract bedrooms/bathrooms from FB titles like "3 habitaciones 2 baños - Casa"
-                        const titleStr = item.title || '';
-                        const bedroomMatch = titleStr.match(/(\d+)\s*(?:habitacion|hab|recámara|bed|Bed)/i);
-                        const bathroomMatch = titleStr.match(/(\d+)\s*(?:baño|bath|Bath)/i);
+                        // Property type filter
+                        if (propertyType) {
+                            fbListings = fbListings.filter((l: any) =>
+                                l.propertyType === propertyType.toUpperCase()
+                            );
+                        }
 
-                        // Detect property type from title
-                        let detectedType = 'HOUSE';
-                        if (/departamento|depa|apartment/i.test(titleStr)) detectedType = 'APARTMENT';
-                        else if (/terreno|land|lote/i.test(titleStr)) detectedType = 'LAND';
-                        else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
-                        else if (/townhouse/i.test(titleStr)) detectedType = 'HOUSE';
-
-                        return {
-                            id: item.id,
-                            title: item.title,
-                            price: priceNum,
-                            currency: 'MXN',
-                            address: item.address || 'Chihuahua',
-                            city: item.address?.split(',')[0]?.trim() || city,
-                            state: 'Chihuahua',
-                            status: 'active',
-                            imageUrl: item.imageUrl,
-                            source: 'Facebook Marketplace',
-                            sourceUrl: item.url,
-                            propertyType: propertyType ? propertyType.toUpperCase() : detectedType,
-                            bedrooms: bedroomMatch ? parseInt(bedroomMatch[1]) : undefined,
-                            bathrooms: bathroomMatch ? parseInt(bathroomMatch[1]) : undefined,
-                            fetchedAt: item.fetchedAt || new Date().toISOString(),
-                        };
-                    });
-
-                    // City filter: match FB items by address containing the city name
-                    if (city && city !== 'All') {
-                        fbListings = fbListings.filter((l: any) => {
-                            const addr = (l.address || '').toLowerCase();
-                            return addr.includes(city.toLowerCase());
-                        });
+                        console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
+                    } catch (bundledErr: any) {
+                        console.log(`[LIVE] ⚠️ Bundled FB data error: ${bundledErr.message}`);
                     }
-
-                    // Property type filter
-                    if (propertyType) {
-                        fbListings = fbListings.filter((l: any) =>
-                            l.propertyType === propertyType.toUpperCase()
-                        );
-                    }
-
-                    console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
-                } catch (bundledErr: any) {
-                    console.log(`[LIVE] ⚠️ Bundled FB data error: ${bundledErr.message}`);
                 }
+
+                if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
+                if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+
+            } catch (e: any) {
+                console.log(`[LIVE] ⚠️ FB crawl: ${e.message}`);
             }
-
-            if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
-            if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
-
-        } catch (e: any) {
-            console.log(`[LIVE] ⚠️ FB crawl: ${e.message}`);
-        }
+        } // End isFBSource check
 
         // ── Merge real results ────────────────────────────────
         let listings = [...mlListings, ...fbListings];
@@ -376,11 +385,11 @@ export async function GET(request: Request) {
             }
         }
 
-        const source = fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
+        const resultSource = fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
         console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length})`);
 
         return NextResponse.json({
-            source,
+            source: resultSource,
             cacheKey,
             listings
         });
