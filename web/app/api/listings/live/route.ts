@@ -246,7 +246,7 @@ async function crawlFacebookViaBrowserOS(city: string, propertyType: string, max
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
-        const city = searchParams.get('city') || 'Chihuahua';
+        const city = searchParams.get('city') || '';
         const propertyType = searchParams.get('propertyType') || '';
         const minPrice = searchParams.get('minPrice') || '';
         const maxPrice = searchParams.get('maxPrice') || '';

@@ -53,9 +53,10 @@ export default function IntelligenceDashboard() {
             const token = (session as any)?.accessToken;
 
             // Build query params from all active filters
-            const cityParam = city !== 'All' ? city : 'Chihuahua';
             const params = new URLSearchParams();
-            params.set('city', cityParam);
+            if (city !== 'All') {
+                params.set('city', city);
+            }
             if (propertyType !== 'ALL') params.set('propertyType', propertyType.toLowerCase());
             if (minPrice) params.set('minPrice', minPrice);
             if (maxPrice) params.set('maxPrice', maxPrice);
