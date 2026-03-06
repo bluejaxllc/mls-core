@@ -54,73 +54,62 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
 
         const html = response.data;
         const root = parse(html);
-        const scriptNode = root.querySelector('#__NORDIC_RENDERING_CTX__');
         const listings: any[] = [];
 
-        if (scriptNode) {
-            try {
-                const scriptText = scriptNode.textContent;
-                const func = new Function("var _n={ctx:{}}; " + scriptText + " return _n.ctx.r;");
-                const stateObj = func();
+        // Nuevo parser DOM porque ML eliminó __NORDIC_RENDERING_CTX__
+        const items = root.querySelectorAll('.ui-search-layout__item');
 
-                const searchResults = stateObj?.appProps?.pageProps?.initialState?.results || stateObj?.initialState?.results || [];
+        for (const item of items) {
+            if (listings.length >= maxItems) break;
 
-                for (const item of searchResults) {
-                    if (listings.length >= maxItems) break;
+            const linkEl = item.querySelector('a.poly-component__title') || item.querySelector('a');
+            const link = linkEl ? linkEl.getAttribute('href') : url;
 
-                    if (item.id === 'POLYCARD' && item.polycard) {
-                        const pc = item.polycard;
-                        const meta = pc.metadata || {};
-                        const titleComp = pc.components?.find((c: any) => c.type === 'title')?.title;
-                        const priceComp = pc.components?.find((c: any) => c.type === 'price')?.price?.current_price;
-                        const locComp = pc.components?.find((c: any) => c.type === 'location')?.location;
-                        const attrComp = pc.components?.find((c: any) => c.type === 'attributes_list')?.attributes_list;
+            const titleEl = item.querySelector('.poly-component__title-wrapper') || item.querySelector('.poly-component__title') || item.querySelector('h2');
+            const title = titleEl ? titleEl.textContent.trim() : '';
 
-                        const title = titleComp?.text || '';
-                        const priceNum = priceComp?.value || 0;
-                        const currency = (priceComp?.currency || 'MXN').replace('$', '');
-                        const address = locComp?.text || city;
-                        const attributes = attrComp?.texts || [];
-                        const link = meta.url ? `https://${meta.url}` : url;
+            const priceEl = item.querySelector('.andes-money-amount__fraction');
+            const priceNum = priceEl ? parseInt(priceEl.textContent.replace(/\\D/g, ''), 10) : 0;
+            const currency = 'MXN';
 
-                        let imageUrl = 'https://via.placeholder.com/600x400?text=No+Image';
-                        const allImages: string[] = [];
-                        if (pc.pictures && pc.pictures.pictures && pc.pictures.pictures.length > 0) {
-                            for (const pic of pc.pictures.pictures) {
-                                if (pic.id) {
-                                    allImages.push(`https://http2.mlstatic.com/D_NQ_${pic.id}-O.jpg`);
-                                }
-                            }
-                            imageUrl = allImages[0] || imageUrl;
-                        }
+            const locEl = item.querySelector('.poly-component__location');
+            const address = locEl ? locEl.textContent.trim() : city;
 
-                        let mlId = `ML-${Math.random().toString(36).substring(7)}`;
-                        const idMatch = link.match(/MLM-?\d+/);
-                        if (idMatch) mlId = idMatch[0].replace('-', '');
+            const attrs: string[] = [];
+            const attrEls = item.querySelectorAll('.poly-attributes_list__item');
+            for (const attr of attrEls) {
+                if (attr.textContent) attrs.push(attr.textContent.trim());
+            }
 
-                        if (title && priceNum > 0) {
-                            listings.push({
-                                id: meta.id || mlId,
-                                title: title,
-                                price: priceNum,
-                                currency: currency,
-                                address: address,
-                                city: city,
-                                state: 'Chihuahua',
-                                status: 'active',
-                                imageUrl: imageUrl,
-                                images: allImages.length > 0 ? allImages : [imageUrl],
-                                source: 'Mercado Libre',
-                                sourceUrl: link,
-                                attributes: attributes,
-                                propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
-                                fetchedAt: new Date().toISOString()
-                            });
-                        }
-                    }
-                }
-            } catch (e: any) {
-                console.log(`[ZenRows] failed to regex parse ML JSON state: ${e.message}`);
+            // Image handles Lazy Loading from ZenRows
+            const imgEl = item.querySelector('img.poly-component__picture') || item.querySelector('img');
+            let imageUrl = 'https://via.placeholder.com/600x400?text=No+Image';
+            if (imgEl) {
+                imageUrl = imgEl.getAttribute('data-src') || imgEl.getAttribute('src') || imageUrl;
+            }
+
+            let mlId = `ML-\${Math.random().toString(36).substring(7)}`;
+            const idMatch = link?.match(/MLM-?\\d+/);
+            if (idMatch) mlId = idMatch[0].replace('-', '');
+
+            if (title && priceNum > 0) {
+                listings.push({
+                    id: mlId,
+                    title: title,
+                    price: priceNum,
+                    currency: currency,
+                    address: address,
+                    city: city,
+                    state: 'Chihuahua',
+                    status: 'active',
+                    imageUrl: imageUrl,
+                    images: [imageUrl], // Extracted from DOM can only guarantee 1 initially
+                    source: 'Mercado Libre',
+                    sourceUrl: link || '',
+                    attributes: attrs,
+                    propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
+                    fetchedAt: new Date().toISOString()
+                });
             }
         }
 
