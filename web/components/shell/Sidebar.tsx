@@ -17,10 +17,10 @@ export function Sidebar() {
     const items = [
         { name: t.sidebar.dashboard, href: '/dashboard', icon: Home, badge: null },
         { name: t.sidebar.search, href: '/properties', icon: Search, badge: null },
-        { name: t.sidebar.listings, href: '/listings', icon: FileText, badge: 12 },
+        { name: t.sidebar.listings, href: '/listings', icon: FileText, badge: null },
         { name: t.sidebar.ingestion, href: '/ingestion', icon: Upload, badge: null },
-        { name: t.sidebar.governance, href: '/governance', icon: ShieldAlert, badge: 3 },
-        { name: (t.sidebar as any).intelligence, href: '/intelligence', icon: Globe, badge: 5 },
+        { name: t.sidebar.governance, href: '/governance', icon: ShieldAlert, badge: null },
+        { name: (t.sidebar as any).intelligence, href: '/intelligence', icon: Globe, badge: null },
         { name: 'Mensajes', href: '/messages', icon: MessageCircle, badge: null },
         { name: 'Favoritos', href: '/favorites', icon: Heart, badge: null },
         { name: 'Reseñas', href: '/reviews', icon: Star, badge: null },

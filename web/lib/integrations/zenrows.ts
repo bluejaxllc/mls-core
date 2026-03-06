@@ -3,21 +3,23 @@ import { parse } from 'node-html-parser';
 
 const ZENROWS_API_KEY = process.env.ZENROWS_API_KEY;
 
-export async function scrapeMLViaZenRows(city: string, propertyType: string, minPrice: string, maxPrice: string, q: string, maxItems: number): Promise<any[]> {
+export async function scrapeMLViaZenRows(city: string, propertyType: string, listingType: string, minPrice: string, maxPrice: string, q: string, limit: number = 12, page: number = 1): Promise<any[]> {
     if (!ZENROWS_API_KEY) {
         console.log('[ZenRows] No API key found, skipping scrape.');
         return [];
     }
 
+    const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
+
     const typeMap: Record<string, string> = {
-        'house': 'casas/venta',
-        'apartment': 'departamentos/venta',
-        'land': 'terrenos/venta',
-        'commercial': 'locales-comerciales/venta',
-        'industrial': 'bodegas/venta',
+        'house': `casas/${op}`,
+        'apartment': `departamentos/${op}`,
+        'land': `terrenos/${op}`,
+        'commercial': `locales-comerciales/${op}`,
+        'industrial': `bodegas/${op}`,
     };
 
-    let path = 'inmuebles/venta';
+    let path = `inmuebles/${op}`;
     if (propertyType && typeMap[propertyType.toLowerCase()]) {
         path = typeMap[propertyType.toLowerCase()];
     }
@@ -34,6 +36,14 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
         const minUrl = minPrice || '0';
         const maxUrl = maxPrice || '0';
         url += `_PriceRange_${minUrl}-${maxUrl}`;
+    }
+
+    // Handle pagination
+    if (page > 1) {
+        // Mercado Libre page size is typically 48 items
+        // Standard offsets: _Desde_49 for page 2, _Desde_97 for page 3
+        const offsetString = (page - 1) * limit + 1;
+        url += `_Desde_${Math.max(1, offsetString)}`;
     }
 
     console.log(`[ZenRows] Scraping ML URL: ${url}`);
@@ -55,12 +65,12 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
         let listings: any[] = [];
 
         // ── Strategy 1: Parse POLYCARD results from __NORDIC_RENDERING_CTX__ ──
-        listings = parseNordicResults(html, city, propertyType, maxItems);
+        listings = parseNordicResults(html, city, propertyType, listingType, limit);
 
         // ── Strategy 2: Fallback to DOM parsing if JSON failed ───────────────
         if (listings.length === 0) {
             console.log('[ZenRows] JSON extraction found 0 items, trying DOM fallback...');
-            listings = parseDOMFallback(html, city, propertyType, url, maxItems);
+            listings = parseDOMFallback(html, city, propertyType, listingType, url, limit);
         }
 
         if (listings.length === 0) {
@@ -83,7 +93,7 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
  * entire object fails. Instead we locate the "results" array via string search
  * and bracket-match to extract just the JSON array.
  */
-function parseNordicResults(html: string, city: string, propertyType: string, maxItems: number): any[] {
+function parseNordicResults(html: string, city: string, propertyType: string, listingType: string, maxItems: number): any[] {
     const listings: any[] = [];
 
     try {
@@ -169,7 +179,7 @@ function parseNordicResults(html: string, city: string, propertyType: string, ma
                     address: address,
                     city: city,
                     state: 'Chihuahua',
-                    status: 'active',
+                    status: listingType.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
                     imageUrl: imageUrl,
                     images: images.length > 0 ? images : [imageUrl],
                     source: 'Mercado Libre',
@@ -190,7 +200,7 @@ function parseNordicResults(html: string, city: string, propertyType: string, ma
 /**
  * DOM-based fallback parser in case ML removes the NORDIC JSON again.
  */
-function parseDOMFallback(html: string, city: string, propertyType: string, url: string, maxItems: number): any[] {
+function parseDOMFallback(html: string, city: string, propertyType: string, listingType: string, url: string, maxItems: number): any[] {
     const listings: any[] = [];
 
     try {
@@ -242,7 +252,7 @@ function parseDOMFallback(html: string, city: string, propertyType: string, url:
                     address: address,
                     city: city,
                     state: 'Chihuahua',
-                    status: 'active',
+                    status: listingType.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
                     imageUrl: imageUrl,
                     images: [imageUrl],
                     source: 'Mercado Libre',

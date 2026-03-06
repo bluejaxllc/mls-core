@@ -56,11 +56,15 @@ function ListingsContent() {
     const [loading, setLoading] = useState(false);
     const { addItem, removeItem, isInComparison, isFull } = useComparison();
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const ITEMS_PER_PAGE = 12;
+
     useEffect(() => {
-        fetchListings();
+        fetchListings(1);
     }, [activeTab, cityFilter, propertyTypeFilter, minPrice, maxPrice]); // Refetch on filter change
 
-    const fetchListings = async () => {
+    const fetchListings = async (page = currentPage) => {
         try {
             setLoading(true);
 
@@ -71,6 +75,8 @@ function ListingsContent() {
             if (minPrice) params.set('minPrice', minPrice);
             if (maxPrice) params.set('maxPrice', maxPrice);
             if (searchQuery) params.set('q', searchQuery);
+            params.set('page', page.toString());
+            params.set('limit', ITEMS_PER_PAGE.toString());
 
             const res = await fetch(`/api/listings/live?${params.toString()}`);
 
@@ -95,6 +101,8 @@ function ListingsContent() {
                 }));
 
                 setListings(mapped.length > 0 ? mapped : MOCK_LISTINGS);
+                setTotalPages(response.totalPages || 1);
+                setCurrentPage(response.page || page);
                 console.log(`[Listings] Loaded ${mapped.length} properties (source: ${response.source})`);
             } else {
                 setListings(MOCK_LISTINGS);
@@ -109,7 +117,7 @@ function ListingsContent() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        fetchListings();
+        fetchListings(1);
     }
 
     // SAVED SEARCH LOGIC
@@ -309,7 +317,7 @@ function ListingsContent() {
                             </button>
                             <AnimatedButton
                                 variant="primary"
-                                onClick={fetchListings}
+                                onClick={() => fetchListings()}
                                 className="text-xs px-4 py-1.5"
                             >
                                 Aplicar
@@ -531,6 +539,40 @@ function ListingsContent() {
                     )}
                 </div>
             )}
+
+            {/* Pagination for Listings */}
+            {viewMode === 'grid' && totalPages > 1 && listings.length > 0 && !loading && (
+                <div className="flex justify-center items-center gap-4 py-8">
+                    <AnimatedButton
+                        variant="secondary"
+                        onClick={() => {
+                            setCurrentPage(Math.max(1, currentPage - 1));
+                            fetchListings(Math.max(1, currentPage - 1));
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        disabled={currentPage <= 1 || loading}
+                        className="px-4 py-2"
+                    >
+                        Anterior
+                    </AnimatedButton>
+                    <span className="text-sm font-medium text-muted-foreground">
+                        Página {currentPage} de {totalPages}
+                    </span>
+                    <AnimatedButton
+                        variant="secondary"
+                        onClick={() => {
+                            setCurrentPage(Math.min(totalPages, currentPage + 1));
+                            fetchListings(Math.min(totalPages, currentPage + 1));
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        disabled={currentPage >= totalPages || loading}
+                        className="px-4 py-2"
+                    >
+                        Siguiente
+                    </AnimatedButton>
+                </div>
+            )}
+
             {/* Save Search Modal */}
             {isSaveSearchOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

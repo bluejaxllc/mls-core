@@ -61,9 +61,12 @@ export default function IntelligenceDashboard() {
             if (source !== 'All') {
                 params.set('source', source);
             }
+            if (listingType !== 'ALL') params.set('listingType', listingType.toUpperCase());
             if (propertyType !== 'ALL') params.set('propertyType', propertyType.toLowerCase());
             if (minPrice) params.set('minPrice', minPrice);
             if (maxPrice) params.set('maxPrice', maxPrice);
+            params.set('page', page.toString());
+            params.set('limit', ITEMS_PER_PAGE.toString());
 
             const [liveData, sourcesData] = await Promise.all([
                 fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.json()),
@@ -72,16 +75,37 @@ export default function IntelligenceDashboard() {
 
             if (liveData.listings) {
                 setListings(liveData.listings);
-                const pages = Math.ceil(liveData.listings.length / ITEMS_PER_PAGE);
+                const pages = liveData.totalPages || Math.ceil(liveData.listings.length / ITEMS_PER_PAGE) || 1;
                 setTotalPages(pages);
                 setTotalListings(liveData.listings.length);
-                setCurrentPage(page > pages ? 1 : page);
+                setCurrentPage(liveData.page || page);
 
-                // Update FB status from the live response
+                // Update FB and ML status from the live response natively (fixes 0 processed issue for ML)
+
+                const getLabel = () => {
+                    let label = 'propiedades';
+                    if (propertyType === 'HOUSE') label = 'casas';
+                    if (propertyType === 'APARTMENT') label = 'departamentos';
+                    if (propertyType === 'COMMERCIAL') label = 'propiedades comerciales';
+                    if (propertyType === 'LAND') label = 'terrenos';
+
+                    let op = '';
+                    if (listingType === 'SALE') op = 'en venta';
+                    if (listingType === 'RENT') op = 'en renta';
+
+                    return `${label} ${op}`.trim();
+                };
+
                 const fbCount = liveData.listings.filter((l: any) => l.source === 'Facebook Marketplace').length;
                 if (fbCount > 0) {
                     setFbStatus('done');
-                    setFbResult(`${fbCount} propiedades de Facebook`);
+                    setFbResult(`${fbCount} ${getLabel()} Facebook`);
+                }
+
+                const mlCount = liveData.listings.filter((l: any) => l.source === 'Mercado Libre').length;
+                if (mlCount > 0) {
+                    setCrawlStatus('done');
+                    setCrawlResult(`${mlCount} ${getLabel()} Mercado Libre`);
                 }
             }
             if (Array.isArray(sourcesData)) setSources(sourcesData);
@@ -217,12 +241,10 @@ export default function IntelligenceDashboard() {
         return true;
     });
 
-    // Client-side pagination
-    const paginatedListings = filteredListings.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
-    const filteredTotalPages = Math.max(1, Math.ceil(filteredListings.length / ITEMS_PER_PAGE));
+    // We no longer slice the list for paginated requests (since server handles it),
+    // but we still apply client-side filtering on the returned chunk if any
+    const paginatedListings = filteredListings;
+    const filteredTotalPages = totalPages;
 
     return (
         <div className="space-y-8 max-w-7xl mx-auto pb-10">

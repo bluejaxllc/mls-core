@@ -6,10 +6,10 @@ import fbDataRaw from './fb-data.json';
 export const dynamic = 'force-dynamic';
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
-const MAX_ITEMS = 100;
+const DEFAULT_LIMIT = 12;
 
 // In-memory cache: cacheKey -> { timestamp, listings[] }
-const memoryCache = new Map<string, { timestamp: number; listings: any[] }>();
+const memoryCache = new Map<string, { timestamp: number; listings: any[], page: number, totalPages: number }>();
 
 // Chihuahua real estate data generator - produces realistic listings per filter
 function generateListings(city: string, propertyType: string, minPrice: string, maxPrice: string): any[] {
@@ -75,7 +75,7 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
 
     const listings: any[] = [];
 
-    for (let i = 0; i < MAX_ITEMS; i++) {
+    for (let i = 0; i < DEFAULT_LIMIT; i++) {
         const type = types[i % types.length];
         const config = typeConfig[type];
         const hood = activeCityData.neighborhoods[i % activeCityData.neighborhoods.length];
@@ -116,7 +116,7 @@ function generateListings(city: string, propertyType: string, minPrice: string, 
         });
     }
 
-    return listings.slice(0, MAX_ITEMS);
+    return listings.slice(0, DEFAULT_LIMIT);
 }
 
 // ─── BrowserOS MCP Facebook Marketplace Crawl ──────────────────
@@ -252,13 +252,17 @@ export async function GET(request: Request) {
         const minPrice = searchParams.get('minPrice') || '';
         const maxPrice = searchParams.get('maxPrice') || '';
         const q = searchParams.get('q') || '';
+        const listingType = searchParams.get('listingType') || '';
 
-        // Build cache key from all filter params
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const limit = parseInt(searchParams.get('limit') || DEFAULT_LIMIT.toString(), 10);
+
+        // Build cache key from all filter params, including pagination
         const cacheKey = crypto.createHash('md5')
-            .update(`${city}|${source}|${propertyType}|${minPrice}|${maxPrice}|${q}`)
+            .update(`${city}|${source}|${propertyType}|${listingType}|${minPrice}|${maxPrice}|${q}|${page}|${limit}`)
             .digest('hex');
 
-        console.log(`[LIVE] Filters: city=${city} source=${source} type=${propertyType} price=${minPrice}-${maxPrice} q=${q}`);
+        console.log(`[LIVE] Filters: city=${city} source=${source} type=${propertyType} op=${listingType} price=${minPrice}-${maxPrice} q=${q} page=${page} limit=${limit}`);
 
         // Check cache
         const cached = memoryCache.get(cacheKey);
@@ -267,7 +271,9 @@ export async function GET(request: Request) {
             return NextResponse.json({
                 source: 'cache',
                 cacheKey,
-                listings: cached.listings
+                listings: cached.listings,
+                page: cached.page,
+                totalPages: cached.totalPages
             });
         }
 
@@ -277,7 +283,7 @@ export async function GET(request: Request) {
 
         if (isMLSource) {
             try {
-                mlListings = ((await scrapeMLViaZenRows(city, propertyType, minPrice, maxPrice, q, MAX_ITEMS)) || []) as any[];
+                mlListings = ((await scrapeMLViaZenRows(city, propertyType, listingType, minPrice, maxPrice, q, limit, page)) || []) as any[];
 
                 if (minPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
                 if (maxPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
@@ -359,6 +365,10 @@ export async function GET(request: Request) {
                 if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
                 if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
 
+                // Paginate bundled FB data
+                const startIndex = (page - 1) * limit;
+                fbListings = fbListings.slice(startIndex, startIndex + limit);
+
             } catch (e: any) {
                 console.log(`[LIVE] ⚠️ FB crawl: ${e.message}`);
             }
@@ -372,9 +382,13 @@ export async function GET(request: Request) {
             console.log(`[LIVE] 📊 No data from ML or FB — returning empty`);
         }
 
+        // Determine a dummy totalPages based on if we hit the limit
+        // (Mercado Libre often has hundreds of pages, we assume there is always another page if the payload is full)
+        const totalPages = listings.length >= (isFBSource && isMLSource ? limit * 2 : limit) ? page + 5 : page;
+
         // Cache results
         if (listings.length > 0) {
-            memoryCache.set(cacheKey, { timestamp: Date.now(), listings });
+            memoryCache.set(cacheKey, { timestamp: Date.now(), listings, page, totalPages });
         }
 
         // Clean old cache entries
@@ -386,12 +400,14 @@ export async function GET(request: Request) {
         }
 
         const resultSource = fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
-        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length})`);
+        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}) returned for page ${page}`);
 
         return NextResponse.json({
             source: resultSource,
             cacheKey,
-            listings
+            listings,
+            page,
+            totalPages
         });
 
     } catch (e: any) {
