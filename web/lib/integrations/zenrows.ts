@@ -84,8 +84,14 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
                         const link = meta.url ? `https://${meta.url}` : url;
 
                         let imageUrl = 'https://via.placeholder.com/600x400?text=No+Image';
+                        const allImages: string[] = [];
                         if (pc.pictures && pc.pictures.pictures && pc.pictures.pictures.length > 0) {
-                            imageUrl = `https://http2.mlstatic.com/D_NQ_${pc.pictures.pictures[0].id}-O.jpg`;
+                            for (const pic of pc.pictures.pictures) {
+                                if (pic.id) {
+                                    allImages.push(`https://http2.mlstatic.com/D_NQ_${pic.id}-O.jpg`);
+                                }
+                            }
+                            imageUrl = allImages[0] || imageUrl;
                         }
 
                         let mlId = `ML-${Math.random().toString(36).substring(7)}`;
@@ -103,6 +109,7 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, min
                                 state: 'Chihuahua',
                                 status: 'active',
                                 imageUrl: imageUrl,
+                                images: allImages.length > 0 ? allImages : [imageUrl],
                                 source: 'Mercado Libre',
                                 sourceUrl: link,
                                 attributes: attributes,

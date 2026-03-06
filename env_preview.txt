@@ -1,0 +1,10 @@
+﻿
+ name                               value               environments                        created    
+ INTELLIGENCE_DATABASE_URL          Encrypted           Preview                             8d ago     
+ APIFY_API_TOKEN                    Encrypted           Preview                             8d ago     
+ NEXTAUTH_SECRET                    Encrypted           Development, Preview, Production    26d ago    
+ BLUE_JAX_CLIENT_ID                 Encrypted           Development, Preview, Production    26d ago    
+ NEXT_PUBLIC_API_URL                Encrypted           Production, Preview, Development    27d ago    
+ ML_CLIENT_ID                       Encrypted           Development, Preview                28d ago    
+ ML_CLIENT_SECRET                   Encrypted           Development, Preview                28d ago    
+
