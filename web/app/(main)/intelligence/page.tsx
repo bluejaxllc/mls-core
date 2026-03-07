@@ -36,6 +36,7 @@ export default function IntelligenceDashboard() {
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [source, setSource] = useState('All');
+    const [disabledSources, setDisabledSources] = useState<Set<string>>(new Set());
 
     // ML Crawl state
     const [crawlStatus, setCrawlStatus] = useState<'idle' | 'crawling' | 'done' | 'error' | 'not_auth'>('idle');
@@ -106,6 +107,11 @@ export default function IntelligenceDashboard() {
                 if (mlCount > 0) {
                     setCrawlStatus('done');
                     setCrawlResult(`${mlCount} ${getLabel()} Mercado Libre`);
+                }
+
+                const i24Count = liveData.listings.filter((l: any) => l.source === 'Inmuebles24').length;
+                if (i24Count > 0) {
+                    console.log(`[Intelligence] Inmuebles24: ${i24Count} listings`);
                 }
             }
             if (Array.isArray(sourcesData)) setSources(sourcesData);
@@ -243,6 +249,14 @@ export default function IntelligenceDashboard() {
 
     // Client-side secondary filter (API already handles city/propertyType/price)
     const filteredListings = listings.filter((item) => {
+        // Filter by disabled sources
+        if (disabledSources.size > 0) {
+            const itemSource = (item.source || '').toLowerCase();
+            const disabledArr = Array.from(disabledSources);
+            for (const disabled of disabledArr) {
+                if (itemSource.includes(disabled.toLowerCase())) return false;
+            }
+        }
         if (listingType !== 'ALL') {
             const status = (item.status || '').toUpperCase();
             if (status !== listingType && status !== `DETECTED_${listingType}`) return false;
@@ -251,6 +265,24 @@ export default function IntelligenceDashboard() {
         if (bathrooms !== 'Any' && (item.bathrooms || 0) < Number(bathrooms)) return false;
         return true;
     });
+
+    // Toggle source handler
+    const handleToggleSource = (sourceId: string) => {
+        setSources(prev => prev.map(s => s.id === sourceId ? { ...s, isEnabled: !s.isEnabled } : s));
+        // Find the source name by its id and toggle in disabledSources
+        const src = sources.find(s => s.id === sourceId);
+        if (src) {
+            setDisabledSources(prev => {
+                const next = new Set(prev);
+                if (src.isEnabled) {
+                    next.add(src.name);
+                } else {
+                    next.delete(src.name);
+                }
+                return next;
+            });
+        }
+    };
 
     // We no longer slice the list for paginated requests (since server handles it),
     // but we still apply client-side filtering on the returned chunk if any
@@ -372,8 +404,8 @@ export default function IntelligenceDashboard() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {sources.map(source => (
-                            <SourceCard key={source.id} source={source} />
+                        {sources.map(src => (
+                            <SourceCard key={src.id} source={src} onToggle={handleToggleSource} />
                         ))}
                     </div>
                 )}
