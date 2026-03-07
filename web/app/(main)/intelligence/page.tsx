@@ -69,8 +69,8 @@ export default function IntelligenceDashboard() {
             params.set('limit', ITEMS_PER_PAGE.toString());
 
             const [liveData, sourcesData] = await Promise.all([
-                fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.json()),
-                authFetch('/api/intelligence/sources', {}, token)
+                fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
+                authFetch('/api/intelligence/sources', {}, token).catch(() => [])
             ]);
 
             if (liveData.listings) {
@@ -126,6 +126,12 @@ export default function IntelligenceDashboard() {
         try {
             // Check if ML is authenticated first
             const statusRes = await fetch(`${API_URL}/api/integrations/mercadolibre/status`);
+            if (!statusRes.ok) {
+                // Status endpoint failed — skip auth check, ML listings still come via ZenRows in /api/listings/live
+                setCrawlStatus('done');
+                setCrawlResult('Usando API pública');
+                return;
+            }
             const statusData = await statusRes.json();
 
             if (!statusData.authenticated) {
@@ -145,7 +151,12 @@ export default function IntelligenceDashboard() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
-            const crawlData = await crawlRes.json();
+            let crawlData: any = {};
+            try {
+                crawlData = await crawlRes.json();
+            } catch {
+                crawlData = { error: 'Invalid response' };
+            }
 
             if (crawlData.success) {
                 setCrawlStatus('done');

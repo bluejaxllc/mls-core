@@ -4,11 +4,6 @@ import { parse } from 'node-html-parser';
 const ZENROWS_API_KEY = process.env.ZENROWS_API_KEY;
 
 export async function scrapeMLViaZenRows(city: string, propertyType: string, listingType: string, minPrice: string, maxPrice: string, q: string, limit: number = 12, page: number = 1): Promise<any[]> {
-    if (!ZENROWS_API_KEY) {
-        console.log('[ZenRows] No API key found, skipping scrape.');
-        return [];
-    }
-
     const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
 
     const typeMap: Record<string, string> = {
@@ -40,50 +35,81 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, lis
 
     // Handle pagination
     if (page > 1) {
-        // Mercado Libre page size is typically 48 items
-        // Standard offsets: _Desde_49 for page 2, _Desde_97 for page 3
         const offsetString = (page - 1) * limit + 1;
         url += `_Desde_${Math.max(1, offsetString)}`;
     }
 
-    console.log(`[ZenRows] Scraping ML URL: ${url}`);
+    console.log(`[ML Scraper] Scraping ML URL: ${url}`);
 
+    // ── Strategy A: Direct fetch (free, no proxy needed) ────────────────
+    let html = '';
     try {
-        const response = await axios({
-            method: 'GET',
-            url: 'https://api.zenrows.com/v1/',
-            params: {
-                url: url,
-                apikey: ZENROWS_API_KEY,
-                premium_proxy: 'true',
-                js_render: 'true'
+        console.log('[ML Scraper] Trying direct fetch...');
+        const directRes = await fetch(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5',
+                'Accept-Encoding': 'identity',
             },
-            timeout: 25000
+            signal: AbortSignal.timeout(15000),
         });
 
-        const html = response.data;
-        let listings: any[] = [];
-
-        // ── Strategy 1: Parse POLYCARD results from __NORDIC_RENDERING_CTX__ ──
-        listings = parseNordicResults(html, city, propertyType, listingType, limit);
-
-        // ── Strategy 2: Fallback to DOM parsing if JSON failed ───────────────
-        if (listings.length === 0) {
-            console.log('[ZenRows] JSON extraction found 0 items, trying DOM fallback...');
-            listings = parseDOMFallback(html, city, propertyType, listingType, url, limit);
+        if (directRes.ok) {
+            html = await directRes.text();
+            console.log(`[ML Scraper] ✅ Direct fetch OK — ${html.length} chars`);
+        } else {
+            console.log(`[ML Scraper] ⚠️ Direct fetch returned ${directRes.status}`);
         }
+    } catch (e: any) {
+        console.log(`[ML Scraper] ⚠️ Direct fetch failed: ${e.message}`);
+    }
 
-        if (listings.length === 0) {
-            console.log(`[ZenRows] ⚠️ 0 listings extracted. HTML Length: ${html.length}. Peek: ${html.substring(0, 200)}...`);
+    // ── Strategy B: ZenRows proxy fallback (paid) ───────────────────────
+    if (!html && ZENROWS_API_KEY) {
+        try {
+            console.log('[ML Scraper] Falling back to ZenRows proxy...');
+            const response = await axios({
+                method: 'GET',
+                url: 'https://api.zenrows.com/v1/',
+                params: {
+                    url: url,
+                    apikey: ZENROWS_API_KEY,
+                    premium_proxy: 'true',
+                    js_render: 'true'
+                },
+                timeout: 25000
+            });
+            html = response.data;
+            console.log(`[ML Scraper] ✅ ZenRows OK — ${html.length} chars`);
+        } catch (error: any) {
+            console.error('[ML Scraper] ⚠️ ZenRows also failed:', error?.response?.status || error.message);
         }
+    }
 
-        console.log(`[ZenRows] ✅ Extracted ${listings.length} ML listings.`);
-        return listings;
-
-    } catch (error: any) {
-        console.error('[ZenRows] ⚠️ Scrape error:', error?.response?.data || error.message);
+    if (!html) {
+        console.log('[ML Scraper] ❌ No HTML obtained from any source.');
         return [];
     }
+
+    // ── Parse HTML ──────────────────────────────────────────────────────
+    let listings: any[] = [];
+
+    // Parse strategy 1: NORDIC JSON
+    listings = parseNordicResults(html, city, propertyType, listingType, limit);
+
+    // Parse strategy 2: DOM fallback
+    if (listings.length === 0) {
+        console.log('[ML Scraper] JSON extraction found 0 items, trying DOM fallback...');
+        listings = parseDOMFallback(html, city, propertyType, listingType, url, limit);
+    }
+
+    if (listings.length === 0) {
+        console.log(`[ML Scraper] ⚠️ 0 listings extracted. HTML Length: ${html.length}. Peek: ${html.substring(0, 200)}...`);
+    }
+
+    console.log(`[ML Scraper] ✅ Extracted ${listings.length} ML listings.`);
+    return listings;
 }
 
 /**
