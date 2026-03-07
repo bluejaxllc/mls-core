@@ -58,8 +58,14 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, lis
         });
 
         if (directRes.ok) {
-            html = await directRes.text();
-            console.log(`[ML Scraper] ✅ Direct fetch OK — ${html.length} chars`);
+            const text = await directRes.text();
+            // Validate it's real listing HTML, not a CAPTCHA/anti-bot page
+            if (text.includes('__NORDIC') || text.includes('poly-component') || text.includes('ui-search-result')) {
+                html = text;
+                console.log(`[ML Scraper] ✅ Direct fetch OK — ${html.length} chars`);
+            } else {
+                console.log(`[ML Scraper] ⚠️ Direct fetch returned ${text.length} chars but no listing data (likely anti-bot page)`);
+            }
         } else {
             console.log(`[ML Scraper] ⚠️ Direct fetch returned ${directRes.status}`);
         }
