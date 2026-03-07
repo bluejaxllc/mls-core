@@ -148,53 +148,85 @@ async function scrapeLamudi(url) {
     const page = await b.newPage();
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+        await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
+        console.log(`[Lamudi] Navigating to: ${url}`);
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
-        const listings = await page.evaluate(() => {
-            // Lamudi uses Next.js — try __NEXT_DATA__ first
-            const nextData = document.getElementById('__NEXT_DATA__');
-            if (nextData) {
-                try {
-                    const data = JSON.parse(nextData.textContent || '{}');
-                    const results = data?.props?.pageProps?.listingSearchResult?.listings || [];
-                    return results.map((item, i) => ({
-                        id: `lamudi-${item.id || i}`,
-                        title: item.title || '',
-                        price: item.price?.value || 0,
-                        currency: item.price?.currency || 'MXN',
-                        area: item.attributes?.find(a => a.key === 'surface_total')?.value || 0,
-                        bedrooms: item.attributes?.find(a => a.key === 'bedrooms')?.value || 0,
-                        bathrooms: item.attributes?.find(a => a.key === 'bathrooms')?.value || 0,
-                        parking: item.attributes?.find(a => a.key === 'car_spaces')?.value || 0,
-                        location: item.location?.name || '',
-                        images: (item.images || []).map(img => img.url),
-                        url: item.url ? `https://www.lamudi.com.mx${item.url}` : '',
-                        source: 'Lamudi',
-                        propertyType: 'HOUSE',
-                        listingType: 'SALE',
-                    }));
-                } catch (e) { /* fall through to DOM parsing */ }
-            }
+        // Wait for listing cards
+        try {
+            await page.waitForSelector('.snippet[data-idanuncio], [data-test="serp-project"]', { timeout: 10000 });
+        } catch (_) {
+            console.log('[Lamudi] ⚠️ Timed out waiting for snippets');
+        }
 
-            // Fallback: DOM parsing
-            const cards = document.querySelectorAll('[data-listing-id], .listing-card, .ListingCell');
-            return Array.from(cards).map((card, i) => ({
-                id: `lamudi-${card.getAttribute('data-listing-id') || i}`,
-                title: card.querySelector('h2, .listing-title, [class*="title"]')?.textContent?.trim() || '',
-                price: parseFloat((card.querySelector('[class*="price"]')?.textContent || '0').replace(/[^0-9.]/g, '')) || 0,
-                currency: 'MXN',
-                area: 0,
-                bedrooms: 0,
-                bathrooms: 0,
-                parking: 0,
-                location: card.querySelector('[class*="location"]')?.textContent?.trim() || '',
-                images: Array.from(card.querySelectorAll('img')).map(img => img.src).filter(Boolean),
-                url: card.querySelector('a')?.href || '',
-                source: 'Lamudi',
-                propertyType: 'HOUSE',
-                listingType: 'SALE',
-            }));
-        });
+        const debug = await page.evaluate(() => ({
+            snippets: document.querySelectorAll('.snippet[data-idanuncio]').length,
+            serpProject: document.querySelectorAll('[data-test="serp-project"]').length,
+            listings: document.querySelectorAll('[class*="listing"]').length,
+            title: document.title,
+        }));
+        console.log('[Lamudi] Debug:', JSON.stringify(debug));
+
+        const listings = await page.evaluate((targetUrl) => {
+            // Lamudi uses .snippet divs with data-idanuncio attributes
+            const cards = document.querySelectorAll('.snippet[data-idanuncio]');
+            return Array.from(cards).map((card, i) => {
+                const id = card.getAttribute('data-idanuncio') || `${i}`;
+
+                // Get title from the main link
+                const titleEl = card.querySelector('[class*="snippet__title"], h2, a[class*="info"] span');
+                const title = titleEl?.textContent?.trim() || '';
+
+                // Get price
+                const priceEl = card.querySelector('[class*="price"], [data-test*="price"]');
+                const priceText = priceEl?.textContent || '';
+                const priceMatch = priceText.match(/([\d,]+(?:\.\d+)?)/);
+                const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
+
+                // Get location
+                const locationEl = card.querySelector('[class*="location"], [class*="address"]');
+                const location = locationEl?.textContent?.trim() || '';
+
+                // Get attributes (bedrooms, bathrooms, area)
+                const attrText = card.textContent || '';
+                const bedsMatch = attrText.match(/(\d+)\s*(?:rec|hab)/i);
+                const bathsMatch = attrText.match(/(\d+)\s*ba.o/i);
+                const areaMatch = attrText.match(/([\d,]+)\s*m/i);
+
+                // Get images
+                const images = Array.from(card.querySelectorAll('img'))
+                    .map(img => img.src || img.getAttribute('data-src') || '')
+                    .filter(src => src && src.includes('lamudi'));
+
+                // Get detail URL
+                const link = card.querySelector('a[href*="lamudi"]');
+                const detailUrl = link?.href || '';
+
+                // Detect property type
+                let propertyType = 'HOUSE';
+                const textLower = (title + ' ' + attrText).toLowerCase();
+                if (textLower.includes('departamento') || textLower.includes('apartment')) propertyType = 'APARTMENT';
+                else if (textLower.includes('terreno') || textLower.includes('lote')) propertyType = 'LAND';
+                else if (textLower.includes('local') || textLower.includes('oficina')) propertyType = 'COMMERCIAL';
+
+                return {
+                    id: `lamudi-${id}`,
+                    title: title.substring(0, 150) || 'Propiedad en Lamudi',
+                    price,
+                    currency: 'MXN',
+                    area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0,
+                    bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0,
+                    bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0,
+                    parking: 0,
+                    location,
+                    images,
+                    url: detailUrl,
+                    source: 'Lamudi',
+                    propertyType,
+                    listingType: targetUrl.includes('for-rent') ? 'RENT' : 'SALE',
+                };
+            });
+        }, url);
 
         console.log(`[Lamudi] Extracted ${listings.length} listings`);
         return listings;
@@ -204,38 +236,100 @@ async function scrapeLamudi(url) {
 }
 
 // ── Vivanuncios Scraper ──────────────────────────────────────────────────
+// Vivanuncios uses the same navent platform as Inmuebles24
 async function scrapeVivanuncios(url) {
     const b = await getBrowser();
     const page = await b.newPage();
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+        await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
+        console.log(`[Vivanuncios] Navigating to: ${url}`);
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
 
+        // Wait for posting cards (same navent platform as Inmuebles24)
+        try {
+            await page.waitForSelector('[class*="postingCardLayout"], [data-posting-type]', { timeout: 10000 });
+        } catch (_) {
+            console.log('[Vivanuncios] ⚠️ Timed out waiting for posting cards');
+        }
+
+        const debug = await page.evaluate(() => ({
+            postingCard: document.querySelectorAll('[class*="postingCardLayout"]').length,
+            postingType: document.querySelectorAll('[data-posting-type]').length,
+            dataId: document.querySelectorAll('[data-id]').length,
+            title: document.title,
+            bodyLen: document.body.innerHTML.length,
+        }));
+        console.log('[Vivanuncios] Debug:', JSON.stringify(debug));
+
         const listings = await page.evaluate(() => {
-            const cards = document.querySelectorAll('[data-aut-id="itemBox"], .item-card, [class*="AdCard"]');
+            // Vivanuncios navent cards — same structure as Inmuebles24
+            const cards = document.querySelectorAll('[data-posting-type="PROPERTY"], [class*="postingCardLayout-module__posting-card-layout"]');
+            if (cards.length === 0) return [];
+
             return Array.from(cards).map((card, i) => {
-                const title = card.querySelector('[data-aut-id="itemTitle"], h2, [class*="title"]')?.textContent?.trim() || '';
-                const priceText = card.querySelector('[data-aut-id="itemPrice"], [class*="price"]')?.textContent || '';
-                const price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
-                const location = card.querySelector('[data-aut-id="itemLocation"], [class*="location"]')?.textContent?.trim() || '';
-                const image = card.querySelector('img')?.src || '';
-                const link = card.querySelector('a')?.href || '';
+                const id = card.getAttribute('data-id') || `${i}`;
+                const detailPath = card.getAttribute('data-to-posting') || '';
+                const text = card.textContent || '';
+
+                // Parse price
+                const priceMatch = text.match(/MN\s*([\d,]+(?:\.\d+)?)/);
+                const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
+
+                // Parse area
+                const areaMatch = text.match(/([\d,]+)\s*m[²2]/i);
+                const area = areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0;
+
+                // Parse bedrooms
+                const bedsMatch = text.match(/(\d+)\s*rec/i);
+                const bedrooms = bedsMatch ? parseInt(bedsMatch[1]) : 0;
+
+                // Parse bathrooms
+                const bathsMatch = text.match(/(\d+)\s*ba[ñn]/i);
+                const bathrooms = bathsMatch ? parseInt(bathsMatch[1]) : 0;
+
+                // Parse parking
+                const parkingMatch = text.match(/(\d+)\s*estac/i);
+                const parking = parkingMatch ? parseInt(parkingMatch[1]) : 0;
+
+                // Get title
+                const titleFromAlt = card.querySelector('img')?.alt || '';
+                const link = card.querySelector('a');
+                const title = titleFromAlt.split('·').pop()?.trim() || link?.textContent?.trim().substring(0, 120) || 'Propiedad en Vivanuncios';
+
+                // Get location
+                const locationEl = card.querySelector('[data-qa="POSTING_CARD_LOCATION"]');
+                const location = locationEl?.textContent?.trim() || '';
+
+                // Get images
+                const images = Array.from(card.querySelectorAll('img'))
+                    .map(img => img.src)
+                    .filter(src => src && (src.includes('naventcdn.com') || src.includes('vivanuncios')) && !src.includes('logo'));
+
+                // Detect property type
+                let propertyType = 'HOUSE';
+                const altLower = titleFromAlt.toLowerCase();
+                if (altLower.includes('departamento')) propertyType = 'APARTMENT';
+                else if (altLower.includes('terreno') || altLower.includes('lote')) propertyType = 'LAND';
+                else if (altLower.includes('local') || altLower.includes('oficina')) propertyType = 'COMMERCIAL';
+
+                const listingType = detailPath.includes('renta') ? 'RENT' : 'SALE';
 
                 return {
-                    id: `viva-${i}`,
-                    title,
+                    id: `viva-${id}`,
+                    title: title.substring(0, 150),
                     price,
                     currency: 'MXN',
-                    area: 0,
-                    bedrooms: 0,
-                    bathrooms: 0,
-                    parking: 0,
+                    area,
+                    bedrooms,
+                    bathrooms,
+                    parking,
                     location,
-                    images: image ? [image] : [],
-                    url: link.startsWith('http') ? link : `https://www.vivanuncios.com.mx${link}`,
+                    images,
+                    url: detailPath ? `https://www.vivanuncios.com.mx${detailPath}` : '',
                     source: 'Vivanuncios',
-                    propertyType: 'HOUSE',
-                    listingType: 'SALE',
+                    propertyType,
+                    listingType,
                 };
             });
         });
