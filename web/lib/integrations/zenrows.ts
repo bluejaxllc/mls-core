@@ -2,6 +2,8 @@ import axios from 'axios';
 import { parse } from 'node-html-parser';
 
 const ZENROWS_API_KEY = process.env.ZENROWS_API_KEY;
+const ML_PROXY_URL = process.env.ML_PROXY_URL;       // e.g. https://xxx.trycloudflare.com
+const ML_PROXY_SECRET = process.env.ML_PROXY_SECRET || 'bluejax-ml-proxy-2026';
 
 export async function scrapeMLViaZenRows(city: string, propertyType: string, listingType: string, minPrice: string, maxPrice: string, q: string, limit: number = 12, page: number = 1): Promise<any[]> {
     const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
@@ -65,7 +67,27 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, lis
         console.log(`[ML Scraper] ⚠️ Direct fetch failed: ${e.message}`);
     }
 
-    // ── Strategy B: ZenRows proxy fallback (paid) ───────────────────────
+    // ── Strategy B: Home proxy via Cloudflare Tunnel (free, residential IP) ─
+    if (!html && ML_PROXY_URL) {
+        try {
+            const proxyUrl = `${ML_PROXY_URL}/?url=${encodeURIComponent(url)}`;
+            console.log(`[ML Scraper] Trying home proxy: ${ML_PROXY_URL}`);
+            const proxyRes = await fetch(proxyUrl, {
+                headers: { 'x-proxy-secret': ML_PROXY_SECRET },
+                signal: AbortSignal.timeout(20000),
+            });
+            if (proxyRes.ok) {
+                html = await proxyRes.text();
+                console.log(`[ML Scraper] ✅ Home proxy OK — ${html.length} chars`);
+            } else {
+                console.log(`[ML Scraper] ⚠️ Home proxy returned ${proxyRes.status}`);
+            }
+        } catch (e: any) {
+            console.log(`[ML Scraper] ⚠️ Home proxy failed: ${e.message}`);
+        }
+    }
+
+    // ── Strategy C: ZenRows proxy fallback (paid) ───────────────────────
     if (!html && ZENROWS_API_KEY) {
         try {
             console.log('[ML Scraper] Falling back to ZenRows proxy...');
