@@ -43,41 +43,42 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, lis
 
     console.log(`[ML Scraper] Scraping ML URL: ${url}`);
 
-    // ── Strategy A: Direct fetch (free, no proxy needed) ────────────────
+    // ── Strategy A: Direct fetch (only when no proxy configured = local dev) ──
     let html = '';
-    try {
-        console.log('[ML Scraper] Trying direct fetch...');
-        const directRes = await fetch(url, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5',
-                'Accept-Encoding': 'identity',
-            },
-            signal: AbortSignal.timeout(15000),
-        });
+    if (!ML_PROXY_URL) {
+        try {
+            console.log('[ML Scraper] Trying direct fetch (local dev)...');
+            const directRes = await fetch(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5',
+                    'Accept-Encoding': 'identity',
+                },
+                signal: AbortSignal.timeout(15000),
+            });
 
-        if (directRes.ok) {
-            const text = await directRes.text();
-            // Validate it's real listing HTML, not a CAPTCHA/anti-bot page
-            if (text.includes('__NORDIC') || text.includes('poly-component') || text.includes('ui-search-result')) {
-                html = text;
-                console.log(`[ML Scraper] ✅ Direct fetch OK — ${html.length} chars`);
+            if (directRes.ok) {
+                const text = await directRes.text();
+                if (text.includes('__NORDIC') || text.includes('poly-component') || text.includes('ui-search-result')) {
+                    html = text;
+                    console.log(`[ML Scraper] ✅ Direct fetch OK — ${html.length} chars`);
+                } else {
+                    console.log(`[ML Scraper] ⚠️ Direct fetch returned ${text.length} chars but no listing data`);
+                }
             } else {
-                console.log(`[ML Scraper] ⚠️ Direct fetch returned ${text.length} chars but no listing data (likely anti-bot page)`);
+                console.log(`[ML Scraper] ⚠️ Direct fetch returned ${directRes.status}`);
             }
-        } else {
-            console.log(`[ML Scraper] ⚠️ Direct fetch returned ${directRes.status}`);
+        } catch (e: any) {
+            console.log(`[ML Scraper] ⚠️ Direct fetch failed: ${e.message}`);
         }
-    } catch (e: any) {
-        console.log(`[ML Scraper] ⚠️ Direct fetch failed: ${e.message}`);
     }
 
-    // ── Strategy B: Home proxy via Cloudflare Tunnel (free, residential IP) ─
+    // ── Strategy B: Home proxy via Cloudflare Tunnel (free, residential IP) ──
     if (!html && ML_PROXY_URL) {
         try {
-            const proxyUrl = `${ML_PROXY_URL}/?url=${encodeURIComponent(url)}`;
-            console.log(`[ML Scraper] Trying home proxy: ${ML_PROXY_URL}`);
+            const proxyUrl = `${ML_PROXY_URL.trim()}/?url=${encodeURIComponent(url)}`;
+            console.log(`[ML Scraper] Trying home proxy: ${ML_PROXY_URL.trim()}`);
             const proxyRes = await fetch(proxyUrl, {
                 headers: { 'x-proxy-secret': ML_PROXY_SECRET },
                 signal: AbortSignal.timeout(20000),
