@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { scrapeMLViaZenRows } from '@/lib/integrations/zenrows';
+import { scrapeInmuebles24 } from '@/lib/integrations/inmuebles24';
 import crypto from 'crypto';
 import fbDataRaw from './fb-data.json';
 
@@ -385,12 +386,25 @@ export async function GET(request: Request) {
             }
         } // End isFBSource check
 
+        // ── Source 3: Inmuebles24 via Puppeteer proxy ─────────
+        let i24Listings: any[] = [];
+        const isI24Source = !source || source === 'All' || source.includes('Inmuebles24') || source === 'I24';
+
+        if (isI24Source) {
+            try {
+                i24Listings = await scrapeInmuebles24(city || 'Chihuahua', propertyType, listingType, minPrice, maxPrice, limit);
+                console.log(`[LIVE] 🏠 Inmuebles24: ${i24Listings.length} listings`);
+            } catch (e: any) {
+                console.log(`[LIVE] ⚠️ Inmuebles24: ${e.message}`);
+            }
+        }
+
         // ── Merge real results ────────────────────────────────
-        let listings = [...mlListings, ...fbListings];
+        let listings = [...mlListings, ...fbListings, ...i24Listings];
 
         // No fake data fallback — show empty state if no real sources available
         if (listings.length === 0) {
-            console.log(`[LIVE] 📊 No data from ML or FB — returning empty`);
+            console.log(`[LIVE] 📊 No data from ML, FB, or I24 — returning empty`);
         }
 
         // Determine a dummy totalPages based on if we hit the limit
@@ -410,8 +424,8 @@ export async function GET(request: Request) {
             }
         }
 
-        const resultSource = fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
-        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}) returned for page ${page}`);
+        const resultSource = i24Listings.length > 0 ? 'inmuebles24' : fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
+        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}, I24: ${i24Listings.length}) returned for page ${page}`);
 
         return NextResponse.json({
             source: resultSource,
