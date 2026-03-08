@@ -7,7 +7,7 @@ import fbDataRaw from './fb-data.json';
 export const dynamic = 'force-dynamic';
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
-const DEFAULT_LIMIT = 48;
+const DEFAULT_LIMIT = 12;
 
 // In-memory cache: cacheKey -> { timestamp, listings[] }
 const memoryCache = new Map<string, { timestamp: number; listings: any[], page: number, totalPages: number }>();
@@ -278,137 +278,86 @@ export async function GET(request: Request) {
             });
         }
 
-        // ── Source 1: ML Scraper (8s timeout) ──────────────────
-        let mlListings: any[] = [];
+        // ── Determine which sources to scrape ──────────────────
         const isMLSource = !source || source === 'All' || source.includes('Mercado Libre') || source === 'ML';
-
-        if (isMLSource) {
-            try {
-                mlListings = ((await scrapeMLViaZenRows(city, propertyType, listingType, minPrice, maxPrice, q, limit, page)) || []) as any[];
-
-                if (minPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price >= parseFloat(minPrice));
-                if (maxPrice && mlListings.length > 0) mlListings = mlListings.filter((l: any) => l.price <= parseFloat(maxPrice));
-
-            } catch (e: any) {
-                console.log(`[LIVE] ⚠️ ZenRows ML scraper: ${e.message}`);
-            }
-        }
-
-        // ── Source 2: Facebook via BrowserOS (live) or bundled data ──
-        let fbListings: any[] = [];
         const isFBSource = !source || source === 'All' || source.includes('Facebook') || source === 'FB';
-
-        if (isFBSource) {
-            try {
-                // Use bundled FB data (no live BrowserOS crawl to avoid hijacking user's browser)
-                if (fbDataRaw && fbDataRaw.length > 0) {
-                    try {
-                        fbListings = (fbDataRaw as any[]).map((item: any) => {
-                            let priceNum = 0;
-                            if (item.price) {
-                                const clean = String(item.price).replace(/[^0-9.]/g, '');
-                                const parsed = parseFloat(clean);
-                                if (!isNaN(parsed)) priceNum = parsed;
-                            }
-
-                            // Extract bedrooms/bathrooms from FB titles like "3 habitaciones 2 baños - Casa"
-                            const titleStr = item.title || '';
-                            const bedroomMatch = titleStr.match(/(\d+)\s*(?:habitacion|hab|recámara|bed|Bed)/i);
-                            const bathroomMatch = titleStr.match(/(\d+)\s*(?:baño|bath|Bath)/i);
-
-                            // Detect property type from title
-                            let detectedType = 'HOUSE';
-                            if (/departamento|depa|apartment/i.test(titleStr)) detectedType = 'APARTMENT';
-                            else if (/terreno|land|lote/i.test(titleStr)) detectedType = 'LAND';
-                            else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
-                            else if (/townhouse/i.test(titleStr)) detectedType = 'HOUSE';
-
-                            // Detect rent/sale from title
-                            let detectedStatus = 'DETECTED_SALE';
-                            if (/renta|rento|alquiler/i.test(titleStr)) detectedStatus = 'DETECTED_RENT';
-
-                            return {
-                                id: item.id,
-                                title: item.title,
-                                price: priceNum,
-                                currency: 'MXN',
-                                address: item.address || 'Chihuahua',
-                                city: item.address?.split(',')[0]?.trim() || city,
-                                state: 'Chihuahua',
-                                status: detectedStatus,
-                                imageUrl: item.imageUrl,
-                                source: 'Facebook Marketplace',
-                                sourceUrl: item.url,
-                                propertyType: propertyType ? propertyType.toUpperCase() : detectedType,
-                                bedrooms: bedroomMatch ? parseInt(bedroomMatch[1]) : undefined,
-                                bathrooms: bathroomMatch ? parseInt(bathroomMatch[1]) : undefined,
-                                fetchedAt: item.fetchedAt || new Date().toISOString(),
-                            };
-                        });
-
-                        // City filter: match FB items by address containing the city name
-                        if (city && city !== 'All') {
-                            fbListings = fbListings.filter((l: any) => {
-                                const addr = (l.address || '').toLowerCase();
-                                return addr.includes(city.toLowerCase());
-                            });
-                        }
-
-                        // Property type filter
-                        if (propertyType) {
-                            fbListings = fbListings.filter((l: any) =>
-                                l.propertyType === propertyType.toUpperCase()
-                            );
-                        }
-
-                        // Listing type filter
-                        if (listingType) {
-                            fbListings = fbListings.filter((l: any) =>
-                                l.status === `DETECTED_${listingType.toUpperCase()}`
-                            );
-                        }
-
-                        console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
-                    } catch (bundledErr: any) {
-                        console.log(`[LIVE] ⚠️ Bundled FB data error: ${bundledErr.message}`);
-                    }
-                }
-
-                if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
-                if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
-
-                // Paginate bundled FB data
-                const startIndex = (page - 1) * limit;
-                fbListings = fbListings.slice(startIndex, startIndex + limit);
-
-            } catch (e: any) {
-                console.log(`[LIVE] ⚠️ FB crawl: ${e.message}`);
-            }
-        } // End isFBSource check
-
-        // ── Source 3: Inmuebles24 via Puppeteer proxy ─────────
-        let i24Listings: any[] = [];
         const isI24Source = !source || source === 'All' || source.includes('Inmuebles24') || source === 'I24';
 
-        if (isI24Source) {
-            try {
-                i24Listings = await scrapeInmuebles24(city || 'Chihuahua', propertyType, listingType, minPrice, maxPrice, limit);
-                console.log(`[LIVE] 🏠 Inmuebles24: ${i24Listings.length} listings`);
-            } catch (e: any) {
-                console.log(`[LIVE] ⚠️ Inmuebles24: ${e.message}`);
-            }
+        // ── Pre-process FB bundled data (instant, no network) ──
+        let fbListings: any[] = [];
+        if (isFBSource && fbDataRaw && fbDataRaw.length > 0) {
+            fbListings = (fbDataRaw as any[]).map((item: any) => {
+                let priceNum = 0;
+                if (item.price) {
+                    const clean = String(item.price).replace(/[^0-9.]/g, '');
+                    const parsed = parseFloat(clean);
+                    if (!isNaN(parsed)) priceNum = parsed;
+                }
+                const titleStr = item.title || '';
+                const bedroomMatch = titleStr.match(/(\d+)\s*(?:habitacion|hab|recámara|bed|Bed)/i);
+                const bathroomMatch = titleStr.match(/(\d+)\s*(?:baño|bath|Bath)/i);
+                let detectedType = 'HOUSE';
+                if (/departamento|depa|apartment/i.test(titleStr)) detectedType = 'APARTMENT';
+                else if (/terreno|land|lote/i.test(titleStr)) detectedType = 'LAND';
+                else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
+                let detectedStatus = 'DETECTED_SALE';
+                if (/renta|rento|alquiler/i.test(titleStr)) detectedStatus = 'DETECTED_RENT';
+                return {
+                    id: item.id, title: item.title, price: priceNum, currency: 'MXN',
+                    address: item.address || 'Chihuahua',
+                    city: item.address?.split(',')[0]?.trim() || city,
+                    state: 'Chihuahua', status: detectedStatus, imageUrl: item.imageUrl,
+                    source: 'Facebook Marketplace', sourceUrl: item.url,
+                    propertyType: propertyType ? propertyType.toUpperCase() : detectedType,
+                    bedrooms: bedroomMatch ? parseInt(bedroomMatch[1]) : undefined,
+                    bathrooms: bathroomMatch ? parseInt(bathroomMatch[1]) : undefined,
+                    fetchedAt: item.fetchedAt || new Date().toISOString(),
+                };
+            });
+            // Apply filters
+            if (city && city !== 'All') fbListings = fbListings.filter((l: any) => (l.address || '').toLowerCase().includes(city.toLowerCase()));
+            if (propertyType) fbListings = fbListings.filter((l: any) => l.propertyType === propertyType.toUpperCase());
+            if (listingType) fbListings = fbListings.filter((l: any) => l.status === `DETECTED_${listingType.toUpperCase()}`);
+            if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
+            if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
+            console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
         }
 
-        // ── Merge real results ────────────────────────────────
+        // ── Run ML + I24 scrapes in PARALLEL (critical for Vercel timeout) ──
+        const [mlResult, i24Result] = await Promise.allSettled([
+            isMLSource
+                ? scrapeMLViaZenRows(city, propertyType, listingType, minPrice, maxPrice, q, limit, page)
+                    .then(results => {
+                        let r = (results || []) as any[];
+                        if (minPrice && r.length > 0) r = r.filter((l: any) => l.price >= parseFloat(minPrice));
+                        if (maxPrice && r.length > 0) r = r.filter((l: any) => l.price <= parseFloat(maxPrice));
+                        return r;
+                    })
+                    .catch(e => { console.log(`[LIVE] ⚠️ ML scraper: ${e.message}`); return [] as any[]; })
+                : Promise.resolve([] as any[]),
+            isI24Source
+                ? scrapeInmuebles24(city || 'Chihuahua', propertyType, listingType, minPrice, maxPrice, limit)
+                    .catch(e => { console.log(`[LIVE] ⚠️ Inmuebles24: ${e.message}`); return [] as any[]; })
+                : Promise.resolve([] as any[]),
+        ]);
+
+        const mlListings = mlResult.status === 'fulfilled' ? mlResult.value : [];
+        const i24Listings = i24Result.status === 'fulfilled' ? i24Result.value : [];
+
+        console.log(`[LIVE] Sources: ML=${mlListings.length}, FB=${fbListings.length}, I24=${i24Listings.length}`);
+
+        // ── Merge all results ────────────────────────────────
         let listings = [...mlListings, ...fbListings, ...i24Listings];
 
-        // No fake data fallback — show empty state if no real sources available
         if (listings.length === 0) {
             console.log(`[LIVE] 📊 No data from ML, FB, or I24 — returning empty`);
         }
 
-        // Estimate totalPages: if we got a full page of results, assume more pages exist
-        const totalPages = listings.length >= limit ? page + 3 : page;
+        // Estimate totalPages based on whether we likely have more data
+        // ML has hundreds of pages, I24 has ~30 per scrape, FB is bounded
+        const hasMoreML = mlListings.length >= limit;
+        const hasMoreI24 = i24Listings.length >= limit;
+        const totalPages = (hasMoreML || hasMoreI24) ? page + 3 : Math.max(1, Math.ceil(listings.length / limit) + page - 1);
 
         // Cache results
         if (listings.length > 0) {
