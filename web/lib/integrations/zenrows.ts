@@ -74,7 +74,39 @@ export async function scrapeMLViaZenRows(city: string, propertyType: string, lis
         }
     }
 
-    // ── Strategy B: Home proxy via Cloudflare Tunnel (free, residential IP) ──
+    // ── Strategy B.5: Proxy JSON endpoint (returns pre-parsed listings) ──
+    // Much faster than raw HTML fetch — proxy does fetching + parsing on the home machine
+    if (!html && ML_PROXY_URL) {
+        try {
+            const jsonUrl = `${ML_PROXY_URL.trim()}/scrape?portal=ml&url=${encodeURIComponent(url)}`;
+            console.log(`[ML Scraper] Trying proxy JSON endpoint: ${jsonUrl}`);
+            const jsonRes = await fetch(jsonUrl, {
+                headers: { 'x-proxy-secret': ML_PROXY_SECRET },
+                signal: AbortSignal.timeout(25000),
+            });
+            if (jsonRes.ok) {
+                const data = await jsonRes.json();
+                if (data.listings && data.listings.length > 0) {
+                    console.log(`[ML Scraper] ✅ Proxy JSON returned ${data.listings.length} listings in ${data.elapsed || '?'}ms`);
+                    // Return directly — no HTML parsing needed
+                    return data.listings.slice(0, limit).map((l: any) => ({
+                        id: l.id, title: l.title, price: l.price, currency: l.currency || 'MXN',
+                        address: l.location || city || 'Chihuahua', city: city || 'Chihuahua',
+                        state: 'Chihuahua',
+                        status: listingType?.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
+                        imageUrl: l.imageUrl || l.images?.[0] || '', images: l.images || [],
+                        source: 'Mercado Libre', sourceUrl: l.url || '',
+                        propertyType: propertyType ? propertyType.toUpperCase() : 'HOUSE',
+                        attributes: l.attributes || [], fetchedAt: new Date().toISOString(),
+                    }));
+                }
+            }
+        } catch (e: any) {
+            console.log(`[ML Scraper] ⚠️ Proxy JSON endpoint failed: ${e.message}`);
+        }
+    }
+
+    // ── Strategy B: Home proxy raw HTML fetch (fallback) ──
     if (!html && ML_PROXY_URL) {
         try {
             const proxyUrl = `${ML_PROXY_URL.trim()}/?url=${encodeURIComponent(url)}`;
