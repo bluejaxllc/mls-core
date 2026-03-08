@@ -66,42 +66,10 @@ export default function IntelligenceDashboard() {
             params.set('page', page.toString());
             params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // Phase 1: Get FB data from Vercel API + sources (in parallel)
+            // All scraping happens server-side (ML + FB + I24 in parallel via proxy)
             const [liveData, sourcesData] = await Promise.all([
                 fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
                 authFetch('/api/intelligence/sources', {}, token).catch(() => []),
-            ]);
-
-            // Proxy URL for direct browser-to-proxy ML/I24 fetching
-            // Falls back to liveData.proxyUrl from API, or hardcoded tunnel URL
-            const proxyUrl = liveData?.proxyUrl || 'https://footage-holds-everywhere-detroit.trycloudflare.com';
-            const proxySecret = liveData?.proxySecret || 'bluejax-ml-proxy-2026';
-
-            // Build ML URL
-            const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
-            const citySlug = (city && city !== 'All' ? city : 'chihuahua').toLowerCase().replace(/\s+/g, '-');
-            let mlPath = `inmuebles/${op}`;
-            const typeMap: Record<string, string> = { house: `casas/${op}`, apartment: `departamentos/${op}`, land: `terrenos/${op}`, commercial: `locales-comerciales/${op}` };
-            if (propertyType !== 'ALL' && typeMap[propertyType.toLowerCase()]) mlPath = typeMap[propertyType.toLowerCase()];
-            let mlUrl = `https://inmuebles.mercadolibre.com.mx/${mlPath}/chihuahua/${citySlug}/`;
-            if (page > 1) mlUrl += `_Desde_${(page - 1) * ITEMS_PER_PAGE + 1}`;
-
-            // Build I24 URL
-            const i24Op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
-            const i24Type: Record<string, string> = { HOUSE: 'casas', APARTMENT: 'departamentos', LAND: 'terrenos', COMMERCIAL: 'locales-comerciales' };
-            const i24TypeSlug = i24Type[propertyType?.toUpperCase()] || 'inmuebles';
-            const i24Url = `https://www.inmuebles24.com/${i24TypeSlug}-en-${i24Op}-en-${citySlug}.html`;
-
-            // Fetch ML + I24 from proxy in parallel (direct from browser, bypasses Vercel timeout)
-            const [mlData, i24Data] = await Promise.all([
-                proxyUrl ? fetch(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
-                    headers: { 'x-proxy-secret': proxySecret },
-                    signal: AbortSignal.timeout(20000),
-                }).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })) : Promise.resolve({ listings: [] }),
-                proxyUrl ? fetch(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
-                    headers: { 'x-proxy-secret': proxySecret },
-                    signal: AbortSignal.timeout(45000),
-                }).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })) : Promise.resolve({ listings: [] }),
             ]);
 
             // Normalize ML proxy listings to match the listing schema
