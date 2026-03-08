@@ -66,15 +66,16 @@ export default function IntelligenceDashboard() {
             params.set('page', page.toString());
             params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // Phase 1: Get FB data from Vercel API + proxy URL + sources (in parallel)
-            const [liveData, sourcesData] = await Promise.all([
+            // Phase 1: Get FB data from Vercel API + proxy config + sources (in parallel)
+            const [liveData, sourcesData, proxyConfig] = await Promise.all([
                 fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
                 authFetch('/api/intelligence/sources', {}, token).catch(() => []),
+                fetch('/proxy-config.json').then(r => r.ok ? r.json() : { url: '', secret: '' }).catch(() => ({ url: '', secret: '' })),
             ]);
 
-            // Phase 2: Use proxyUrl from API response to call proxy directly from browser
-            const proxyUrl = liveData?.proxyUrl || '';
-            const proxySecret = liveData?.proxySecret || '';
+            // Phase 2: Use proxyUrl from static config to call proxy directly from browser
+            const proxyUrl = proxyConfig?.url || '';
+            const proxySecret = proxyConfig?.secret || '';
 
             // Build ML URL
             const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
