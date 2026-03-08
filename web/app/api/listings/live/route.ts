@@ -381,7 +381,9 @@ export async function GET(request: Request) {
             cacheKey,
             listings,
             page,
-            totalPages
+            totalPages,
+            proxyUrl: process.env.ML_PROXY_URL || '',
+            proxySecret: process.env.ML_PROXY_SECRET || '',
         });
 
     } catch (e: any) {
