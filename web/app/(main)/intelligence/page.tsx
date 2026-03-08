@@ -74,7 +74,7 @@ export default function IntelligenceDashboard() {
 
             // Phase 2: Fetch ML + I24 directly from home proxy via browser
             // (Vercel functions CAN'T reach Cloudflare tunnels — must use client-side)
-            const proxyUrl = liveData?.proxyUrl || 'https://doctors-rosa-retired-assured.trycloudflare.com';
+            const proxyUrl = liveData?.proxyUrl || 'https://beatles-ent-ellis-org.trycloudflare.com';
             const proxySecret = liveData?.proxySecret || 'bluejax-ml-proxy-2026';
 
             // Build ML URL for the proxy
