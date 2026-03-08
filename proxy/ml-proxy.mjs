@@ -502,8 +502,8 @@ const server = http.createServer(async (req, res) => {
     }
 });
 
-server.listen(PORT, () => {
-    console.log(`\n🏠 MLS Scrape Proxy v2 running on http://localhost:${PORT}`);
+server.listen(PORT, '127.0.0.1', () => {
+    console.log(`\n🏠 MLS Scrape Proxy v2 running on http://127.0.0.1:${PORT}`);
     console.log(`   Health:  GET /health`);
     console.log(`   ML:      GET /?url=<ml_url>  (direct fetch)`);
     console.log(`   I24:     GET /scrape?portal=inmuebles24&url=<url>`);
