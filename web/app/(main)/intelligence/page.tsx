@@ -108,14 +108,41 @@ export default function IntelligenceDashboard() {
                 }).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })) : Promise.resolve({ listings: [] }),
             ]);
 
-            if (liveData.listings) {
-                setListings(liveData.listings);
-                const pages = liveData.totalPages || Math.ceil(liveData.listings.length / ITEMS_PER_PAGE) || 1;
-                setTotalPages(pages);
-                setTotalListings(liveData.listings.length);
-                setCurrentPage(liveData.page || page);
+            // Normalize ML proxy listings to match the listing schema
+            const mlProxyListings = (mlData?.listings || []).map((l: any) => ({
+                id: l.id, title: l.title, price: l.price, currency: l.currency || 'MXN',
+                address: l.location || citySlug, city: citySlug, state: 'Chihuahua',
+                status: listingType.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
+                imageUrl: l.imageUrl || l.images?.[0] || '', images: l.images || [],
+                source: 'Mercado Libre', sourceUrl: l.url || '',
+                propertyType: propertyType !== 'ALL' ? propertyType.toUpperCase() : 'HOUSE',
+                attributes: l.attributes || [], fetchedAt: new Date().toISOString(),
+            }));
 
-                // Update FB and ML status from the live response natively (fixes 0 processed issue for ML)
+            // Normalize I24 proxy listings
+            const i24ProxyListings = (i24Data?.listings || []).map((l: any) => ({
+                ...l, source: l.source || 'Inmuebles24', state: 'Chihuahua',
+                city: l.city || citySlug,
+            }));
+
+            // Merge: Vercel FB data + proxy ML data + proxy I24 data
+            const vercelListings = liveData?.listings || [];
+            const allListings = [...vercelListings, ...mlProxyListings, ...i24ProxyListings];
+
+            if (allListings.length > 0) {
+                setListings(allListings);
+                const pages = Math.max(
+                    liveData?.totalPages || 1,
+                    Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1
+                );
+                // If ML or I24 returned a full page, there are likely more pages
+                if (mlProxyListings.length >= ITEMS_PER_PAGE || i24ProxyListings.length >= ITEMS_PER_PAGE) {
+                    setTotalPages(Math.max(pages, page + 3));
+                } else {
+                    setTotalPages(pages);
+                }
+                setTotalListings(allListings.length);
+                setCurrentPage(page);
 
                 const getLabel = () => {
                     let label = 'propiedades';
@@ -124,20 +151,20 @@ export default function IntelligenceDashboard() {
                     if (propertyType === 'COMMERCIAL') label = 'propiedades comerciales';
                     if (propertyType === 'LAND') label = 'terrenos';
 
-                    let op = '';
-                    if (listingType === 'SALE') op = 'en venta';
-                    if (listingType === 'RENT') op = 'en renta';
+                    let opLabel = '';
+                    if (listingType === 'SALE') opLabel = 'en venta';
+                    if (listingType === 'RENT') opLabel = 'en renta';
 
-                    return `${label} ${op}`.trim();
+                    return `${label} ${opLabel}`.trim();
                 };
 
-                const fbCount = liveData.listings.filter((l: any) => l.source === 'Facebook Marketplace').length;
+                const fbCount = allListings.filter((l: any) => l.source === 'Facebook Marketplace').length;
                 if (fbCount > 0) {
                     setFbStatus('done');
                     setFbResult(`${fbCount} ${getLabel()} Facebook`);
                 }
 
-                const mlCount = liveData.listings.filter((l: any) => l.source === 'Mercado Libre').length;
+                const mlCount = allListings.filter((l: any) => l.source === 'Mercado Libre').length;
                 if (mlCount > 0) {
                     setCrawlStatus('done');
                     setCrawlResult(`${mlCount} ${getLabel()} Mercado Libre`);
