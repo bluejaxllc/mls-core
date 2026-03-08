@@ -66,16 +66,17 @@ export default function IntelligenceDashboard() {
             params.set('page', page.toString());
             params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // Get proxy URL for direct browser-to-proxy fetching (bypasses Vercel timeout)
-            let proxyUrl = '';
-            let proxySecret = '';
-            try {
-                const proxyConfig = await fetch('/api/proxy-url').then(r => r.json());
-                proxyUrl = proxyConfig.url || '';
-                proxySecret = proxyConfig.secret || '';
-            } catch { }
+            // Phase 1: Get FB data from Vercel API + proxy URL + sources (in parallel)
+            const [liveData, sourcesData] = await Promise.all([
+                fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
+                authFetch('/api/intelligence/sources', {}, token).catch(() => []),
+            ]);
 
-            // Build ML URL for proxy
+            // Phase 2: Use proxyUrl from API response to call proxy directly from browser
+            const proxyUrl = liveData?.proxyUrl || '';
+            const proxySecret = liveData?.proxySecret || '';
+
+            // Build ML URL
             const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
             const citySlug = (city && city !== 'All' ? city : 'chihuahua').toLowerCase().replace(/\s+/g, '-');
             let mlPath = `inmuebles/${op}`;
@@ -84,24 +85,18 @@ export default function IntelligenceDashboard() {
             let mlUrl = `https://inmuebles.mercadolibre.com.mx/${mlPath}/chihuahua/${citySlug}/`;
             if (page > 1) mlUrl += `_Desde_${(page - 1) * ITEMS_PER_PAGE + 1}`;
 
-            // Build I24 URL for proxy
+            // Build I24 URL
             const i24Op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
             const i24Type: Record<string, string> = { HOUSE: 'casas', APARTMENT: 'departamentos', LAND: 'terrenos', COMMERCIAL: 'locales-comerciales' };
             const i24TypeSlug = i24Type[propertyType?.toUpperCase()] || 'inmuebles';
             const i24Url = `https://www.inmuebles24.com/${i24TypeSlug}-en-${i24Op}-en-${citySlug}.html`;
 
-            // Run ALL 3 fetches in PARALLEL from the browser
-            const [liveData, sourcesData, mlData, i24Data] = await Promise.all([
-                // 1. Vercel API for FB bundled data
-                fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
-                // 2. Sources
-                authFetch('/api/intelligence/sources', {}, token).catch(() => []),
-                // 3. ML via proxy (direct from browser)
+            // Fetch ML + I24 from proxy in parallel (direct from browser, bypasses Vercel timeout)
+            const [mlData, i24Data] = await Promise.all([
                 proxyUrl ? fetch(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret },
                     signal: AbortSignal.timeout(20000),
                 }).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })) : Promise.resolve({ listings: [] }),
-                // 4. I24 via proxy (direct from browser)
                 proxyUrl ? fetch(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
                     headers: { 'x-proxy-secret': proxySecret },
                     signal: AbortSignal.timeout(45000),
