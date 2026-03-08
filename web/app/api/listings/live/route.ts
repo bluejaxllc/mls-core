@@ -7,7 +7,7 @@ import fbDataRaw from './fb-data.json';
 export const dynamic = 'force-dynamic';
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
-const DEFAULT_LIMIT = 12;
+const DEFAULT_LIMIT = 48;
 
 // In-memory cache: cacheKey -> { timestamp, listings[] }
 const memoryCache = new Map<string, { timestamp: number; listings: any[], page: number, totalPages: number }>();
