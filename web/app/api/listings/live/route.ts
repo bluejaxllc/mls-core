@@ -407,9 +407,8 @@ export async function GET(request: Request) {
             console.log(`[LIVE] 📊 No data from ML, FB, or I24 — returning empty`);
         }
 
-        // Determine a dummy totalPages based on if we hit the limit
-        // (Mercado Libre often has hundreds of pages, we assume there is always another page if the payload is full)
-        const totalPages = listings.length >= (isFBSource && isMLSource ? limit * 2 : limit) ? page + 5 : page;
+        // Estimate totalPages: if we got a full page of results, assume more pages exist
+        const totalPages = listings.length >= limit ? page + 3 : page;
 
         // Cache results
         if (listings.length > 0) {
