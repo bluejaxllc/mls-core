@@ -275,7 +275,9 @@ export async function GET(request: Request) {
                 cacheKey,
                 listings: cached.listings,
                 page: cached.page,
-                totalPages: cached.totalPages
+                totalPages: cached.totalPages,
+                proxyUrl: process.env.ML_PROXY_URL || '',
+                proxySecret: process.env.ML_PROXY_SECRET || '',
             });
         }
 
