@@ -15,6 +15,10 @@ export function MobileMenu() {
     const { t } = useLanguage();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    // Must mount before Portal can render (avoids SSR/hydration mismatch)
+    useEffect(() => { setMounted(true); }, []);
 
     // Prevent body scroll when menu is open
     useEffect(() => {
@@ -62,7 +66,7 @@ export function MobileMenu() {
             </button>
 
             {/* Portal: render backdrop + drawer at document.body to escape all stacking contexts */}
-            {typeof document !== 'undefined' && createPortal(
+            {mounted && createPortal(
                 <>
                     {/* Backdrop */}
                     <div
