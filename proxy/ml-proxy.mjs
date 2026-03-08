@@ -444,6 +444,7 @@ const server = http.createServer(async (req, res) => {
                 case 'inmuebles24': listings = await scrapeInmuebles24(targetUrl); break;
                 case 'lamudi': listings = await scrapeLamudi(targetUrl); break;
                 case 'vivanuncios': listings = await scrapeVivanuncios(targetUrl); break;
+                case 'ml': listings = await scrapeML(targetUrl); break;
                 default:
                     res.writeHead(400, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: `Unknown portal: ${portal}` }));
