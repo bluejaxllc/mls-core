@@ -66,18 +66,70 @@ export default function IntelligenceDashboard() {
             params.set('page', page.toString());
             params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // All scraping happens server-side (ML + FB + I24 in parallel via proxy)
+            // Phase 1: Get FB data from Vercel API + sources (in parallel)
             const [liveData, sourcesData] = await Promise.all([
                 fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
                 authFetch('/api/intelligence/sources', {}, token).catch(() => []),
             ]);
 
-            // Server returns merged listings from all 3 sources (ML + FB + I24)
-            const allListings = liveData?.listings || [];
+            // Phase 2: Fetch ML + I24 directly from home proxy via browser
+            // (Vercel functions CAN'T reach Cloudflare tunnels — must use client-side)
+            const proxyUrl = liveData?.proxyUrl || 'https://doctors-rosa-retired-assured.trycloudflare.com';
+            const proxySecret = liveData?.proxySecret || 'bluejax-ml-proxy-2026';
+
+            // Build ML URL for the proxy
+            const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
+            const citySlug = (city && city !== 'All' ? city : 'chihuahua').toLowerCase().replace(/\s+/g, '-');
+            let mlPath = `inmuebles/${op}`;
+            const typeMap: Record<string, string> = { house: `casas/${op}`, apartment: `departamentos/${op}`, land: `terrenos/${op}`, commercial: `locales-comerciales/${op}` };
+            if (propertyType !== 'ALL' && typeMap[propertyType.toLowerCase()]) mlPath = typeMap[propertyType.toLowerCase()];
+            let mlUrl = `https://inmuebles.mercadolibre.com.mx/${mlPath}/chihuahua/${citySlug}/`;
+            if (page > 1) mlUrl += `_Desde_${(page - 1) * ITEMS_PER_PAGE + 1}`;
+
+            // Build I24 URL
+            const i24TypeMap: Record<string, string> = { HOUSE: 'casas', APARTMENT: 'departamentos', LAND: 'terrenos', COMMERCIAL: 'locales-comerciales' };
+            const i24TypeSlug = i24TypeMap[propertyType?.toUpperCase()] || 'inmuebles';
+            const i24Url = `https://www.inmuebles24.com/${i24TypeSlug}-en-${op}-en-${citySlug}.html`;
+
+            // Fetch ML + I24 from proxy in parallel (direct browser-to-proxy)
+            const [mlData, i24Data] = await Promise.allSettled([
+                fetch(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
+                    headers: { 'x-proxy-secret': proxySecret },
+                    signal: AbortSignal.timeout(20000),
+                }).then(r => r.ok ? r.json() : { listings: [] }),
+                fetch(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
+                    headers: { 'x-proxy-secret': proxySecret },
+                    signal: AbortSignal.timeout(45000),
+                }).then(r => r.ok ? r.json() : { listings: [] }),
+            ]);
+
+            const mlListings = (mlData.status === 'fulfilled' ? mlData.value?.listings : []) || [];
+            const i24Listings = (i24Data.status === 'fulfilled' ? i24Data.value?.listings : []) || [];
+
+            // Normalize ML listings
+            const normalizedML = mlListings.map((l: any) => ({
+                id: l.id, title: l.title, price: l.price, currency: l.currency || 'MXN',
+                address: l.location || citySlug, city: citySlug, state: 'Chihuahua',
+                status: listingType.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
+                imageUrl: l.imageUrl || l.images?.[0] || '', images: l.images || [],
+                source: 'Mercado Libre', sourceUrl: l.url || '',
+                propertyType: propertyType !== 'ALL' ? propertyType.toUpperCase() : 'HOUSE',
+                attributes: l.attributes || [], fetchedAt: new Date().toISOString(),
+            }));
+
+            // Normalize I24 listings
+            const normalizedI24 = i24Listings.map((l: any) => ({
+                ...l, source: l.source || 'Inmuebles24', state: 'Chihuahua', city: l.city || citySlug,
+            }));
+
+            // Merge all 3 sources
+            const serverListings = liveData?.listings || [];
+            const allListings = [...serverListings, ...normalizedML, ...normalizedI24];
 
             if (allListings.length > 0) {
                 setListings(allListings);
-                const pages = liveData?.totalPages || Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1;
+                const hasMore = normalizedML.length >= ITEMS_PER_PAGE || normalizedI24.length >= ITEMS_PER_PAGE;
+                const pages = hasMore ? Math.max(liveData?.totalPages || 1, page + 3) : (liveData?.totalPages || Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1);
                 setTotalPages(pages);
                 setTotalListings(allListings.length);
                 setCurrentPage(page);
