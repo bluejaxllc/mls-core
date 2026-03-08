@@ -9,7 +9,7 @@ import { SourceCard } from '@/components/intelligence/SourceCard';
 import { ObservedListingCard } from '@/components/intelligence/ObservedListingCard';
 
 const API_URL = '';
-const ITEMS_PER_PAGE = 24;
+const ITEMS_PER_PAGE = 12;
 
 export default function IntelligenceDashboard() {
     const { t } = useLanguage();
