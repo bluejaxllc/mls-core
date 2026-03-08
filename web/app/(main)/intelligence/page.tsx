@@ -74,7 +74,7 @@ export default function IntelligenceDashboard() {
 
             // Phase 2: Fetch ML + I24 directly from home proxy via browser
             // (Vercel functions CAN'T reach Cloudflare tunnels ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â must use client-side)
-            const proxyUrl = liveData?.proxyUrl || 'https://lender-lou-regression-senate.trycloudflare.com';
+            const proxyUrl = liveData?.proxyUrl || 'https://bluejax-ml-proxy-2026.loca.lt';
             const proxySecret = liveData?.proxySecret || 'bluejax-ml-proxy-2026';
 
             // Build ML URL for the proxy
@@ -94,11 +94,11 @@ export default function IntelligenceDashboard() {
             // Fetch ML + I24 from proxy in parallel (direct browser-to-proxy)
             const [mlData, i24Data] = await Promise.allSettled([
                 fetch(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
-                    headers: { 'x-proxy-secret': proxySecret },
+                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(20000),
                 }).then(r => r.ok ? r.json() : { listings: [] }),
                 fetch(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
-                    headers: { 'x-proxy-secret': proxySecret },
+                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(45000),
                 }).then(r => r.ok ? r.json() : { listings: [] }),
             ]);
