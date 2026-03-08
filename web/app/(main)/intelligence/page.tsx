@@ -49,7 +49,7 @@ export default function IntelligenceDashboard() {
     const [fbResult, setFbResult] = useState<string>('');
     const fbTriggered = useRef(false);
 
-    const ITEMS_PER_PAGE = 9;
+    const ITEMS_PER_PAGE = 12;
 
     const fetchData = async (page = currentPage) => {
         try {
