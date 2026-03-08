@@ -72,41 +72,16 @@ export default function IntelligenceDashboard() {
                 authFetch('/api/intelligence/sources', {}, token).catch(() => []),
             ]);
 
-            // Normalize ML proxy listings to match the listing schema
-            const mlProxyListings = (mlData?.listings || []).map((l: any) => ({
-                id: l.id, title: l.title, price: l.price, currency: l.currency || 'MXN',
-                address: l.location || citySlug, city: citySlug, state: 'Chihuahua',
-                status: listingType.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
-                imageUrl: l.imageUrl || l.images?.[0] || '', images: l.images || [],
-                source: 'Mercado Libre', sourceUrl: l.url || '',
-                propertyType: propertyType !== 'ALL' ? propertyType.toUpperCase() : 'HOUSE',
-                attributes: l.attributes || [], fetchedAt: new Date().toISOString(),
-            }));
-
-            // Normalize I24 proxy listings
-            const i24ProxyListings = (i24Data?.listings || []).map((l: any) => ({
-                ...l, source: l.source || 'Inmuebles24', state: 'Chihuahua',
-                city: l.city || citySlug,
-            }));
-
-            // Merge: Vercel FB data + proxy ML data + proxy I24 data
-            const vercelListings = liveData?.listings || [];
-            const allListings = [...vercelListings, ...mlProxyListings, ...i24ProxyListings];
+            // Server returns merged listings from all 3 sources (ML + FB + I24)
+            const allListings = liveData?.listings || [];
 
             if (allListings.length > 0) {
                 setListings(allListings);
-                const pages = Math.max(
-                    liveData?.totalPages || 1,
-                    Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1
-                );
-                // If ML or I24 returned a full page, there are likely more pages
-                if (mlProxyListings.length >= ITEMS_PER_PAGE || i24ProxyListings.length >= ITEMS_PER_PAGE) {
-                    setTotalPages(Math.max(pages, page + 3));
-                } else {
-                    setTotalPages(pages);
-                }
+                const pages = liveData?.totalPages || Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1;
+                setTotalPages(pages);
                 setTotalListings(allListings.length);
                 setCurrentPage(page);
+
 
                 const getLabel = () => {
                     let label = 'propiedades';
