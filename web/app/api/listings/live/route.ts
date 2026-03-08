@@ -376,6 +376,7 @@ export async function GET(request: Request) {
         const resultSource = i24Listings.length > 0 ? 'inmuebles24' : fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
         console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}, I24: ${i24Listings.length}) returned for page ${page}`);
 
+        // v2: includes proxyUrl + proxySecret for client-side proxy calls
         return NextResponse.json({
             source: resultSource,
             cacheKey,
