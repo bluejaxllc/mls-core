@@ -73,8 +73,8 @@ export default function IntelligenceDashboard() {
             ]);
 
             // Phase 2: Fetch ML + I24 directly from home proxy via browser
-            // (Vercel functions CAN'T reach Cloudflare tunnels — must use client-side)
-            const proxyUrl = liveData?.proxyUrl || 'https://beatles-ent-ellis-org.trycloudflare.com';
+            // (Vercel functions CAN'T reach Cloudflare tunnels â€” must use client-side)
+            const proxyUrl = liveData?.proxyUrl || 'https://centres-dentists-sleeping-administrator.trycloudflare.com';
             const proxySecret = liveData?.proxySecret || 'bluejax-ml-proxy-2026';
 
             // Build ML URL for the proxy
@@ -185,9 +185,9 @@ export default function IntelligenceDashboard() {
             // Check if ML is authenticated first
             const statusRes = await fetch(`${API_URL}/api/integrations/mercadolibre/status`);
             if (!statusRes.ok) {
-                // Status endpoint failed — skip auth check, ML listings still come via ZenRows in /api/listings/live
+                // Status endpoint failed â€” skip auth check, ML listings still come via ZenRows in /api/listings/live
                 setCrawlStatus('done');
-                setCrawlResult('Usando API pública');
+                setCrawlResult('Usando API pÃºblica');
                 return;
             }
             const statusData = await statusRes.json();
@@ -200,7 +200,7 @@ export default function IntelligenceDashboard() {
 
             // Show public API mode info if not OAuth-connected
             if (!statusData.oauthConnected) {
-                setCrawlResult('API pública (conectar OAuth para más velocidad)');
+                setCrawlResult('API pÃºblica (conectar OAuth para mÃ¡s velocidad)');
             }
 
             setCrawlStatus('crawling');
@@ -223,13 +223,13 @@ export default function IntelligenceDashboard() {
                 fetchData();
             } else if (crawlRes.status === 401) {
                 setCrawlStatus('not_auth');
-                setCrawlResult('Token expirado — necesita re-autenticación');
+                setCrawlResult('Token expirado â€” necesita re-autenticaciÃ³n');
             } else {
                 // Check if it's a token/auth-related failure
                 const detail = crawlData.detail || crawlData.error || '';
                 if (detail.toLowerCase().includes('token') || detail.toLowerCase().includes('auth') || detail.toLowerCase().includes('refresh')) {
                     setCrawlStatus('not_auth');
-                    setCrawlResult('Token expirado — necesita re-autenticación');
+                    setCrawlResult('Token expirado â€” necesita re-autenticaciÃ³n');
                 } else {
                     setCrawlStatus('error');
                     setCrawlResult(crawlData.detail || crawlData.error || 'Error en crawl');
@@ -237,7 +237,7 @@ export default function IntelligenceDashboard() {
             }
         } catch (e: any) {
             setCrawlStatus('error');
-            setCrawlResult(e.message || 'Error de conexión');
+            setCrawlResult(e.message || 'Error de conexiÃ³n');
         }
     };
 
@@ -348,7 +348,7 @@ export default function IntelligenceDashboard() {
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Inteligencia de Mercado</h2>
                     <p className="text-muted-foreground mt-1">
-                        Propiedades detectadas automáticamente por crawlers y agentes de vigilancia.
+                        Propiedades detectadas automÃ¡ticamente por crawlers y agentes de vigilancia.
                     </p>
                 </div>
                 <div className="flex gap-2">
@@ -385,7 +385,7 @@ export default function IntelligenceDashboard() {
                     {crawlStatus === 'done' && (
                         <>
                             <CheckCircle2 className="w-4 h-4" />
-                            <span>Crawl completado — {crawlResult}</span>
+                            <span>Crawl completado â€” {crawlResult}</span>
                         </>
                     )}
                     {crawlStatus === 'error' && (
@@ -397,7 +397,7 @@ export default function IntelligenceDashboard() {
                     {crawlStatus === 'not_auth' && (
                         <>
                             <XCircle className="w-4 h-4 flex-shrink-0" />
-                            <span>{crawlResult} — <a href="/api/integrations/mercadolibre/auth" className="underline font-semibold">Conectar OAuth</a></span>
+                            <span>{crawlResult} â€” <a href="/api/integrations/mercadolibre/auth" className="underline font-semibold">Conectar OAuth</a></span>
                         </>
                     )}
                 </div>
@@ -423,7 +423,7 @@ export default function IntelligenceDashboard() {
                     {fbStatus === 'done' && (
                         <>
                             <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                            <span>Facebook — {fbResult}</span>
+                            <span>Facebook â€” {fbResult}</span>
                         </>
                     )}
                     {fbStatus === 'error' && (
@@ -537,13 +537,13 @@ export default function IntelligenceDashboard() {
                                 <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="All">Todas</option>
                                     <option value="Chihuahua">Chihuahua</option>
-                                    <option value="Juárez">Juárez</option>
+                                    <option value="JuÃ¡rez">JuÃ¡rez</option>
                                     <option value="Delicias">Delicias</option>
-                                    <option value="Cuauhtémoc">Cuauhtémoc</option>
+                                    <option value="CuauhtÃ©moc">CuauhtÃ©moc</option>
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-muted-foreground">Operación</label>
+                                <label className="text-xs font-medium text-muted-foreground">OperaciÃ³n</label>
                                 <select value={listingType} onChange={(e) => setListingType(e.target.value)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="ALL">Todo</option>
                                     <option value="RENT">Renta</option>
@@ -560,7 +560,7 @@ export default function IntelligenceDashboard() {
                                 </select>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="text-xs font-medium text-muted-foreground">Recámaras</label>
+                                <label className="text-xs font-medium text-muted-foreground">RecÃ¡maras</label>
                                 <select value={bedrooms} onChange={(e) => setBedrooms(e.target.value as any)} className="w-full h-8 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground">
                                     <option value="Any">Cualquiera</option>
                                     <option value={1}>1+</option>
@@ -590,7 +590,7 @@ export default function IntelligenceDashboard() {
                 ) : filteredListings.length === 0 ? (
                     <div className="text-center py-20 bg-muted/30 rounded-2xl border-2 border-dashed border-blue-500/10">
                         <p className="text-muted-foreground">No se encontraron propiedades con estos filtros {listings.length > 0 && `(Total sin filtros: ${listings.length})`}.</p>
-                        <p className="text-sm text-muted-foreground mt-2">Los crawlers se actualizan automáticamente al cargar la página.</p>
+                        <p className="text-sm text-muted-foreground mt-2">Los crawlers se actualizan automÃ¡ticamente al cargar la pÃ¡gina.</p>
                     </div>
                 ) : (
                     <div className="space-y-8">
@@ -625,7 +625,7 @@ export default function IntelligenceDashboard() {
                                         }, [])
                                         .map((p, i) =>
                                             p === '...' ? (
-                                                <span key={`dots-${i}`} className="px-2 py-1 text-muted-foreground text-sm">…</span>
+                                                <span key={`dots-${i}`} className="px-2 py-1 text-muted-foreground text-sm">â€¦</span>
                                             ) : (
                                                 <button
                                                     key={p}
@@ -655,8 +655,8 @@ export default function IntelligenceDashboard() {
 
                         {/* Page Info */}
                         <div className="text-center text-xs text-muted-foreground pt-1">
-                            Página {currentPage} de {filteredTotalPages} • {filteredListings.length} propiedades
-                            {fbStatus === 'done' && ` • ${fbResult}`}
+                            PÃ¡gina {currentPage} de {filteredTotalPages} â€¢ {filteredListings.length} propiedades
+                            {fbStatus === 'done' && ` â€¢ ${fbResult}`}
                         </div>
                     </div>
                 )}
