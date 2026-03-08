@@ -9,6 +9,7 @@ import { SourceCard } from '@/components/intelligence/SourceCard';
 import { ObservedListingCard } from '@/components/intelligence/ObservedListingCard';
 
 const API_URL = '';
+const ITEMS_PER_PAGE = 24;
 
 export default function IntelligenceDashboard() {
     const { t } = useLanguage();
@@ -287,7 +288,7 @@ export default function IntelligenceDashboard() {
     // We no longer slice the list for paginated requests (since server handles it),
     // but we still apply client-side filtering on the returned chunk if any
     const paginatedListings = filteredListings;
-    const filteredTotalPages = totalPages;
+    const filteredTotalPages = Math.max(totalPages, Math.ceil(filteredListings.length / ITEMS_PER_PAGE) || 1);
 
     return (
         <div className="space-y-8 max-w-7xl mx-auto pb-10">
