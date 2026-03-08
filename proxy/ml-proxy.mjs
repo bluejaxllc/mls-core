@@ -26,6 +26,65 @@ async function getBrowser() {
     }
     return browser;
 }
+// ── ML (Mercado Libre) Scraper — fetches HTML and extracts POLYCARD NORDIC JSON ──
+async function scrapeML(url) {
+    console.log(`[Proxy] ML fetch: ${url}`);
+    const res = await fetch(url, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5',
+            'Accept-Encoding': 'identity',
+        },
+        signal: AbortSignal.timeout(15000),
+    });
+    const html = await res.text();
+    console.log(`[Proxy] ML HTML: ${html.length} chars`);
+
+    // Parse NORDIC POLYCARD results
+    const marker = '"results":[{"id":"POLYCARD"';
+    const idx = html.indexOf(marker);
+    if (idx === -1) return [];
+
+    const arrStart = idx + '"results":'.length;
+    let depth = 0, arrEnd = -1;
+    for (let i = arrStart; i < html.length && i < arrStart + 600000; i++) {
+        if (html[i] === '[') depth++;
+        if (html[i] === ']') { depth--; if (depth === 0) { arrEnd = i + 1; break; } }
+    }
+    if (arrEnd === -1) return [];
+
+    const results = JSON.parse(html.substring(arrStart, arrEnd));
+    console.log(`[Proxy] ML: ${results.length} POLYCARD results`);
+
+    return results.map(r => {
+        const pc = r?.polycard;
+        if (!pc) return null;
+        const comps = pc.components || [];
+        const meta = pc.metadata || {};
+        const titleC = comps.find(c => c.type === 'title');
+        const priceC = comps.find(c => c.type === 'price');
+        const locC = comps.find(c => c.type === 'location');
+        const attrsC = comps.find(c => c.type === 'attributes_list');
+        const pics = pc.pictures?.pictures || [];
+        const images = pics.map(p => `https://http2.mlstatic.com/D_NQ_NP_${p.id || ''}-O.webp`);
+        const price = priceC?.price?.current_price?.value || 0;
+        const title = titleC?.title?.text || '';
+        if (!title || price <= 0) return null;
+        const rawUrl = meta.url || '';
+        return {
+            id: meta.id || `ML-${Math.random().toString(36).substring(7)}`,
+            title, price,
+            currency: priceC?.price?.current_price?.currency || 'MXN',
+            location: locC?.location?.text || '',
+            url: rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`,
+            images,
+            imageUrl: images[0] || '',
+            attributes: attrsC?.attributes_list?.texts || [],
+            source: 'Mercado Libre',
+        };
+    }).filter(Boolean);
+}
 
 // ── Inmuebles24 Scraper ──────────────────────────────────────────────────
 async function scrapeInmuebles24(url) {
