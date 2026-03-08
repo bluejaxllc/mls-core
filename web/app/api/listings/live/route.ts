@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import fbDataRaw from './fb-data.json';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60; // Extend Vercel function timeout for scraper calls
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 const DEFAULT_LIMIT = 12;
