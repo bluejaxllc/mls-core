@@ -3,7 +3,7 @@ const { PrismaClient } = require('./prisma/generated/client-intelligence');
 const prisma = new PrismaClient({
     datasources: {
         db: {
-            url: process.env.POSTGRES_PRISMA_URL || process.env.MLS_INTELLIGENCE_URL || 'postgres://default:P7A4rOhTqFoc@ep-shiny-dew-a4tz15a9.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require'
+            url: "postgres://postgres.erapajgkukxqwvmwxefq:1sMfsHUkqgVj6Dlx@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
         }
     }
 });
