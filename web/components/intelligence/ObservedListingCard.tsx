@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { MapPin, ArrowRight, Percent, ChevronLeft, ChevronRight, Eye, ExternalLink } from 'lucide-react';
+import { MapPin, ArrowRight, Percent, ChevronLeft, ChevronRight, Eye, ExternalLink, Heart } from 'lucide-react';
 import { AnimatedCard, AnimatedButton } from '@/components/ui/animated';
 
 interface ObservedListingProps {
@@ -139,6 +139,15 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
     }
 
     const [currentImg, setCurrentImg] = useState(0);
+    const [saved, setSaved] = useState(false);
+
+    // Check localStorage on mount
+    useState(() => {
+        try {
+            const savedItems = JSON.parse(localStorage.getItem('mls_saved_listings') || '[]');
+            if (savedItems.some((s: any) => s.id === listing.id)) setSaved(true);
+        } catch { }
+    });
 
     const handleImport = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -174,6 +183,35 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
     const nextImg = (e: React.MouseEvent) => {
         e.stopPropagation();
         setCurrentImg(p => (p + 1 === allImages.length ? 0 : p + 1));
+    };
+
+    const toggleSave = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        try {
+            const savedItems = JSON.parse(localStorage.getItem('mls_saved_listings') || '[]');
+            if (saved) {
+                const filtered = savedItems.filter((s: any) => s.id !== listing.id);
+                localStorage.setItem('mls_saved_listings', JSON.stringify(filtered));
+                setSaved(false);
+            } else {
+                savedItems.push({
+                    id: listing.id,
+                    title: listing.title,
+                    price: listing.price,
+                    currency: listing.currency,
+                    address: listing.address,
+                    city: listing.city,
+                    imageUrl: allImages[0] || listing.imageUrl,
+                    source: listing.source,
+                    sourceUrl: listing.sourceUrl,
+                    propertyType: listing.propertyType,
+                    status: listing.status,
+                    savedAt: new Date().toISOString(),
+                });
+                localStorage.setItem('mls_saved_listings', JSON.stringify(savedItems));
+                setSaved(true);
+            }
+        } catch { }
     };
 
     return (
@@ -280,6 +318,13 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2 pt-1">
+                        <button
+                            onClick={toggleSave}
+                            className={`flex items-center justify-center p-2 rounded-lg border transition-all ${saved ? 'bg-rose-500/10 border-rose-500/30 text-rose-500' : 'border-slate-200 dark:border-slate-700 text-muted-foreground hover:text-rose-500 hover:border-rose-500/30'}`}
+                            title={saved ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+                        >
+                            <Heart className={`w-3.5 h-3.5 ${saved ? 'fill-current' : ''}`} />
+                        </button>
                         <button
                             onClick={(e: React.MouseEvent) => { e.stopPropagation(); handleCardClick(); }}
                             className={`flex-1 flex items-center justify-center gap-1.5 text-xs font-medium py-2 px-3 rounded-lg border transition-all ${theme.btnSecondary}`}
