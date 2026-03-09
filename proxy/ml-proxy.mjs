@@ -26,64 +26,100 @@ async function getBrowser() {
     }
     return browser;
 }
-// ── ML (Mercado Libre) Scraper — fetches HTML and extracts POLYCARD NORDIC JSON ──
+// ── ML (Mercado Libre) Scraper — uses Puppeteer and Regex extraction ──
 async function scrapeML(url) {
-    console.log(`[Proxy] ML fetch: ${url}`);
-    const res = await fetch(url, {
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5',
-            'Accept-Encoding': 'identity',
-        },
-        signal: AbortSignal.timeout(15000),
-    });
-    const html = await res.text();
-    console.log(`[Proxy] ML HTML: ${html.length} chars`);
+    console.log(`[Proxy] ML Puppeteer: ${url}`);
+    const b = await getBrowser();
+    const page = await b.newPage();
+    try {
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+        await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
 
-    // Parse NORDIC POLYCARD results
-    const marker = '"results":[{"id":"POLYCARD"';
-    const idx = html.indexOf(marker);
-    if (idx === -1) return [];
+        // Optimizing resources
+        await page.setRequestInterception(true);
+        page.on('request', req => {
+            if (['image', 'stylesheet', 'font', 'media'].includes(req.resourceType())) {
+                req.abort();
+            } else {
+                req.continue();
+            }
+        });
 
-    const arrStart = idx + '"results":'.length;
-    let depth = 0, arrEnd = -1;
-    for (let i = arrStart; i < html.length && i < arrStart + 600000; i++) {
-        if (html[i] === '[') depth++;
-        if (html[i] === ']') { depth--; if (depth === 0) { arrEnd = i + 1; break; } }
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+        const html = await page.content();
+
+        const marker = '_n.ctx.r=';
+        const startIdx = html.indexOf(marker);
+
+        if (startIdx === -1) {
+            console.log('[Proxy] ML: _n.ctx.r marker not found. Trying fallback...');
+            return [];
+        }
+
+        const jsonStart = startIdx + marker.length;
+        let openBraces = 0;
+        let inString = false;
+        let escape = false;
+        let validJson = '';
+
+        for (let i = jsonStart; i < html.length; i++) {
+            const char = html[i];
+            validJson += char;
+
+            if (inString) {
+                if (char === '\\') escape = !escape;
+                else if (char === '"' && !escape) inString = false;
+                else if (escape) escape = false;
+            } else {
+                if (char === '"') inString = true;
+                else if (char === '{' || char === '[') openBraces++;
+                else if (char === '}' || char === ']') openBraces--;
+
+                if (openBraces === 0 && validJson.trim().length > 0) {
+                    break;
+                }
+            }
+        }
+
+        const state = JSON.parse(validJson);
+        const polycards = state.appProps?.pageProps?.initialState?.results || [];
+
+        const listings = polycards.map(r => {
+            const pc = r.polycard;
+            if (!pc) return null;
+            const comps = pc.components || [];
+            const meta = pc.metadata || {};
+            const titleC = comps.find(c => c.type === 'title');
+            const priceC = comps.find(c => c.type === 'price');
+            const locC = comps.find(c => c.type === 'location');
+            const attrsC = comps.find(c => c.type === 'attributes_list');
+            const pics = pc.pictures?.pictures || [];
+            const images = pics.map(p => `https://http2.mlstatic.com/D_NQ_NP_${p.id || ''}-O.webp`);
+            const price = priceC?.price?.current_price?.value || 0;
+            const title = titleC?.title?.text || '';
+            if (!title || price <= 0) return null;
+            const rawUrl = meta.url || '';
+            return {
+                id: meta.id || `ML-${Math.random().toString(36).substring(7)}`,
+                title, price,
+                currency: priceC?.price?.current_price?.currency || 'MXN',
+                location: locC?.location?.text || '',
+                url: rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`,
+                images,
+                imageUrl: images[0] || '',
+                attributes: attrsC?.attributes_list?.texts || [],
+                source: 'Mercado Libre',
+            };
+        }).filter(Boolean);
+
+        console.log(`[Proxy] ML: ${listings.length} results extracted`);
+        return listings;
+    } catch (err) {
+        console.error(`[Proxy] ML Puppeteer Error:`, err.message);
+        return [];
+    } finally {
+        await page.close();
     }
-    if (arrEnd === -1) return [];
-
-    const results = JSON.parse(html.substring(arrStart, arrEnd));
-    console.log(`[Proxy] ML: ${results.length} POLYCARD results`);
-
-    return results.map(r => {
-        const pc = r?.polycard;
-        if (!pc) return null;
-        const comps = pc.components || [];
-        const meta = pc.metadata || {};
-        const titleC = comps.find(c => c.type === 'title');
-        const priceC = comps.find(c => c.type === 'price');
-        const locC = comps.find(c => c.type === 'location');
-        const attrsC = comps.find(c => c.type === 'attributes_list');
-        const pics = pc.pictures?.pictures || [];
-        const images = pics.map(p => `https://http2.mlstatic.com/D_NQ_NP_${p.id || ''}-O.webp`);
-        const price = priceC?.price?.current_price?.value || 0;
-        const title = titleC?.title?.text || '';
-        if (!title || price <= 0) return null;
-        const rawUrl = meta.url || '';
-        return {
-            id: meta.id || `ML-${Math.random().toString(36).substring(7)}`,
-            title, price,
-            currency: priceC?.price?.current_price?.currency || 'MXN',
-            location: locC?.location?.text || '',
-            url: rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`,
-            images,
-            imageUrl: images[0] || '',
-            attributes: attrsC?.attributes_list?.texts || [],
-            source: 'Mercado Libre',
-        };
-    }).filter(Boolean);
 }
 
 // ── Inmuebles24 Scraper ──────────────────────────────────────────────────
