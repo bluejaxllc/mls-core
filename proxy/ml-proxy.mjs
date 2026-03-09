@@ -538,6 +538,8 @@ const server = http.createServer(async (req, res) => {
     }
 });
 
+server.keepAliveTimeout = 120_000; // 2 min keep-alive
+
 server.listen(PORT, '127.0.0.1', () => {
     console.log(`\n🏠 MLS Scrape Proxy v2 running on http://127.0.0.1:${PORT}`);
     console.log(`   Health:  GET /health`);
@@ -546,6 +548,24 @@ server.listen(PORT, '127.0.0.1', () => {
     console.log(`   Lamudi:  GET /scrape?portal=lamudi&url=<url>`);
     console.log(`   Viva:    GET /scrape?portal=vivanuncios&url=<url>\n`);
 });
+
+// Keep-alive: ping tunnel every 5 min to prevent connection drop
+const TUNNEL_URL = process.env.TUNNEL_URL || 'https://bluejax-ml-proxy-2026.loca.lt';
+setInterval(async () => {
+    try {
+        const res = await fetch(`${TUNNEL_URL}/health`, {
+            headers: { 'Bypass-Tunnel-Reminder': 'true', 'x-proxy-secret': SECRET },
+            signal: AbortSignal.timeout(10000),
+        });
+        if (res.ok) {
+            console.log(`[KeepAlive] Tunnel ping OK`);
+        } else {
+            console.warn(`[KeepAlive] Tunnel ping failed: ${res.status}`);
+        }
+    } catch (e) {
+        console.warn(`[KeepAlive] Tunnel unreachable: ${e.message}`);
+    }
+}, 5 * 60 * 1000);
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
