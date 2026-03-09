@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/lib/i18n';
 import { useSession } from 'next-auth/react';
 import { authFetch } from '@/lib/api';
-import { RefreshCw, Search, CheckCircle2, XCircle, Radio, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { RefreshCw, Search, CheckCircle2, XCircle, Radio, Filter, ChevronLeft, ChevronRight, Download, Heart } from 'lucide-react';
 import { AnimatedButton } from '@/components/ui/animated';
 import { SourceCard } from '@/components/intelligence/SourceCard';
 import { ObservedListingCard } from '@/components/intelligence/ObservedListingCard';
@@ -405,6 +405,37 @@ export default function IntelligenceDashboard() {
                     </p>
                 </div>
                 <div className="flex gap-2">
+                    <AnimatedButton
+                        variant="secondary"
+                        onClick={() => {
+                            const rows = filteredListings.map((l: any) => ({
+                                Título: (l.title || '').replace(/,/g, ' '),
+                                Precio: l.price || 0,
+                                Moneda: l.currency || 'MXN',
+                                Fuente: l.source || '',
+                                Ciudad: l.city || '',
+                                Dirección: (l.address || '').replace(/,/g, ' '),
+                                URL: l.sourceUrl || '',
+                                Tipo: l.propertyType || '',
+                                Estado: l.status || '',
+                            }));
+                            if (rows.length === 0) return;
+                            const headers = Object.keys(rows[0]);
+                            const csv = [headers.join(','), ...rows.map(r => headers.map(h => `"${(r as any)[h]}"`).join(','))].join('\n');
+                            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `propiedades_${new Date().toISOString().slice(0, 10)}.csv`;
+                            a.click();
+                            URL.revokeObjectURL(url);
+                        }}
+                        className="flex items-center gap-2 text-sm"
+                        disabled={filteredListings.length === 0}
+                    >
+                        <Download className="w-4 h-4" />
+                        Exportar CSV
+                    </AnimatedButton>
                     <AnimatedButton
                         variant="primary"
                         onClick={handleRefresh}
