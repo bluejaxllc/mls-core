@@ -440,7 +440,7 @@ async function scrapeVivanuncios(url) {
 const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'x-proxy-secret');
+    res.setHeader('Access-Control-Allow-Headers', 'x-proxy-secret, bypass-tunnel-reminder, content-type');
 
     if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
