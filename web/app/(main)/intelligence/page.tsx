@@ -156,7 +156,10 @@ export default function IntelligenceDashboard() {
 
             // Merge all sources
             const serverListings = liveData?.listings || [];
-            const allListings = [...serverListings, ...normalizedML, ...normalizedI24, ...normalizedLamudi, ...normalizedViva];
+            let allListings = [...serverListings, ...normalizedML, ...normalizedI24, ...normalizedLamudi, ...normalizedViva];
+
+            // Shuffle listings so all sources show up mixed on the first page
+            allListings = allListings.sort(() => Math.random() - 0.5);
 
             if (allListings.length > 0) {
                 setListings(allListings);
