@@ -103,24 +103,37 @@ export default function IntelligenceDashboard() {
             const vivaTypeSlug = vivaTypeMap[propertyType?.toUpperCase()] || 'inmuebles';
             const vivaUrl = `https://www.vivanuncios.com.mx/${vivaTypeSlug}-en-${op}-en-${citySlug}.html`;
 
+            const fetchWithRetry = async (url: string, options: any, retries = 3): Promise<any> => {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const res = await fetch(url, options);
+                        if (res.ok) return await res.json();
+                    } catch (e) {
+                        console.log(`[PROXY] Fetch fail (${i + 1}/${retries}): ${url}`);
+                    }
+                    if (i < retries - 1) await new Promise(r => setTimeout(r, 1500 * (i + 1)));
+                }
+                return { listings: [] };
+            };
+
             // Fetch ML, I24, Lamudi, Vivanuncios from proxy in parallel (direct browser-to-proxy)
             const [mlData, i24Data, lamudiData, vivaData] = await Promise.allSettled([
-                fetch(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
+                fetchWithRetry(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(20000),
-                }).then(r => r.ok ? r.json() : { listings: [] }),
-                fetch(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
+                }),
+                fetchWithRetry(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(45000),
-                }).then(r => r.ok ? r.json() : { listings: [] }),
-                fetch(`${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`, {
+                }),
+                fetchWithRetry(`${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(45000),
-                }).then(r => r.ok ? r.json() : { listings: [] }),
-                fetch(`${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`, {
+                }),
+                fetchWithRetry(`${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(45000),
-                }).then(r => r.ok ? r.json() : { listings: [] }),
+                }),
             ]);
 
             const mlListings = (mlData.status === 'fulfilled' ? mlData.value?.listings : []) || [];
