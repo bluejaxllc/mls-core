@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { scrapeMLViaZenRows } from '@/lib/integrations/zenrows';
 import { scrapeInmuebles24 } from '@/lib/integrations/inmuebles24';
+import { scrapeLamudi } from '@/lib/integrations/lamudi';
+import { scrapeVivanuncios } from '@/lib/integrations/vivanuncios';
 import crypto from 'crypto';
 import fbDataRaw from './fb-data.json';
 
@@ -285,6 +287,8 @@ export async function GET(request: Request) {
         const isMLSource = !source || source === 'All' || source.includes('Mercado Libre') || source === 'ML';
         const isFBSource = !source || source === 'All' || source.includes('Facebook') || source === 'FB';
         const isI24Source = !source || source === 'All' || source.includes('Inmuebles24') || source === 'I24';
+        const isLamudiSource = !source || source === 'All' || source.includes('Lamudi');
+        const isVivaSource = !source || source === 'All' || source.includes('Vivanuncios');
 
         // ── Pre-process FB bundled data (instant, no network) ──
         let fbListings: any[] = [];
@@ -326,8 +330,8 @@ export async function GET(request: Request) {
             console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
         }
 
-        // ── Run ML + I24 scrapes in PARALLEL (critical for Vercel timeout) ──
-        const [mlResult, i24Result] = await Promise.allSettled([
+        // ── Run parallel scrapes (critical for Vercel timeout) ──
+        const [mlResult, i24Result, lamudiResult, vivaResult] = await Promise.allSettled([
             isMLSource
                 ? scrapeMLViaZenRows(city, propertyType, listingType, minPrice, maxPrice, q, limit, page)
                     .then(results => {
@@ -342,15 +346,25 @@ export async function GET(request: Request) {
                 ? scrapeInmuebles24(city || 'Chihuahua', propertyType, listingType, minPrice, maxPrice, limit)
                     .catch(e => { console.log(`[LIVE] ⚠️ Inmuebles24: ${e.message}`); return [] as any[]; })
                 : Promise.resolve([] as any[]),
+            isLamudiSource
+                ? scrapeLamudi(city || 'Chihuahua', propertyType, listingType, minPrice, maxPrice, limit)
+                    .catch(e => { console.log(`[LIVE] ⚠️ Lamudi: ${e.message}`); return [] as any[]; })
+                : Promise.resolve([] as any[]),
+            isVivaSource
+                ? scrapeVivanuncios(city || 'Chihuahua', propertyType, listingType, minPrice, maxPrice, limit)
+                    .catch(e => { console.log(`[LIVE] ⚠️ Vivanuncios: ${e.message}`); return [] as any[]; })
+                : Promise.resolve([] as any[]),
         ]);
 
         const mlListings = mlResult.status === 'fulfilled' ? mlResult.value : [];
         const i24Listings = i24Result.status === 'fulfilled' ? i24Result.value : [];
+        const lamudiListings = lamudiResult.status === 'fulfilled' ? lamudiResult.value : [];
+        const vivaListings = vivaResult.status === 'fulfilled' ? vivaResult.value : [];
 
-        console.log(`[LIVE] Sources: ML=${mlListings.length}, FB=${fbListings.length}, I24=${i24Listings.length}`);
+        console.log(`[LIVE] Sources: ML=${mlListings.length}, FB=${fbListings.length}, I24=${i24Listings.length}, Lamudi=${lamudiListings.length}, Viva=${vivaListings.length}`);
 
         // ── Merge all results ────────────────────────────────
-        let listings = [...mlListings, ...fbListings, ...i24Listings];
+        let listings = [...mlListings, ...fbListings, ...i24Listings, ...lamudiListings, ...vivaListings];
 
         if (listings.length === 0) {
             console.log(`[LIVE] 📊 No data from ML, FB, or I24 — returning empty`);
@@ -375,8 +389,8 @@ export async function GET(request: Request) {
             }
         }
 
-        const resultSource = i24Listings.length > 0 ? 'inmuebles24' : fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
-        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}, I24: ${i24Listings.length}) returned for page ${page}`);
+        const resultSource = i24Listings.length > 0 ? 'inmuebles24' : lamudiListings.length > 0 ? 'lamudi' : vivaListings.length > 0 ? 'vivanuncios' : fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
+        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}, I24: ${i24Listings.length}, Lamudi: ${lamudiListings.length}, Viva: ${vivaListings.length}) returned for page ${page}`);
 
         // v2: includes proxyUrl + proxySecret for client-side proxy calls
         return NextResponse.json({
