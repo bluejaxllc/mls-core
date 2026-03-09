@@ -104,15 +104,31 @@ export default function IntelligenceDashboard() {
             const vivaUrl = `https://www.vivanuncios.com.mx/${vivaTypeSlug}-en-${op}-en-${citySlug}.html`;
 
             const fetchWithRetry = async (url: string, options: any, retries = 3): Promise<any> => {
+                const cacheKey = `mls_cache_${url.split('portal=')[1]?.split('&')[0] || 'unknown'}`;
                 for (let i = 0; i < retries; i++) {
                     try {
                         const res = await fetch(url, options);
-                        if (res.ok) return await res.json();
+                        if (res.ok) {
+                            const data = await res.json();
+                            // Cache successful results
+                            try {
+                                localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() }));
+                            } catch { }
+                            return data;
+                        }
                     } catch (e) {
                         console.log(`[PROXY] Fetch fail (${i + 1}/${retries}): ${url}`);
                     }
-                    if (i < retries - 1) await new Promise(r => setTimeout(r, 1500 * (i + 1)));
+                    if (i < retries - 1) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, i)));
                 }
+                // Fallback to cached data (max 30 min old)
+                try {
+                    const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+                    if (cached && Date.now() - cached.ts < 30 * 60 * 1000) {
+                        console.log(`[PROXY] Using cached data for ${cacheKey} (${Math.round((Date.now() - cached.ts) / 60000)}min old)`);
+                        return cached.data;
+                    }
+                } catch { }
                 return { listings: [] };
             };
 
@@ -120,19 +136,19 @@ export default function IntelligenceDashboard() {
             const [mlData, i24Data, lamudiData, vivaData] = await Promise.allSettled([
                 fetchWithRetry(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(20000),
+                    signal: AbortSignal.timeout(25000),
                 }),
                 fetchWithRetry(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(45000),
+                    signal: AbortSignal.timeout(50000),
                 }),
                 fetchWithRetry(`${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(45000),
+                    signal: AbortSignal.timeout(50000),
                 }),
                 fetchWithRetry(`${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(45000),
+                    signal: AbortSignal.timeout(50000),
                 }),
             ]);
 
@@ -140,6 +156,7 @@ export default function IntelligenceDashboard() {
             const i24Listings = (i24Data.status === 'fulfilled' ? i24Data.value?.listings : []) || [];
             const lamudiListings = (lamudiData.status === 'fulfilled' ? lamudiData.value?.listings : []) || [];
             const vivaListings = (vivaData.status === 'fulfilled' ? vivaData.value?.listings : []) || [];
+            console.log(`[Intelligence] Sources loaded: ML=${mlListings.length}, I24=${i24Listings.length}, Lamudi=${lamudiListings.length}, Viva=${vivaListings.length}`);
 
             // Normalize ML listings
             const normalizedML = mlListings.map((l: any) => ({
