@@ -91,8 +91,20 @@ export default function IntelligenceDashboard() {
             const i24TypeSlug = i24TypeMap[propertyType?.toUpperCase()] || 'inmuebles';
             const i24Url = `https://www.inmuebles24.com/${i24TypeSlug}-en-${op}-en-${citySlug}.html`;
 
-            // Fetch ML + I24 from proxy in parallel (direct browser-to-proxy)
-            const [mlData, i24Data] = await Promise.allSettled([
+            // Build Lamudi URL
+            const lamudiOp = listingType.toUpperCase() === 'RENT' ? 'for-rent' : 'for-sale';
+            const lamudiTypeMap: Record<string, string> = { HOUSE: 'house', APARTMENT: 'apartment', LAND: 'land', COMMERCIAL: 'commercial' };
+            const lamudiTypeStr = propertyType !== 'ALL' ? lamudiTypeMap[propertyType.toUpperCase()] : '';
+            const lamudiTypePath = lamudiTypeStr ? `${lamudiTypeStr}/` : '';
+            const lamudiUrl = `https://www.lamudi.com.mx/chihuahua/${citySlug}-1/${lamudiTypePath}${lamudiOp}/`;
+
+            // Build Vivanuncios URL
+            const vivaTypeMap: Record<string, string> = { HOUSE: 'casas', APARTMENT: 'departamentos', LAND: 'terrenos', COMMERCIAL: 'locales-comerciales' };
+            const vivaTypeSlug = vivaTypeMap[propertyType?.toUpperCase()] || 'inmuebles';
+            const vivaUrl = `https://www.vivanuncios.com.mx/${vivaTypeSlug}-en-${op}-en-${citySlug}.html`;
+
+            // Fetch ML, I24, Lamudi, Vivanuncios from proxy in parallel (direct browser-to-proxy)
+            const [mlData, i24Data, lamudiData, vivaData] = await Promise.allSettled([
                 fetch(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(20000),
@@ -101,10 +113,20 @@ export default function IntelligenceDashboard() {
                     headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(45000),
                 }).then(r => r.ok ? r.json() : { listings: [] }),
+                fetch(`${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`, {
+                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
+                    signal: AbortSignal.timeout(45000),
+                }).then(r => r.ok ? r.json() : { listings: [] }),
+                fetch(`${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`, {
+                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
+                    signal: AbortSignal.timeout(45000),
+                }).then(r => r.ok ? r.json() : { listings: [] }),
             ]);
 
             const mlListings = (mlData.status === 'fulfilled' ? mlData.value?.listings : []) || [];
             const i24Listings = (i24Data.status === 'fulfilled' ? i24Data.value?.listings : []) || [];
+            const lamudiListings = (lamudiData.status === 'fulfilled' ? lamudiData.value?.listings : []) || [];
+            const vivaListings = (vivaData.status === 'fulfilled' ? vivaData.value?.listings : []) || [];
 
             // Normalize ML listings
             const normalizedML = mlListings.map((l: any) => ({
@@ -122,13 +144,23 @@ export default function IntelligenceDashboard() {
                 ...l, source: l.source || 'Inmuebles24', state: 'Chihuahua', city: l.city || citySlug,
             }));
 
-            // Merge all 3 sources
+            // Normalize Lamudi listings
+            const normalizedLamudi = lamudiListings.map((l: any) => ({
+                ...l, source: l.source || 'Lamudi', state: 'Chihuahua', city: l.city || citySlug,
+            }));
+
+            // Normalize Vivanuncios listings
+            const normalizedViva = vivaListings.map((l: any) => ({
+                ...l, source: l.source || 'Vivanuncios', state: 'Chihuahua', city: l.city || citySlug,
+            }));
+
+            // Merge all sources
             const serverListings = liveData?.listings || [];
-            const allListings = [...serverListings, ...normalizedML, ...normalizedI24];
+            const allListings = [...serverListings, ...normalizedML, ...normalizedI24, ...normalizedLamudi, ...normalizedViva];
 
             if (allListings.length > 0) {
                 setListings(allListings);
-                const hasMore = normalizedML.length >= ITEMS_PER_PAGE || normalizedI24.length >= ITEMS_PER_PAGE;
+                const hasMore = normalizedML.length >= ITEMS_PER_PAGE || normalizedI24.length >= ITEMS_PER_PAGE || normalizedLamudi.length >= ITEMS_PER_PAGE || normalizedViva.length >= ITEMS_PER_PAGE;
                 const pages = hasMore ? Math.max(liveData?.totalPages || 1, page + 3) : (liveData?.totalPages || Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1);
                 setTotalPages(pages);
                 setTotalListings(allListings.length);
