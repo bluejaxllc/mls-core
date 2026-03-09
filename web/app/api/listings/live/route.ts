@@ -399,7 +399,7 @@ export async function GET(request: Request) {
             listings,
             page,
             totalPages,
-            proxyUrl: process.env.ML_PROXY_URL || '',
+            proxyUrl: 'https://bluejax-ml-proxy-2026.loca.lt' || process.env.ML_PROXY_URL || '',
             proxySecret: process.env.ML_PROXY_SECRET || '',
         });
 
