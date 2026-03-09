@@ -476,7 +476,7 @@ export default function IntelligenceDashboard() {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                             <input
                                 type="text"
-                                placeholder="Buscar propiedades en ML..."
+                                placeholder="Buscar propiedades..."
                                 className="w-full pl-10 pr-4 py-2 rounded-lg border border-blue-500/20 bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm placeholder:text-muted-foreground"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
