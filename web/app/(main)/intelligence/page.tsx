@@ -349,6 +349,11 @@ export default function IntelligenceDashboard() {
 
     // Client-side secondary filter (API already handles city/propertyType/price)
     const filteredListings = listings.filter((item) => {
+        // Filter by source dropdown
+        if (source && source !== 'All') {
+            const itemSource = (item.source || '').toLowerCase();
+            if (!itemSource.includes(source.toLowerCase())) return false;
+        }
         // Filter by disabled sources
         if (disabledSources.size > 0) {
             const itemSource = (item.source || '').toLowerCase();
