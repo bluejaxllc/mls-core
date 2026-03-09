@@ -1,59 +1,69 @@
-const axios = require('axios');
+const fs = require('fs');
 
-async function testML() {
-    try {
-        const { data: html } = await axios.get('https://inmuebles.mercadolibre.com.mx/chihuahua/chihuahua/', {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml',
-                'Accept-Language': 'en-US,en;q=0.9,es;q=0.8'
+function extractJSON(str) {
+    let brackets = 0;
+    let inString = false;
+    let escape = false;
+    let started = false;
+
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+
+        if (!escape && char === '"') {
+            inString = !inString;
+        }
+
+        if (!inString) {
+            if (char === '{') {
+                brackets++;
+                started = true;
             }
-        });
-
-        console.log('HTML length:', html.length);
-
-        // Try old pattern
-        const oldMatch = html.match(/_n_\.ctx\.r\s*=\s*(\{[\s\S]*?\})\s*;/);
-        console.log('Old pattern match:', !!oldMatch);
-
-        // Search for common data patterns
-        const patterns = [
-            '__PRELOADED_STATE__', '__NEXT_DATA__', 'window.__INITIAL_STATE__',
-            '_n_.ctx', 'polycard', 'initialState', 'pageProps', 'appData',
-            'window.__', 'PRELOADED', 'searchResults'
-        ];
-
-        for (const p of patterns) {
-            const idx = html.indexOf(p);
-            if (idx >= 0) {
-                console.log(`FOUND: "${p}" at index ${idx}`);
-                console.log('  Context:', html.substring(idx, idx + 150).replace(/\n/g, '\\n'));
+            if (char === '}') {
+                brackets--;
+                if (started && brackets === 0) {
+                    return str.substring(0, i + 1);
+                }
             }
         }
 
-        // Find all <script> tags with substantial content
-        const scriptMatches = html.match(/<script[^>]*>([\s\S]*?)<\/script>/gi) || [];
-        console.log('\nTotal script tags:', scriptMatches.length);
-        scriptMatches.forEach((s, i) => {
-            if (s.length > 3000) {
-                console.log(`\nLarge script #${i} (${s.length} chars):`);
-                console.log('  Start:', s.substring(0, 300).replace(/\n/g, '\\n'));
-            }
-        });
-
-        // Look for any JSON-like data with listing info
-        const jsonMatches = html.match(/\{[^}]*"id"\s*:\s*"MLM\d+[^}]*\}/g);
-        if (jsonMatches) {
-            console.log('\nFound MLM IDs in JSON:', jsonMatches.length);
-            console.log('First:', jsonMatches[0].substring(0, 200));
+        // Handle escapes
+        if (char === '\\' && !escape) {
+            escape = true;
         } else {
-            console.log('\nNo MLM IDs found in HTML');
+            escape = false;
         }
-
-    } catch (e) {
-        console.log('ERROR:', e.message);
     }
+    return null;
 }
 
-testML();
-const fs = require('fs'); testML().then(html => {}); 
+try {
+    const html = fs.readFileSync('scripts/ml-page.html', 'utf8');
+    const prefix = '_n.ctx.r=';
+    const startIdx = html.indexOf(prefix);
+    if (startIdx >= 0) {
+        const jsonStart = startIdx + prefix.length;
+        const remainder = html.substring(jsonStart);
+
+        const jsonStr = extractJSON(remainder);
+        if (jsonStr) {
+            console.log('JSON extracted! Length:', jsonStr.length);
+            const data = JSON.parse(jsonStr);
+            console.log('Successfully Parsed!');
+
+            const results = data.appProps?.pageProps?.initialState?.results || [];
+            console.log('Results Count:', results.length);
+            if (results.length > 0) {
+                const first = results[0];
+                console.log('ID:', first.polycard?.metadata?.id);
+                console.log('URL:', first.polycard?.metadata?.url);
+                console.log('PIC:', first.polycard?.pictures?.pictures?.[0]?.id);
+            }
+        } else {
+            console.log('Failed to extract JSON using brace matching');
+        }
+    } else {
+        console.log('No prefix found');
+    }
+} catch (e) {
+    console.log('Error:', e.message);
+}
