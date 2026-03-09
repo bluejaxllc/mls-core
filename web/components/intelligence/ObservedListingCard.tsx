@@ -64,6 +64,39 @@ const SOURCE_THEMES: Record<string, {
         btnSecondary: 'border-amber-400/30 text-amber-700 hover:bg-amber-50',
         priceColor: 'text-amber-600',
     },
+    inmuebles24: {
+        badge: 'text-white',
+        badgeBg: 'bg-[#E4002B]',
+        border: 'border-l-[#E4002B]',
+        gradient: 'from-[#E4002B]/20 to-rose-500/10',
+        icon: '🏠',
+        label: 'Inmuebles24',
+        btnPrimary: 'bg-gradient-to-r from-[#E4002B] to-rose-600 hover:from-[#CC0027] hover:to-rose-700 text-white border-0',
+        btnSecondary: 'border-rose-400/30 text-rose-600 hover:bg-rose-50',
+        priceColor: 'text-rose-600',
+    },
+    lamudi: {
+        badge: 'text-white',
+        badgeBg: 'bg-[#00A651]',
+        border: 'border-l-[#00A651]',
+        gradient: 'from-[#00A651]/20 to-emerald-500/10',
+        icon: '🏡',
+        label: 'Lamudi',
+        btnPrimary: 'bg-gradient-to-r from-[#00A651] to-emerald-600 hover:from-[#008F45] hover:to-emerald-700 text-white border-0',
+        btnSecondary: 'border-emerald-400/30 text-emerald-600 hover:bg-emerald-50',
+        priceColor: 'text-emerald-600',
+    },
+    vivanuncios: {
+        badge: 'text-white',
+        badgeBg: 'bg-[#7B2D8E]',
+        border: 'border-l-[#7B2D8E]',
+        gradient: 'from-[#7B2D8E]/20 to-purple-500/10',
+        icon: '🏘️',
+        label: 'Vivanuncios',
+        btnPrimary: 'bg-gradient-to-r from-[#7B2D8E] to-purple-600 hover:from-[#6A2679] hover:to-purple-700 text-white border-0',
+        btnSecondary: 'border-purple-400/30 text-purple-600 hover:bg-purple-50',
+        priceColor: 'text-purple-600',
+    },
     default: {
         badge: 'text-white',
         badgeBg: 'bg-teal-500',
@@ -80,8 +113,16 @@ const SOURCE_THEMES: Record<string, {
 function getSourceTheme(source?: string | null) {
     const s = (source || '').toLowerCase();
     if (s.includes('facebook')) return SOURCE_THEMES.facebook;
-    if (s.includes('mercado') || s.includes('ml') || s.includes('meli')) return SOURCE_THEMES.mercadolibre;
-    return SOURCE_THEMES.default;
+    if (s.includes('mercado') || s === 'ml' || s.includes('meli')) return SOURCE_THEMES.mercadolibre;
+    if (s.includes('inmuebles24') || s.includes('i24')) return SOURCE_THEMES.inmuebles24;
+    if (s.includes('lamudi')) return SOURCE_THEMES.lamudi;
+    if (s.includes('vivanuncios') || s.includes('viva')) return SOURCE_THEMES.vivanuncios;
+    // For unknown sources, use default theme but with actual source name
+    const theme = { ...SOURCE_THEMES.default };
+    if (source && source.length > 0 && source !== 'default') {
+        theme.label = source;
+    }
+    return theme;
 }
 
 export function ObservedListingCard({ listing }: ObservedListingProps) {

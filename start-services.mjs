@@ -2,9 +2,8 @@
  * MLS Services Orchestrator
  * Starts everything automatically on boot:
  *   1. Proxy server (port 3004)
- *   2. Cloudflare quick tunnel → extracts URL
- *   3. Updates ML_PROXY_URL in Vercel
- *   4. Auto-deploy watcher (git push on file changes)
+ *   2. Localtunnel with fixed subdomain → URL never changes
+ *   3. Auto-deploy watcher (git push on file changes)
  *
  * Usage: node start-services.mjs
  */
@@ -17,8 +16,9 @@ import { createWriteStream } from 'fs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname);
 const PROXY_DIR = resolve(ROOT, 'proxy');
-const CF_PATH = 'C:\\Program Files (x86)\\cloudflared\\cloudflared.exe';
 const PROXY_PORT = 3004;
+const TUNNEL_SUBDOMAIN = 'bluejax-ml-proxy-2026';
+const TUNNEL_URL = `https://${TUNNEL_SUBDOMAIN}.loca.lt`;
 
 function log(msg) {
     const ts = new Date().toLocaleTimeString('es-MX', { hour12: false });
@@ -29,6 +29,17 @@ function log(msg) {
 function startProxy() {
     return new Promise((resolve, reject) => {
         log('🚀 Starting proxy server on :' + PROXY_PORT + '...');
+
+        // Kill anything already on port 3004
+        try {
+            const output = execSync(`netstat -aon | findstr ":${PROXY_PORT}.*LISTENING"`, { encoding: 'utf-8', stdio: 'pipe' });
+            const pid = output.trim().split(/\s+/).pop();
+            if (pid && pid !== '0') {
+                log(`   Killing existing process on port ${PROXY_PORT} (PID: ${pid})...`);
+                execSync(`taskkill /f /pid ${pid}`, { stdio: 'pipe' });
+            }
+        } catch (_) { /* nothing on port, good */ }
+
         const proxyLog = createWriteStream(PROXY_DIR + '/proxy.log');
         const proxy = spawn('node', ['ml-proxy.mjs'], {
             cwd: PROXY_DIR,
@@ -56,90 +67,65 @@ function startProxy() {
     });
 }
 
-// ── 2. Start Cloudflare Tunnel + Extract URL ────────────────────────────
+// ── 2. Start Localtunnel (fixed subdomain — URL never changes!) ──────
 function startTunnel() {
-    return new Promise((resolve, reject) => {
-        log('🌐 Starting Cloudflare tunnel...');
+    return new Promise((resolvePromise) => {
+        log(`🌐 Starting localtunnel (${TUNNEL_URL})...`);
         const tunnelLog = createWriteStream(PROXY_DIR + '/tunnel.log');
-        const tunnel = spawn(CF_PATH, ['tunnel', '--url', `http://localhost:${PROXY_PORT}`], {
+
+        const tunnel = spawn('npx', ['-y', 'localtunnel', '--port', String(PROXY_PORT), '--subdomain', TUNNEL_SUBDOMAIN], {
+            cwd: ROOT,
             stdio: ['ignore', 'pipe', 'pipe'],
+            shell: true,
         });
 
-        let tunnelUrl = null;
-        const urlRegex = /https:\/\/[a-z0-9-]+\.trycloudflare\.com/;
-
-        function checkForUrl(chunk) {
+        tunnel.stdout.on('data', (chunk) => {
             const text = chunk.toString();
             tunnelLog.write(text);
-            const match = text.match(urlRegex);
-            if (match && !tunnelUrl) {
-                tunnelUrl = match[0];
-                log(`✅ Tunnel URL: ${tunnelUrl}`);
-                resolve({ tunnel, url: tunnelUrl });
+            if (text.includes('your url is:')) {
+                log(`✅ Tunnel ready: ${TUNNEL_URL}`);
+                resolvePromise({ tunnel, url: TUNNEL_URL });
             }
-        }
+        });
 
-        tunnel.stdout.on('data', checkForUrl);
-        tunnel.stderr.on('data', checkForUrl);
+        tunnel.stderr.on('data', (chunk) => {
+            tunnelLog.write(chunk.toString());
+        });
 
         tunnel.on('error', (err) => {
             log('❌ Tunnel failed: ' + err.message);
-            reject(err);
+            resolvePromise({ tunnel: null, url: null });
         });
 
-        // Timeout after 30 seconds
+        // Timeout — localtunnel is usually fast
         setTimeout(() => {
-            if (!tunnelUrl) {
-                log('⚠️  Tunnel URL not detected after 30s. Check proxy/tunnel.log');
-                resolve({ tunnel, url: null });
-            }
-        }, 30000);
+            log(`✅ Tunnel assumed ready: ${TUNNEL_URL}`);
+            resolvePromise({ tunnel, url: TUNNEL_URL });
+        }, 15000);
     });
 }
 
-// ── 3. Update Vercel Environment Variable ───────────────────────────────
-function updateVercelEnv(tunnelUrl) {
-    if (!tunnelUrl) {
-        log('⏭️  No tunnel URL — skipping Vercel update');
-        return false;
-    }
-
-    try {
-        // Remove existing ML_PROXY_URL from all environments
-        log('📝 Updating ML_PROXY_URL in Vercel...');
+// ── 3. Verify Tunnel Health ─────────────────────────────────────────────
+async function verifyTunnel() {
+    log('🔍 Verifying tunnel connectivity...');
+    for (let i = 1; i <= 3; i++) {
         try {
-            execSync('vercel env rm ML_PROXY_URL production -y', {
-                cwd: resolve(ROOT, 'web'),
-                encoding: 'utf-8',
-                stdio: 'pipe',
+            const res = await fetch(`${TUNNEL_URL}/health`, {
+                headers: { 'Bypass-Tunnel-Reminder': 'true' },
+                signal: AbortSignal.timeout(10000),
             });
-        } catch (_) { /* may not exist yet */ }
-
-        // Add new ML_PROXY_URL
-        execSync(`echo ${tunnelUrl} | vercel env add ML_PROXY_URL production`, {
-            cwd: resolve(ROOT, 'web'),
-            encoding: 'utf-8',
-            stdio: 'pipe',
-            timeout: 15000,
-        });
-
-        log(`✅ ML_PROXY_URL set to: ${tunnelUrl}`);
-
-        // Trigger redeploy
-        log('🔄 Triggering Vercel redeploy...');
-        execSync('vercel deploy --prod --yes', {
-            cwd: resolve(ROOT, 'web'),
-            encoding: 'utf-8',
-            stdio: 'pipe',
-            timeout: 120000,
-        });
-        log('✅ Vercel redeploy triggered');
-        return true;
-    } catch (err) {
-        log('⚠️  Vercel update failed: ' + (err.message?.split('\n')[0] || err));
-        log('   You may need to run: vercel login');
-        return false;
+            if (res.ok) {
+                const data = await res.json();
+                log(`✅ Tunnel verified! Status: ${data.status}`);
+                return true;
+            }
+        } catch (e) {
+            log(`   Attempt ${i}/3: ${e.message}`);
+            if (i < 3) await new Promise(r => setTimeout(r, 3000));
+        }
     }
+    log('⚠️  Tunnel not responding — may need manual check');
+    return false;
 }
 
 // ── 4. Start Auto-Deploy Watcher ────────────────────────────────────────
@@ -168,12 +154,12 @@ async function main() {
     // Step 1: Proxy
     const proxy = await startProxy();
 
-    // Step 2: Tunnel
-    const { tunnel, url } = await startTunnel();
+    // Step 2: Localtunnel (fixed subdomain — no Vercel update needed!)
+    let { tunnel, url } = await startTunnel();
 
-    // Step 3: Update Vercel (if we got a tunnel URL)
+    // Step 3: Verify
     if (url) {
-        updateVercelEnv(url);
+        await verifyTunnel();
     }
 
     // Step 4: Auto-Deploy Watcher
@@ -182,7 +168,7 @@ async function main() {
     console.log('\n════════════════════════════════════════════');
     log('All services running:');
     console.log(`  Proxy:       http://localhost:${PROXY_PORT}`);
-    console.log(`  Tunnel:      ${url || '(pending — check tunnel.log)'}`);
+    console.log(`  Tunnel:      ${TUNNEL_URL} (fixed subdomain — never changes)`);
     console.log(`  Auto-Deploy: Watching web/ and proxy/`);
     console.log('  Logs:        proxy/proxy.log, proxy/tunnel.log, deploy.log');
     console.log('════════════════════════════════════════════\n');
@@ -191,19 +177,26 @@ async function main() {
     process.on('SIGINT', () => {
         log('Shutting down...');
         proxy.kill();
-        tunnel.kill();
+        if (tunnel) tunnel.kill();
         watcher.kill();
         process.exit(0);
     });
 
-    // Restart tunnel if it dies (URL changes)
-    tunnel.on('exit', async (code) => {
-        log(`⚠️  Tunnel exited (code ${code}). Restarting in 10s...`);
-        setTimeout(async () => {
-            const { tunnel: newTunnel, url: newUrl } = await startTunnel();
-            if (newUrl) updateVercelEnv(newUrl);
-        }, 10000);
-    });
+    // Restart tunnel if it dies (same subdomain, so URL stays the same)
+    const restartTunnel = () => {
+        if (tunnel) {
+            tunnel.on('exit', async (code) => {
+                log(`⚠️  Tunnel exited (code ${code}). Restarting in 10s...`);
+                setTimeout(async () => {
+                    const result = await startTunnel();
+                    tunnel = result.tunnel;
+                    if (tunnel) restartTunnel(); // re-attach listener
+                    log('🔄 Tunnel restarted');
+                }, 10000);
+            });
+        }
+    };
+    restartTunnel();
 }
 
 main().catch((err) => {
