@@ -278,7 +278,7 @@ export async function GET(request: Request) {
                 listings: cached.listings,
                 page: cached.page,
                 totalPages: cached.totalPages,
-                proxyUrl: 'http://localhost:3004',
+                proxyUrl: 'https://bluejax-ml-proxy-2026.loca.lt',
                 proxySecret: 'bluejax-ml-proxy-2026',
             });
         }
@@ -399,7 +399,7 @@ export async function GET(request: Request) {
             listings,
             page,
             totalPages,
-            proxyUrl: 'http://localhost:3004',
+            proxyUrl: 'https://bluejax-ml-proxy-2026.loca.lt',
             proxySecret: 'bluejax-ml-proxy-2026',
         });
 
