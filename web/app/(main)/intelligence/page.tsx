@@ -295,8 +295,6 @@ export default function IntelligenceDashboard() {
             if (crawlData.success) {
                 setCrawlStatus('done');
                 setCrawlResult(`${crawlData.count} propiedades procesadas`);
-                // Refresh data to show new listings
-                fetchData();
             } else if (crawlRes.status === 401) {
                 setCrawlStatus('not_auth');
                 setCrawlResult('Token expirado — necesita re-autenticación');
