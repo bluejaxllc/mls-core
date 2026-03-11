@@ -35,9 +35,6 @@ export function SourceCard({ source, onToggle }: SourceProps) {
                         </div>
                         <div>
                             <h3 className={`font-semibold leading-tight ${source.enabled ? 'text-foreground' : 'text-muted-foreground'}`}>{source.name}</h3>
-                            <p className={`text-xs font-medium ${source.enabled ? visuals.color : 'text-muted-foreground'}`}>
-                                {source.count} {source.count === 1 ? 'propiedad' : 'propiedades'}
-                            </p>
                         </div>
                     </div>
                     {/* Toggle Switch */}
