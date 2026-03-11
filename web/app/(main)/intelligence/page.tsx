@@ -595,48 +595,12 @@ export default function IntelligenceDashboard() {
             <section>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <h3 className="text-lg font-semibold">Oportunidades Detectadas</h3>
-
-                    {/* Filters / Search Bar */}
-                    <div className="flex gap-2 w-full md:w-auto">
-                        <div className="relative flex-1 md:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-                            <input
-                                type="text"
-                                placeholder="Buscar propiedades..."
-                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-blue-500/20 bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm placeholder:text-muted-foreground"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyDown={async (e) => {
-                                    if (e.key === 'Enter') {
-                                        const query = e.currentTarget.value.trim();
-                                        setOffset(0);
-                                        if (!query) return fetchData();
-
-                                        setLoading(true);
-                                        try {
-                                            const token = (session as any)?.accessToken;
-                                            const results = await authFetch(`/api/intelligence/search_live?q=${encodeURIComponent(query)}&offset=0`, {}, token);
-                                            if (Array.isArray(results)) {
-                                                setListings(results);
-                                            } else {
-                                                setListings([]);
-                                            }
-                                        } catch (err) {
-                                            console.error('Failed live search:', err);
-                                        } finally {
-                                            setLoading(false);
-                                        }
-                                    }
-                                }}
-                            />
-                        </div>
-                        <button
-                            onClick={() => setShowFilters(!showFilters)}
-                            className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-colors ${showFilters ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'border-blue-500/20 text-muted-foreground hover:bg-muted/50'}`}
-                        >
-                            <Filter className="w-4 h-4" /> Filtros
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-sm transition-colors ${showFilters ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'border-blue-500/20 text-muted-foreground hover:bg-muted/50'}`}
+                    >
+                        <Filter className="w-4 h-4" /> Filtros
+                    </button>
                 </div>
 
                 {/* Advanced Filters Panel */}
