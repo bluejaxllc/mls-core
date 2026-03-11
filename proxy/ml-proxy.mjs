@@ -470,27 +470,81 @@ async function scrapeFacebook(url, limit = 100) {
     console.log(`[Facebook] Stealth Puppeteer scraping: ${url}`);
     const b = await getStealthBrowser();
     const page = await b.newPage();
+    const collectedListings = new Map();
+
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5' });
         await page.setViewport({ width: 1920, height: 1080 });
 
+        // Intercept network responses to capture listing data from Facebook's internal API
+        page.on('response', async (response) => {
+            try {
+                const resUrl = response.url();
+                // Facebook uses /api/graphql/ for paginated marketplace data
+                if (resUrl.includes('/api/graphql') || resUrl.includes('marketplace')) {
+                    const ct = response.headers()['content-type'] || '';
+                    if (!ct.includes('json') && !ct.includes('text')) return;
+                    const text = await response.text().catch(() => '');
+                    // Extract marketplace item IDs from the response body
+                    const itemIdRegex = /marketplace\/item\/(\d{10,})/g;
+                    let match;
+                    while ((match = itemIdRegex.exec(text)) !== null) {
+                        const id = match[1];
+                        if (!collectedListings.has(id)) {
+                            collectedListings.set(id, {
+                                id,
+                                title: 'Propiedad #' + id.slice(0, 6),
+                                price: null,
+                                address: '',
+                                imageUrl: null,
+                                url: 'https://www.facebook.com/marketplace/item/' + id,
+                                source: 'Facebook Marketplace',
+                            });
+                        }
+                    }
+                    // Try to extract structured listing data (prices, titles, images)
+                    try {
+                        // Facebook GraphQL responses contain listing_title, listing_price, etc.
+                        const priceRegex = /"formatted_amount"\s*:\s*"([^"]+)"/g;
+                        const titleRegex = /"marketplace_listing_title"\s*:\s*"([^"]+)"/g;
+                        const imageRegex = /"uri"\s*:\s*"(https:\/\/[^"]*?fbcdn[^"]*?)"/g;
+                        
+                        let pm, tm, im;
+                        const prices = []; const titles = []; const images = [];
+                        while ((pm = priceRegex.exec(text)) !== null) prices.push(pm[1]);
+                        while ((tm = titleRegex.exec(text)) !== null) titles.push(tm[1]);
+                        while ((im = imageRegex.exec(text)) !== null) images.push(im[1]);
+                        
+                        // Match extracted data to listings in order
+                        let idx = 0;
+                        for (const [id, listing] of collectedListings) {
+                            if (!listing._enriched && idx < Math.max(prices.length, titles.length, images.length)) {
+                                if (prices[idx]) listing.price = prices[idx];
+                                if (titles[idx]) listing.title = titles[idx];
+                                if (images[idx]) listing.imageUrl = images[idx];
+                                listing._enriched = true;
+                                idx++;
+                            }
+                        }
+                    } catch { /* enrichment is best-effort */ }
+                }
+            } catch { /* ignore response read errors */ }
+        });
+
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
         await new Promise(r => setTimeout(r, 3000));
+        console.log(`[Facebook] After initial load: ${collectedListings.size} listings from network`);
 
-        // Initialize a Map in the page context to accumulate listings across scroll cycles
-        await page.evaluate(() => { window.__fbListings = new Map(); });
-
-        // Scroll and extract 10 times to load beyond the initial 24
-        for (let i = 0; i < 10; i++) {
-            await page.evaluate(() => {
-                // Extract all currently visible listings into the persistent Map
+        // Also scrape the DOM for whatever is visible
+        const domScrape = async () => {
+            return page.evaluate(() => {
+                const results = [];
                 document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
                     const href = link.getAttribute('href') || '';
                     const m = href.match(/\/marketplace\/item\/(\d+)/);
                     if (!m) return;
                     const id = m[1];
-                    if (window.__fbListings.has(id)) return;
                     const c = link.closest('[class]') || link;
                     const spans = c.querySelectorAll('span');
                     const texts = [];
@@ -501,36 +555,52 @@ async function scrapeFacebook(url, limit = 100) {
                     const img = c.querySelector('img');
                     let imgUrl = img?.src || null;
                     if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
-                    window.__fbListings.set(id, { id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
+                    results.push({ id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
                 });
-                // Scroll the last item to load more
+                return results;
+            });
+        };
+
+        // Merge initial DOM scrape
+        for (const item of await domScrape()) {
+            if (!collectedListings.has(item.id) || !collectedListings.get(item.id)._enriched) {
+                collectedListings.set(item.id, item);
+            }
+        }
+        console.log(`[Facebook] After DOM merge: ${collectedListings.size} listings`);
+
+        // Scroll 12 times to trigger Facebook's lazy loading and network requests
+        for (let i = 0; i < 12; i++) {
+            await page.evaluate(() => {
                 const items = document.querySelectorAll('a[href*="/marketplace/item/"]');
                 if (items.length > 0) items[items.length - 1].scrollIntoView({ behavior: 'smooth', block: 'end' });
-                window.scrollBy(0, 800);
+                window.scrollBy(0, 1000);
             });
-            await new Promise(r => setTimeout(r, 1500));
-            console.log(`[Facebook] Scroll ${i + 1}/10 — accumulated: ${await page.evaluate(() => window.__fbListings.size)} listings`);
+            await new Promise(r => setTimeout(r, 2000));
+            // Also scrape DOM after each scroll
+            for (const item of await domScrape()) {
+                if (!collectedListings.has(item.id) || !collectedListings.get(item.id)._enriched) {
+                    collectedListings.set(item.id, item);
+                }
+            }
+            console.log(`[Facebook] Scroll ${i + 1}/12 — total: ${collectedListings.size} listings`);
         }
 
-        // Extract accumulated listings from the page context
-        const rawListings = await page.evaluate(() => Array.from(window.__fbListings.values()));
+        // Final result
+        const listings = Array.from(collectedListings.values())
+            .map(({ _enriched, ...item }) => {
+                let priceNum = 0;
+                if (item.price) {
+                    const clean = String(item.price).replace(/[^0-9.]/g, '');
+                    const parsed = parseFloat(clean);
+                    if (!isNaN(parsed)) priceNum = parsed;
+                }
+                return { ...item, price: priceNum, currency: 'MXN', status: 'active' };
+            })
+            .slice(0, limit);
 
-        const listings = rawListings.slice(0, limit).map(item => {
-            let priceNum = 0;
-            if (item.price) {
-                const clean = String(item.price).replace(/[^0-9.]/g, '');
-                const parsed = parseFloat(clean);
-                if (!isNaN(parsed)) priceNum = parsed;
-            }
-            return {
-                ...item,
-                price: priceNum,
-                currency: 'MXN',
-                status: 'active',
-            };
-        });
-
-        console.log(`[Facebook] ✅ ${listings.length} listings extracted`);
+        console.log(`[Facebook] ✅ ${listings.length} listings extracted (network + DOM hybrid)`);
+        return listings;
         return listings;
     } catch (e) {
         console.error(`[Facebook] ❌ Failed:`, e.message);
