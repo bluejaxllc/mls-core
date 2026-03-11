@@ -238,8 +238,11 @@ export default function IntelligenceDashboard() {
                 status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
             }));
 
-            // Merge all sources
-            const serverListings = liveData?.listings || [];
+            // Merge all sources — ensure FB listings have source set
+            const serverListings = (liveData?.listings || []).map((l: any) => ({
+                ...l,
+                source: l.source || 'Facebook Marketplace',
+            }));
             let allListings = [...serverListings, ...normalizedML, ...normalizedI24, ...normalizedLamudi, ...normalizedViva];
 
             // Shuffle listings so all sources show up mixed on the first page
