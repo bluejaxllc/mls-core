@@ -335,11 +335,14 @@ export default function IntelligenceDashboard() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const token = (session as any)?.accessToken;
+
     useEffect(() => {
+        if (!token) return;
         fetchData(1);
         triggerFbCrawl();
         triggerCrawl(); // Also trigger ML crawl
-    }, [session]);
+    }, [token]);
 
     // Re-fetch when filters change
     useEffect(() => {
