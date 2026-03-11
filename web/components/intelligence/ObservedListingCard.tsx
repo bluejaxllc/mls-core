@@ -344,16 +344,7 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
                         </button>
                     </div>
 
-                    {/* Source link */}
-                    {listing.sourceUrl && (
-                        <button
-                            onClick={handleSourceLink}
-                            className="flex items-center justify-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors pt-1"
-                        >
-                            <ExternalLink className="w-3 h-3" />
-                            Ver en {theme.label}
-                        </button>
-                    )}
+
                 </div>
             </AnimatedCard>
         </div>
