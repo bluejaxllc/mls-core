@@ -91,18 +91,32 @@ export default function IntelligenceDashboard() {
                 .then(r => r.ok ? r.json() : { listings: [] })
                 .catch(() => ({ listings: [] }));
 
+            // Ensure FB listings have source set
+            const serverListings = (liveData?.listings || []).map((l: any) => ({
+                ...l,
+                source: l.source || 'Facebook Marketplace',
+            }));
+
             setLoadProgress(prev => ({
                 ...prev,
                 completed: 1,
                 sources: { ...prev.sources, 'Facebook': 'done' },
             }));
 
-            // Phase 2: Fetch ML + I24 directly from home proxy via browser
-            // (Vercel functions CAN'T reach Cloudflare tunnels — must use client-side)
+            // Show FB results immediately — stop the loading spinner
+            if (serverListings.length > 0) {
+                setListings(serverListings);
+                setTotalListings(serverListings.length);
+                setCurrentPage(page);
+                updateSourceCards(serverListings);
+            }
+            setLoading(false);
+
+            // Phase 2: Fetch proxy scrapers in parallel, appending results as each finishes
             const proxyUrl = liveData?.proxyUrl || 'https://bluejax-ml-proxy-2026.loca.lt';
             const proxySecret = liveData?.proxySecret || 'bluejax-ml-proxy-2026';
 
-            // Build ML URL for the proxy
+            // Build scraper URLs
             const op = listingType.toUpperCase() === 'RENT' ? 'renta' : 'venta';
             const citySlug = (city && city !== 'All' ? city : 'chihuahua').toLowerCase().replace(/\s+/g, '-');
             let mlPath = `inmuebles/${op}`;
@@ -111,19 +125,16 @@ export default function IntelligenceDashboard() {
             let mlUrl = `https://inmuebles.mercadolibre.com.mx/${mlPath}/chihuahua/${citySlug}/`;
             if (page > 1) mlUrl += `_Desde_${(page - 1) * ITEMS_PER_PAGE + 1}`;
 
-            // Build I24 URL
             const i24TypeMap: Record<string, string> = { HOUSE: 'casas', APARTMENT: 'departamentos', LAND: 'terrenos', COMMERCIAL: 'locales-comerciales' };
             const i24TypeSlug = i24TypeMap[propertyType?.toUpperCase()] || 'inmuebles';
             const i24Url = `https://www.inmuebles24.com/${i24TypeSlug}-en-${op}-en-${citySlug}.html`;
 
-            // Build Lamudi URL
             const lamudiOp = listingType.toUpperCase() === 'RENT' ? 'for-rent' : 'for-sale';
             const lamudiTypeMap: Record<string, string> = { HOUSE: 'house', APARTMENT: 'apartment', LAND: 'land', COMMERCIAL: 'commercial' };
             const lamudiTypeStr = propertyType !== 'ALL' ? lamudiTypeMap[propertyType.toUpperCase()] : '';
             const lamudiTypePath = lamudiTypeStr ? `${lamudiTypeStr}/` : '';
             const lamudiUrl = `https://www.lamudi.com.mx/chihuahua/${citySlug}-1/${lamudiTypePath}${lamudiOp}/`;
 
-            // Build Vivanuncios URL
             const vivaTypeMap: Record<string, string> = { HOUSE: 'casas', APARTMENT: 'departamentos', LAND: 'terrenos', COMMERCIAL: 'locales-comerciales' };
             const vivaTypeSlug = vivaTypeMap[propertyType?.toUpperCase()] || 'inmuebles';
             const vivaUrl = `https://www.vivanuncios.com.mx/${vivaTypeSlug}-en-${op}-en-${citySlug}.html`;
@@ -135,10 +146,7 @@ export default function IntelligenceDashboard() {
                         const res = await fetch(url, options);
                         if (res.ok) {
                             const data = await res.json();
-                            // Cache successful results
-                            try {
-                                localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() }));
-                            } catch { }
+                            try { localStorage.setItem(cacheKey, JSON.stringify({ data, ts: Date.now() })); } catch { }
                             return data;
                         }
                     } catch (e) {
@@ -146,13 +154,9 @@ export default function IntelligenceDashboard() {
                     }
                     if (i < retries - 1) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, i)));
                 }
-                // Fallback to cached data (max 30 min old)
                 try {
                     const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
-                    if (cached && Date.now() - cached.ts < 30 * 60 * 1000) {
-                        console.log(`[PROXY] Using cached data for ${cacheKey} (${Math.round((Date.now() - cached.ts) / 60000)}min old)`);
-                        return cached.data;
-                    }
+                    if (cached && Date.now() - cached.ts < 30 * 60 * 1000) return cached.data;
                 } catch { }
                 return { listings: [] };
             };
@@ -163,141 +167,59 @@ export default function IntelligenceDashboard() {
                 sources: { ...prev.sources, 'Mercado Libre': 'loading', 'Inmuebles24': 'loading', 'Lamudi': 'loading', 'Vivanuncios': 'loading' },
             }));
 
-            // Helper: fetch + update progress for a single source
-            const fetchSource = async (name: string, url: string): Promise<any> => {
+            // Normalizer for each source
+            const normalize = (items: any[], sourceName: string) =>
+                items.map((l: any) => ({
+                    ...l,
+                    id: l.id || `${sourceName.toLowerCase().replace(/\s/g, '-')}-${Math.random().toString(36).slice(2, 8)}`,
+                    source: l.source || sourceName,
+                    state: 'Chihuahua',
+                    city: l.city || citySlug,
+                    address: l.address || l.location || '',
+                    status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
+                    imageUrl: l.imageUrl || l.images?.[0] || '',
+                    images: l.images || (l.imageUrl ? [l.imageUrl] : []),
+                }));
+
+            // Helper: fetch a source and immediately append results
+            const fetchAndAppend = async (name: string, portal: string, url: string, timeout: number) => {
                 try {
-                    const data = await fetchWithRetry(url, {
-                        headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                        signal: AbortSignal.timeout(name === 'Mercado Libre' ? 25000 : 50000),
-                    });
+                    const data = await fetchWithRetry(
+                        `${proxyUrl}/scrape?portal=${portal}&url=${encodeURIComponent(url)}`,
+                        { headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' }, signal: AbortSignal.timeout(timeout) },
+                    );
+                    const items = normalize(data?.listings || [], name);
+                    if (items.length > 0) {
+                        setListings(prev => [...prev, ...items]);
+                        // Update source cards with new totals
+                        setListings(current => {
+                            updateSourceCards(current);
+                            return current;
+                        });
+                    }
                     setLoadProgress(prev => ({
                         ...prev,
                         completed: prev.completed + 1,
                         sources: { ...prev.sources, [name]: 'done' },
                     }));
-                    return { status: 'fulfilled', value: data };
+                    console.log(`[Intelligence] ${name}: ${items.length} listings`);
                 } catch (e) {
                     setLoadProgress(prev => ({
                         ...prev,
                         completed: prev.completed + 1,
                         sources: { ...prev.sources, [name]: 'error' },
                     }));
-                    return { status: 'rejected', reason: e };
+                    console.log(`[Intelligence] ${name}: failed`, e);
                 }
             };
 
-            // Fetch all proxy scrapers in parallel with individual progress tracking
-            const [mlData, i24Data, lamudiData, vivaData] = await Promise.all([
-                fetchSource('Mercado Libre', `${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`),
-                fetchSource('Inmuebles24', `${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`),
-                fetchSource('Lamudi', `${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`),
-                fetchSource('Vivanuncios', `${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`),
+            // Fire all scrapers in parallel — each appends results as it finishes
+            await Promise.all([
+                fetchAndAppend('Mercado Libre', 'ml', mlUrl, 25000),
+                fetchAndAppend('Inmuebles24', 'inmuebles24', i24Url, 50000),
+                fetchAndAppend('Lamudi', 'lamudi', lamudiUrl, 50000),
+                fetchAndAppend('Vivanuncios', 'vivanuncios', vivaUrl, 50000),
             ]);
-
-            const mlListings = (mlData.status === 'fulfilled' ? mlData.value?.listings : []) || [];
-            const i24Listings = (i24Data.status === 'fulfilled' ? i24Data.value?.listings : []) || [];
-            const lamudiListings = (lamudiData.status === 'fulfilled' ? lamudiData.value?.listings : []) || [];
-            const vivaListings = (vivaData.status === 'fulfilled' ? vivaData.value?.listings : []) || [];
-            console.log(`[Intelligence] Sources loaded: ML=${mlListings.length}, I24=${i24Listings.length}, Lamudi=${lamudiListings.length}, Viva=${vivaListings.length}`);
-
-            // Normalize ML listings
-            const normalizedML = mlListings.map((l: any) => ({
-                id: l.id, title: l.title, price: l.price, currency: l.currency || 'MXN',
-                address: l.location || citySlug, city: citySlug, state: 'Chihuahua',
-                status: listingType.toUpperCase() === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE',
-                imageUrl: l.imageUrl || l.images?.[0] || '', images: l.images || [],
-                source: 'Mercado Libre', sourceUrl: l.url || '',
-                propertyType: propertyType !== 'ALL' ? propertyType.toUpperCase() : 'HOUSE',
-                attributes: l.attributes || [], fetchedAt: new Date().toISOString(),
-            }));
-
-            // Normalize I24 listings (ensure status field exists)
-            const normalizedI24 = i24Listings.map((l: any) => ({
-                ...l,
-                source: l.source || 'Inmuebles24',
-                state: 'Chihuahua',
-                city: l.city || citySlug,
-                status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
-            }));
-
-            // Normalize Lamudi listings
-            const normalizedLamudi = lamudiListings.map((l: any) => ({
-                ...l,
-                source: l.source || 'Lamudi',
-                state: 'Chihuahua',
-                city: l.city || citySlug,
-                status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
-            }));
-
-            // Normalize Vivanuncios listings
-            const normalizedViva = vivaListings.map((l: any) => ({
-                ...l,
-                source: l.source || 'Vivanuncios',
-                state: 'Chihuahua',
-                city: l.city || citySlug,
-                status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
-            }));
-
-            // Merge all sources — ensure FB listings have source set
-            const serverListings = (liveData?.listings || []).map((l: any) => ({
-                ...l,
-                source: l.source || 'Facebook Marketplace',
-            }));
-            let allListings = [...serverListings, ...normalizedML, ...normalizedI24, ...normalizedLamudi, ...normalizedViva];
-
-            // Shuffle listings so all sources show up mixed on the first page
-            allListings = allListings.sort(() => Math.random() - 0.5);
-
-            if (allListings.length > 0) {
-                setListings(allListings);
-                const hasMore = normalizedML.length >= ITEMS_PER_PAGE || normalizedI24.length >= ITEMS_PER_PAGE || normalizedLamudi.length >= ITEMS_PER_PAGE || normalizedViva.length >= ITEMS_PER_PAGE;
-                const pages = hasMore ? Math.max(liveData?.totalPages || 1, page + 3) : (liveData?.totalPages || Math.ceil(allListings.length / ITEMS_PER_PAGE) || 1);
-                setTotalPages(pages);
-                setTotalListings(allListings.length);
-                setCurrentPage(page);
-
-
-                const getLabel = () => {
-                    let label = 'propiedades';
-                    if (propertyType === 'HOUSE') label = 'casas';
-                    if (propertyType === 'APARTMENT') label = 'departamentos';
-                    if (propertyType === 'COMMERCIAL') label = 'propiedades comerciales';
-                    if (propertyType === 'LAND') label = 'terrenos';
-
-                    let opLabel = '';
-                    if (listingType === 'SALE') opLabel = 'en venta';
-                    if (listingType === 'RENT') opLabel = 'en renta';
-
-                    return `${label} ${opLabel}`.trim();
-                };
-
-                const fbCount = allListings.filter((l: any) => l.source === 'Facebook Marketplace').length;
-                if (fbCount > 0) {
-                    setFbStatus('done');
-                    setFbResult(`${fbCount} ${getLabel()} Facebook`);
-                }
-
-                const mlCount = allListings.filter((l: any) => l.source === 'Mercado Libre').length;
-                if (mlCount > 0) {
-                    setCrawlStatus('done');
-                    setCrawlResult(`${mlCount} ${getLabel()} Mercado Libre`);
-                }
-
-                const i24Count = allListings.filter((l: any) => l.source === 'Inmuebles24').length;
-                if (i24Count > 0) {
-                    console.log(`[Intelligence] Inmuebles24: ${i24Count} listings`);
-                }
-
-                // Auto-generate source summary cards from actual data
-                const sourceNames = ['Facebook Marketplace', 'Mercado Libre', 'Inmuebles24', 'Lamudi', 'Vivanuncios'];
-                const newSources = sourceNames
-                    .map(name => {
-                        const count = allListings.filter((l: any) => (l.source || '').includes(name.split(' ')[0])).length;
-                        return { name, count, enabled: !disabledSources.has(name) };
-                    })
-                    .filter(s => s.count > 0);
-                setSources(newSources);
-            }
 
         } catch (error) {
             console.error('Failed to fetch intelligence data:', error);
