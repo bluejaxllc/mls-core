@@ -19,6 +19,13 @@ export default function IntelligenceDashboard() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
+    // Loading progress tracking
+    const [loadProgress, setLoadProgress] = useState<{
+        completed: number;
+        total: number;
+        sources: Record<string, 'pending' | 'loading' | 'done' | 'error'>;
+    }>({ completed: 0, total: 5, sources: {} });
+
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -56,6 +63,19 @@ export default function IntelligenceDashboard() {
         try {
             const token = (session as any)?.accessToken;
 
+            // Reset progress
+            setLoadProgress({
+                completed: 0,
+                total: 5,
+                sources: {
+                    'Facebook': 'loading',
+                    'Mercado Libre': 'pending',
+                    'Inmuebles24': 'pending',
+                    'Lamudi': 'pending',
+                    'Vivanuncios': 'pending',
+                },
+            });
+
             // Build query params from all active filters (source filter is client-side only)
             const params = new URLSearchParams();
             if (city !== 'All') params.set('city', city);
@@ -70,6 +90,12 @@ export default function IntelligenceDashboard() {
             const liveData = await fetch(`${API_URL}/api/listings/live?${params.toString()}`)
                 .then(r => r.ok ? r.json() : { listings: [] })
                 .catch(() => ({ listings: [] }));
+
+            setLoadProgress(prev => ({
+                ...prev,
+                completed: 1,
+                sources: { ...prev.sources, 'Facebook': 'done' },
+            }));
 
             // Phase 2: Fetch ML + I24 directly from home proxy via browser
             // (Vercel functions CAN'T reach Cloudflare tunnels — must use client-side)
@@ -131,24 +157,41 @@ export default function IntelligenceDashboard() {
                 return { listings: [] };
             };
 
-            // Fetch ML, I24, Lamudi, Vivanuncios from proxy in parallel (direct browser-to-proxy)
-            const [mlData, i24Data, lamudiData, vivaData] = await Promise.allSettled([
-                fetchWithRetry(`${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`, {
-                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(25000),
-                }),
-                fetchWithRetry(`${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`, {
-                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(50000),
-                }),
-                fetchWithRetry(`${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`, {
-                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(50000),
-                }),
-                fetchWithRetry(`${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`, {
-                    headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
-                    signal: AbortSignal.timeout(50000),
-                }),
+            // Mark proxy sources as loading
+            setLoadProgress(prev => ({
+                ...prev,
+                sources: { ...prev.sources, 'Mercado Libre': 'loading', 'Inmuebles24': 'loading', 'Lamudi': 'loading', 'Vivanuncios': 'loading' },
+            }));
+
+            // Helper: fetch + update progress for a single source
+            const fetchSource = async (name: string, url: string): Promise<any> => {
+                try {
+                    const data = await fetchWithRetry(url, {
+                        headers: { 'x-proxy-secret': proxySecret, 'Bypass-Tunnel-Reminder': 'true' },
+                        signal: AbortSignal.timeout(name === 'Mercado Libre' ? 25000 : 50000),
+                    });
+                    setLoadProgress(prev => ({
+                        ...prev,
+                        completed: prev.completed + 1,
+                        sources: { ...prev.sources, [name]: 'done' },
+                    }));
+                    return { status: 'fulfilled', value: data };
+                } catch (e) {
+                    setLoadProgress(prev => ({
+                        ...prev,
+                        completed: prev.completed + 1,
+                        sources: { ...prev.sources, [name]: 'error' },
+                    }));
+                    return { status: 'rejected', reason: e };
+                }
+            };
+
+            // Fetch all proxy scrapers in parallel with individual progress tracking
+            const [mlData, i24Data, lamudiData, vivaData] = await Promise.all([
+                fetchSource('Mercado Libre', `${proxyUrl}/scrape?portal=ml&url=${encodeURIComponent(mlUrl)}`),
+                fetchSource('Inmuebles24', `${proxyUrl}/scrape?portal=inmuebles24&url=${encodeURIComponent(i24Url)}`),
+                fetchSource('Lamudi', `${proxyUrl}/scrape?portal=lamudi&url=${encodeURIComponent(lamudiUrl)}`),
+                fetchSource('Vivanuncios', `${proxyUrl}/scrape?portal=vivanuncios&url=${encodeURIComponent(vivaUrl)}`),
             ]);
 
             const mlListings = (mlData.status === 'fulfilled' ? mlData.value?.listings : []) || [];
