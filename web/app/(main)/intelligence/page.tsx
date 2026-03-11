@@ -249,6 +249,20 @@ export default function IntelligenceDashboard() {
                     : Promise.resolve(),
             ]);
 
+            // Auto-save all scraped listings to the database (fire-and-forget)
+            setListings(currentListings => {
+                if (currentListings.length > 0) {
+                    fetch(`${API_URL}/api/intelligence/save-scraped`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                        body: JSON.stringify({ listings: currentListings }),
+                    }).then(r => r.json())
+                      .then(d => console.log(`[Intelligence] Auto-saved: ${d.saved} new, ${d.skipped} existing`))
+                      .catch(e => console.warn('[Intelligence] Auto-save failed:', e.message));
+                }
+                return currentListings; // Return unchanged
+            });
+
         } catch (error) {
             console.error('Failed to fetch intelligence data:', error);
         } finally {
