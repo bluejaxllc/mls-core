@@ -440,13 +440,15 @@ async function scrapeVivanuncios(url) {
 }
 
 // ── Facebook Marketplace Scraper via Puppeteer Stealth ──────────────────
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const FB_PROFILE_DIR = path.join(__dirname, 'fb-profile');
+
 let stealthBrowser = null;
 async function getStealthBrowser() {
     if (!stealthBrowser || !stealthBrowser.connected) {
-        console.log('[Facebook] Launching stealth browser with Chrome profile...');
-        const userDataDir = process.env.CHROME_USER_DATA || (process.platform === 'win32'
-            ? `${process.env.LOCALAPPDATA}\\Google\\Chrome\\User Data`
-            : `${process.env.HOME}/.config/google-chrome`);
+        console.log(`[Facebook] Launching stealth browser with profile: ${FB_PROFILE_DIR}`);
         stealthBrowser = await puppeteerExtra.launch({
             headless: 'new',
             args: [
@@ -454,13 +456,11 @@ async function getStealthBrowser() {
                 '--disable-setuid-sandbox',
                 '--disable-blink-features=AutomationControlled',
                 '--window-size=1920,1080',
-                `--user-data-dir=${userDataDir}`,
-                '--profile-directory=Default',
+                `--user-data-dir=${FB_PROFILE_DIR}`,
             ],
-            // Ignore the "not default browser" dialog
             ignoreDefaultArgs: ['--enable-automation'],
         });
-        console.log('[Facebook] Stealth browser launched with user profile.');
+        console.log('[Facebook] Stealth browser launched with dedicated profile.');
     }
     return stealthBrowser;
 }
