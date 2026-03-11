@@ -552,9 +552,33 @@ async function scrapeFacebook(url, limit = 100) {
                     const price = texts.find(t => t.includes('$')) || null;
                     const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0, 6);
                     const loc = texts.find(t => (t.includes(',') || t.length > 3) && !t.includes('$') && t !== title) || null;
-                    const img = c.querySelector('img');
-                    let imgUrl = img?.src || null;
-                    if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
+                    // Comprehensive image extraction for Facebook's lazy-loaded images
+                    let imgUrl = null;
+                    // Check all img elements in the card
+                    const imgs = c.querySelectorAll('img');
+                    for (const img of imgs) {
+                        // Try src first
+                        if (img.src && !img.src.startsWith('data:') && !img.src.includes('.svg') && img.src.startsWith('http')) {
+                            imgUrl = img.src; break;
+                        }
+                        // Try srcset (Facebook often uses this)
+                        const srcset = img.getAttribute('srcset');
+                        if (srcset) {
+                            const firstSrc = srcset.split(',')[0].trim().split(' ')[0];
+                            if (firstSrc && firstSrc.startsWith('http')) { imgUrl = firstSrc; break; }
+                        }
+                        // Try data-src
+                        const dataSrc = img.getAttribute('data-src');
+                        if (dataSrc && dataSrc.startsWith('http')) { imgUrl = dataSrc; break; }
+                    }
+                    // Fallback: check CSS background-image on card elements
+                    if (!imgUrl) {
+                        const bgEls = c.querySelectorAll('[style*="background"]');
+                        for (const el of bgEls) {
+                            const bgMatch = el.style.backgroundImage?.match(/url\(["']?(https:\/\/[^"')]+)["']?\)/);
+                            if (bgMatch) { imgUrl = bgMatch[1]; break; }
+                        }
+                    }
                     results.push({ id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
                 });
                 return results;
