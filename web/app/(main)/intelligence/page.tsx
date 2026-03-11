@@ -59,6 +59,19 @@ export default function IntelligenceDashboard() {
 
     const ITEMS_PER_PAGE = perPage;
 
+    // Helper: update source cards from current listings
+    const updateSourceCards = (allListings: any[]) => {
+        const sourceNames = ['Facebook Marketplace', 'Mercado Libre', 'Inmuebles24', 'Lamudi', 'Vivanuncios'];
+        const newSources = sourceNames
+            .map(name => {
+                const count = allListings.filter((l: any) => (l.source || '').includes(name.split(' ')[0])).length;
+                return { name, count, enabled: !disabledSources.has(name) };
+            })
+            .filter(s => s.count > 0);
+        setSources(newSources);
+        setTotalListings(allListings.length);
+    };
+
     const fetchData = async (page = currentPage) => {
         try {
             const token = (session as any)?.accessToken;
@@ -395,16 +408,7 @@ export default function IntelligenceDashboard() {
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <select
-                        value={perPage}
-                        onChange={(e) => { setPerPage(Number(e.target.value)); setCurrentPage(1); }}
-                        className="h-9 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground"
-                        title="Propiedades por página"
-                    >
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                    </select>
+
                     <AnimatedButton
                         variant="secondary"
                         onClick={() => {
@@ -739,10 +743,22 @@ export default function IntelligenceDashboard() {
                             </div>
                         )}
 
-                        {/* Page Info */}
-                        <div className="text-center text-xs text-muted-foreground pt-1">
-                            Página {currentPage} de {filteredTotalPages} • {filteredListings.length} propiedades
-                            {fbStatus === 'done' && ` • ${fbResult}`}
+                        {/* Page Info + Per-Page Selector */}
+                        <div className="flex items-center justify-center gap-4 pt-1">
+                            <span className="text-xs text-muted-foreground">
+                                Página {currentPage} de {filteredTotalPages} • {filteredListings.length} propiedades
+                                {fbStatus === 'done' && ` • ${fbResult}`}
+                            </span>
+                            <select
+                                value={perPage}
+                                onChange={(e) => { setPerPage(Number(e.target.value)); setCurrentPage(1); }}
+                                className="h-7 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground"
+                                title="Propiedades por página"
+                            >
+                                <option value={25}>25 / página</option>
+                                <option value={50}>50 / página</option>
+                                <option value={100}>100 / página</option>
+                            </select>
                         </div>
                     </div>
                 )}
