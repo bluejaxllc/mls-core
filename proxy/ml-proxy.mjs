@@ -482,41 +482,42 @@ async function scrapeFacebookViaMCP(url, limit = 50) {
         if (!tabIdMatch) throw new Error('Could not find active BrowserOS tab');
         const tabId = parseInt(tabIdMatch[1]);
 
-        // Scroll 8x to load more listings (forces FB to fetch beyond the 24 limit)
+        // Initialize global storage to bypass Facebook's virtual DOM removing properties
+        await mcpCall('browser_execute_javascript', { tabId, code: 'window.__fbListings = new Map();' });
+
+        // Scroll 8x and extract at each step to prevent losing virtualized items
         for (let i = 0; i < 8; i++) {
-            const scrollTrick = `
-                const items = document.querySelectorAll('a[href*="/marketplace/item/"]');
-                if (items.length > 0) items[items.length - 1].scrollIntoView({behavior: "smooth", block: "end"});
-                window.scrollBy(0, 500);
+            const extractAndScrollTrick = `
+                (() => {
+                    document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
+                        const href = link.getAttribute('href') || '';
+                        const m = href.match(/\\/marketplace\\/item\\/(\\d+)/);
+                        if (!m) return;
+                        const id = m[1];
+                        if (window.__fbListings.has(id)) return;
+                        const c = link.closest('[class]') || link;
+                        const spans = c.querySelectorAll('span');
+                        const texts = [];
+                        spans.forEach(s => { const t = s.textContent?.trim(); if (t && t.length > 0 && t.length < 300) texts.push(t); });
+                        const price = texts.find(t => t.includes('$')) || null;
+                        const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0,6);
+                        const loc = texts.find(t => (t.includes(',') || t.includes('Chihuahua') || t.includes('Juárez')) && !t.includes('$') && t !== title) || null;
+                        const img = c.querySelector('img');
+                        let imgUrl = img?.src || null;
+                        if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
+                        window.__fbListings.set(id, { id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
+                    });
+                    const items = document.querySelectorAll('a[href*="/marketplace/item/"]');
+                    if (items.length > 0) items[items.length - 1].scrollIntoView({behavior: "smooth", block: "end"});
+                    window.scrollBy(0, 500);
+                })();
             `;
-            await mcpCall('browser_execute_javascript', { tabId, code: scrollTrick });
+            await mcpCall('browser_execute_javascript', { tabId, code: extractAndScrollTrick });
             await new Promise(r => setTimeout(r, 1500));
         }
 
-        // Extract listings
-        const extractCode = `(() => {
-            const listings = []; const seen = new Set();
-            document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
-                const href = link.getAttribute('href') || '';
-                const m = href.match(/\\/marketplace\\/item\\/(\\d+)/);
-                if (!m || seen.has(m[1])) return;
-                seen.add(m[1]);
-                const id = m[1], c = link.closest('[class]') || link;
-                const spans = c.querySelectorAll('span');
-                const texts = [];
-                spans.forEach(s => { const t = s.textContent?.trim(); if (t && t.length > 0 && t.length < 300) texts.push(t); });
-                const price = texts.find(t => t.includes('$')) || null;
-                const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0,6);
-                const loc = texts.find(t => (t.includes(',') || t.includes('Chihuahua') || t.includes('Juárez')) && !t.includes('$') && t !== title) || null;
-                const img = c.querySelector('img');
-                let imgUrl = img?.src || null;
-                if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
-                listings.push({ id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
-            });
-            return JSON.stringify(listings);
-        })()`;
-
-        const rawResult = await mcpCall('browser_execute_javascript', { tabId, code: extractCode });
+        // Final extraction of accumulated items
+        const rawResult = await mcpCall('browser_execute_javascript', { tabId, code: 'JSON.stringify(Array.from(window.__fbListings.values()))' });
 
         // Parse MCP text wrapper
         let jsonStr = rawResult;
