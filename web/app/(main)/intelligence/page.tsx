@@ -415,17 +415,7 @@ export default function IntelligenceDashboard() {
         fetchData(1);
     };
 
-    // Seed handler for demo purposes
-    const handleSeed = async () => {
-        setRefreshing(true);
-        try {
-            await authFetch('/api/intelligence/debug/seed', {}, (session as any)?.accessToken);
-            setTimeout(fetchData, 1000); // Wait a bit for DB
-        } catch (e) {
-            console.error('Seed failed', e);
-            setRefreshing(false);
-        }
-    };
+
 
     // Client-side secondary filter (API already handles city/propertyType/price)
     const filteredListings = listings.filter((item) => {
@@ -530,9 +520,50 @@ export default function IntelligenceDashboard() {
                         <RefreshCw className={`w-4 h-4 ${refreshing || crawlStatus === 'crawling' ? 'animate-spin' : ''}`} />
                         Actualizar
                     </AnimatedButton>
-                </div>
             </div>
 
+            {/* Loading Progress Bar */}
+            {loading && Object.keys(loadProgress.sources).length > 0 && (
+                <div className="bg-card border border-blue-500/10 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium text-foreground">
+                            Recopilando datos de {loadProgress.total} fuentes...
+                        </p>
+                        <span className="text-xs text-muted-foreground font-mono">
+                            {loadProgress.completed}/{loadProgress.total}
+                        </span>
+                    </div>
+                    {/* Progress bar */}
+                    <div className="h-2 bg-muted/50 rounded-full overflow-hidden">
+                        <div
+                            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500 ease-out"
+                            style={{ width: `${(loadProgress.completed / loadProgress.total) * 100}%` }}
+                        />
+                    </div>
+                    {/* Source status chips */}
+                    <div className="flex flex-wrap gap-2">
+                        {Object.entries(loadProgress.sources).map(([name, status]) => (
+                            <span
+                                key={name}
+                                className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full font-medium transition-all ${
+                                    status === 'done' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+                                    status === 'error' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
+                                    status === 'loading' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                    'bg-muted/50 text-muted-foreground border border-transparent'
+                                }`}
+                            >
+                                {status === 'done' && '✓'}
+                                {status === 'error' && '✗'}
+                                {status === 'loading' && (
+                                    <span className="inline-block w-3 h-3 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                                )}
+                                {status === 'pending' && '○'}
+                                {name}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
             {/* Crawl Status Banner */}
             {crawlStatus !== 'idle' && (
                 <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${crawlStatus === 'crawling' ? 'bg-blue-500/10 text-blue-500 border border-blue-500/20' :
