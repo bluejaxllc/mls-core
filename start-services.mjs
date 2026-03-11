@@ -73,7 +73,7 @@ function startTunnel() {
         log(`🌐 Starting localtunnel (${TUNNEL_URL})...`);
         const tunnelLog = createWriteStream(PROXY_DIR + '/tunnel.log');
 
-        const tunnel = spawn('npx', ['-y', 'localtunnel', '--port', String(PROXY_PORT), '--subdomain', TUNNEL_SUBDOMAIN], {
+        const tunnel = spawn('npx', ['-y', 'localtunnel', '--port', String(PROXY_PORT), '--subdomain', TUNNEL_SUBDOMAIN, '--local-host', '127.0.0.1'], {
             cwd: ROOT,
             stdio: ['ignore', 'pipe', 'pipe'],
             shell: true,

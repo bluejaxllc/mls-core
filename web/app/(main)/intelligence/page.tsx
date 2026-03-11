@@ -9,7 +9,7 @@ import { SourceCard } from '@/components/intelligence/SourceCard';
 import { ObservedListingCard } from '@/components/intelligence/ObservedListingCard';
 
 const API_URL = '';
-const ITEMS_PER_PAGE = 12;
+const DEFAULT_PER_PAGE = 50;
 
 export default function IntelligenceDashboard() {
     const { t } = useLanguage();
@@ -38,6 +38,7 @@ export default function IntelligenceDashboard() {
     const [maxPrice, setMaxPrice] = useState('');
     const [source, setSource] = useState('All');
     const [disabledSources, setDisabledSources] = useState<Set<string>>(new Set());
+    const [perPage, setPerPage] = useState(DEFAULT_PER_PAGE);
 
     // ML Crawl state
     const [crawlStatus, setCrawlStatus] = useState<'idle' | 'crawling' | 'done' | 'error' | 'not_auth'>('idle');
@@ -49,7 +50,7 @@ export default function IntelligenceDashboard() {
     const [fbResult, setFbResult] = useState<string>('');
     const fbTriggered = useRef(false);
 
-    const ITEMS_PER_PAGE = 12;
+    const ITEMS_PER_PAGE = perPage;
 
     const fetchData = async (page = currentPage) => {
         try {
@@ -357,7 +358,7 @@ export default function IntelligenceDashboard() {
             fetchData(1);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [city, propertyType, minPrice, maxPrice, listingType, source]);
+    }, [city, propertyType, minPrice, maxPrice, listingType, source, perPage]);
 
     const handleRefresh = () => {
         setRefreshing(true);
@@ -421,9 +422,8 @@ export default function IntelligenceDashboard() {
         });
     };
 
-    // We no longer slice the list for paginated requests (since server handles it),
-    // but we still apply client-side filtering on the returned chunk if any
-    const paginatedListings = filteredListings;
+    // Slice to perPage for display
+    const paginatedListings = filteredListings.slice(0, perPage);
     const filteredTotalPages = Math.max(totalPages, Math.ceil(filteredListings.length / ITEMS_PER_PAGE) || 1);
 
     return (
@@ -436,7 +436,17 @@ export default function IntelligenceDashboard() {
                         Propiedades detectadas automáticamente por crawlers y agentes de vigilancia.
                     </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
+                    <select
+                        value={perPage}
+                        onChange={(e) => { setPerPage(Number(e.target.value)); setCurrentPage(1); }}
+                        className="h-9 text-xs border border-blue-500/20 rounded-md px-2 bg-muted/50 text-foreground"
+                        title="Propiedades por página"
+                    >
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
                     <AnimatedButton
                         variant="secondary"
                         onClick={() => {
