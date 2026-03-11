@@ -50,14 +50,17 @@ model Listing {
   state          String?
   zipCode        String?
   propertyType   String   @default("commercial")
-  status         String // DRAFT, ACTIVE, etc.
+  status         String // DRAFT, ACTIVE, DETECTED_SALE, DETECTED_RENT, etc.
   price          Float?
-  source         String // MANUAL, MLS_FEED
+  source         String // MANUAL, MLS_FEED, Facebook Marketplace, Mercado Libre, etc.
   sourceId       String?
+  sourceUrl      String?  // URL on the original source website
+  listingType    String?  // SALE, RENT
   ownerId        String? // Reference to User.id (Broker/Agent)
   brokerId       String? // Organization/Brokerage ID
   trustScore     Int      @default(50)
   lastVerifiedAt DateTime @default(now())
+  scrapedAt      DateTime? // When this was scraped (null for manual entries)
   createdAt      DateTime @default(now())
 
   // Rich Content
@@ -68,6 +71,11 @@ model Listing {
 
   updatedAt   DateTime      @updatedAt
   Appointment Appointment[]
+
+  @@unique([sourceId, source], name: "unique_source_listing")
+  @@index([source])
+  @@index([city])
+  @@index([status])
 }
 
 model AuditLog {
