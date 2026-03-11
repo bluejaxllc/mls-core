@@ -66,8 +66,7 @@ export default function IntelligenceDashboard() {
             .map(name => {
                 const count = allListings.filter((l: any) => (l.source || '').includes(name.split(' ')[0])).length;
                 return { name, count, enabled: !disabledSources.has(name) };
-            })
-            .filter(s => s.count > 0);
+            });
         setSources(newSources);
         setTotalListings(allListings.length);
     };
