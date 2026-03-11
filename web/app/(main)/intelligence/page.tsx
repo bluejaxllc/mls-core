@@ -99,30 +99,24 @@ export default function IntelligenceDashboard() {
             params.set('page', page.toString());
             params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // Phase 1: Get FB data from Vercel API
+            // Phase 1: Get initial data from Vercel API (Mercado Libre via ZenRows)
             const liveData = await fetch(`${API_URL}/api/listings/live?${params.toString()}`)
                 .then(r => r.ok ? r.json() : { listings: [] })
                 .catch(() => ({ listings: [] }));
 
-            // Ensure FB listings have source set
-            const serverListings = (liveData?.listings || []).map((l: any) => ({
-                ...l,
-                source: l.source || 'Facebook Marketplace',
-            }));
+            const serverListings = liveData?.listings || [];
 
             setLoadProgress(prev => ({
                 ...prev,
                 completed: 1,
-                sources: { ...prev.sources, 'Facebook': 'done' },
             }));
 
-            // Show FB results immediately — stop the loading spinner
+            // Show initial API results immediately
             if (serverListings.length > 0) {
-                const shuffled = [...serverListings].sort(() => Math.random() - 0.5);
-                setListings(shuffled);
-                setTotalListings(shuffled.length);
+                setListings(serverListings);
+                setTotalListings(serverListings.length);
                 setCurrentPage(page);
-                updateSourceCards(shuffled);
+                updateSourceCards(serverListings);
             }
             setLoading(false);
 
@@ -210,13 +204,16 @@ export default function IntelligenceDashboard() {
                     const items = normalize(data?.listings || [], name);
                     if (items.length > 0) {
                         setListings(prev => {
-                            const combined = [...prev, ...items];
-                            return combined.sort(() => Math.random() - 0.5);
-                        });
-                        // Update source cards with new totals
-                        setListings(current => {
-                            updateSourceCards(current);
-                            return current;
+                            const newArray = [...prev];
+                            const existingIds = new Set(newArray.map(l => l.id));
+                            items.forEach(item => {
+                                if (!existingIds.has(item.id)) {
+                                    newArray.push(item);
+                                }
+                            });
+                            // Update source cards immediately with new array
+                            updateSourceCards(newArray);
+                            return newArray;
                         });
                     }
                     setLoadProgress(prev => ({
