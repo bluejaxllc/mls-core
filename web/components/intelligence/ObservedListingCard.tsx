@@ -155,7 +155,7 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
         params.set('import', listing.id);
         if (listing.title) params.set('title', listing.title);
         if (listing.price) params.set('price', String(listing.price));
-        if (listing.address || listing.location) params.set('address', listing.address || listing.location || '');
+        if (listing.address || (listing as any).location) params.set('address', listing.address || (listing as any).location || '');
         if (listing.city) params.set('city', listing.city);
         // Pass ALL images as JSON array
         if (allImages.length > 0) params.set('images', JSON.stringify(allImages));
