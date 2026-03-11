@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && next build",
+    "build": "cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && prisma db push --schema=prisma/schema.prisma --accept-data-loss && next build",
     "start": "next start",
     "lint": "next lint"
   },
