@@ -4,7 +4,6 @@ import { scrapeInmuebles24 } from '@/lib/integrations/inmuebles24';
 import { scrapeLamudi } from '@/lib/integrations/lamudi';
 import { scrapeVivanuncios } from '@/lib/integrations/vivanuncios';
 import crypto from 'crypto';
-import fbDataRaw from './fb-data.json';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60; // Extend Vercel function timeout for scraper calls
@@ -290,46 +289,6 @@ export async function GET(request: Request) {
         const isLamudiSource = !source || source === 'All' || source.includes('Lamudi');
         const isVivaSource = !source || source === 'All' || source.includes('Vivanuncios');
 
-        // ── Pre-process FB bundled data (instant, no network) ──
-        let fbListings: any[] = [];
-        if (isFBSource && fbDataRaw && fbDataRaw.length > 0) {
-            fbListings = (fbDataRaw as any[]).map((item: any) => {
-                let priceNum = 0;
-                if (item.price) {
-                    const clean = String(item.price).replace(/[^0-9.]/g, '');
-                    const parsed = parseFloat(clean);
-                    if (!isNaN(parsed)) priceNum = parsed;
-                }
-                const titleStr = item.title || '';
-                const bedroomMatch = titleStr.match(/(\d+)\s*(?:habitacion|hab|recámara|bed|Bed)/i);
-                const bathroomMatch = titleStr.match(/(\d+)\s*(?:baño|bath|Bath)/i);
-                let detectedType = 'HOUSE';
-                if (/departamento|depa|apartment/i.test(titleStr)) detectedType = 'APARTMENT';
-                else if (/terreno|land|lote/i.test(titleStr)) detectedType = 'LAND';
-                else if (/local|oficina|comercial|bodega/i.test(titleStr)) detectedType = 'COMMERCIAL';
-                let detectedStatus = 'DETECTED_SALE';
-                if (/renta|rento|alquiler/i.test(titleStr)) detectedStatus = 'DETECTED_RENT';
-                return {
-                    id: item.id, title: item.title, price: priceNum, currency: 'MXN',
-                    address: item.address || 'Chihuahua',
-                    city: item.address?.split(',')[0]?.trim() || city,
-                    state: 'Chihuahua', status: detectedStatus, imageUrl: item.imageUrl,
-                    source: 'Facebook Marketplace', sourceUrl: item.url,
-                    propertyType: propertyType ? propertyType.toUpperCase() : detectedType,
-                    bedrooms: bedroomMatch ? parseInt(bedroomMatch[1]) : undefined,
-                    bathrooms: bathroomMatch ? parseInt(bathroomMatch[1]) : undefined,
-                    fetchedAt: item.fetchedAt || new Date().toISOString(),
-                };
-            });
-            // Apply filters
-            if (city && city !== 'All') fbListings = fbListings.filter((l: any) => (l.address || '').toLowerCase().includes(city.toLowerCase()));
-            if (propertyType) fbListings = fbListings.filter((l: any) => l.propertyType === propertyType.toUpperCase());
-            if (listingType) fbListings = fbListings.filter((l: any) => l.status === `DETECTED_${listingType.toUpperCase()}`);
-            if (minPrice) fbListings = fbListings.filter((l: any) => l.price >= parseFloat(minPrice));
-            if (maxPrice) fbListings = fbListings.filter((l: any) => l.price <= parseFloat(maxPrice));
-            console.log(`[LIVE] 📦 Bundled FB data: ${fbListings.length} listings (after filters)`);
-        }
-
         // ── Run parallel scrapes (critical for Vercel timeout) ──
         const [mlResult, i24Result, lamudiResult, vivaResult] = await Promise.allSettled([
             isMLSource
@@ -361,13 +320,13 @@ export async function GET(request: Request) {
         const lamudiListings = lamudiResult.status === 'fulfilled' ? lamudiResult.value : [];
         const vivaListings = vivaResult.status === 'fulfilled' ? vivaResult.value : [];
 
-        console.log(`[LIVE] Sources: ML=${mlListings.length}, FB=${fbListings.length}, I24=${i24Listings.length}, Lamudi=${lamudiListings.length}, Viva=${vivaListings.length}`);
+        console.log(`[LIVE] Sources: ML=${mlListings.length}, I24=${i24Listings.length}, Lamudi=${lamudiListings.length}, Viva=${vivaListings.length}`);
 
         // ── Merge all results ────────────────────────────────
-        let listings = [...mlListings, ...fbListings, ...i24Listings, ...lamudiListings, ...vivaListings];
+        let listings = [...mlListings, ...i24Listings, ...lamudiListings, ...vivaListings];
 
         if (listings.length === 0) {
-            console.log(`[LIVE] 📊 No data from ML, FB, or I24 — returning empty`);
+            console.log(`[LIVE] 📊 No data from ML or I24 — returning empty`);
         }
 
         // Estimate totalPages based on whether we likely have more data
@@ -389,8 +348,8 @@ export async function GET(request: Request) {
             }
         }
 
-        const resultSource = i24Listings.length > 0 ? 'inmuebles24' : lamudiListings.length > 0 ? 'lamudi' : vivaListings.length > 0 ? 'vivanuncios' : fbListings.length > 0 ? 'facebook' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
-        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, FB: ${fbListings.length}, I24: ${i24Listings.length}, Lamudi: ${lamudiListings.length}, Viva: ${vivaListings.length}) returned for page ${page}`);
+        const resultSource = i24Listings.length > 0 ? 'inmuebles24' : lamudiListings.length > 0 ? 'lamudi' : vivaListings.length > 0 ? 'vivanuncios' : mlListings.length > 0 ? 'mercadolibre' : 'generated';
+        console.log(`[LIVE] ✅ ${listings.length} listings (ML: ${mlListings.length}, I24: ${i24Listings.length}, Lamudi: ${lamudiListings.length}, Viva: ${vivaListings.length}) returned for page ${page}`);
 
         // v2: includes proxyUrl + proxySecret for client-side proxy calls
         return NextResponse.json({
