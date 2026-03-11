@@ -118,10 +118,11 @@ export default function IntelligenceDashboard() {
 
             // Show FB results immediately — stop the loading spinner
             if (serverListings.length > 0) {
-                setListings(serverListings);
-                setTotalListings(serverListings.length);
+                const shuffled = [...serverListings].sort(() => Math.random() - 0.5);
+                setListings(shuffled);
+                setTotalListings(shuffled.length);
                 setCurrentPage(page);
-                updateSourceCards(serverListings);
+                updateSourceCards(shuffled);
             }
             setLoading(false);
 
@@ -204,7 +205,10 @@ export default function IntelligenceDashboard() {
                     );
                     const items = normalize(data?.listings || [], name);
                     if (items.length > 0) {
-                        setListings(prev => [...prev, ...items]);
+                        setListings(prev => {
+                            const combined = [...prev, ...items];
+                            return combined.sort(() => Math.random() - 0.5);
+                        });
                         // Update source cards with new totals
                         setListings(current => {
                             updateSourceCards(current);
