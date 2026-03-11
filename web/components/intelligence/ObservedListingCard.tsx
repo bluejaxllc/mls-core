@@ -151,20 +151,25 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
 
     const handleImport = (e: React.MouseEvent) => {
         e.stopPropagation();
-        const params = new URLSearchParams();
-        params.set('import', listing.id);
-        if (listing.title) params.set('title', listing.title);
-        if (listing.price) params.set('price', String(listing.price));
-        if (listing.address || (listing as any).location) params.set('address', listing.address || (listing as any).location || '');
-        if (listing.city) params.set('city', listing.city);
-        // Pass ALL images as JSON array
-        if (allImages.length > 0) params.set('images', JSON.stringify(allImages));
-        if (listing.source) params.set('source', listing.source);
-        if (listing.propertyType) params.set('type', listing.propertyType);
-        if (listing.sourceUrl) params.set('sourceUrl', listing.sourceUrl);
-        if (listing.currency) params.set('currency', listing.currency);
-        if (listing.description) params.set('description', listing.description);
-        router.push(`/listings/new?${params.toString()}`);
+        
+        // Use sessionStorage instead of URL parameters to avoid 414 URI Too Long errors
+        // (Facebook image URLs contain very long access tokens)
+        const importData = {
+            import: listing.id,
+            title: listing.title,
+            price: listing.price ? String(listing.price) : undefined,
+            address: listing.address || (listing as any).location || '',
+            city: listing.city,
+            images: allImages,
+            source: listing.source,
+            type: listing.propertyType,
+            sourceUrl: listing.sourceUrl,
+            currency: listing.currency,
+            description: listing.description
+        };
+        
+        sessionStorage.setItem('mls_pending_import', JSON.stringify(importData));
+        router.push(`/listings/new`);
     };
 
     const handleCardClick = () => {
