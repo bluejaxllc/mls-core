@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '@/lib/i18n';
 import { useSession } from 'next-auth/react';
-import { authFetch } from '@/lib/api';
+// authFetch removed — sources are now auto-generated from scraped data
 import { RefreshCw, Search, CheckCircle2, XCircle, Radio, Filter, ChevronLeft, ChevronRight, Download, Heart } from 'lucide-react';
 import { AnimatedButton } from '@/components/ui/animated';
 import { SourceCard } from '@/components/intelligence/SourceCard';
@@ -15,7 +15,7 @@ export default function IntelligenceDashboard() {
     const { t } = useLanguage();
     const { data: session } = useSession();
     const [listings, setListings] = useState<any[]>([]);
-    const [sources, setSources] = useState<any[]>([]);
+    const [sources, setSources] = useState<{ name: string; count: number; enabled: boolean }[]>([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -55,10 +55,9 @@ export default function IntelligenceDashboard() {
         try {
             const token = (session as any)?.accessToken;
 
-            // Build query params from all active filters
+            // Build query params from all active filters (source filter is client-side only)
             const params = new URLSearchParams();
             if (city !== 'All') params.set('city', city);
-            if (source !== 'All') params.set('source', source);
             if (listingType !== 'ALL') params.set('listingType', listingType.toUpperCase());
             if (propertyType !== 'ALL') params.set('propertyType', propertyType.toLowerCase());
             if (minPrice) params.set('minPrice', minPrice);
@@ -66,11 +65,10 @@ export default function IntelligenceDashboard() {
             params.set('page', page.toString());
             params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // Phase 1: Get FB data from Vercel API + sources (in parallel)
-            const [liveData, sourcesData] = await Promise.all([
-                fetch(`${API_URL}/api/listings/live?${params.toString()}`).then(r => r.ok ? r.json() : { listings: [] }).catch(() => ({ listings: [] })),
-                authFetch('/api/intelligence/sources', {}, token).catch(() => []),
-            ]);
+            // Phase 1: Get FB data from Vercel API
+            const liveData = await fetch(`${API_URL}/api/listings/live?${params.toString()}`)
+                .then(r => r.ok ? r.json() : { listings: [] })
+                .catch(() => ({ listings: [] }));
 
             // Phase 2: Fetch ML + I24 directly from home proxy via browser
             // (Vercel functions CAN'T reach Cloudflare tunnels — must use client-side)
@@ -169,19 +167,31 @@ export default function IntelligenceDashboard() {
                 attributes: l.attributes || [], fetchedAt: new Date().toISOString(),
             }));
 
-            // Normalize I24 listings
+            // Normalize I24 listings (ensure status field exists)
             const normalizedI24 = i24Listings.map((l: any) => ({
-                ...l, source: l.source || 'Inmuebles24', state: 'Chihuahua', city: l.city || citySlug,
+                ...l,
+                source: l.source || 'Inmuebles24',
+                state: 'Chihuahua',
+                city: l.city || citySlug,
+                status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
             }));
 
             // Normalize Lamudi listings
             const normalizedLamudi = lamudiListings.map((l: any) => ({
-                ...l, source: l.source || 'Lamudi', state: 'Chihuahua', city: l.city || citySlug,
+                ...l,
+                source: l.source || 'Lamudi',
+                state: 'Chihuahua',
+                city: l.city || citySlug,
+                status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
             }));
 
             // Normalize Vivanuncios listings
             const normalizedViva = vivaListings.map((l: any) => ({
-                ...l, source: l.source || 'Vivanuncios', state: 'Chihuahua', city: l.city || citySlug,
+                ...l,
+                source: l.source || 'Vivanuncios',
+                state: 'Chihuahua',
+                city: l.city || citySlug,
+                status: l.status || (l.listingType === 'RENT' ? 'DETECTED_RENT' : 'DETECTED_SALE'),
             }));
 
             // Merge all sources
@@ -226,12 +236,21 @@ export default function IntelligenceDashboard() {
                     setCrawlResult(`${mlCount} ${getLabel()} Mercado Libre`);
                 }
 
-                const i24Count = liveData.listings.filter((l: any) => l.source === 'Inmuebles24').length;
+                const i24Count = allListings.filter((l: any) => l.source === 'Inmuebles24').length;
                 if (i24Count > 0) {
                     console.log(`[Intelligence] Inmuebles24: ${i24Count} listings`);
                 }
+
+                // Auto-generate source summary cards from actual data
+                const sourceNames = ['Facebook Marketplace', 'Mercado Libre', 'Inmuebles24', 'Lamudi', 'Vivanuncios'];
+                const newSources = sourceNames
+                    .map(name => {
+                        const count = allListings.filter((l: any) => (l.source || '').includes(name.split(' ')[0])).length;
+                        return { name, count, enabled: !disabledSources.has(name) };
+                    })
+                    .filter(s => s.count > 0);
+                setSources(newSources);
             }
-            if (Array.isArray(sourcesData)) setSources(sourcesData);
 
         } catch (error) {
             console.error('Failed to fetch intelligence data:', error);
@@ -388,22 +407,18 @@ export default function IntelligenceDashboard() {
         return true;
     });
 
-    // Toggle source handler
-    const handleToggleSource = (sourceId: string) => {
-        setSources(prev => prev.map(s => s.id === sourceId ? { ...s, isEnabled: !s.isEnabled } : s));
-        // Find the source name by its id and toggle in disabledSources
-        const src = sources.find(s => s.id === sourceId);
-        if (src) {
-            setDisabledSources(prev => {
-                const next = new Set(prev);
-                if (src.isEnabled) {
-                    next.add(src.name);
-                } else {
-                    next.delete(src.name);
-                }
-                return next;
-            });
-        }
+    // Toggle source handler (now uses source name directly)
+    const handleToggleSource = (sourceName: string) => {
+        setSources(prev => prev.map(s => s.name === sourceName ? { ...s, enabled: !s.enabled } : s));
+        setDisabledSources(prev => {
+            const next = new Set(prev);
+            if (next.has(sourceName)) {
+                next.delete(sourceName);
+            } else {
+                next.add(sourceName);
+            }
+            return next;
+        });
     };
 
     // We no longer slice the list for paginated requests (since server handles it),
@@ -558,7 +573,7 @@ export default function IntelligenceDashboard() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {sources.map(src => (
-                            <SourceCard key={src.id} source={src} onToggle={handleToggleSource} />
+                            <SourceCard key={src.name} source={src} onToggle={handleToggleSource} />
                         ))}
                     </div>
                 )}
@@ -624,13 +639,9 @@ export default function IntelligenceDashboard() {
                                     <option value="All">Todas</option>
                                     <option value="Facebook">Facebook</option>
                                     <option value="Mercado Libre">Mercado Libre</option>
-                                    <option value="Propiedades.com">Propiedades.com</option>
                                     <option value="Inmuebles24">Inmuebles24</option>
                                     <option value="Lamudi">Lamudi</option>
                                     <option value="Vivanuncios">Vivanuncios</option>
-                                    <option value="Century21">Century 21</option>
-                                    <option value="Remax">RE/MAX</option>
-                                    <option value="Coldwell Banker">Coldwell Banker</option>
                                 </select>
                             </div>
                             <div className="space-y-1.5">
