@@ -59,17 +59,28 @@ export default function NewListingPage() {
             const address = searchParams.get('address');
             const city = searchParams.get('city');
             const type = searchParams.get('type');
+            const description = searchParams.get('description');
+            // Support both JSON array of images and single imageUrl (backward compat)
+            const imagesJson = searchParams.get('images');
             const imageUrl = searchParams.get('imageUrl');
+            let importedImages: string[] = [];
+            if (imagesJson) {
+                try { importedImages = JSON.parse(imagesJson); } catch { }
+            }
+            if (importedImages.length === 0 && imageUrl) {
+                importedImages = [imageUrl];
+            }
 
             if (title || price || address) {
                 setFormData(prev => ({
                     ...prev,
                     title: title || prev.title,
-                    price: price || prev.price,
+                    price: price ? String(Math.round(Number(price))) : prev.price,
+                    description: description || prev.description,
                     address: address || prev.address,
                     city: city || prev.city,
                     type: type?.toLowerCase() || prev.type,
-                    images: imageUrl ? [imageUrl] : prev.images,
+                    images: importedImages.length > 0 ? importedImages : prev.images,
                     mapUrl: address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : prev.mapUrl,
                 }));
                 if (address) {
