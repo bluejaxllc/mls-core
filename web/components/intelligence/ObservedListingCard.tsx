@@ -165,7 +165,12 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
     };
 
     const handleCardClick = () => {
-        router.push(`/listings/${listing.id}`);
+        // Scraped listings don't exist in DB — open the source URL directly
+        if (listing.sourceUrl) {
+            window.open(listing.sourceUrl, '_blank');
+        } else {
+            router.push(`/listings/${listing.id}`);
+        }
     };
 
     const handleSourceLink = (e: React.MouseEvent) => {
@@ -329,7 +334,7 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
                             onClick={(e: React.MouseEvent) => { e.stopPropagation(); handleCardClick(); }}
                             className={`flex-1 flex items-center justify-center gap-1.5 text-xs font-medium py-2 px-3 rounded-lg border transition-all ${theme.btnSecondary}`}
                         >
-                            <Eye className="w-3.5 h-3.5" /> Ver Detalle
+                            <ExternalLink className="w-3.5 h-3.5" /> Ver en {theme.label}
                         </button>
                         <button
                             onClick={handleImport}
