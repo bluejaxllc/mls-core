@@ -11,7 +11,11 @@ import http from 'http';
 import puppeteer from 'puppeteer';
 import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import path from 'path';
+import { fileURLToPath } from 'url';
 puppeteerExtra.use(StealthPlugin());
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const PORT = 3004;
 const SECRET = process.env.PROXY_SECRET || 'bluejax-ml-proxy-2026';
@@ -440,9 +444,6 @@ async function scrapeVivanuncios(url) {
 }
 
 // ── Facebook Marketplace Scraper via Puppeteer Stealth ──────────────────
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FB_PROFILE_DIR = path.join(__dirname, 'fb-profile');
 
 let stealthBrowser = null;
