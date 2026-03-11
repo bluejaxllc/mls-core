@@ -546,7 +546,7 @@ async function scrapeFacebookViaMCP(url, limit = 50) {
         console.log(`[Proxy] ✅ BrowserOS FB: ${fbListings.length} listings extracted`);
         return fbListings;
     } catch (e) {
-        throw new Error(\`BrowserOS FB crawl failed: \${e.message}\`);
+        throw new Error(`BrowserOS FB crawl failed: ${e.message}`);
     }
 }
 
