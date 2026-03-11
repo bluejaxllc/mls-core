@@ -155,12 +155,15 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
         params.set('import', listing.id);
         if (listing.title) params.set('title', listing.title);
         if (listing.price) params.set('price', String(listing.price));
-        if (listing.address) params.set('address', listing.address);
+        if (listing.address || listing.location) params.set('address', listing.address || listing.location || '');
         if (listing.city) params.set('city', listing.city);
-        if (allImages[0]) params.set('imageUrl', allImages[0]);
+        // Pass ALL images as JSON array
+        if (allImages.length > 0) params.set('images', JSON.stringify(allImages));
         if (listing.source) params.set('source', listing.source);
         if (listing.propertyType) params.set('type', listing.propertyType);
         if (listing.sourceUrl) params.set('sourceUrl', listing.sourceUrl);
+        if (listing.currency) params.set('currency', listing.currency);
+        if (listing.description) params.set('description', listing.description);
         router.push(`/listings/new?${params.toString()}`);
     };
 
