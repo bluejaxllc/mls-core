@@ -520,6 +520,7 @@ export default function IntelligenceDashboard() {
                         <RefreshCw className={`w-4 h-4 ${refreshing || crawlStatus === 'crawling' ? 'animate-spin' : ''}`} />
                         Actualizar
                     </AnimatedButton>
+                </div>
             </div>
 
             {/* Loading Progress Bar */}
