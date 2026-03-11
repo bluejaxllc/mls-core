@@ -186,6 +186,7 @@ export default function IntelligenceDashboard() {
                     ...l,
                     id: l.id || `${sourceName.toLowerCase().replace(/\s/g, '-')}-${Math.random().toString(36).slice(2, 8)}`,
                     source: l.source || sourceName,
+                    sourceUrl: l.url || l.sourceUrl || '',
                     state: 'Chihuahua',
                     city: l.city || citySlug,
                     address: l.address || l.location || '',
