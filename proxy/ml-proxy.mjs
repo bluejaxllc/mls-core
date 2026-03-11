@@ -436,102 +436,60 @@ async function scrapeVivanuncios(url) {
     }
 }
 
-// ── Facebook Marketplace Scraper via BrowserOS MCP ───────────────────────
-let mcpRequestId = 1;
-async function mcpCall(tool, args = {}) {
-    const MCP_URL = 'http://127.0.0.1:9000/mcp';
-    const res = await fetch(MCP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'tools/call',
-            id: mcpRequestId++,
-            params: { name: tool, arguments: args }
-        }),
-        signal: AbortSignal.timeout(30000),
-    });
-    const json = await res.json();
-    const content = json?.result?.content || [];
-    return content.filter(i => i.type === 'text').map(i => i.text).join('\n');
-}
-
-async function scrapeFacebookViaMCP(url, limit = 50) {
-    const MCP_URL = 'http://127.0.0.1:9000/mcp';
-    
-    // Quick connectivity check
+// ── Facebook Marketplace Scraper via Puppeteer ───────────────────────────
+async function scrapeFacebook(url, limit = 100) {
+    console.log(`[Facebook] Puppeteer scraping: ${url}`);
+    const b = await getBrowser();
+    const page = await b.newPage();
     try {
-        await fetch(MCP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize', id: 0, params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'ml-proxy', version: '1.0.0' } } }),
-            signal: AbortSignal.timeout(2000),
-        });
-    } catch {
-        console.log('[Proxy] BrowserOS MCP not running on 9000 — skipping FB crawl');
-        throw new Error('BrowserOS not running or unreachable on port 9000');
-    }
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+        await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9,en;q=0.5' });
+        await page.setViewport({ width: 1920, height: 1080 });
 
-    try {
-        console.log(`[Proxy] 🔄 BrowserOS FB crawl: ${url}`);
-        await mcpCall('browser_navigate', { url });
-        await new Promise(r => setTimeout(r, 4000));
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+        await new Promise(r => setTimeout(r, 3000));
 
-        const tabInfo = await mcpCall('browser_get_active_tab', {});
-        const tabIdMatch = tabInfo.match(/Tab ID:\s*(\d+)/);
-        if (!tabIdMatch) throw new Error('Could not find active BrowserOS tab');
-        const tabId = parseInt(tabIdMatch[1]);
+        // Initialize a Map in the page context to accumulate listings across scroll cycles
+        await page.evaluate(() => { window.__fbListings = new Map(); });
 
-        // Initialize global storage to bypass Facebook's virtual DOM removing properties
-        await mcpCall('browser_execute_javascript', { tabId, code: 'window.__fbListings = new Map();' });
-
-        // Scroll 8x and extract at each step to prevent losing virtualized items
-        for (let i = 0; i < 8; i++) {
-            const extractAndScrollTrick = `
-                (() => {
-                    document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
-                        const href = link.getAttribute('href') || '';
-                        const m = href.match(/\\/marketplace\\/item\\/(\\d+)/);
-                        if (!m) return;
-                        const id = m[1];
-                        if (window.__fbListings.has(id)) return;
-                        const c = link.closest('[class]') || link;
-                        const spans = c.querySelectorAll('span');
-                        const texts = [];
-                        spans.forEach(s => { const t = s.textContent?.trim(); if (t && t.length > 0 && t.length < 300) texts.push(t); });
-                        const price = texts.find(t => t.includes('$')) || null;
-                        const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0,6);
-                        const loc = texts.find(t => (t.includes(',') || t.includes('Chihuahua') || t.includes('Juárez')) && !t.includes('$') && t !== title) || null;
-                        const img = c.querySelector('img');
-                        let imgUrl = img?.src || null;
-                        if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
-                        window.__fbListings.set(id, { id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
-                    });
-                    const items = document.querySelectorAll('a[href*="/marketplace/item/"]');
-                    if (items.length > 0) items[items.length - 1].scrollIntoView({behavior: "smooth", block: "end"});
-                    window.scrollBy(0, 500);
-                })();
-            `;
-            await mcpCall('browser_execute_javascript', { tabId, code: extractAndScrollTrick });
+        // Scroll and extract 10 times to load beyond the initial 24
+        for (let i = 0; i < 10; i++) {
+            await page.evaluate(() => {
+                // Extract all currently visible listings into the persistent Map
+                document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
+                    const href = link.getAttribute('href') || '';
+                    const m = href.match(/\/marketplace\/item\/(\d+)/);
+                    if (!m) return;
+                    const id = m[1];
+                    if (window.__fbListings.has(id)) return;
+                    const c = link.closest('[class]') || link;
+                    const spans = c.querySelectorAll('span');
+                    const texts = [];
+                    spans.forEach(s => { const t = s.textContent?.trim(); if (t && t.length > 0 && t.length < 300) texts.push(t); });
+                    const price = texts.find(t => t.includes('$')) || null;
+                    const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0, 6);
+                    const loc = texts.find(t => (t.includes(',') || t.length > 3) && !t.includes('$') && t !== title) || null;
+                    const img = c.querySelector('img');
+                    let imgUrl = img?.src || null;
+                    if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
+                    window.__fbListings.set(id, { id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
+                });
+                // Scroll the last item to load more
+                const items = document.querySelectorAll('a[href*="/marketplace/item/"]');
+                if (items.length > 0) items[items.length - 1].scrollIntoView({ behavior: 'smooth', block: 'end' });
+                window.scrollBy(0, 800);
+            });
             await new Promise(r => setTimeout(r, 1500));
+            console.log(`[Facebook] Scroll ${i + 1}/10 — accumulated: ${await page.evaluate(() => window.__fbListings.size)} listings`);
         }
 
-        // Final extraction of accumulated items
-        const rawResult = await mcpCall('browser_execute_javascript', { tabId, code: 'JSON.stringify(Array.from(window.__fbListings.values()))' });
+        // Extract accumulated listings from the page context
+        const rawListings = await page.evaluate(() => Array.from(window.__fbListings.values()));
 
-        // Parse MCP text wrapper
-        let jsonStr = rawResult;
-        const resultMatch = rawResult.match(/Result:\s*"([\s\S]*)"/);
-        if (resultMatch) {
-            jsonStr = resultMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-        }
-        const jsonMatch = jsonStr.match(/\[[\s\S]*\]/);
-        if (!jsonMatch) return [];
-
-        const fbListings = JSON.parse(jsonMatch[0]).slice(0, limit).map((item) => {
+        const listings = rawListings.slice(0, limit).map(item => {
             let priceNum = 0;
             if (item.price) {
-                const clean = item.price.replace(/[^0-9.]/g, '');
+                const clean = String(item.price).replace(/[^0-9.]/g, '');
                 const parsed = parseFloat(clean);
                 if (!isNaN(parsed)) priceNum = parsed;
             }
@@ -539,14 +497,17 @@ async function scrapeFacebookViaMCP(url, limit = 50) {
                 ...item,
                 price: priceNum,
                 currency: 'MXN',
-                status: 'active'
+                status: 'active',
             };
         });
 
-        console.log(`[Proxy] ✅ BrowserOS FB: ${fbListings.length} listings extracted`);
-        return fbListings;
+        console.log(`[Facebook] ✅ ${listings.length} listings extracted`);
+        return listings;
     } catch (e) {
-        throw new Error(`BrowserOS FB crawl failed: ${e.message}`);
+        console.error(`[Facebook] ❌ Failed:`, e.message);
+        return [];
+    } finally {
+        await page.close();
     }
 }
 
