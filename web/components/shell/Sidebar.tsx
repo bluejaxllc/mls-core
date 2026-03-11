@@ -20,7 +20,6 @@ export function Sidebar() {
         { name: t.sidebar.listings, href: '/listings', icon: FileText, badge: null },
         { name: t.sidebar.ingestion, href: '/ingestion', icon: Upload, badge: null },
         { name: t.sidebar.governance, href: '/governance', icon: ShieldAlert, badge: null },
-        { name: (t.sidebar as any).intelligence, href: '/intelligence', icon: Globe, badge: null },
         { name: 'Mensajes', href: '/messages', icon: MessageCircle, badge: null },
         { name: 'Favoritos', href: '/favorites', icon: Heart, badge: null },
         { name: 'Reseñas', href: '/reviews', icon: Star, badge: null },
@@ -28,7 +27,6 @@ export function Sidebar() {
         { name: 'Notificaciones', href: '/notifications', icon: Bell, badge: null },
         { name: 'Analíticas', href: '/analytics', icon: BarChart3, badge: null },
         { name: 'Agentes', href: '/agents', icon: Users, badge: null },
-        { name: 'Mapa', href: '/map', icon: MapPin, badge: null },
         { name: 'Herramientas', href: '/tools', icon: Wrench, badge: null },
         { name: t.sidebar.system, href: '/system', icon: Settings, badge: null },
     ];
