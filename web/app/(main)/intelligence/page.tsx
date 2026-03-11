@@ -110,12 +110,18 @@ export default function IntelligenceDashboard() {
                 completed: 1,
             }));
 
-            // Show initial API results immediately
+            // Merge initial API results without wiping proxy-appended ones
             if (serverListings.length > 0) {
-                setListings(serverListings);
-                setTotalListings(serverListings.length);
+                setListings(prev => {
+                    if (prev.length === 0) return serverListings;
+                    const existingIds = new Set(prev.map(l => l.id));
+                    const newItems = serverListings.filter((l: any) => !existingIds.has(l.id));
+                    const merged = [...prev, ...newItems];
+                    updateSourceCards(merged);
+                    return merged;
+                });
+                setTotalListings(prev => Math.max(prev, serverListings.length));
                 setCurrentPage(page);
-                updateSourceCards(serverListings);
             }
             setLoading(false);
 
@@ -579,9 +585,6 @@ export default function IntelligenceDashboard() {
             <section>
                 <div className="flex items-center gap-2 mb-4">
                     <h3 className="text-lg font-semibold">Fuentes de Datos Activas</h3>
-                    <span className="bg-blue-500/10 text-blue-500 text-xs px-2 py-0.5 rounded-full font-medium">
-                        {loading ? '...' : sources.length}
-                    </span>
                 </div>
 
                 {loading ? (
