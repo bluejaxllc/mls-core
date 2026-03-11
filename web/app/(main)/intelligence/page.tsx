@@ -153,6 +153,10 @@ export default function IntelligenceDashboard() {
             const vivaTypeSlug = vivaTypeMap[propertyType?.toUpperCase()] || 'inmuebles';
             const vivaUrl = `https://www.vivanuncios.com.mx/${vivaTypeSlug}-en-${op}-en-${citySlug}.html`;
 
+            const fbCategoryMap: Record<string, string> = { HOUSE: 'propertyforsale', APARTMENT: 'propertyforsale', LAND: 'propertyforsale', COMMERCIAL: 'propertyforsale', '': 'propertyrentals' };
+            const fbCategory = fbCategoryMap[propertyType?.toUpperCase()] || (listingType.toUpperCase() === 'RENT' ? 'propertyrentals' : 'propertyforsale');
+            const fbUrl = `https://www.facebook.com/marketplace/${citySlug}/${fbCategory}/?exact=false`;
+
             const fetchWithRetry = async (url: string, options: any, retries = 3): Promise<any> => {
                 const cacheKey = `mls_cache_${url.split('portal=')[1]?.split('&')[0] || 'unknown'}`;
                 for (let i = 0; i < retries; i++) {
@@ -178,7 +182,7 @@ export default function IntelligenceDashboard() {
             // Mark proxy sources as loading
             setLoadProgress(prev => ({
                 ...prev,
-                sources: { ...prev.sources, 'Mercado Libre': 'loading', 'Inmuebles24': 'loading', 'Lamudi': 'loading', 'Vivanuncios': 'loading' },
+                sources: { ...prev.sources, 'Mercado Libre': 'loading', 'Inmuebles24': 'loading', 'Lamudi': 'loading', 'Vivanuncios': 'loading', 'Facebook Marketplace': 'loading' },
             }));
 
             // Normalizer for each source
@@ -237,6 +241,10 @@ export default function IntelligenceDashboard() {
                 fetchAndAppend('Inmuebles24', 'inmuebles24', i24Url, 50000),
                 fetchAndAppend('Lamudi', 'lamudi', lamudiUrl, 50000),
                 fetchAndAppend('Vivanuncios', 'vivanuncios', vivaUrl, 50000),
+                // Only run FB proxy if source is all or FB
+                (!source || source === 'All' || source.includes('Facebook') || source === 'FB') 
+                    ? fetchAndAppend('Facebook Marketplace', 'facebook', fbUrl, 60000)
+                    : Promise.resolve(),
             ]);
 
         } catch (error) {
