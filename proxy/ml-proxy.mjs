@@ -9,6 +9,9 @@
 
 import http from 'http';
 import puppeteer from 'puppeteer';
+import puppeteerExtra from 'puppeteer-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+puppeteerExtra.use(StealthPlugin());
 
 const PORT = 3004;
 const SECRET = process.env.PROXY_SECRET || 'bluejax-ml-proxy-2026';
@@ -436,10 +439,23 @@ async function scrapeVivanuncios(url) {
     }
 }
 
-// ── Facebook Marketplace Scraper via Puppeteer ───────────────────────────
+// ── Facebook Marketplace Scraper via Puppeteer Stealth ──────────────────
+let stealthBrowser = null;
+async function getStealthBrowser() {
+    if (!stealthBrowser || !stealthBrowser.connected) {
+        console.log('[Facebook] Launching stealth browser...');
+        stealthBrowser = await puppeteerExtra.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--window-size=1920,1080'],
+        });
+        console.log('[Facebook] Stealth browser launched.');
+    }
+    return stealthBrowser;
+}
+
 async function scrapeFacebook(url, limit = 100) {
-    console.log(`[Facebook] Puppeteer scraping: ${url}`);
-    const b = await getBrowser();
+    console.log(`[Facebook] Stealth Puppeteer scraping: ${url}`);
+    const b = await getStealthBrowser();
     const page = await b.newPage();
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
