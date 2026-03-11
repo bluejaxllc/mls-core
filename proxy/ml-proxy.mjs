@@ -482,9 +482,14 @@ async function scrapeFacebookViaMCP(url, limit = 50) {
         if (!tabIdMatch) throw new Error('Could not find active BrowserOS tab');
         const tabId = parseInt(tabIdMatch[1]);
 
-        // Scroll 5x to load more listings (since user requested more than 24)
-        for (let i = 0; i < 5; i++) {
-            await mcpCall('browser_execute_javascript', { tabId, code: 'window.scrollBy(0, window.innerHeight * 1.5)' });
+        // Scroll 8x to load more listings (forces FB to fetch beyond the 24 limit)
+        for (let i = 0; i < 8; i++) {
+            const scrollTrick = `
+                const items = document.querySelectorAll('a[href*="/marketplace/item/"]');
+                if (items.length > 0) items[items.length - 1].scrollIntoView({behavior: "smooth", block: "end"});
+                window.scrollBy(0, 500);
+            `;
+            await mcpCall('browser_execute_javascript', { tabId, code: scrollTrick });
             await new Promise(r => setTimeout(r, 1500));
         }
 
