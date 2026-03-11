@@ -436,6 +436,115 @@ async function scrapeVivanuncios(url) {
     }
 }
 
+// ── Facebook Marketplace Scraper via BrowserOS MCP ───────────────────────
+let mcpRequestId = 1;
+async function mcpCall(tool, args = {}) {
+    const MCP_URL = 'http://127.0.0.1:9000/mcp';
+    const res = await fetch(MCP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'tools/call',
+            id: mcpRequestId++,
+            params: { name: tool, arguments: args }
+        }),
+        signal: AbortSignal.timeout(30000),
+    });
+    const json = await res.json();
+    const content = json?.result?.content || [];
+    return content.filter(i => i.type === 'text').map(i => i.text).join('\n');
+}
+
+async function scrapeFacebookViaMCP(url, limit = 50) {
+    const MCP_URL = 'http://127.0.0.1:9000/mcp';
+    
+    // Quick connectivity check
+    try {
+        await fetch(MCP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize', id: 0, params: { protocolVersion: '2025-03-26', capabilities: {}, clientInfo: { name: 'ml-proxy', version: '1.0.0' } } }),
+            signal: AbortSignal.timeout(2000),
+        });
+    } catch {
+        console.log('[Proxy] BrowserOS MCP not running on 9000 — skipping FB crawl');
+        throw new Error('BrowserOS not running or unreachable on port 9000');
+    }
+
+    try {
+        console.log(`[Proxy] 🔄 BrowserOS FB crawl: ${url}`);
+        await mcpCall('browser_navigate', { url });
+        await new Promise(r => setTimeout(r, 4000));
+
+        const tabInfo = await mcpCall('browser_get_active_tab', {});
+        const tabIdMatch = tabInfo.match(/Tab ID:\s*(\d+)/);
+        if (!tabIdMatch) throw new Error('Could not find active BrowserOS tab');
+        const tabId = parseInt(tabIdMatch[1]);
+
+        // Scroll 5x to load more listings (since user requested more than 24)
+        for (let i = 0; i < 5; i++) {
+            await mcpCall('browser_execute_javascript', { tabId, code: 'window.scrollBy(0, window.innerHeight * 1.5)' });
+            await new Promise(r => setTimeout(r, 1500));
+        }
+
+        // Extract listings
+        const extractCode = `(() => {
+            const listings = []; const seen = new Set();
+            document.querySelectorAll('a[href*="/marketplace/item/"]').forEach(link => {
+                const href = link.getAttribute('href') || '';
+                const m = href.match(/\\/marketplace\\/item\\/(\\d+)/);
+                if (!m || seen.has(m[1])) return;
+                seen.add(m[1]);
+                const id = m[1], c = link.closest('[class]') || link;
+                const spans = c.querySelectorAll('span');
+                const texts = [];
+                spans.forEach(s => { const t = s.textContent?.trim(); if (t && t.length > 0 && t.length < 300) texts.push(t); });
+                const price = texts.find(t => t.includes('$')) || null;
+                const title = texts.find(t => t.length > 8 && !t.includes('$')) || 'Propiedad #' + id.slice(0,6);
+                const loc = texts.find(t => (t.includes(',') || t.includes('Chihuahua') || t.includes('Juárez')) && !t.includes('$') && t !== title) || null;
+                const img = c.querySelector('img');
+                let imgUrl = img?.src || null;
+                if (imgUrl && imgUrl.startsWith('data:')) imgUrl = null;
+                listings.push({ id, title, price, address: loc || '', imageUrl: imgUrl, url: 'https://www.facebook.com/marketplace/item/' + id, source: 'Facebook Marketplace' });
+            });
+            return JSON.stringify(listings);
+        })()`;
+
+        const rawResult = await mcpCall('browser_execute_javascript', { tabId, code: extractCode });
+
+        // Parse MCP text wrapper
+        let jsonStr = rawResult;
+        const resultMatch = rawResult.match(/Result:\s*"([\s\S]*)"/);
+        if (resultMatch) {
+            jsonStr = resultMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+        }
+        const jsonMatch = jsonStr.match(/\[[\s\S]*\]/);
+        if (!jsonMatch) return [];
+
+        const fbListings = JSON.parse(jsonMatch[0]).slice(0, limit).map((item) => {
+            let priceNum = 0;
+            if (item.price) {
+                const clean = item.price.replace(/[^0-9.]/g, '');
+                const parsed = parseFloat(clean);
+                if (!isNaN(parsed)) priceNum = parsed;
+            }
+            return {
+                ...item,
+                price: priceNum,
+                currency: 'MXN',
+                status: 'active'
+            };
+        });
+
+        console.log(`[Proxy] ✅ BrowserOS FB: ${fbListings.length} listings extracted`);
+        return fbListings;
+    } catch (e) {
+        throw new Error(\`BrowserOS FB crawl failed: \${e.message}\`);
+    }
+}
+
+
 // ── HTTP Server ──────────────────────────────────────────────────────────
 const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -480,6 +589,7 @@ const server = http.createServer(async (req, res) => {
                 case 'inmuebles24': listings = await scrapeInmuebles24(targetUrl); break;
                 case 'lamudi': listings = await scrapeLamudi(targetUrl); break;
                 case 'vivanuncios': listings = await scrapeVivanuncios(targetUrl); break;
+                case 'facebook': listings = await scrapeFacebookViaMCP(targetUrl); break;
                 case 'ml': listings = await scrapeML(targetUrl); break;
                 default:
                     res.writeHead(400, { 'Content-Type': 'application/json' });
