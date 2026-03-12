@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
         const city = searchParams.get('city') || '';
         const specialty = searchParams.get('specialty') || '';
 
-        const where: import('@prisma/client').Prisma.UserWhereInput = { roles: { contains: 'agent' } };
+        const where: import('@prisma/client-core').Prisma.UserWhereInput = { roles: { contains: 'agent' } };
         if (search) {
             where.OR = [
                 { firstName: { contains: search } },

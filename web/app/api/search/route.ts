@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         const skip = (page - 1) * limit;
 
         // 1. Fetch Canonical Listings
-        const where: import('@prisma/client').Prisma.ListingWhereInput = {};
+        const where: import('@prisma/client-core').Prisma.ListingWhereInput = {};
         if (status && status !== 'OBSERVED') where.status = status;
 
         if (city && city !== 'All') {
