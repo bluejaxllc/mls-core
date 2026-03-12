@@ -312,7 +312,113 @@ export default function LandingPage() {
             </section>
 
             {/* ══════════════════════════════════════════════════════════════
-                SECCIÓN 4: AUDITORÍA Y PROTECCIÓN LEGAL
+                SECCIÓN 4: RED DE CONFIANZA — AGENTES Y BROKERS
+            ══════════════════════════════════════════════════════════════ */}
+            <section className="relative z-10 py-24 md:py-32 px-4 max-w-7xl mx-auto">
+                <motion.div {...fadeUp(0)} className="text-center mb-16 md:mb-20">
+                    <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-emerald-500/80 uppercase block mb-4">
+                        // ecosistema operativo
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.03em]">
+                        Cómo Interactúan{' '}
+                        <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                            Brokers y Agentes.
+                        </span>
+                    </h2>
+                </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    {/* Visual representation */}
+                    <motion.div {...fadeUp(0.1)} className="relative h-full min-h-[400px] rounded-2xl border border-emerald-500/10 bg-gradient-to-br from-emerald-950/20 via-zinc-900/60 to-zinc-900/40 p-8 flex flex-col items-center justify-center overflow-hidden">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent"></div>
+                        
+                        {/* Broker A & B Connection */}
+                        <div className="flex justify-between w-full max-w-md items-center mb-16 relative">
+                            {/* Connection line */}
+                            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/50 via-emerald-500/50 to-cyan-500/50 -translate-y-1/2 overflow-hidden">
+                                <motion.div 
+                                    className="w-full h-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50"
+                                    animate={{ x: ['-100%', '100%'] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                />
+                            </div>
+
+                            <div className="relative z-10 flex flex-col items-center">
+                                <div className="h-16 w-16 rounded-xl bg-blue-950 border border-blue-500/30 flex items-center justify-center mb-3 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]">
+                                    <ShieldCheck className="h-8 w-8 text-blue-400" />
+                                </div>
+                                <span className="font-bold text-sm bg-blue-400 text-blue-950 px-2 pl-2 rounded">Broker A</span>
+                            </div>
+                            
+                            <div className="relative z-10 bg-zinc-900 border border-emerald-500/30 px-4 py-2 rounded-full shadow-[0_0_15px_-3px_rgba(16,185,129,0.2)]">
+                                <span className="text-[10px] md:text-xs font-mono font-bold text-emerald-400">CO-BROKERAGE</span>
+                            </div>
+
+                            <div className="relative z-10 flex flex-col items-center">
+                                <div className="h-16 w-16 rounded-xl bg-cyan-950 border border-cyan-500/30 flex items-center justify-center mb-3 shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)]">
+                                    <ShieldCheck className="h-8 w-8 text-cyan-400" />
+                                </div>
+                                <span className="font-bold text-sm bg-cyan-400 text-cyan-950 px-2 rounded">Broker B</span>
+                            </div>
+                        </div>
+
+                        {/* Agents showing hierarchy */}
+                        <div className="w-full max-w-sm flex justify-between absolute bottom-12 px-6">
+                            <div className="flex flex-col items-center relative">
+                                <div className="h-20 w-px bg-blue-500/30 absolute bottom-10"></div>
+                                <div className="h-10 w-10 rounded-full bg-zinc-800 border border-blue-500/30 flex items-center justify-center z-10">
+                                    <div className="h-4 w-4 bg-blue-400 rounded-full"></div>
+                                </div>
+                                <span className="text-[10px] text-zinc-400 mt-2 font-mono">Agentes</span>
+                            </div>
+                            
+                            <div className="flex flex-col items-center relative">
+                                <div className="h-20 w-px bg-cyan-500/30 absolute bottom-10"></div>
+                                <div className="h-10 w-10 rounded-full bg-zinc-800 border border-cyan-500/30 flex items-center justify-center z-10">
+                                    <div className="h-4 w-4 bg-cyan-400 rounded-full"></div>
+                                </div>
+                                <span className="text-[10px] text-zinc-400 mt-2 font-mono">Agentes</span>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Text content */}
+                    <div className="space-y-8 md:pl-4">
+                        <motion.div {...fadeUp(0.2)} className="border-l-2 border-emerald-500/30 pl-5">
+                            <h3 className="text-xl font-bold mb-2 text-white">Los Agentes (Asesores)</h3>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                Operan bajo el paraguas de su <span className="text-white font-medium">Broker</span>. 
+                                Utilizan la plataforma para subir listados, buscar propiedades para sus clientes, 
+                                y gestionar prospectos. Cada acción de un agente está vinculada a su agencia, garantizando que 
+                                <span className="text-emerald-400 font-medium"> la exclusividad y las comisiones siempre les pertenezcan a ellos</span>.
+                            </p>
+                        </motion.div>
+
+                        <motion.div {...fadeUp(0.3)} className="border-l-2 border-blue-500/30 pl-5">
+                            <h3 className="text-xl font-bold mb-2 text-white">Los Brokers (Agencias)</h3>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                Son los titulares de las exclusivas y los directores de orquesta. 
+                                Los brokers invitan a sus agentes, supervisan el inventario de su equipo, y participan en la Gobernanza. Tienen visibilidad total sobre las operaciones de su agencia.
+                            </p>
+                        </motion.div>
+
+                        <motion.div {...fadeUp(0.4)} className="border-l-2 border-cyan-500/30 pl-5">
+                            <h3 className="text-xl font-bold mb-2 text-white">Interacción Broker a Broker</h3>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                Si un agente del <span className="text-blue-400 font-medium">Broker A</span> tiene una propiedad, y un agente del <span className="text-cyan-400 font-medium">Broker B</span> tiene al comprador, la MLS coordina el cierre cruzado. Las reglas de comisión se establecen <span className="text-white font-medium">por sistema</span> desde el inicio, mitigando riesgos de disputas.
+                            </p>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Animated Divider */}
+            <div className="relative z-10 max-w-7xl mx-auto px-4">
+                <div className="h-px bg-gradient-to-r from-transparent via-emerald-800/30 to-transparent"></div>
+            </div>
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECCIÓN 5: AUDITORÍA Y PROTECCIÓN LEGAL
             ══════════════════════════════════════════════════════════════ */}
             <section className="relative z-10 py-24 md:py-32 px-4">
                 <div className="max-w-7xl mx-auto">
@@ -354,7 +460,7 @@ export default function LandingPage() {
                                 <div className="space-y-3">
                                     {[
                                         { icon: Eye, label: 'Quién', desc: 'Identidad verificada del actor', color: 'emerald', delay: 0.2 },
-                                        { icon: FileSearch, label: 'Qué', desc: 'Cambio exacto registrado con diff', color: 'cyan', delay: 0.3 },
+                                        { icon: FileSearch, label: 'Qué', desc: 'Cambio exacto registrado al detalle', color: 'cyan', delay: 0.3 },
                                         { icon: Gavel, label: 'Por Qué', desc: 'Regla de gobernanza que se activó', color: 'blue', delay: 0.4 },
                                         { icon: Lock, label: 'Inmutable', desc: 'Registro blindado contra manipulación', color: 'indigo', delay: 0.5 },
                                     ].map((item, i) => (
@@ -395,7 +501,7 @@ export default function LandingPage() {
             </section>
 
             {/* ══════════════════════════════════════════════════════════════
-                SECCIÓN 5: CTA FINAL — EL FILTRO
+                SECCIÓN 6: CTA FINAL — EL FILTRO
             ══════════════════════════════════════════════════════════════ */}
             <section id="aplicar" className="relative z-10 py-24 md:py-32 px-4 max-w-4xl mx-auto">
                 <motion.div {...fadeUp(0)} className="text-center mb-4">
