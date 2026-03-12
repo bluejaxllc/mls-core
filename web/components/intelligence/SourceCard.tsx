@@ -1,102 +1,65 @@
 'use client';
-import { useState } from 'react';
-import { Play, Globe, CheckCircle, XCircle, Database } from 'lucide-react';
-import { AnimatedCard, AnimatedButton } from '@/components/ui/animated';
-import { authFetch } from '@/lib/api';
-import { useSession } from 'next-auth/react';
+import { Globe, Database, Radio, Power } from 'lucide-react';
+import { AnimatedCard } from '@/components/ui/animated';
 
-interface SourceProps {
-    source: {
-        id: string;
-        name: string;
-        type: string;
-        baseUrl: string;
-        isEnabled: boolean;
-        trustScore: number;
-    };
-    onTrigger?: () => void;
+// Source-specific visual config
+const SOURCE_VISUALS: Record<string, { icon: string; color: string; bgColor: string; borderColor: string }> = {
+    'Facebook Marketplace': { icon: '📘', color: 'text-[#1877F2]', bgColor: 'bg-[#1877F2]/10', borderColor: 'border-l-[#1877F2]' },
+    'Mercado Libre': { icon: '🟡', color: 'text-amber-600', bgColor: 'bg-amber-500/10', borderColor: 'border-l-[#FFE600]' },
+    'Inmuebles24': { icon: '🏠', color: 'text-[#E4002B]', bgColor: 'bg-[#E4002B]/10', borderColor: 'border-l-[#E4002B]' },
+    'Lamudi': { icon: '🏡', color: 'text-[#00A651]', bgColor: 'bg-[#00A651]/10', borderColor: 'border-l-[#00A651]' },
+    'Vivanuncios': { icon: '🏘️', color: 'text-[#7B2D8E]', bgColor: 'bg-[#7B2D8E]/10', borderColor: 'border-l-[#7B2D8E]' },
+};
+
+interface SourceSummary {
+    name: string;
+    count: number;
+    enabled: boolean;
 }
 
-export function SourceCard({ source }: SourceProps) {
-    const { data: session } = useSession();
-    const [isRunning, setIsRunning] = useState(false);
-    const [lastRunStatus, setLastRunStatus] = useState<'success' | 'error' | null>(null);
+interface SourceProps {
+    source: SourceSummary;
+    onToggle?: (name: string) => void;
+}
 
-    const handleRun = async () => {
-        setIsRunning(true);
-        setLastRunStatus(null);
-        try {
-            // Check if we have a valid session, otherwise use mock token for dev
-            const token = (session as any)?.accessToken;
-
-            await authFetch('/api/intelligence/crawl/trigger', {
-                method: 'POST',
-                body: JSON.stringify({
-                    sourceId: source.id,
-                    url: source.baseUrl // Default to base URL for full crawl
-                })
-            }, token);
-
-            setLastRunStatus('success');
-            setTimeout(() => setLastRunStatus(null), 3000);
-        } catch (error) {
-            console.error('Crawl trigger failed', error);
-            setLastRunStatus('error');
-        } finally {
-            setIsRunning(false);
-        }
-    };
+export function SourceCard({ source, onToggle }: SourceProps) {
+    const visuals = SOURCE_VISUALS[source.name] || { icon: '🌐', color: 'text-teal-600', bgColor: 'bg-teal-500/10', borderColor: 'border-l-teal-500' };
 
     return (
-        <AnimatedCard className="p-4 flex flex-col justify-between h-full border-l-4 border-l-blue-500">
+        <AnimatedCard className={`p-4 flex flex-col justify-between h-full border-l-4 transition-opacity duration-300 ${source.enabled ? visuals.borderColor : 'border-l-slate-300 opacity-60'}`}>
             <div>
                 <div className="flex justify-between items-start mb-2">
                     <div className="flex items-center gap-2">
-                        <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                            <Globe className="w-5 h-5" />
+                        <div className={`p-2 rounded-lg text-lg ${source.enabled ? visuals.bgColor : 'bg-slate-100'}`}>
+                            {visuals.icon}
                         </div>
                         <div>
-                            <h3 className="font-semibold text-slate-900 leading-tight">{source.name}</h3>
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{source.type}</p>
+                            <h3 className={`font-semibold leading-tight ${source.enabled ? 'text-foreground' : 'text-muted-foreground'}`}>{source.name}</h3>
                         </div>
                     </div>
-                    {source.isEnabled ? (
-                        <span className="flex h-2 w-2 rounded-full bg-green-500" title="Active" />
-                    ) : (
-                        <span className="flex h-2 w-2 rounded-full bg-slate-300" title="Inactive" />
-                    )}
-                </div>
-
-                <div className="space-y-2 mt-4">
-                    <div className="flex items-center text-sm text-slate-600 gap-2">
-                        <Database className="w-4 h-4 text-slate-400" />
-                        <span className="text-xs">Confianza: <span className="font-medium text-slate-900">{source.trustScore}%</span></span>
-                    </div>
-
+                    {/* Toggle Switch */}
+                    <button
+                        onClick={() => onToggle?.(source.name)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${source.enabled ? 'bg-blue-500' : 'bg-slate-300'}`}
+                        aria-label={source.enabled ? 'Desactivar fuente' : 'Activar fuente'}
+                    >
+                        <span className={`inline-block h-4 w-4 rounded-full bg-white shadow-sm transform transition-transform duration-300 ${source.enabled ? 'translate-x-6' : 'translate-x-1'}`} />
+                    </button>
                 </div>
             </div>
 
-            <div className="mt-6">
-                <AnimatedButton
-                    onClick={handleRun}
-                    disabled={isRunning || !source.isEnabled}
-                    variant={lastRunStatus === 'success' ? 'secondary' : 'primary'}
-                    className={`w-full flex items-center justify-center gap-2 text-sm ${lastRunStatus === 'success' ? 'bg-green-500/10 text-green-500 border-green-500/20' : ''}`}
-                >
-                    {isRunning ? (
-                        <>Iniciando...</>
-                    ) : lastRunStatus === 'success' ? (
-                        <><CheckCircle className="w-4 h-4" /> Iniciado</>
-                    ) : (
-                        <><Play className="w-4 h-4" /> Ejecutar Crawler</>
-                    )}
-                </AnimatedButton>
-                {lastRunStatus === 'error' && (
-                    <p className="text-xs text-red-500 text-center mt-2 flex items-center justify-center gap-1">
-                        <XCircle className="w-3 h-3" /> Error al iniciar
-                    </p>
-                )}
-            </div>
+            {/* Status indicator */}
+            {source.enabled ? (
+                <div className="mt-3 flex items-center gap-2 text-xs text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2 rounded-lg border border-emerald-100 dark:border-emerald-500/20">
+                    <Radio className="w-3.5 h-3.5 animate-pulse" />
+                    <span className="font-medium">Activo</span>
+                </div>
+            ) : (
+                <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <Power className="w-3.5 h-3.5" />
+                    <span className="font-medium">Desactivado</span>
+                </div>
+            )}
         </AnimatedCard>
     );
 }

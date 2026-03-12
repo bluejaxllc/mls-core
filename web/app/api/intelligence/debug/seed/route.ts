@@ -56,6 +56,11 @@ export async function GET(req: Request) {
             }
         });
 
+        // Upsert new sources mapping dynamically
+        await prismaIntelligence.sourceProfile.upsert({ where: { name: 'Inmuebles24' }, update: { isEnabled: true }, create: { name: 'Inmuebles24', type: 'PORTAL', baseUrl: 'https://www.inmuebles24.com', trustScore: 75, isEnabled: true, config: '{}' } });
+        await prismaIntelligence.sourceProfile.upsert({ where: { name: 'Lamudi' }, update: { isEnabled: true }, create: { name: 'Lamudi', type: 'PORTAL', baseUrl: 'https://www.lamudi.com.mx', trustScore: 70, isEnabled: true, config: '{}' } });
+        await prismaIntelligence.sourceProfile.upsert({ where: { name: 'Vivanuncios' }, update: { isEnabled: true }, create: { name: 'Vivanuncios', type: 'PORTAL', baseUrl: 'https://www.vivanuncios.com.mx', trustScore: 70, isEnabled: true, config: '{}' } });
+
         return NextResponse.json({ message: 'Seeded successfully', listing: obs });
     } catch (e: any) {
         console.error('[INTELLIGENCE] Failed to seed debug data', e);

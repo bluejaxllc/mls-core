@@ -46,10 +46,10 @@ export function MobileMenu() {
 
     return (
         <>
-            {/* Hamburger Button - Fixed position, only on mobile */}
+            {/* Hamburger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden fixed top-3 left-3 z-50 p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-lg text-foreground active:scale-95 transition-all"
+                className="md:hidden fixed top-3 left-3 z-[9998] p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-lg text-foreground active:scale-95 transition-all"
                 aria-label="Menu"
                 style={{ minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
@@ -60,19 +60,19 @@ export function MobileMenu() {
                 )}
             </button>
 
-            {/* Backdrop - uses CSS transition instead of framer-motion */}
+            {/* Backdrop */}
             <div
                 onClick={() => setIsOpen(false)}
                 className={cn(
-                    "fixed inset-0 bg-black/60 z-[60] md:hidden transition-opacity duration-300",
+                    "fixed inset-0 bg-black/60 z-[9998] md:hidden transition-opacity duration-300",
                     isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
                 )}
             />
 
-            {/* Menu Drawer - uses CSS transform instead of framer-motion */}
+            {/* Menu Drawer */}
             <div
                 className={cn(
-                    "fixed left-0 top-0 bottom-0 w-72 bg-card border-r border-border z-[70] md:hidden overflow-y-auto transition-transform duration-300 ease-out",
+                    "fixed left-0 top-0 bottom-0 w-72 bg-card border-r border-border z-[9999] md:hidden overflow-y-auto transition-transform duration-300 ease-out",
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >

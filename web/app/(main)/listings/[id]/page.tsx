@@ -268,12 +268,50 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
     const fetchListing = async () => {
         try {
             const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-            const res = await fetch(`${API_URL}/api/protected/listings/${params.id}`, {
-                headers: { 'Authorization': `Bearer ${session.accessToken}` }
-            });
+            let data: any = null;
 
-            if (res.ok) {
-                const data = await res.json();
+            // Try 1: Backend Express API
+            try {
+                const res = await fetch(`${API_URL}/api/protected/listings/${params.id}`, {
+                    headers: { 'Authorization': `Bearer ${session.accessToken}` }
+                });
+                if (res.ok) {
+                    data = await res.json();
+                }
+            } catch (e) {
+                console.log('Backend API not reachable, trying Next.js API...');
+            }
+
+            // Try 2: Next.js API route (handles intelligence/observed/live listings)
+            if (!data) {
+                try {
+                    const res2 = await fetch(`/api/listings/${params.id}`);
+                    if (res2.ok) {
+                        data = await res2.json();
+                    }
+                } catch (e) {
+                    console.log('Next.js API also failed');
+                }
+            }
+
+            if (data) {
+                // Parse images - handle both JSON strings and arrays
+                let images = data.images || [];
+                if (typeof images === 'string') {
+                    try { images = JSON.parse(images); } catch { images = []; }
+                }
+                if (!Array.isArray(images)) images = [];
+                // If no images array but imageUrl exists, use that
+                if (images.length === 0 && data.imageUrl) {
+                    images = [data.imageUrl];
+                }
+
+                let videos = data.videos || [];
+                if (typeof videos === 'string') {
+                    try { videos = JSON.parse(videos); } catch { videos = []; }
+                }
+                if (!Array.isArray(videos)) videos = [];
+
                 setFormData({
                     title: data.title || '',
                     price: data.price?.toString() || '',
@@ -282,13 +320,13 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                     status: data.status || 'DRAFT',
                     type: data.propertyType || 'commercial',
                     mapUrl: data.mapUrl || '',
-                    images: data.images || [],
-                    videos: data.videos || [],
+                    images,
+                    videos,
                     source: data.source || 'MANUAL'
                 });
                 setLastGenAddress(data.address || '');
             } else {
-                console.error('Fetch failed', await res.text());
+                console.error('Listing not found in any source');
             }
         } catch (error) {
             console.error('Error fetching listing:', error);

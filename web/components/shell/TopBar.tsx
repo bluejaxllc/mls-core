@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MobileMenu } from './MobileMenu';
 import { NotificationBell } from './NotificationBell';
 
 export function TopBar() {
@@ -14,8 +13,8 @@ export function TopBar() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
-
     const [isFocused, setIsFocused] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
 
     const toggleLanguage = () => {
         setLanguage(language === 'en' ? 'es' : 'en');
@@ -29,10 +28,8 @@ export function TopBar() {
     };
 
     return (
-        <div className="h-14 border-b border-blue-500/10 bg-card/80 backdrop-blur-xl flex items-center pl-14 md:pl-4 pr-4 gap-4 justify-between relative">
+        <div className="h-14 border-b border-blue-500/10 bg-card/80 md:backdrop-blur-xl flex items-center pl-14 md:pl-4 pr-4 gap-4 justify-between relative">
             <div className="absolute bottom-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
-            {/* Mobile Menu - Only on mobile */}
-            <MobileMenu />
 
             <motion.div
                 initial={false}
@@ -90,14 +87,11 @@ export function TopBar() {
                 {status === 'loading' ? (
                     <div className="text-xs text-muted-foreground">Cargando...</div>
                 ) : session?.user ? (
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="relative group"
-                    >
-                        <div className="flex items-center gap-2 cursor-pointer">
+                    <div className="relative">
+                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => setUserMenuOpen(!userMenuOpen)}>
                             <motion.div
                                 layoutId="user-avatar"
-                                className="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border overflow-hidden ring-2 ring-transparent group-hover:ring-primary/20 transition-all"
+                                className="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border overflow-hidden ring-2 ring-transparent hover:ring-primary/20 transition-all"
                             >
                                 {session.user.image ? (
                                     <img src={session.user.image} alt="User" className="h-full w-full object-cover" />
@@ -111,21 +105,30 @@ export function TopBar() {
                             </div>
                         </div>
 
-                        {/* Logout Dropdown (Simple implementation) */}
-                        <div className="absolute right-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <div className="bg-card border rounded-md shadow-lg py-1">
-                                <div className="px-4 py-2 text-xs text-muted-foreground border-b mb-1">
-                                    Sesión iniciada como <br /> <span className="text-foreground font-medium">{session.user.email}</span>
-                                </div>
-                                <button
-                                    onClick={() => import('next-auth/react').then(({ signOut }) => signOut({ callbackUrl: '/auth/signin' }))}
-                                    className="w-full text-left px-4 py-2 text-sm hover:bg-muted text-red-400 hover:text-red-500 transition-colors"
+                        {/* Logout Dropdown */}
+                        <AnimatePresence>
+                            {userMenuOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="absolute right-0 top-full pt-2 w-48 z-50"
                                 >
-                                    Cerrar Sesión
-                                </button>
-                            </div>
-                        </div>
-                    </motion.div>
+                                    <div className="bg-card border rounded-md shadow-lg py-1">
+                                        <div className="px-4 py-2 text-xs text-muted-foreground border-b mb-1 break-all">
+                                            Sesión iniciada como <br /> <span className="text-foreground font-medium">{session.user.email}</span>
+                                        </div>
+                                        <button
+                                            onClick={() => import('next-auth/react').then(({ signOut }) => signOut({ callbackUrl: '/auth/signin' }))}
+                                            className="w-full text-left px-4 py-2 text-sm hover:bg-muted text-red-500 transition-colors font-medium"
+                                        >
+                                            Cerrar Sesión
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
                 ) : (
                     <div className="flex items-center gap-2 pl-2">
                         <a href="/api/auth/signin" className="text-sm font-medium hover:underline">

@@ -1,0 +1,15 @@
+﻿
+ name                               value               environments                        created    
+ MLS_INTELLIGENCE_URL               Encrypted           Production                          10m ago    
+ MLS_DATABASE_URL                   Encrypted           Production                          10m ago    
+ INTELLIGENCE_DATABASE_URL          Encrypted           Production                          23m ago    
+ DATABASE_URL                       Encrypted           Production                          23m ago    
+ RESEND_API_KEY                     Encrypted           Production                          2d ago     
+ NEXTAUTH_URL                       Encrypted           Production                          3d ago     
+ ML_CLIENT_SECRET                   Encrypted           Production                          3d ago     
+ ML_CLIENT_ID                       Encrypted           Production                          3d ago     
+ APIFY_API_TOKEN                    Encrypted           Production                          8d ago     
+ NEXTAUTH_SECRET                    Encrypted           Development, Preview, Production    26d ago    
+ BLUE_JAX_CLIENT_ID                 Encrypted           Development, Preview, Production    26d ago    
+ NEXT_PUBLIC_API_URL                Encrypted           Production, Preview, Development    27d ago    
+

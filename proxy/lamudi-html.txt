@@ -1,0 +1,630 @@
+<!DOCTYPE html><html lang="es"><head>
+        <link type="modulepreloaded" href="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-wl_components.js">
+        <script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-WNWHJNL"></script><script src="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-wl_components.js"></script>
+    <style type="text/css">.other-projects{width:100%}.home-projects-container{display:flex;flex-wrap:nowrap;overflow-x:auto;width:100%;gap:40px 20px;-ms-overflow-style:none;scrollbar-width:none}.home-project::-webkit-scrollbar{display:none}.home-project a{width:216px;display:flex;flex-direction:column;text-decoration:none;color:inherit;position:relative}.home-project__image{position:relative}.home-project__image img{border-radius:1.25rem;height:13.5rem;width:100%;object-fit:cover}.home-project__image img.svg{height:1.25rem;width:1.25rem;margin-right:0.25rem}.home-project__image__bottom-detail{display:none}.home-project__summary{display:flex;flex-direction:column}.home-project__summary__property-type{font-weight:700;margin-top:0.625rem;color:#36c}.home-project__summary__price{font-weight:700;margin-top:0.25rem;color:#0a0a0a}.home-project__summary__item-container{display:flex;flex-direction:column}.home-project__summary__item-container__item{font-weight:700;margin-top:0.25rem;color:#0a0a0a;display:flex;align-items:center}.home-project__summary__item-container__item__text{display:flex;align-items:center;margin-right:0.25rem}.home-project__summary__item-container__item__text img.svg{height:1.125rem;margin-right:0.375rem}.home-project__summary__item-container__item__label{color:#4a4a4a;font-weight:400;font-size:0.75rem;text-transform:capitalize}.featured-projects-container{display:flex;flex-wrap:nowrap;overflow-x:auto;width:100%;gap:40px 20px;-ms-overflow-style:none;scrollbar-width:none}.featured-project::-webkit-scrollbar{display:none}.featured-project a{width:100%;display:flex;flex-direction:column;text-decoration:none;color:inherit;position:relative}.featured-project__image{position:relative}.featured-project__image img{border-radius:1.25rem;height:15rem;width:100%;object-fit:cover}.featured-project__image img.svg{height:1.25rem;width:1.25rem;margin-right:0.25rem}.featured-project__image__bottom-detail{display:flex;flex-direction:column;position:absolute;width:100%;padding:0 0.625rem;bottom:0;color:#fff;font-weight:700;background:linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 99.91%);border-radius:0 0 20px 20px}.featured-project__image__bottom-detail__name,.featured-project__image__bottom-detail__agency-name{font-weight:700;font-size:1.125rem;line-height:1.5625rem;align-self:stretch}.featured-project__image__bottom-detail__agency-name{font-weight:400}.featured-project__image__bottom-detail__location{font-weight:700;font-size:0.75rem;line-height:1rem}.featured-project__image__bottom-detail__location{font-size:0.75rem;margin-bottom:1rem}.featured-project__image__bottom-detail__location img.svg{height:0.625rem;width:0.5rem}.featured-project__summary__info{display:none}.featured-project__summary__details{display:flex;flex-direction:column}.featured-project__summary__details__property-type{font-weight:700;margin-top:0.625rem;color:#36c}.featured-project__summary__details__price{font-weight:700;margin-top:0.25rem;color:#0a0a0a}.featured-project__summary__details__item-container{display:flex;flex-direction:row}.featured-project__summary__details__item-container__item{font-weight:700;margin-top:0.25rem;color:#0a0a0a;display:flex;margin-right:20px;flex-direction:column;align-items:flex-start}.featured-project__summary__details__item-container__item__text{display:flex;align-items:center;margin-right:0.25rem}.featured-project__summary__details__item-container__item__text img.svg{height:1.125rem;margin-right:0.375rem}.featured-project__summary__details__item-container__item__label{color:#4a4a4a;font-weight:400;font-size:0.75rem;text-transform:capitalize}@media only screen and (min-width: 760px){.home-project{max-width:50%;flex:1;flex-basis:calc(calc(100% / 2) - (20px - 20px/2))}.home-projects-container{flex-wrap:wrap;overflow:hidden}.home-project a{width:100%}.home-project__image{z-index:-1}.home-project__image img{height:320px}.home-project__image__bottom-detail{display:flex;flex-direction:column;position:absolute;width:100%;padding:0 10px;bottom:0;color:#fff;font-weight:700;background:linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 99.91%);border-radius:0 0 20px 20px}.home-project__image__bottom-detail .home-project__image__bottom-detail__location{font-size:12px;margin-bottom:16px}.home-project__image__bottom-detail .home-project__image__bottom-detail__location img.svg{height:10px;width:8px}.home-project__summary__item-container{flex-direction:row}.home-project__summary__item-container__item{margin-right:20px;display:flex;flex-direction:column;align-items:flex-start}.home-project__summary__item-container__item img.svg{margin-right:6px}.featured-project{width:100%}.featured-project-section{width:100%}.featured-project a{flex-direction:row}.featured-project__image{display:flex;width:66%;max-height:25rem;object-fit:cover}.featured-project__image img{height:25rem}.featured-project__image .featured-project__image__bottom-detail{display:none}.featured-project__summary{display:flex;flex-direction:column;margin-left:1.25rem}.featured-project__summary__info{display:flex;flex-direction:column;padding-bottom:1.875rem;border-bottom:2px dashed #999;gap:0.25rem}.featured-project__summary__info__name,.featured-project__summary__info__agency-name{font-weight:700;font-size:1.5rem;line-height:2.0625rem;align-self:stretch;color:#36c}.featured-project__summary__info__agency-name{font-weight:400;font-size:1.125rem;line-height:1.5625rem}.featured-project__summary__info__location{display:flex;align-items:baseline;font-weight:700;font-size:0.75rem;line-height:1rem;color:#0a0a0a}.featured-project__summary__info__location .svg{margin-right:0.25rem}.featured-project__summary__details__property-type{margin-top:1.875rem;font-size:1.125rem;line-height:1.5625rem}.featured-project__summary__details__price{font-size:1.125rem;line-height:1.5625rem}.featured-project__summary__details__item-container__item__text__value{font-size:1.125rem;line-height:1.5625rem}.featured-project__summary__details__item-container__item__label{line-height:1rem}}.featured-properties{width:100%}.featured-properties-carousel{gap:40px 20px}.featured-property a{width:260px;display:flex;flex-direction:column;text-decoration:none;color:inherit}.featured-property__image{position:relative}.featured-property__image img{border-radius:0.625rem 0.625rem 0 0;height:14rem;width:100%;object-fit:cover}.featured-property__image img.svg{height:1.25rem;width:1.25rem;margin-right:0.25rem}.featured-property__summary{display:flex;flex-direction:column;padding:0.25rem}.featured-property__summary__price{font-weight:700;color:#36c}.featured-property__summary__title{font-weight:700;font-size:0.875rem;color:#0a0a0a;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis}.featured-property__summary__location{color:#999;font-size:0.75rem;font-weight:700}.featured-property__summary__location img.svg{filter:invert(64%) sepia(0%) saturate(0%) hue-rotate(191deg) brightness(95%) contrast(88%);height:0.75rem}.featured-property__summary__details{font-size:0.875rem;display:flex}.featured-property__summary__details .featured-property__summary__item-container__item{font-weight:700;color:#0a0a0a}.featured-property__summary__details .featured-property__summary__item-container__item__text{display:flex;align-items:center;margin-right:0.5rem}.featured-property__summary__details .featured-property__summary__item-container__item__text img.svg{height:1.125rem;margin-right:0.375rem}.featured-property__summary__release-date{font-weight:700;font-size:0.875rem;border:1.4px solid #36c;border-radius:0.5rem;color:#36c;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;margin-top:0.25rem}.featured-property__summary__agency{color:#999;font-size:0.75rem;font-weight:400}.block.guides{width:100%}.block.guides .local-guides{display:inline-grid;grid-template-columns:repeat(4, 17.5rem);overflow-x:auto;grid-auto-rows:11.875rem;gap:1.25rem;width:100%;-ms-overflow-style:none;scrollbar-width:none}.block.guides .local-guides::-webkit-scrollbar{display:none}.block.guides .local-guides a{text-decoration:none}.block.guides .local-guides .local-guide{display:grid;align-content:center;justify-content:center;justify-items:center;border-radius:1.25rem;height:100%}.block.guides .local-guides .local-guide .text{color:#fff;font-weight:700;font-size:1rem}.block.guides .local-guides .local-guide .zone-name{text-transform:uppercase}.block.guides .local-guides .local-guide .view-more{font-size:0.75rem}.block.guides .local-guide-neighborhood{display:flex;gap:1.375rem}.block.guides .local-guide-neighborhood .neighborhood{display:flex;align-items:center;position:relative;justify-content:center;min-width:16.0625rem;height:11.1875rem;border-radius:0.375rem}.block.guides .local-guide-neighborhood .neighborhood__img{height:100%;width:100%;object-fit:cover;border-radius:0.375rem}.block.guides .local-guide-neighborhood .neighborhood__text{color:#fff;font-size:1.5rem;font-weight:600;position:absolute}@media only screen and (min-width: 1024px){.block.guides .local-guides{display:grid;grid-template-columns:repeat(auto-fill, minmax(27.5rem, 1fr));grid-auto-rows:13.125rem;gap:1.25rem}.block.guides .local-guides .local-guide .text{font-size:1.125rem}.block.guides .local-guides .local-guide .view-more{font-size:1rem}}.block-journals{width:100%}.block-journals .view-more{font-size:1rem;font-weight:400;line-height:1.375rem}.block-journals .journals{display:inline-grid;grid-template-columns:repeat(4, 17.5rem);overflow-x:auto;grid-auto-rows:25.625rem;gap:1.25rem;width:100%;-ms-overflow-style:none;scrollbar-width:none}.block-journals .journals-guide{grid-auto-rows:initial}.block-journals .journals::-webkit-scrollbar{display:none}.block-journals .journals a{text-decoration:none;color:#0a0a0a}.block-journals .journals .journal{display:flex;flex-direction:column}.block-journals .journals .journal-guide{position:relative;justify-content:center;align-items:center}.block-journals .journals .journal__title{font-size:1.25rem;font-weight:700}.block-journals .journals .journal__description{color:#4a4a4a;font-size:0.875rem;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;text-overflow:ellipsis}.block-journals .journals .journal img,.block-journals .journals .journal__no-img{width:17.5rem;height:13.5rem;border-radius:1.25rem;margin-bottom:0.625rem}.block-journals .journals .journal__no-img{display:flex;align-items:center;justify-content:center;background-color:#36c;content:url("https://multimedia.lamudi.com/lamudi/common/images/journal-no-img.svg");object-fit:none}.block-journals .journals .journal__text{color:#fff;font-size:1.5rem;font-weight:600;position:absolute}@media only screen and (min-width: 1024px){.block-journals .journals{grid-template-columns:repeat(4, 17.8125rem);justify-content:space-between}.block-journals .journals .journal img{width:17.8125rem}}.tabs{display:flex;flex-direction:row;align-items:flex-start;color:#000;border-bottom:.5px solid #000;margin:20px 0;padding:0;height:40px}.tabs input[type=radio]+label{border-bottom:.5px solid #000;cursor:pointer;box-sizing:border-box;flex:none;order:1;padding:10px 20px;height:40px;font-size:14px}.tabs input[type=radio]:checked+label{border-bottom:1px solid #000;box-sizing:border-box;font-weight:700;cursor:auto}.customDropdown{position:relative;width:fit-content}.customDropdown i:after{content:"";display:block;box-sizing:border-box;position:absolute;width:8px;height:8px;border-bottom:2px solid;border-right:2px solid;transform:rotate(45deg);right:10px;top:10px;right:0.9375rem}.customDropdown input[type=text]:focus{outline:none}.customDropdown input[type=text]:focus+i:after{transform:rotate(225deg);top:14px}.customDropdown input[type=text]:focus+i+ul{display:block}.customDropdown ul{display:none;list-style:none;position:absolute;padding:0;background-color:#fff;border:1px solid #ccc;top:30px}.customDropdown ul:active{display:block}.customDropdown ul li input[type=radio]{display:none}.customDropdown ul li input[type=radio]:checked+label{background-color:#ccc}.customDropdown ul li label{display:block;padding:7px 10px;cursor:pointer}.customDropdown ul li label:hover{background-color:#ccc}.autocomplete-modal{display:none}.autocomplete-modal.show{position:absolute;width:100%;height:100vh;overflow:hidden;background-color:#fff;display:flex;flex-direction:column;top:0;left:0;z-index:3}.autocomplete-modal.show .header{display:flex;align-items:center;justify-content:center;height:3.125rem;border-bottom:0.0625rem solid #f7f8fa;padding:0 1rem}.autocomplete-modal.show .header .close{display:flex;justify-content:center;align-items:center;width:1.5rem;height:1.5rem}.autocomplete-modal.show .header .close i{content:"";display:block;box-sizing:border-box;position:absolute;width:8px;height:8px;border-bottom:2px solid;border-right:2px solid;transform:rotate(135deg);position:initial;filter:invert(44%) sepia(60%) saturate(4585%) hue-rotate(206deg) brightness(85%) contrast(86%)}.autocomplete-modal.show .header span{width:100%;font-weight:700;font-size:0.875rem;line-height:1.1875rem;color:#0a0a0a;text-align:center}.autocomplete-modal.show .text-input{width:100%;height:2.1875rem;background:#fff;border:0.0625rem solid #36c;border-radius:0.25rem;font-style:normal;font-weight:400;font-size:1rem;line-height:1.1875rem;color:#4a4a4a;padding:0.5rem 2.75rem 0.5rem 0.625rem;width:calc(100% - 32px);margin:1rem;padding:0.6875rem}.autocomplete-modal.show .text-input:focus{outline:none}.autocomplete-modal.show .text-input::placeholder{color:#4a4a4a;opacity:1}.autocomplete-modal.show .text-input:-ms-input-placeholder{color:#4a4a4a}.autocomplete-modal.show .text-input::-ms-input-placeholder{color:#4a4a4a}.autocomplete-modal.show .text-input::-webkit-search-cancel-button{-webkit-appearance:none;display:inline-block;width:0.8125rem;height:0.8125rem;margin-left:0.625rem;background:linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 43%, #36c 45%, #36c 55%, rgba(0, 0, 0, 0) 57%, rgba(0, 0, 0, 0) 100%),linear-gradient(135deg, transparent 0%, transparent 43%, #36c 45%, #36c 55%, transparent 57%, transparent 100%)}.autocomplete-modal.show i{display:none}.autocomplete-modal.show .search-results{border-top:0.0625rem solid #f7f8fa;overflow-y:scroll;height:100%}.autocomplete-modal.show .search-results__options{flex-direction:column}.autocomplete-modal.show .search-results__options .text-suggestion{display:flex;align-items:center;padding-left:1.25rem;height:3.4375rem;border-bottom:0.0625rem solid #f7f8fa}.autocomplete-modal.show .search-results__options .text-suggestion i{display:block;background-image:url("https://multimedia.lamudi.com/lamudi/common/images/autocomplete/colonia.svg");background-position:center;background-repeat:no-repeat;width:1.375rem;height:1.375rem;margin-right:0.9375rem}.autocomplete-modal.show .search-results__options .text-suggestion .text{display:flex;flex-direction:column}.autocomplete-modal.show .search-results__options .text-suggestion .text .principal{font-weight:700;font-size:0.875rem;line-height:1.1875rem;color:#0a0a0a}.autocomplete-modal.show .search-results__options .text-suggestion .text .secondary{font-weight:700;font-size:0.75rem;line-height:1rem;color:#999}.autocomplete-mobile{position:relative;flex-basis:100%}.autocomplete-mobile .text-input{width:100%;height:2.1875rem;background:#fff;border:0.0625rem solid #36c;border-radius:0.25rem;font-style:normal;font-weight:400;font-size:1rem;line-height:1.1875rem;color:#4a4a4a;padding:0.5rem 2.75rem 0.5rem 0.625rem}.autocomplete-mobile .text-input:focus{outline:none}.autocomplete-mobile .text-input::placeholder{color:#4a4a4a;opacity:1}.autocomplete-mobile .text-input:-ms-input-placeholder{color:#4a4a4a}.autocomplete-mobile .text-input::-ms-input-placeholder{color:#4a4a4a}.autocomplete-mobile .text-input::-webkit-search-cancel-button{-webkit-appearance:none;display:inline-block;width:0.8125rem;height:0.8125rem;margin-left:0.625rem;background:linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 43%, #36c 45%, #36c 55%, rgba(0, 0, 0, 0) 57%, rgba(0, 0, 0, 0) 100%),linear-gradient(135deg, transparent 0%, transparent 43%, #36c 45%, #36c 55%, transparent 57%, transparent 100%)}.autocomplete-mobile>i{position:absolute;top:0.5rem;right:0.625rem;background-image:url("https://multimedia.lamudi.com/lamudi/common/images/homeSearch.svg");filter:invert(44%) sepia(60%) saturate(4585%) hue-rotate(206deg) brightness(85%) contrast(86%);width:1.125rem;height:1.125rem}.autocomplete-mobile .search-results{position:absolute;display:flex;flex-direction:column;align-items:flex-end;top:2.5rem;left:0;width:100%}.autocomplete-mobile .search-results__options{box-sizing:border-box;z-index:3;background:#fff;color:#0a0a0a;overflow-x:hidden;overflow-y:auto;font-weight:400;font-size:0.875rem;line-height:1.1875rem;border:0.0625rem solid #999;border-radius:0.25rem;max-height:12.5rem;cursor:pointer;display:flex;flex-direction:column;width:100%}.autocomplete-mobile .search-results__options .text-suggestion{padding:0.625rem 0.3125rem;color:#000;width:100%;text-align:left}.autocomplete-mobile .search-results__options .text-suggestion:hover{background-color:#0cf}.autocomplete-desktop{position:relative}.autocomplete-desktop .text-input{width:100%;height:2.1875rem;background:#fff;border:0.0625rem solid #36c;border-radius:0.25rem;font-style:normal;font-weight:400;font-size:1rem;line-height:1.1875rem;color:#4a4a4a;padding:0.5rem 2.75rem 0.5rem 0.625rem;height:2.6875rem;border:0.0625rem solid #999;color:#4a4a4a;padding:0.625rem 2.5rem 0.625rem 0.625rem}.autocomplete-desktop .text-input:focus{outline:none}.autocomplete-desktop .text-input::placeholder{color:#4a4a4a;opacity:1}.autocomplete-desktop .text-input:-ms-input-placeholder{color:#4a4a4a}.autocomplete-desktop .text-input::-ms-input-placeholder{color:#4a4a4a}.autocomplete-desktop .text-input::-webkit-search-cancel-button{-webkit-appearance:none;display:inline-block;width:0.8125rem;height:0.8125rem;margin-left:0.625rem;background:linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 43%, #36c 45%, #36c 55%, rgba(0, 0, 0, 0) 57%, rgba(0, 0, 0, 0) 100%),linear-gradient(135deg, transparent 0%, transparent 43%, #36c 45%, #36c 55%, transparent 57%, transparent 100%)}.autocomplete-desktop .text-input:focus{border-color:#36c;padding-right:0.625rem}.autocomplete-desktop .text-input:focus+i{display:none}.autocomplete-desktop .text-input:hover{padding-right:0.625rem}.autocomplete-desktop .text-input:hover+i{display:none}.autocomplete-desktop>i{position:absolute;right:0.6875rem;top:0.625rem;background-image:url("https://multimedia.lamudi.com/lamudi/common/images/homeSearchLocation.svg");height:1.25rem;width:1rem}.autocomplete-desktop .search-results{position:absolute;top:2.875rem;width:21.875rem}.autocomplete-desktop .search-results__options{box-sizing:border-box;z-index:3;background:#fff;color:#0a0a0a;overflow-x:hidden;overflow-y:auto;font-weight:400;font-size:0.875rem;line-height:1.1875rem;border:0.0625rem solid #999;border-radius:0.25rem;max-height:12.5rem;cursor:pointer;display:flex;flex-direction:column;width:100%;max-height:16.25rem;display:none}.autocomplete-desktop .search-results__options .text-suggestion{padding:0.625rem 0.3125rem;color:#000;width:100%;text-align:left}.autocomplete-desktop .search-results__options .text-suggestion:hover{background-color:#0cf}.autocomplete-desktop .search-results__options .text-suggestion{display:flex;align-items:center;padding-left:1.25rem;height:3.4375rem;border-bottom:0.0625rem solid #f7f8fa}.autocomplete-desktop .search-results__options .text-suggestion:hover{background-color:#f7f8fa}.autocomplete-desktop .search-results__options .text-suggestion i{display:block;background-image:url("https://multimedia.lamudi.com/lamudi/common/images/autocomplete/colonia.svg");background-position:center;background-repeat:no-repeat;width:1.375rem;height:1.375rem;margin-right:0.9375rem}.autocomplete-desktop .search-results__options .text-suggestion .text{display:flex;flex-direction:column}.autocomplete-desktop .search-results__options .text-suggestion .text .principal{font-weight:700;font-size:0.875rem;line-height:1.1875rem;color:#0a0a0a}.autocomplete-desktop .search-results__options .text-suggestion .text .secondary{font-weight:700;font-size:0.75rem;line-height:1rem;color:#999}.searchboxOperationType{color:#fff;border-bottom:.5px outset #fff;flex-basis:100%;margin:0 0 10px 0}@media only screen and (min-width: 760px){.searchboxOperationType{margin:0 0 20px 0}}.searchboxOperationType input[type=radio]+label{border-bottom:.5px outset #fff}.searchboxOperationType input[type=radio]:checked+label{border-bottom:0.125rem solid #ff8700}.propertyTypeDropdown{display:inline-flex;z-index:2;width:100%;cursor:pointer}@media only screen and (min-width: 760px){.propertyTypeDropdown{margin-right:20px;width:fit-content}}.propertyTypeDropdown input[type=text]{width:100%;height:40px;background:#fff;border-radius:4px;border:0;font-weight:400;font-size:1rem;line-height:19px;color:#0a0a0a;padding:10px;cursor:pointer}@media only screen and (min-width: 760px){.propertyTypeDropdown input[type=text]{width:145px;margin-bottom:4px}}.propertyTypeDropdown input[type=text]:focus+i:after{transform:rotate(225deg);top:18px}.propertyTypeDropdown input[type=text]::placeholder{color:#0a0a0a;opacity:1}.propertyTypeDropdown input[type=text]:-ms-input-placeholder{color:#0a0a0a}.propertyTypeDropdown input[type=text]::-ms-input-placeholder{color:#0a0a0a}.propertyTypeDropdown i:after{top:14px}.propertyTypeDropdown ul{border:1px solid #999;border-radius:4px;top:44px;width:100%}.propertyTypeDropdown ul li input[type=radio]{display:none}.propertyTypeDropdown ul li input[type=radio]:checked+label{background-color:#f7f8fa}.propertyTypeDropdown ul li label{font-weight:400;font-size:14px;line-height:19px;color:#0a0a0a;width:100%}@media only screen and (min-width: 760px){.propertyTypeDropdown ul li label{width:143px}}.propertyTypeDropdown ul li label:hover{background-color:#0cf}.header-home__banner-img{height:32.5rem;width:100%;background-size:cover;background-repeat:no-repeat;background-position-x:center}.header-home__banner-img.centered{background-position-y:center}.header-home__search-box{padding:1.875rem 1.25rem;top:11.875rem;position:absolute;margin:0 0.5rem;left:0;background:rgba(10,10,10,.7);border-radius:1.25rem;width:calc(100% - 16px)}@media only screen and (min-width: 1024px){.header-home__search-box{width:54.3125rem;margin:0 auto;left:50%;transform:translateX(-50%);padding:2.5rem}}.header-home__search-box h1{font-weight:700;font-size:1.75rem;line-height:2.375rem;letter-spacing:.0075em;font-feature-settings:"ss01" on;color:#fff;margin:0 0 1.25rem 0}@media only screen and (min-width: 760px){.header-home__search-box h1{margin:0 0 1.875rem 0}}.header-home__inputs{display:flex;flex-wrap:wrap;row-gap:0.625rem}@media only screen and (min-width: 760px){.header-home__inputs{row-gap:0;flex-wrap:nowrap}}.header-home__inputs .inputLocation{width:100%}.header-home__inputs .inputLocation .text-input{border:none;width:100%;height:2.5rem;padding:0.625rem;color:#0a0a0a}.header-home__inputs .inputLocation .searchLocationIcon{position:absolute;right:0.6875rem;top:0.625rem;background-image:url("https://multimedia.lamudi.com/lamudi/common/images/homeSearchLocation.svg");height:1.25rem;width:1rem;filter:none}.header-home__inputs .button{display:flex;align-items:center;justify-content:center;width:100%;height:2.5rem;border-radius:0.25rem;font-weight:700;font-size:0.875rem;line-height:1.1875rem;background:#ff8700;color:#fff;border:0}@media only screen and (min-width: 760px){.header-home__inputs .button{width:7.25rem;border-radius:0 0.25rem 0.25rem 0;cursor:pointer}}.header-home__inputs .button i{background-image:url("https://multimedia.lamudi.com/lamudi/common/images/homeSearch.svg");width:1.125rem;height:1.125rem;margin-right:0.4375rem}@media only screen and (min-width: 760px){.header-home__inputs .inputLocation{flex-grow:1;width:auto}.header-home__inputs .inputLocation .text-input{border-radius:0.25rem 0 0 0.25rem}}:root{--wl-border-radius-regular: 0.25rem}.top-publishers{width:100%}.top-publishers-list{gap:25px;display:flex;flex-direction:row;list-style:none;padding:10px}.top-publisher{min-width:16.0625rem;background-color:#fff;display:inline-flex;flex-direction:column;text-decoration:none;box-shadow:0 4px 16px 0 rgba(0,0,0,.1294117647);border-radius:6px}.top-publisher-logo-space{height:9.1875rem;display:flex;align-items:center;justify-content:center}.top-publisher-logo{width:100%;padding:0.625rem;max-height:9.375rem;aspect-ratio:1/1;object-fit:contain}.top-publisher-info{padding:16px;background-color:#f7f7f7;font-size:16px;color:#36c;text-align:center;font-weight:600;gap:10px;display:flex;flex-direction:column;flex:1}.top-publisher-numbers{display:flex;flex-direction:row;justify-content:center;color:#000;gap:15px;justify-items:center;font-weight:400;font-size:12px;line-height:16px;letter-spacing:0;text-align:center;vertical-align:middle}.top-publisher-numbers-item{display:flex;flex-direction:column;align-items:center}.top-publisher-numbers .number{font-weight:600}.wl-swipe-container{display:flex;gap:0.625rem;width:100%;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}.wl-swipe-container::-webkit-scrollbar{display:none}.wl-swipe-container{position:relative}.wl-swipe-container .wl-swipe-arrow{display:none}.wl-swipe-container .wl-swipe-elements{display:flex;flex-direction:row;width:100%;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}.wl-swipe-container .wl-swipe-elements::-webkit-scrollbar{display:none}@media only screen and (min-width: 760px){.wl-swipe-container:hover .wl-swipe-arrow{display:flex}.wl-swipe-container .wl-swipe-arrow{position:absolute;top:45%;width:2.5rem;height:2.5rem;align-items:center;justify-content:center;border-radius:50%;background-color:#fff;font-weight:700;font-size:24px;z-index:2;color:#36c;cursor:pointer;border:none}.wl-swipe-container .wl-swipe-arrow i:after{content:"";display:block;width:0.625rem;height:0.625rem;border-bottom:0.125rem solid;border-right:0.125rem solid;position:absolute;top:0.875rem}.wl-swipe-container .wl-swipe-arrow.hidden{display:none}.wl-swipe-container .wl-swipe-left-arrow{left:0.3125rem}.wl-swipe-container .wl-swipe-left-arrow i:after{right:0.75rem;transform:rotate(135deg)}.wl-swipe-container .wl-swipe-right-arrow{right:0.3125rem}.wl-swipe-container .wl-swipe-right-arrow i:after{left:0.75rem;transform:rotate(-45deg)}}.testimonies{width:100%;margin-top:2.5rem}.testimonies__content{display:flex;justify-content:flex-start;min-height:23.75rem;gap:1.25rem;overflow-x:scroll;overflow-y:hidden;width:100%;scrollbar-width:none}.testimonies__content a{cursor:pointer;line-height:inherit;text-decoration:none}.testimonies__content .testimony{display:flex;flex-direction:column;border-radius:0.6875rem;overflow:hidden;border:0.0625rem solid #f7f8fa;flex:1;min-width:18.75rem;height:100%}.testimonies__content .testimony .testimonial{display:flex;flex-direction:column;background:#fff;border-top-left-radius:0.6875rem;border-top-right-radius:0.6875rem;color:#333;margin:0;padding:2.8125rem 1.25rem;width:100%;gap:0.625rem}.testimonies__content .testimony .testimonial p{margin:0;padding:0 1.5625rem;font-size:0.9375rem;font-style:italic;line-height:1.67;text-align:center}.testimonies__content .testimony .testimonial .icon-double-quote{color:#36c;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:5.625rem;font-weight:bold;position:relative;height:2.5rem;line-height:1}.testimonies__content .testimony .testimonial .icon-double-quote::before{height:100%;display:flex;align-items:baseline}.testimonies__content .testimony .testimonial .icon-double-quote.open::before{content:open-quote}.testimonies__content .testimony .testimonial .icon-double-quote.close{top:-0.75rem;align-self:flex-end}.testimonies__content .testimony .testimonial .icon-double-quote.close::before{content:close-quote}@-moz-document url-prefix(){.testimonies__content .testimony .testimonial .icon-double-quote{top:1.25rem}.testimonies__content .testimony .testimonial .icon-double-quote.close{top:0}}.testimonies__content .testimony .profile{align-items:center;background:#36c;display:flex;flex-direction:column;justify-content:center;margin-top:1.25rem;padding:1.25rem 1.25rem 0;height:7.75rem;position:relative}.testimonies__content .testimony .profile__image{border-radius:50%;box-shadow:0.25rem 0.1875rem 0.25rem 0 rgba(140,140,140,.5);display:block;height:5rem;width:5rem;object-fit:cover;position:absolute;top:-2.5rem}.testimonies__content .testimony .profile__name{color:#fff;font-size:0.9375rem;font-weight:700;text-align:center}@media only screen and (min-width: 1024px){.testimonies__content{overflow:hidden}}.listing-tags{padding:0.625rem;position:absolute;top:0.3125rem;display:flex;gap:0.3125rem;z-index:2;width:100%;flex-direction:row;flex-wrap:wrap}.listing-tag{padding:0.3125rem 0.5rem;background:#36c;color:#fff;display:flex;gap:0.3125rem;align-items:center;min-height:1.1875rem;max-height:1.1875rem;width:fit-content;min-width:fit-content;border-radius:2.75rem;font-size:0.5625rem;font-weight:700;text-transform:uppercase;line-height:normal}.listing-tag wl-icon{--wl-icon-height: 0.875rem;--wl-icon-width: 0.875rem;width:0.875rem;height:0.875rem}.listing-tag.clear{background:#fff;color:#36c}.listing-tag.dark{background:rgba(0,0,0,.4);color:#fff}.listing-tag.square{border-radius:0.25rem}.listing-tag.right{position:absolute;right:0.9375rem;top:0.75rem}.personal-assistant{display:flex;justify-content:start;padding:0.875rem;gap:0.875rem;background-color:rgba(51,102,204,.1);border-radius:1.25rem;margin:2.5rem 0 0.9375rem;min-height:13.75rem}.personal-assistant__img{position:relative;width:5rem;flex-shrink:0}.personal-assistant__img--small{display:block}.personal-assistant__img--big{display:none}.personal-assistant__img img{position:absolute;width:5.75rem;left:-0.875rem;bottom:-0.875rem;border-bottom-left-radius:1.25rem}.personal-assistant__title{color:#36c;font-size:1rem;font-weight:400;line-height:1.25rem;margin:0}.personal-assistant__text{display:flex;flex-direction:column;justify-content:center;color:#36c;font-size:1.25rem;font-weight:700;line-height:1.5625rem;gap:0.625rem}.personal-assistant__text p{margin:0}.personal-assistant .pa-button{--wl-button-background-color: #FF8700;--wl-button-height: 2.5rem;--wl-button-size-large-font-size: 0.875rem;--wl-button-primary-hover-dark: #EA7C00;--wl-button-width: 9rem;max-width:18.75rem;margin:0;--wl-button-gap: 0.625rem}.personal-assistant .pa-button wl-icon{--wl-icon-height: 1.25rem;--wl-icon-width: 1.25rem;width:1.25rem;height:1.25rem}.personal-assistant .pa-landing-button{text-decoration:none;display:flex;justify-content:center;align-items:center;cursor:pointer;vertical-align:middle;width:var(--wl-button-width, 100%);height:var(--wl-button-height, 2.1875rem);border-radius:var(--wl-button-border-radius, 0.25rem);font-family:var(--wl-button-font-family, inherit);gap:var(--wl-button-gap, 0.3125rem);border:var(--wl-button-variant-filled-border, 0.25rem);font-weight:var(--wl-button-variant-filled-font-weight, 700);color:var(--wl-button-secondary-background-color, white);background-color:var(--wl-button-background-color, grey);border-color:var(--wl-button-background-color, white);font-size:var(--wl-button-size-large-font-size, revert)}.personal-assistant .pa-landing-button:hover{background-color:var(--wl-button-primary-hover-dark, grey)}@media only screen and (min-width: 320px)and (max-width: 375px){.personal-assistant__title{font-size:0.875rem}.personal-assistant__text{font-size:1.125rem}.personal-assistant .pa-button{--wl-button-size-large-font-size: 0.75rem}}@media only screen and (min-width: 760px){.personal-assistant{margin-right:0.5rem;margin-left:0.5rem;width:100%;max-width:none;gap:7.4%}.personal-assistant__img{height:100%;width:23.75rem;margin-left:3%}.personal-assistant__img--small{display:none}.personal-assistant__img--big{display:block}.personal-assistant__img img{height:14.875rem;width:auto;top:-1.375rem;left:0rem;border-bottom-left-radius:0}.personal-assistant__text{line-height:initial}}@media only screen and (min-width: 1024px){.personal-assistant{margin-right:auto;margin-left:auto;max-width:none}.personal-assistant__text{font-size:2rem;max-width:40%}.personal-assistant__title{font-size:1.125rem}}body{display:flex;flex-direction:column;height:100vh;margin:0}body p{margin-top:0;margin-bottom:1rem}body{font-family:"Open Sans",Helvetica,Arial,sans-serif;font-size:1rem;font-weight:400;line-height:1.5rem}body main *,body main *::before,body main *::after{box-sizing:border-box}body main .middle-section .content{max-width:1320px;display:flex;flex-direction:column;padding:0 1rem}@media only screen and (min-width: 1320px){body main .middle-section .content{width:1320px;padding:0;margin:0 auto}}body main .middle-section .content{padding:0 16px;align-items:center}body main .middle-section .content h2.title{font-size:24px;font-weight:700;color:#333;margin:40px 0;align-self:start}@media screen and (max-width: 767px){body main .middle-section .content h2.title{margin:20px 0}}body main .middle-section .content .block.links,body main .middle-section .content .block.secondary-links{width:100%}ul.block{list-style-type:none}.header-container__title{font-style:normal;font-weight:500;font-size:2rem;line-height:2.4375rem;text-align:center;letter-spacing:-0.02em;color:#313037;margin-bottom:1.125rem}.header-container__subtitle{font-size:1.5rem;font-weight:400;color:#616067}.header-container__subtitle .operation-type{text-decoration:none;color:#36c}.header-container .form-select,.header-container .form-control{height:3.75rem;color:#555}.header-container .form-select:hover{background-color:#f3f3f3;cursor:pointer}.header-container .form-select:focus,.header-container .form-control:focus{border-color:#ced4da;box-shadow:none}.header-container__operation-form{border-radius:0.1875rem 0 0 0.1875rem}.header-container__property-form{border-radius:0}.header-container__search-form{border-radius:0;padding-left:2rem}.header-container__search-button{border-radius:0 0.1875rem 0.1875rem 0;background-color:#ff8700;color:#fff;border:none;z-index:999}.header-container__search-button:hover{background-color:#ff8700}.header-container__search-button .icon-search{width:29px;height:32px;margin:auto;background:url("https://multimedia.lamudi.com/lamudi/common/images/cc-icon-search_white.svg") no-repeat}.header-container__search-section{position:relative}.header-container__search-section:before{content:"";background:url("https://multimedia.lamudi.com/lamudi/common/images/cc-icon-search.svg") no-repeat left center rgba(0,0,0,0);height:20px;width:20px;position:absolute;left:10px;top:20px}.recommended-links-container{padding:70px 12px}@media screen and (max-width: 767px){.recommended-links-container{padding:20px}}.recommended-links-container .list-title{font-weight:600}.recommended-links-container .divider{height:1px;background-color:#d6d8de;box-sizing:border-box;display:flex;margin-top:8px}.recommended-links-container .recommended-link{color:#0cf;font-size:16px;line-height:24px;margin:4px 0;text-decoration:none}.recommended-links-container ul.block li{margin:5px 0 5px -30px}.block h2{font-style:normal;font-weight:700;font-size:24px;line-height:33px;margin:0 0 40px 0}.links{padding:40px 0 0 0}.links__column{border-bottom:1px solid #999}.links__column input[type=checkbox]{display:none}.links__column input[type=checkbox]:checked+label i{transform:rotate(225deg);top:14px}.links__column input[type=checkbox]:checked+label+ul{display:block}.links__column label{display:flex;justify-content:space-between;align-items:center;margin:20px 0 20px 0}.links__column label h4{font-style:normal;font-weight:700;font-size:18px;line-height:25px;margin:0}.links__column label i{content:"";display:block;box-sizing:border-box;position:absolute;width:8px;height:8px;border-bottom:2px solid;border-right:2px solid;transform:rotate(45deg);right:10px;top:10px;position:initial}.links__column ul{display:none}.links__tabs-selectors{display:flex;flex-direction:row;align-items:flex-start;color:#999;margin:0 0 20px 0;border-bottom:1px solid #999}.links__tabs-selector{width:101px;height:40px;justify-content:center;align-items:center;padding:10px 20px;font-weight:400;font-size:14px;line-height:19px}.links__tabs-radio{display:none}.links__tabs-radio:nth-of-type(1):checked~.links__tabs-selectors>.links__tabs-selector:nth-of-type(1),.links__tabs-radio:nth-of-type(2):checked~.links__tabs-selectors>.links__tabs-selector:nth-of-type(2){color:#36c;font-weight:700;border-bottom:1px solid #36c}.links__tabs-radio:nth-of-type(1):checked~.links__tab:nth-of-type(2),.links__tabs-radio:nth-of-type(2):checked~.links__tab:nth-of-type(3){display:block}.links__tabs-selector:hover{cursor:pointer;color:#36c;font-weight:700;border-bottom:1px solid #36c}.links__tab{display:none}.links ul{padding:0}.links ul li{list-style:none}.links__columns{display:flex;flex-direction:column}.links__column{flex:1}.links__column .link{display:block;color:#36c;margin:0 0 10px 0;text-decoration:none}.secondary-links{padding:40px 0 0 0;font-size:14px;font-weight:400;line-height:19px;letter-spacing:0;text-align:left}.secondary-links__body{display:flex;flex-direction:column}.secondary-links__column{flex:1}.secondary-links__column>div{border-bottom:1px solid #999}.secondary-links__column .link{display:block;color:#36c;margin:0 0 10px 0;font-style:normal;font-weight:400;font-size:16px;line-height:22px;list-style-type:none;text-decoration:none}.secondary-links__column input[type=checkbox]{display:none}.secondary-links__column input[type=checkbox]:checked+label i{transform:rotate(225deg);top:14px}.secondary-links__column input[type=checkbox]:checked+label+p{display:block}.secondary-links__column label{display:flex;justify-content:space-between;align-items:center;margin:20px 0 20px 0}.secondary-links__column label h3{font-size:16px;font-weight:700;line-height:22px;margin:0}.secondary-links__column label i{content:"";display:block;box-sizing:border-box;position:absolute;width:8px;height:8px;border-bottom:2px solid;border-right:2px solid;transform:rotate(45deg);right:10px;top:10px;position:initial}.secondary-links__column p{display:none}@media only screen and (min-width: 760px){body main .content .links__columns{flex-direction:row;border-bottom:0}body main .content .links__columns label{justify-content:start}body main .content .links__columns label i{display:none}body main .content .links__columns ul{display:block}body main .content .secondary-links__body{flex-direction:row}body main .content .secondary-links__column{padding-right:20px}body main .content .secondary-links__column:last-child{padding-right:0}body main .content .secondary-links__column>div{border-bottom:0}body main .content .secondary-links__column label{justify-content:start}body main .content .secondary-links__column label i{display:none}body main .content .secondary-links__column p{display:block}}@media only screen and (min-width: 1280px){body main .middle-section{display:flex;justify-content:center}body main .middle-section .content{display:flex;flex-direction:column;align-items:center}body main .middle-section h2.title{margin:40px 0}}.header-home__search-box{top:4.3125rem}.header-home__subtitle{color:#fff;font-size:1.125rem;margin-bottom:0.625rem;display:block}.header-home__banner-img{height:25.9375rem}.middle-section h2{margin-bottom:0.9375rem}@media only screen and (min-width: 760px){.header-home__banner-img{height:18.75rem}}@media only screen and (min-width: 1024px){.header-home__search-box{top:4.875rem}.header-home__banner{min-height:20.9375rem}}
+ body,:root{--wl-tablet-breakpoint: 760px;--wl-chip-border-radius: 0.25rem;--wl-chip-background-color: #D8D8D8;--wl-chip-color: #0A0A0A;--wl-chip-height: 1.75rem;--wl-chip-padding: 0.3125rem;--wl-chip-close-icon-color: white;--wl-chip-close-icon-size: 1.125rem;--wl-chip-close-icon-background-color: #3366CC;--wl-control-separator: #D8D8D8;--wl-button-padding: 0.625rem;--wl-control-width: 9.375rem;--wl-control-content-width: 15.3125rem;--wl-dropdown-content-height: calc(100vh - 12.5rem);--wl-hover-background: #F7F8FA;--wl-hover-color: #0A0A0A;--wl-selected-background: #00CCFF;--wl-selected-color: #0A0A0A;--wl-color: #0A0A0A;--wl-control-border-color: #999999;--wl-control-height: 2.5rem;--wl-control-font-size: 0.875rem;--wl-control-opened-border-color: #3366CC;--wl-control-content-gap: 0.625rem;--wl-header-color: #0A0A0A;--wl-primary-button-color: #FFFFFF;--wl-primary-button-background: #3366CC;--wl-item-height: 2.5rem;--wl-item-is-title-color: #4a4a4a;--wl-checkbox-border-color: #999999;--wl-checkbox-checked-background-color: #3366CC;--wl-checkbox-checked-tick-color: white;--wl-button-background-color: #3366CC;--wl-button-border-color: #3366CC;--wl-button-color: white;--wl-button-secondary-color: #4a4a4a;--wl-button-secondary-background-color: white;--wl-radio-button-icon-url: url("https://multimedia.lamudi.com/lamudi/common/images/radio-button-unchecked-24.svg");--wl-radio-button-checked-icon-url: url("https://multimedia.lamudi.com/lamudi/common/images/radio-button-checked-24.svg");--wl-radio-button-checked-color: #000000;--wl-radio-button-checked-font-weight: 100;--wl-input-error-color: #F55C66;--wl-button-primary-hover-dark: #1E4FB1;--wl-button-primary-hover-light: rgba(51, 102, 204, 0.1);--wl-button-primary-hover-light-solid: #E8EEF8;--wl-button-secondary-hover-dark: #EA7C00;--wl-button-secondary-hover-light: rgba(255, 135, 0, 0.1019607843);--wl-whatsapp: #25D366;--wl-button-whatsapp-hover-dark: #15A84C;--wl-button-whatsapp-hover-light: rgba(37, 211, 102, 0.1);--wl-whatsapp-oposite: #ffffff;--wl-button-variant-filled-border: 1px solid;--wl-button-variant-filled-font-weight: 700;--wl-button-variant-outlined-border: 1px solid;--wl-button-variant-outlined-font-weight: 700;--wl-button-variant-flat-border: 1px solid;--wl-button-variant-flat-font-weight: 700;--wl-button-size-large-padding: 0.875rem 2.75rem;--wl-button-size-large-font-size: 0.875rem;--wl-button-size-medium-padding: 0.625rem 1.5rem;--wl-button-size-medium-font-size: 0.875rem;--wl-button-size-small-padding: 0.46875rem 1.5rem;--wl-button-size-small-font-size: 0.875rem;--wl-button-border-radius: 0.25rem;--wl-icon-width: 1.5rem;--wl-icon-height: 1.5rem;--wl-favorite-height: 2rem;--wl-favorite-width: 2rem;--wl-favorite-desktop-height: 1.5rem;--wl-favorite-desktop-width: 1.6875rem;--wl-favorite-background-image: url("https://multimedia.lamudi.com/common/images/favorite-icon.svg");--wl-favorite-background-image-selected: url("https://multimedia.lamudi.com/common/images/favorite-icon-selected.svg");--wl-favorite-background-image-hover: url("https://multimedia.lamudi.com/common/images/favorite-icon-selected.svg");--wl-favorite-background-color-filter: brightness(0) saturate(100%) invert(37%) sepia(36%) saturate(2562%) hue-rotate(197deg) brightness(87%) contrast(82%);--wl-favorite-selected-background-color-filter: invert(75%) sepia(63%) saturate(5272%) hue-rotate(359deg) brightness(99%) contrast(102%);--wl-favorite-border-radius: 0.25rem;--wl-favorite-icon-hover-background-color-filter: brightness(0) saturate(100%) invert(37%) sepia(36%) saturate(2562%) hue-rotate(197deg) brightness(87%) contrast(82%);--wl-favorite-label-color: #3366CC;--wl-favorite-label-selected-color: #3366CC;--wl-share-height: 2rem;--wl-share-width: 2rem;--wl-share-desktop-height: 1.5rem;--wl-share-desktop-width: 1.6875rem;--wl-share-background-image: url("https://multimedia.lamudi.com/common/images/share-icon-black-filled.svg");--wl-share-background-color-filter: brightness(0) saturate(100%) invert(37%) sepia(36%) saturate(2562%) hue-rotate(197deg) brightness(87%) contrast(82%);--wl-share-border-radius: 0.25rem;--wl-share-label-color: #3366CC;--wl-share-hover-background-color: rgba(51, 102, 204, 0.05);--wl-range-slider-line-color: #3366CC;--wl-range-slider-line-width: 0.5rem;--wl-range-slider-point-color: #3366CC;--wl-range-slider-point-size: 0.5rem;--wl-range-slider-point-border-color: #FFFFFF;--wl-range-slider-point-border-size: 0.25rem;--wl-range-slider-input-color: #4a4a4a;--wl-range-slider-input-border-color: #999999;--wl-range-slider-input-width: 5rem;--wl-range-slider-input-height: 2.625rem;--wl-modal-border-radius: 1.25rem;--wl-modal-padding: 1.875rem}body wl-modal::part(cross),:root wl-modal::part(cross){color:#3366CC}body,:root{--serp-map-custom-popup-width: auto;--wl-map-desktop-snippet-width: 20.5rem;--serp-map-custom-popup-top: 50%;--serp-map-custom-popup-left: 2rem;--serp-map-custom-popup-transform: translateY(-50%);--wl-map-point-color: #3366CC;--wl-map-project-point-color: #3366CC;--wl-map-point-active-color: #00CCFF;--wl-map-point-visited-background-color: #1F3D7A;--wl-map-point-visited-border-color: #142952;--wl-map-marker-accurate-background-image: url("https://multimedia.lamudi.com/lamudi/common/images/map-listing-marker-accurate.svg");--wl-map-marker-approximate-background-image: url("https://multimedia.lamudi.com/lamudi/common/images/map-listing-marker-approximate.svg");--wl-map-project-new-development-point-color: #FF8700;--wl-map-point-approximate-inner-shadow-color: #3366CC33;--wl-map-point-approximate-outer-shadow-color: #3366CC33;--wl-map-project-point-approximate-shadow-color: #3366CC33;--wl-map-project-new-development-point-approximate-shadow-color: #FF870066;--wl-map-marker-accurate-border-color: #3366CC;--wl-map-search-area-color: #3366CC;--wl-map-search-area-icon: url("https://multimedia.lamudi.com/common/images/search-icon.svg");--wl-map-view-list-icon: url("https://multimedia.lamudi.com/common/images/list-icon.svg");--wl-map-search-area-font-family: Open Sans;--wl-map-sidebar-background-color: #F7F8FA;--wl-map-cluster-serp-snippets-header-color: #0A0A0A;--wl-map-cluster-serp-snippets-snippet-min-width-mobile: 95%;--wl-map-cluster-serp-snippets-header-close-image: url("https://multimedia.lamudi.com/lamudi/common/images/icon-close-m.svg");--wl-stepper-form-height: 28.125rem;--wl-stepper-form-width: 100%;--wl-stepper-form-padding: 0;--wl-stepper-form-steps-label-color: #999999;--wl-stepper-form-progress-bar-background-color: rgba(51, 102, 204, 0.1);--wl-stepper-form-next-button-text-color: white;--wl-stepper-form-prev-button-background-color: white;--wl-stepper-form-main-color: #3366CC;--wl-show-more-label-color: #3366CC;--wl-show-more-content-minimum-height: 15.625rem;--wl-autocomplete-header-color:#3366CC}*{box-sizing:border-box}@media(prefers-reduced-motion: no-preference){:root{scroll-behavior:smooth}}html,body{font-family:"Open Sans",Helvetica,Arial,sans-serif;margin:0;padding:0;width:100%;min-height:100vh;display:flex;flex-direction:column}main{flex-grow:1}.navbar{flex-direction:row;color:#999;background-color:#36c;position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:0.5rem 0;text-decoration:none}@media only screen and (min-width: 320px)and (max-width: 375px){.navbar .container-fluid.header{gap:0.625rem;padding:0 0.5rem;width:100%}.navbar .container-fluid.header .numero-1{width:8.125rem}}.navbar .container-fluid{max-width:1320px;display:flex;flex-direction:column;padding:0 1rem}@media only screen and (min-width: 1320px){.navbar .container-fluid{width:1320px;padding:0;margin:0 auto}}.navbar .container-fluid{flex-direction:row;gap:0.9375rem;padding:0 0.9375rem;width:100%}.navbar .container-fluid .navbar-nav{display:none;font-style:normal;font-weight:700;font-size:0.75rem;line-height:1rem;list-style:none;padding:0}@media screen and (min-width: 1145px){.navbar .container-fluid .navbar-nav{display:flex;flex-direction:row;margin:0;align-items:center;justify-content:center}}.navbar .container-fluid .navbar-brand{display:flex;flex-direction:row;align-items:center;padding:0;margin:0;width:6.25rem}.navbar .container-fluid .navbar-brand img{width:10.625rem;height:auto}.navbar .container-fluid .numero-1{display:flex;flex-direction:row;align-items:center;gap:0.3125rem;width:10rem;height:auto;color:#fff;opacity:40%}.navbar .container-fluid .numero-1__text{font-size:0.625rem;font-weight:700;line-height:0.875rem;letter-spacing:0;text-align:left}.navbar .container-fluid .publish-button{color:#fff;font-weight:700;font-size:0.875rem;padding:0.5rem 1.25rem;line-height:1.1875rem;background-color:#0cf;margin-left:auto;display:inline-block;text-align:center;text-decoration:none;vertical-align:middle;cursor:pointer;user-select:none;border:0.0625rem solid rgba(0,0,0,0);border-radius:0.25rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}@media only screen and (min-width: 1280px){.navbar .container-fluid .publish-button{margin-left:0.5rem}}.navbar .container-fluid .header-menu-mobile{display:flex;margin-left:auto;height:1.5rem}@media screen and (min-width: 1145px){.navbar .container-fluid .header-menu-mobile{display:none}}.navbar .container-fluid .header-menu-mobile:has(.mobile-favorites) .mobile-favorites{position:relative;display:flex;align-items:flex-end}.navbar .container-fluid .header-menu-mobile:has(.mobile-favorites) .mobile-favorites .mobile-favorites-button{background-image:url("https://multimedia.lamudi.com/common/images/favorite-icon-selected.svg");background-repeat:no-repeat;filter:invert(95%) sepia(0%) saturate(7476%) hue-rotate(111deg) brightness(106%) contrast(100%);width:1.25rem;height:1.25rem;margin-right:0.625rem}.navbar .container-fluid .header-menu-mobile:has(.mobile-favorites) .mobile-favorites .favorites-marker{position:absolute;background-color:#ff8700;width:0.5rem;height:0.5rem;top:0.25rem;right:0.5rem;border-radius:100%}.navbar .container-fluid .header-menu-mobile:has(.mobile-favorites) .mobile-favorites .favorites-marker.hidden{display:none}.navbar .container-fluid .header-menu-mobile .dropdown-menu{position:absolute;z-index:1000;display:none;min-width:10rem;font-size:1rem;color:#212529;text-align:left;list-style:none;background-color:#fff;background-clip:padding-box;border:0.0625rem solid #999;border-radius:0.375rem}.navbar .container-fluid .header-menu-mobile .dropdown-menu.showing,.navbar .container-fluid .header-menu-mobile .dropdown-menu.show{display:flex;flex-direction:column;justify-content:left}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown{display:none;width:17.5rem;border-radius:0;padding:0;margin:0;top:2.75rem;flex-direction:column;justify-content:left;right:0}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion{display:flex;flex-direction:column;border-top:1px solid #999}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item{color:#4f4f4f;background:#fff;border:none;text-align:left}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item.accordion-item-proppit{border-top:1px solid #999}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .collapse.show{display:flex}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header{margin:1rem}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header .accordion-button{display:flex;font-size:0.875rem;font-weight:700;line-height:1.1875rem;letter-spacing:0;padding:0;color:#4f4f4f;background-color:#fff;position:relative;align-items:center;width:100%;text-align:left;border:0;border-radius:0;overflow-anchor:none;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header .accordion-button::after{background-image:url("https://multimedia.lamudi.com/lamudi/common/images/icon-arrowdown_s.svg");flex-shrink:0;width:1.25rem;height:1.25rem;margin-left:auto;content:"";background-repeat:no-repeat;background-size:1.25rem;transition:transform .2s ease-in-out}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header .accordion-button:not(.collapsed)::after{transform:rotate(-180deg)}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header .accordion-button:focus{border:none;box-shadow:none}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header a.accordion-button{text-decoration:none;box-shadow:none}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-header a.accordion-button::after{display:none}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-collapse{display:flex}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-collapse.show .accordion-body{height:17.0625rem}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-body{padding:0;font-size:0.875rem;font-weight:400;line-height:1.1875rem;height:0;overflow:hidden;transition:height .35s ease}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-body ul{padding:0 1rem;margin-top:0;list-style:none}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-body ul li{margin:0.5rem;padding:0.5rem}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-body ul li:focus{background-color:#f7f8fa}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-body ul li a{color:#4f4f4f;text-decoration:none;font-weight:400}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .accordion .accordion-item .accordion-body ul li a:focus{color:#36c}.navbar .container-fluid .header-menu-mobile #header-menu-mobile-dropdown .publish-button{box-sizing:border-box;max-width:100%;margin:1.25rem 1rem;padding-left:0;padding-right:0;display:inline-block;text-align:center;text-decoration:none;cursor:pointer;user-select:none;border:0.0625rem solid rgba(0,0,0,0);border-radius:0.25rem;background-color:#0cf;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.navbar .container-fluid .header-menu-desktop{display:flex;flex-direction:row;align-content:center;flex-grow:1;align-items:center}@media screen and (max-width: 1145px){.navbar .container-fluid .header-menu-desktop{display:none}}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .desktop-favorites__button{margin-left:auto;color:#fff;text-decoration:none;font-style:normal;font-weight:700;font-size:.75rem;line-height:1rem;display:flex;align-items:center;margin-right:10px}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .desktop-favorites__button .desktop-favorites__icon{background-image:url("https://multimedia.lamudi.com/common/images/favorite-icon-selected.svg");background-repeat:no-repeat;filter:invert(95%) sepia(0%) saturate(7476%) hue-rotate(111deg) brightness(106%) contrast(100%);width:1.25rem;height:1.25rem}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .desktop-favorites__button .desktop-favorites__text{margin-left:0.375rem}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .desktop-favorites__button .desktop-favorites__number:not(:empty){margin-left:0.375rem;border-radius:100%;background-color:#ff8700;width:1.25rem;height:1.25rem;display:flex;justify-content:center;align-items:center}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .nav-item.nav-favorites{font-style:normal;font-weight:700;font-size:.75rem;line-height:1rem;margin-left:auto;margin-right:10px}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .nav-item.nav-login-proppit{margin:0 0.375rem 0 0.375rem;border:#fff solid 0.0625rem;border-radius:0.25rem}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .nav-item.nav-login-proppit .nav-link{width:11.25rem;background-color:#36c;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.875rem;height:2.1875rem;margin:0;padding:0}.navbar .container-fluid .header-menu-desktop:has(.desktop-favorites__button) .nav-item.nav-login-proppit .nav-link:hover{background-color:#36c;color:#fff}.navbar .container-fluid .header-menu-desktop .nav-item{background:rgba(0,0,0,0)}.navbar .container-fluid .header-menu-desktop .nav-item.nav-login-proppit{font-style:normal;font-weight:700;font-size:.75rem;line-height:1rem;margin-left:auto}.navbar .container-fluid .header-menu-desktop .nav-item .nav-link{color:#fff;background:rgba(0,0,0,0);border:none;border-radius:0.25rem;margin:0 0.25rem;padding:0.25rem 0.125rem;text-decoration:none;font-weight:700;font-size:0.75rem;line-height:1rem;list-style:none;display:flex;gap:5px;align-items:center}.navbar .container-fluid .header-menu-desktop .nav-item .nav-link .icon{--wl-icon-width: 1.25rem;--wl-icon-height: 1.25rem}.navbar .container-fluid .header-menu-desktop .nav-item .nav-link:hover{background-color:#0cf;color:#fff;display:flex}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu{background:rgba(0,0,0,0);padding:0.75rem 0;border:none;position:absolute;z-index:1000;display:none;min-width:10rem;margin:0;font-size:1rem;color:#212529;text-align:left;list-style:none;background-clip:padding-box;border-radius:0.25rem}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content{border-radius:0.25rem;background:#fff;padding:0.75rem 0;border:none;box-shadow:0 0.0625rem 0.375rem 0.25rem rgba(33,37,41,.1)}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content:before{position:absolute;top:3px;left:1.25rem;display:inline-block;border-right:0.5625rem solid rgba(0,0,0,0);border-bottom:0.5625rem solid #fff;border-left:0.5625rem solid rgba(0,0,0,0);content:""}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content li{display:flex;flex-direction:row;align-items:center;gap:0.625rem;border-bottom:0.0625rem solid #999;font-weight:400;font-size:0.875rem;line-height:1.1875rem}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content li a{padding:0.875rem 1.25rem;color:#4f4f4f;text-decoration:none;margin:0;display:block;width:100%;height:100%}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content li:last-child{border:none}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content li:hover{color:#36c;background-color:#f7f8fa;border-left:0.25rem solid #36c}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content li:hover a{padding-left:1rem}.navbar .container-fluid .header-menu-desktop .nav-item .dropdown-menu__content li:hover ul:before{width:0;height:0;border-left:50px solid rgba(0,0,0,0);border-right:50px solid rgba(0,0,0,0);border-bottom:100px solid #fff}.navbar .container-fluid .header-menu-desktop .nav-item:hover .dropdown-menu{display:flex;flex-direction:column}.navbar .container-fluid .dropdown-toggle{margin-left:auto;margin-top:auto;background:none;border:none;box-shadow:none;padding:0;height:1.3125rem}.navbar .container-fluid .dropdown-toggle::after{display:none}@media screen and (min-width: 1145px){.navbar{flex-wrap:wrap;justify-content:center}.navbar .navbar-brand{margin-right:1rem}.navbar .container-fluid{padding:0;margin:0 0.9375rem;flex-wrap:nowrap}}.footer{background-color:#f7f8fa;padding-top:1.25rem;margin-top:auto;font-style:normal}.footer .container{max-width:1320px;display:flex;flex-direction:column;padding:0 1rem}@media only screen and (min-width: 1320px){.footer .container{width:1320px;padding:0;margin:0 auto}}.footer .container{padding-top:1.25rem;padding-bottom:1.25rem}.footer .container ul.block{list-style-type:none;padding:0}.footer .container ul.block li{margin-bottom:0.625rem;line-height:1.5rem}.footer .container h5{color:#000;margin:0 0 0.9375rem;font-weight:700;font-size:1rem;line-height:1.375rem}.footer .container a{text-decoration:none;color:#4a4a4a;font-weight:400;font-size:0.875rem;line-height:1.1875rem}.footer .container a:hover{color:#ff8700}.footer .container .logos{display:flex;flex-direction:column;margin-bottom:0.625rem;margin-left:auto}@media screen and (min-width: 760px){.footer .container .logos{align-items:flex-end}}.footer .container .logos__social-logo{display:flex;margin-left:0.25rem}.footer .container .logos__social-logo a{margin-right:0.625rem}.footer .container .logos__brand-logo{margin-bottom:1.25rem}.footer .container .row{display:flex;flex-direction:column}.footer .container .row .col-sm{flex:1 0 0;width:100%;max-width:100%}.footer .copyright{background:#36c;max-width:100%}.footer .copyright .container{max-width:82.5rem;font-weight:400;font-size:0.75rem;line-height:0.875rem;color:#fff;display:flex;flex-direction:column;gap:1.25rem}@media screen and (min-width: 760px){.footer .copyright .container{flex-direction:row;align-items:center}}.footer .copyright .container .logo-lc{display:flex;flex-direction:column}@media screen and (min-width: 760px){.footer .copyright .container .logo-lc{margin-left:auto}}.footer__bottom-fixed{position:fixed;bottom:0;width:100%}@media screen and (max-width: 760px){.footer__bottom-fixed{position:relative}}@media only screen and (min-width: 760px){.footer .container .row{flex-direction:row}.footer .copyright{padding:1.25rem 0}.footer .copyright .container{padding-top:0;padding-bottom:0}}body{font-family:"Open Sans",Helvetica,Arial,sans-serif;display:flex;flex-direction:column;height:100vh;margin:0}body p{margin-top:0;margin-bottom:1rem}
+</style>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WNWHJNL');
+
+        function gtag(){dataLayer.push(arguments);}
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="wl-locale" content="esMX">
+    <link rel="shortcut icon" href="https://multimedia.lamudi.com/lamudi/common/images/favicon.ico">
+    <link rel="icon" sizes="192x192" href="https://multimedia.lamudi.com/lamudi/common/images/favicon.ico">
+    <link rel="apple-touch-icon" href="https://multimedia.lamudi.com/lamudi/common/images/favicon.ico">
+    <title>Inmobiliarias en México y Bienes raíces | Lamudi.com.mx</title>
+        <meta name="description" content="Lamudi el Portal lider de Inmobiliarias en México. Encuentra rápidamente y fácilmente; Casas, Departamentos y Terrenos en Venta y Renta.">
+    <meta name="robots" content="noindex, follow">
+    <link href="https://fonts.googleapis.com/css?family=Open Sans:400,700" rel="stylesheet">
+    
+    
+    
+    
+    
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNWHJNL"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+        <div class="container-fluid header">
+            <a class="navbar-brand" data-test="nav-link" href="/">
+                <img src="https://multimedia.lamudi.com/lamudi/common/images/lamudi.svg" alt="Lamudi" width="97" height="26">
+            </a>
+            <span class="numero-1">
+                <img class="numero-1__icon" alt="icono de medalla" src="https://multimedia.lamudi.com/lamudi/common/images/icon-medal_m_white.svg">
+                <span class="numero-1__text">El portal número 1 de bienes raíces</span>
+            </span>
+            <div class="header-menu-desktop" data-test="header-menu">
+                <ul class="navbar-nav">
+    <li class="nav-item">
+        <button class="nav-link" type="button">En venta</button>
+        <div class="dropdown-menu">
+            <ul class="dropdown-menu__content">
+                    <li><a href="/casa/for-sale/" title="Casas en Venta">Casas en Venta</a></li>
+                    <li><a href="/departamento/for-sale/" title="Departamentos en Venta">Departamentos en Venta</a></li>
+                    <li><a href="/offices/for-sale/" title="Oficinas en Venta">Oficinas en Venta</a></li>
+                    <li><a href="/terreno/for-sale/" title="Terrenos en Venta">Terrenos en Venta</a></li>
+                    <li><a href="/comercial/for-sale/" title="Locales en Venta">Locales en Venta</a></li>
+                    <li><a href="/for-sale/" title="Todas las Propiedades en Venta">Todas las Propiedades en Venta</a></li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" type="button">En renta</button>
+        <div class="dropdown-menu">
+            <ul class="dropdown-menu__content">
+                    <li><a href="/casa/for-rent/" title="Casas en Renta">Casas en Renta</a></li>
+                    <li><a href="/departamento/for-rent/" title="Departamentos en Renta">Departamentos en Renta</a></li>
+                    <li><a href="/offices/for-rent/" title="Oficinas en Renta">Oficinas en Renta</a></li>
+                    <li><a href="/terreno/for-rent/" title="Terrenos en Renta">Terrenos en Renta</a></li>
+                    <li><a href="/comercial/for-rent/" title="Locales en Renta">Locales en Renta</a></li>
+                    <li><a href="/for-rent/" title="Todas las Propiedades en Renta">Todas las Propiedades en Renta</a></li>
+            </ul>
+        </div>
+    </li>
+                    <li class="nav-item">
+                        <a href="/newdevelopments/search/for-sale/" data-test="nav-link" class="nav-link">Nuevos Desarrollos</a>
+                    </li>
+                        <li class="nav-item">
+                            <a href="/foreclosures/for-sale/" data-test="nav-link" class="nav-link">Remates</a>
+                        </li>
+                </ul>
+                        <a href="https://www.lamudi.com.mx/favorites" class="desktop-favorites__button" data-test="nav-link" title="Tus favoritos">
+                            <div class="desktop-favorites__icon"></div>
+                            <span class="desktop-favorites__text">Tus favoritos</span>
+                            <span class="desktop-favorites__number js-favorites-number"></span>
+                        </a>
+                    <ul class="navbar-nav">
+                    </ul>
+                    <ul class="navbar-nav" data-test="currencySelector">
+                    </ul>
+                        <div class="nav-item nav-login-proppit">
+                            <a href="https://proppit.com/login?user-from-lamudi=true" class="nav-link" target="_blank">Entrar como agente</a>
+                        </div>
+                    <a href="https://proppit.com/?country=mx" target="_blank" data-test="publishButton" class="btn btn-sm publish-button">Publicar</a>
+            </div>
+            <div class="header-menu-mobile">
+                    <div class="mobile-favorites">
+                        <a href="https://www.lamudi.com.mx/favorites" class="mobile-favorites-button" aria-label="Tus favoritos" data-test="nav-link" title="Tus favoritos"></a>
+                        <div class="favorites-marker js-favorites-marker hidden"></div>
+                    </div>
+                <button class="dropdown-toggle js-header-menu-mobile" type="button" data-test="navbarButton" aria-expanded="false" aria-controls="#header-menu-mobile-dropdown" aria-label="Header Menu">
+                    <img class="navbar-toggler__icon" alt="icono de menú" src="https://multimedia.lamudi.com/lamudi/common/images/icon-menu_m_white.svg">
+                </button>
+                <div class="dropdown-menu dropdown-menu-end js-header-menu-mobile-dropdown" id="header-menu-mobile-dropdown" data-test="header-menu">
+                        <a href="https://proppit.com/?country=mx" target="_blank" data-test="publishButton" class="btn btn-sm publish-button">Publicar</a>
+                    <div class="accordion" id="header-menu-mobile__accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <button class="accordion-button collapsed js-header-menu-mobile-dropdown js-header-menu-mobile-dropdown-sale" type="button" aria-controls="collapseForSale">
+                                    En venta
+                                </button>
+                            </div>
+                            <div id="collapseForSale" class="accordion-collapse collapse js-header-menu-mobile-dropdown-content js-header-menu-mobile-dropdown-content-sale">
+                                <div class="accordion-body">
+                                    <ul class="list-unstyled">
+                                            <li><a href="/casa/for-sale/" title="Casas en Venta">Casas en Venta</a></li>
+                                            <li><a href="/departamento/for-sale/" title="Departamentos en Venta">Departamentos en Venta</a></li>
+                                            <li><a href="/offices/for-sale/" title="Oficinas en Venta">Oficinas en Venta</a></li>
+                                            <li><a href="/terreno/for-sale/" title="Terrenos en Venta">Terrenos en Venta</a></li>
+                                            <li><a href="/comercial/for-sale/" title="Locales en Venta">Locales en Venta</a></li>
+                                            <li><a href="/for-sale/" title="Todas las Propiedades en Venta">Todas las Propiedades en Venta</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <button class="accordion-button collapsed js-header-menu-mobile-dropdown js-header-menu-mobile-dropdown-rent" type="button" aria-controls="collapseForRent">
+                                    En renta
+                                </button>
+                            </div>
+                            <div id="collapseForRent" class="accordion-collapse collapse js-header-menu-mobile-dropdown-content js-header-menu-mobile-dropdown-content-rent">
+                                <div class="accordion-body">
+                                    <ul class="list-unstyled">
+                                            <li><a href="/casa/for-rent/" title="Casas en Renta">Casas en Renta</a></li>
+                                            <li><a href="/departamento/for-rent/" title="Departamentos en Renta">Departamentos en Renta</a></li>
+                                            <li><a href="/offices/for-rent/" title="Oficinas en Renta">Oficinas en Renta</a></li>
+                                            <li><a href="/terreno/for-rent/" title="Terrenos en Renta">Terrenos en Renta</a></li>
+                                            <li><a href="/comercial/for-rent/" title="Locales en Renta">Locales en Renta</a></li>
+                                            <li><a href="/for-rent/" title="Todas las Propiedades en Renta">Todas las Propiedades en Renta</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <a href="/newdevelopments/search/for-sale/" data-test="nav-link" class="accordion-button">Nuevos Desarrollos</a>
+                            </div>
+                        </div>
+                            <div class="accordion-item">
+                                <div class="accordion-header">
+                                    <a href="/foreclosures/for-sale/" data-test="nav-link" class="accordion-button">Remates</a>
+                                </div>
+                            </div>
+                            <div class="accordion-item accordion-item-proppit">
+                                <div class="accordion-header">
+                                    <a href="https://proppit.com/login?user-from-lamudi=true" class="accordion-button" target="_blank">Entrar como agente</a>
+                                </div>
+                            </div>
+                                <div class="accordion-item accordion-item-proppit">
+                                    <div class="accordion-header">
+                                        <a href="https://www.lifullconnect.com/aviso-legal-direct/" class="accordion-button" target="_blank">Aviso legal</a>
+                                    </div>
+                                </div>
+                                <div class="accordion-item accordion-item-proppit">
+                                    <div class="accordion-header">
+                                        <a href="https://www.lifullconnect.com/global-privacy-policy-region6/" class="accordion-button" target="_blank">Política de privacidad</a>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+                       <section class="header-home">
+            <div class="header-home__search-box">
+                <h1 class="header-home__title">No hemos encontrado lo que buscas.</h1>
+                <span class="header-home__subtitle">Te animamos a seguir navegando</span>
+                <form method="get" action="/generate-seo-friendly-url">
+                    <div class="searchboxOperationType tabs">
+                        <input checked="" id="sell" name="operationType" data-test="operationType-selector" type="radio" value="sell" style="display: none;">
+        <label for="sell" data-test="operationType-label-sell">En venta</label><input id="rent" name="operationType" data-test="operationType-selector" type="radio" value="rent" style="display: none;">
+        <label for="rent" data-test="operationType-label-rent">En renta</label>
+                    </div>
+                    <div class="header-home__inputs">
+                        <div class="customDropdown propertyTypeDropdown">
+                            <input type="text" class="propertyTypeName" id="propertyTypeName" readonly="" placeholder="Todos">
+                            <i></i>
+                            <ul>
+                                <li>
+            <input type="radio" name="property-types" data-test="propertyType-selector" value="" id="propertyType_">
+            <label for="propertyType_" class="propertyTypeLabel">Todos</label>
+        </li>
+        <li>
+            <input type="radio" name="property-types" data-test="propertyType-selector" value="gt-comercial" id="propertyType_gt-comercial">
+            <label for="propertyType_gt-comercial" class="propertyTypeLabel">Comercial</label>
+        </li>
+        <li>
+            <input type="radio" name="property-types" data-test="propertyType-selector" value="gt-terreno" id="propertyType_gt-terreno">
+            <label for="propertyType_gt-terreno" class="propertyTypeLabel">Terreno</label>
+        </li>
+        <li>
+            <input type="radio" name="property-types" data-test="propertyType-selector" value="gt-casa" id="propertyType_gt-casa">
+            <label for="propertyType_gt-casa" class="propertyTypeLabel">Casa</label>
+        </li>
+        <li>
+            <input type="radio" name="property-types" data-test="propertyType-selector" value="gt-departamento" id="propertyType_gt-departamento">
+            <label for="propertyType_gt-departamento" class="propertyTypeLabel">Departamento</label>
+        </li>
+        <li>
+            <input type="radio" name="property-types" data-test="propertyType-selector" value="gt-offices" id="propertyType_gt-offices">
+            <label for="propertyType_gt-offices" class="propertyTypeLabel">Oficina</label>
+        </li>
+                            </ul>
+                        </div>
+                        <div class="inputLocation">
+                            <input type="hidden" id="hidden-geo-id" name="autocomplete-home-id" value="">
+                                        <div class="autocomplete-desktop" id="autocomplete-desktop">
+                 <input type="search" id="search-bar" data-test="search-bar" name="autocomplete-home-text" autocomplete="off" class="text-input" placeholder="Busca por ubicación o nombre de proyecto" value="">
+<i class="searchLocationIcon"></i>
+<div class="search-results">
+    <div id="matched" class="search-results__options " "="" style="display: none;"></div>
+</div>
+            </div>
+                        </div>
+                        <button data-test="search-btn" type="submit" class="button">
+                            <i></i>
+                            Buscar
+                        </button>
+    
+                    </div>
+                </form>
+            </div>
+            <div class="header-home__banner"><div class="header-home__banner-img"></div></div>
+        </section>
+           <div class="middle-section">
+               <div class="content">
+                   
+    <section class="block secondary-links">
+        <h2>PROPIEDADES EN VENTA</h2>
+        <div class="secondary-links__body">
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="cvcdmx">
+                                <label for="cvcdmx">
+                                    <h3>CASAS EN VENTA EN CDMX</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/casa/for-sale/" title="Casas en Venta en Ciudad de México">Casas en Venta en Ciudad de México</a>
+                                        <a class="link" href="/distrito-federal/alvaro-obregon/casa/for-sale/" title="Casas en Venta en Álvaro Obregón">Casas en Venta en Álvaro Obregón</a>
+                                        <a class="link" href="/distrito-federal/tlalpan/casa/for-sale/" title="Casas en Venta en Tlalpan">Casas en Venta en Tlalpan</a>
+                                        <a class="link" href="/distrito-federal/miguel-hidalgo/casa/for-sale/" title="Casas en venta en Miguel Hidalgo">Casas en venta en Miguel Hidalgo</a>
+                                        <a class="link" href="distrito-federal/gustavo-a-madero/casa/for-sale/" title="Casas en venta en Gustavo A. Madero">Casas en venta en Gustavo A. Madero</a>
+                                        <a class="link" href="/distrito-federal/coyoacan/casa/for-sale/" title="Casas en venta en Coyoacán">Casas en venta en Coyoacán</a>
+                                        <a class="link" href="/distrito-federal/iztapalapa/casa/for-sale/" title="Casas en venta en Iztapalapa">Casas en venta en Iztapalapa</a>
+                                        <a class="link" href="/distrito-federal/cuajimalpa-de-morelos/casa/for-sale/" title="Casas en venta en Cuajimalpa de Morelos">Casas en venta en Cuajimalpa de Morelos</a>
+                                </p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="tv2">
+                                <label for="tv2">
+                                    <h3>TERRENOS EN VENTA</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/terreno/for-sale/" title="Terrenos en Venta en CDMX">Terrenos en Venta en CDMX</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/terreno/for-sale/" title="Terrenos en Venta en Monterrey">Terrenos en Venta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/terreno/for-sale/" title="Terrenos en Venta en San Luis Potosí">Terrenos en Venta en San Luis Potosí</a>
+                                        <a class="link" href="/mexico/valle-de-bravo/terreno/for-sale/" title="Terrenos en Venta en Valle de Bravo">Terrenos en Venta en Valle de Bravo</a>
+                                        <a class="link" href="/yucatan/merida/terreno/for-sale/" title="Terrenos en Venta en Mérida">Terrenos en Venta en Mérida</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/terreno/for-sale/" title="Terrenos en Venta en Querétaro">Terrenos en Venta en Querétaro</a>
+                                        <a class="link" href="/baja-california/tijuana/terreno/for-sale/" title="Terrenos en Venta en Tijuana">Terrenos en Venta en Tijuana</a>
+                                        <a class="link" href="/jalisco/zapopan/terreno/for-sale/" title="Terrenos en Venta en Zapopan">Terrenos en Venta en Zapopan</a>
+                                        <a class="link" href="/veracruz-llave/alvarado/terreno/for-sale/" title="Terrenos en Venta en Alvarado">Terrenos en Venta en Alvarado</a>
+                                        <a class="link" href="/veracruz-llave/veracruz/terreno/for-sale/" title="Terrenos en Venta en Veracruz">Terrenos en Venta en Veracruz</a>
+                                        <a class="link" href="/veracruz-llave/tuxpan-5/terreno/for-sale/" title="Terrenos en Venta en Tuxpan">Terrenos en Venta en Tuxpan</a>
+                                        <a class="link" href="/baja-california/ensenada/terreno/for-sale/" title="Terrenos en Venta en Ensenada">Terrenos en Venta en Ensenada</a>
+                                        <a class="link" href="/baja-california-sur/la-paz/terreno/for-sale/" title="Terrenos en Venta en La Paz">Terrenos en Venta en La Paz</a>
+                                        <a class="link" href="/coahuila-de-zaragoza/torreon/terreno/for-sale/" title="Terrenos en Venta en Torreón">Terrenos en Venta en Torreón</a>
+                                        <a class="link" href="/guanajuato/san-miguel-de-allende/terreno/for-sale/" title="Terrenos en Venta en San Miguel de Allende">Terrenos en Venta en San Miguel de Allende</a>
+                                        <a class="link" href="/morelos/cuernavaca/terreno/for-sale/" title="Terrenos en Venta en Cuernavaca">Terrenos en Venta en Cuernavaca</a>
+                                        <a class="link" href="/quintana-roo/solidaridad/terreno/for-sale/" title="Terrenos en Venta en Solidaridad">Terrenos en Venta en Solidaridad</a>
+                                        <a class="link" href="/quintana-roo/tulum-1/terreno/for-sale/" title="Terrenos en Venta en Tulum">Terrenos en Venta en Tulum</a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="cvou">
+                                <label for="cvou">
+                                    <h3>CASAS EN VENTA EN OTRAS UBICACIONES</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/aguascalientes/casa/for-sale/" title="Casas en Venta en Aguascalientes">Casas en Venta en Aguascalientes</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/casa/for-sale/" title="Casas en Venta en Querétaro">Casas en Venta en Querétaro</a>
+                                        <a class="link" href="/nuevo-leon/san-pedro-garza-garcia/casa/for-sale/" title="Casas en Venta en San Pedro Garza García">Casas en Venta en San Pedro Garza García</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/casa/for-sale/" title="Casas en Venta en Monterrey">Casas en Venta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/casa/for-sale/" title="Casas en Venta en San Luis Potosí">Casas en Venta en San Luis Potosí</a>
+                                        <a class="link" href="/mexico/naucalpan-de-juarez/casa/for-sale/" title="Casas en Venta en Naucalpan de Juárez">Casas en Venta en Naucalpan de Juárez</a>
+                                        <a class="link" href="/mexico/atizapan-de-zaragoza/casa/for-sale/" title="Casas en Venta en Atizapán de Zaragoza">Casas en Venta en Atizapán de Zaragoza</a>
+                                        <a class="link" href="/baja-california/tijuana/casa/for-sale/" title="Casas en Venta en Tijuana">Casas en Venta en Tijuana</a>
+                                        <a class="link" href="/morelos/cuernavaca/casa/for-sale/" title="Casas en Venta en Cuernavaca">Casas en Venta en Cuernavaca</a>
+                                        <a class="link" href="/puebla/puebla-1/casa/for-sale/" title="Casas en Venta en Puebla">Casas en Venta en Puebla</a>
+                                        <a class="link" href="/coahuila-de-zaragoza/torreon/casa/for-sale/" title="Casas en Venta en Torreón">Casas en Venta en Torreón</a>
+                                        <a class="link" href="/guanajuato/san-miguel-de-allende/casa/for-sale/" title="Casas en Venta en San Miguel de Allende">Casas en Venta en San Miguel de Allende</a>
+                                        <a class="link" href="/guerrero/acapulco-de-juarez/casa/for-sale/" title="Casas en Venta en Acapulco de Juárez">Casas en Venta en Acapulco de Juárez</a>
+                                        <a class="link" href="/jalisco/zapopan/casa/for-sale/" title="Casas en Venta en Zapopan">Casas en Venta en Zapopan</a>
+                                        <a class="link" href="/jalisco/guadalajara/casa/for-sale/" title="Casas en Venta en Guadalajara">Casas en Venta en Guadalajara</a>
+                                        <a class="link" href="/michoacan-de-ocampo/morelia/casa/for-sale/" title="Casas en Venta en Morelia">Casas en Venta en Morelia</a>
+                                        <a class="link" href="/veracruz-llave/veracruz/casa/for-sale/" title="Casas en Venta en Veracruz">Casas en Venta en Veracruz</a>
+                                        <a class="link" href="/yucatan/merida/casa/for-sale/" title="Casas en Venta en Mérida">Casas en Venta en Mérida</a>
+                                        <a class="link" href="/chihuahua/chihuahua-1/casa/for-sale/" title="Casas en Venta en Chihuahua">Casas en Venta en Chihuahua</a>
+                                        <a class="link" href="/veracruz-llave/boca-del-rio/casa/for-sale/" title="Casas en Venta en Boca del Río">Casas en Venta en Boca del Río</a>
+                                        <a class="link" href="/puebla/san-andres-cholula/lomas-de-angelopolis/casa/for-sale/" title="Casas en Venta en Lomas de Angelópolis">Casas en Venta en Lomas de Angelópolis</a>
+                                        <a class="link" href="/sinaloa/culiacan/casa/for-sale/" title="Casas en Venta en Culiacán">Casas en Venta en Culiacán</a>
+                                        <a class="link" href="/oaxaca/oaxaca-de-juarez/casa/for-sale/" title="Casas en Venta en Oaxaca">Casas en Venta en Oaxaca</a>
+                                        <a class="link" href="/mexico/toluca/casa/for-sale/" title="Casas en Venta en Toluca">Casas en Venta en Toluca</a>
+                                        <a class="link" href="/baja-california/mexicali/casa/for-sale/" title="Casas en Venta en Mexicali">Casas en Venta en Mexicali</a>
+                                        <a class="link" href="/nuevo-leon/san-nicolas-de-los-garza/casa/for-sale/" title="Casas en Venta en San Nicolás de los Garza">Casas en Venta en San Nicolás de los Garza</a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="dvcdmx">
+                                <label for="dvcdmx">
+                                    <h3>DEPARTAMENTOS EN VENTA EN CDMX</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/departamento/for-sale/" title="Departamentos en Venta en Ciudad de México">Departamentos en Venta en Ciudad de México</a>
+                                        <a class="link" href="/distrito-federal/miguel-hidalgo/departamento/for-sale/" title="Departamentos en Venta en Miguel Hidalgo">Departamentos en Venta en Miguel Hidalgo</a>
+                                        <a class="link" href="/distrito-federal/benito-juarez/departamento/for-sale/" title="Departamentos en Venta en Benito Juárez">Departamentos en Venta en Benito Juárez</a>
+                                        <a class="link" href="/distrito-federal/alvaro-obregon/departamento/for-sale/" title="Departamentos en Venta en Álvaro Obregón">Departamentos en Venta en Álvaro Obregón</a>
+                                        <a class="link" href="/distrito-federal/cuauhtemoc-2/departamento/for-sale/" title="Departamentos en Venta en Cuauhtémoc">Departamentos en Venta en Cuauhtémoc</a>
+                                        <a class="link" href="/distrito-federal/cuajimalpa-de-morelos/departamento/for-sale/" title="Departamentos en Venta en Cuajimalpa de Morelos">Departamentos en Venta en Cuajimalpa de Morelos</a>
+                                        <a class="link" href="/distrito-federal/tlalpan/departamento/for-sale/" title="Departamentos en Venta en Tlalpan">Departamentos en Venta en Tlalpan</a>
+                                        <a class="link" href="/distrito-federal/coyoacan/departamento/for-sale/" title="Departamentos en venta en Coyoacán">Departamentos en venta en Coyoacán</a>
+                                        <a class="link" href="/distrito-federal/azcapotzalco/departamento/for-sale/" title="Departamentos en venta en Azcapotzalco">Departamentos en venta en Azcapotzalco</a>
+                                </p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="lcv">
+                                <label for="lcv">
+                                    <h3>LOCALES COMERCIALES EN VENTA</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/comercial/for-sale/" title="Locales en Venta en Ciudad de México">Locales en Venta en Ciudad de México</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/comercial/for-sale/" title="Locales en Venta en Monterrey">Locales en Venta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/comercial/for-sale/" title="Locales en Venta en San Luis Potosí">Locales en Venta en San Luis Potosí</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/comercial/for-sale/" title="Locales en Venta en Querétaro">Locales en Venta en Querétaro</a>
+                                        <a class="link" href="/jalisco/guadalajara/comercial/for-sale/" title="Locales en Venta en Guadalajara">Locales en Venta en Guadalajara</a>
+                                        <a class="link" href="/coahuila-de-zaragoza/torreon/comercial/for-sale/" title="Locales en Venta en Torreón">Locales en Venta en Torreón</a>
+                                        <a class="link" href="/yucatan/merida/comercial/for-sale/" title="Locales en Venta en Mérida">Locales en Venta en Mérida</a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="dvou">
+                                <label for="dvou">
+                                    <h3>DEPARTAMENTOS EN VENTA EN OTRAS UBICACIONES</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/nuevo-leon/monterrey/departamento/for-sale/" title="Departamentos en venta en Monterrey">Departamentos en venta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/departamento/for-sale/" title="Departamentos en venta en San Luis Potosí">Departamentos en venta en San Luis Potosí</a>
+                                        <a class="link" href="/yucatan/merida/departamento/for-sale/" title="Departamentos en venta en Mérida">Departamentos en venta en Mérida</a>
+                                        <a class="link" href="/puebla/puebla-1/departamento/for-sale/" title="Departamentos en venta en Puebla">Departamentos en venta en Puebla</a>
+                                        <a class="link" href="/puebla/san-andres-cholula/departamento/for-sale/" title="Departamentos en venta en San Andrés Cholula">Departamentos en venta en San Andrés Cholula</a>
+                                        <a class="link" href="/guerrero/acapulco-de-juarez/departamento/for-sale/" title="Departamentos en venta en Acapulco de Juárez">Departamentos en venta en Acapulco de Juárez</a>
+                                        <a class="link" href="/morelos/cuernavaca/departamento/for-sale/" title="Departamentos en venta en Cuernavaca">Departamentos en venta en Cuernavaca</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/departamento/for-sale/" title="Departamentos en venta en Querétaro">Departamentos en venta en Querétaro</a>
+                                        <a class="link" href="/veracruz-llave/boca-del-rio/departamento/for-sale/" title="Departamentos en venta en Boca del Río">Departamentos en venta en Boca del Río</a>
+                                        <a class="link" href="/jalisco/guadalajara/departamento/for-sale/" title="Departamentos en venta en Guadalajara">Departamentos en venta en Guadalajara</a>
+                                        <a class="link" href="/nuevo-leon/san-pedro-garza-garcia/departamento/for-sale/" title="Departamentos en venta en San Pedro Garza García">Departamentos en venta en San Pedro Garza García</a>
+                                        <a class="link" href="/quintana-roo/playa-del-carmen/departamento/for-sale/" title="Departamentos en venta en Playa del Carmen">Departamentos en venta en Playa del Carmen</a>
+                                        <a class="link" href="/puebla/san-andres-cholula/lomas-de-angelopolis/departamento/for-sale/" title="Departamentos en venta en Lomas de Angelópolis">Departamentos en venta en Lomas de Angelópolis</a>
+                                </p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="ov2">
+                                <label for="ov2">
+                                    <h3>OFICINAS EN VENTA</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/offices/for-sale/" title="Oficinas en Venta en Ciudad de México">Oficinas en Venta en Ciudad de México</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/offices/for-sale/" title="Oficinas en Venta en Monterrey">Oficinas en Venta en Monterrey</a>
+                                </p>
+                            </div>
+                    </div>
+        </div>
+    </section>
+
+    <section class="block secondary-links">
+        <h2>PROPIEDADES EN RENTA</h2>
+        <div class="secondary-links__body">
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="crcdmx">
+                                <label for="crcdmx">
+                                    <h3>CASAS EN RENTA EN CDMX</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/casa/for-rent/" title="Casas en Renta en Ciudad de México">Casas en Renta en Ciudad de México</a>
+                                        <a class="link" href="/distrito-federal/miguel-hidalgo/casa/for-rent/" title="Casas en Renta en Miguel Hidalgo">Casas en Renta en Miguel Hidalgo</a>
+                                        <a class="link" href="/distrito-federal/alvaro-obregon/casa/for-rent/" title="Casas en Renta en Álvaro Obregón">Casas en Renta en Álvaro Obregón</a>
+                                </p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="lcr">
+                                <label for="lcr">
+                                    <h3>LOCALES COMERCIALES EN RENTA</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/comercial/for-rent/" title="Locales en Renta en Distrito Federal">Locales en Renta en Distrito Federal</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/comercial/for-rent/" title="Locales en Renta en Monterrey">Locales en Renta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/comercial/for-rent/" title="Locales en Renta en San Luis Potosí">Locales en Renta en San Luis Potosí</a>
+                                        <a class="link" href="/mexico/naucalpan-de-juarez/comercial/for-rent/" title="Locales en Renta en Naucalpan de Juárez">Locales en Renta en Naucalpan de Juárez</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/comercial/for-rent/" title="Locales en Renta en Querétaro">Locales en Renta en Querétaro</a>
+                                        <a class="link" href="/coahuila-de-zaragoza/torreon/comercial/for-rent/" title="Locales en Renta en Torreón">Locales en Renta en Torreón</a>
+                                        <a class="link" href="/jalisco/zapopan/comercial/for-rent/" title="Locales en Renta en Zapopan">Locales en Renta en Zapopan</a>
+                                        <a class="link" href="/jalisco/guadalajara/comercial/for-rent/" title="Locales en Renta en Guadalajara">Locales en Renta en Guadalajara</a>
+                                        <a class="link" href="/puebla/puebla-1/comercial/for-rent/" title="Locales en Renta en Puebla">Locales en Renta en Puebla</a>
+                                        <a class="link" href="/veracruz-llave/veracruz/comercial/for-rent/" title="Locales en Renta en Veracruz">Locales en Renta en Veracruz</a>
+                                        <a class="link" href="/yucatan/merida/comercial/for-rent/" title="Locales en Renta en Mérida">Locales en Renta en Mérida</a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="crou">
+                                <label for="crou">
+                                    <h3>CASAS EN RENTA EN OTRAS UBICACIONES</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/jalisco/guadalajara/casa/for-rent/" title="Casas en Renta en Guadalajara">Casas en Renta en Guadalajara</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/casa/for-rent/" title="Casas en Renta en Querétaro">Casas en Renta en Querétaro</a>
+                                        <a class="link" href="/aguascalientes/aguascalientes-1/casa/for-rent/" title="Casas en Renta en Aguascalientes">Casas en Renta en Aguascalientes</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/casa/for-rent/" title="Casas en Renta en Monterrey">Casas en Renta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/casa/for-rent/" title="Casas en Renta en San Luis Potosí">Casas en Renta en San Luis Potosí</a>
+                                        <a class="link" href="/puebla/casa/for-rent/" title="Casas en Renta en Puebla">Casas en Renta en Puebla</a>
+                                        <a class="link" href="/baja-california/tijuana/casa/for-rent/" title="Casas en Renta en Tijuana">Casas en Renta en Tijuana</a>
+                                        <a class="link" href="/coahuila-de-zaragoza/saltillo/casa/for-rent/" title="Casas en Renta en Saltillo">Casas en Renta en Saltillo</a>
+                                        <a class="link" href="/yucatan/merida/casa/for-rent/" title="Casas en Renta en Mérida">Casas en Renta en Mérida</a>
+                                        <a class="link" href="/guerrero/acapulco-de-juarez/casa/for-rent/" title="Casas en Renta en Acapulco">Casas en Renta en Acapulco</a>
+                                        <a class="link" href="/puebla/san-andres-cholula/casa/for-rent/" title="Casas en Renta en San Andrés Cholula">Casas en Renta en San Andrés Cholula</a>
+                                        <a class="link" href="/morelos/cuernavaca/casa/for-rent/" title="Casas en Renta en Cuernavaca">Casas en Renta en Cuernavaca</a>
+                                        <a class="link" href="/nuevo-leon/apodaca/casa/for-rent/" title="Casas en Renta en Apodaca">Casas en Renta en Apodaca</a>
+                                        <a class="link" href="/puebla/san-andres-cholula/lomas-de-angelopolis/casa/for-rent/" title="Casas en Renta en Lomas de Angelópolis">Casas en Renta en Lomas de Angelópolis</a>
+                                        <a class="link" href="/jalisco/zapopan/casa/for-rent/" title="Casas en Renta en Zapopan">Casas en Renta en Zapopan</a>
+                                        <a class="link" href="/michoacan-de-ocampo/morelia/casa/for-rent/" title="Casas en Renta en Morelia">Casas en Renta en Morelia</a>
+                                        <a class="link" href="/sinaloa/culiacan/casa/for-rent/" title="Casas en Renta en Culiacan">Casas en Renta en Culiacan</a>
+                                        <a class="link" href="/chihuahua/chihuahua-1/casa/for-rent/" title="Casas en Renta en Chihuahua">Casas en Renta en Chihuahua</a>
+                                        <a class="link" href="/sonora/hermosillo/casa/for-rent/" title="Casas en Renta en Hermosillo">Casas en Renta en Hermosillo</a>
+                                        <a class="link" href="/baja-california/ensenada/casa/for-rent/" title="Casas en Renta en Ensenada">Casas en Renta en Ensenada</a>
+                                        <a class="link" href="/mexico/cuautitlan-izcalli/casa/for-rent/" title="Casas en Renta en Cuautitlán Izcalli">Casas en Renta en Cuautitlán Izcalli</a>
+                                        <a class="link" href="/guanajuato/irapuato/casa/for-rent/" title="Casas en Renta en Irapuato">Casas en Renta en Irapuato</a>
+                                        <a class="link" href="/sinaloa/mazatlan/casa/for-rent/" title="Casas en Renta en Mazatlán">Casas en Renta en Mazatlán</a>
+                                        <a class="link" href="/veracruz-llave/xalapa/casa/for-rent/" title="Casas en Renta en Xalapa">Casas en Renta en Xalapa</a>
+                                        <a class="link" href="/jalisco/tlaquepaque/casa/for-rent/" title="Casas en Renta en Tlaquepaque">Casas en Renta en Tlaquepaque</a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="drcdmx">
+                                <label for="drcdmx">
+                                    <h3>DEPARTAMENTOS EN RENTA EN CDMX</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/departamento/for-rent/" title="Departamentos en Renta en Ciudad de México">Departamentos en Renta en Ciudad de México</a>
+                                        <a class="link" href="/distrito-federal/benito-juarez/departamento/for-rent/" title="Departamentos en Renta en Benito Juárez">Departamentos en Renta en Benito Juárez</a>
+                                        <a class="link" href="/distrito-federal/cuauhtemoc-2/departamento/for-rent/" title="Departamentos en Renta en Cuauhtémoc">Departamentos en Renta en Cuauhtémoc</a>
+                                        <a class="link" href="/distrito-federal/alvaro-obregon/departamento/for-rent/" title="Departamentos en Renta en Álvaro Obregón">Departamentos en Renta en Álvaro Obregón</a>
+                                        <a class="link" href="/distrito-federal/miguel-hidalgo/departamento/for-rent/" title="Departamentos en Renta en Miguel Hidalgo">Departamentos en Renta en Miguel Hidalgo</a>
+                                        <a class="link" href="/distrito-federal/cuajimalpa-de-morelos/departamento/for-rent/" title="Departamentos en Renta en Cuajimalpa de Morelos">Departamentos en Renta en Cuajimalpa de Morelos</a>
+                                        <a class="link" href="/distrito-federal/azcapotzalco/departamento/for-rent/" title="Departamentos en renta en Azcapotzalco">Departamentos en renta en Azcapotzalco</a>
+                                        <a class="link" href="/distrito-federal/coyoacan/departamento/for-rent/" title="Departamentos en Renta en Coyoacán">Departamentos en Renta en Coyoacán</a>
+                                        <a class="link" href="/distrito-federal/iztapalapa/departamento/for-rent/" title="Departamentos en Renta en Iztapalapa">Departamentos en Renta en Iztapalapa</a>
+                                        <a class="link" href="/distrito-federal/miguel-hidalgo/polanco-7/departamento/for-rent/" title="Departamentos en Renta en Polanco">Departamentos en Renta en Polanco</a>
+                                </p>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="or2">
+                                <label for="or2">
+                                    <h3>OFICINAS EN RENTA</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/distrito-federal/offices/for-rent/" title="Oficinas en Renta en Ciudad de México">Oficinas en Renta en Ciudad de México</a>
+                                        <a class="link" href="/distrito-federal/miguel-hidalgo/offices/for-rent/" title="Oficinas en Renta en Miguel Hidalgo">Oficinas en Renta en Miguel Hidalgo</a>
+                                        <a class="link" href="/nuevo-leon/monterrey/offices/for-rent/" title="Oficinas en Renta en Monterrey">Oficinas en Renta en Monterrey</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/offices/for-rent/" title="Oficinas en Renta en San Luis Potosí">Oficinas en Renta en San Luis Potosí</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/offices/for-rent/" title="Oficinas en Renta en Querétaro">Oficinas en Renta en Querétaro</a>
+                                        <a class="link" href="/mexico/naucalpan-de-juarez/offices/for-rent/" title="Oficinas en Renta en Naucalpan de Juárez">Oficinas en Renta en Naucalpan de Juárez</a>
+                                        <a class="link" href="/nuevo-leon/san-pedro-garza-garcia/offices/for-rent/" title="Oficinas en Renta en San Pedro Garza García">Oficinas en Renta en San Pedro Garza García</a>
+                                </p>
+                            </div>
+                    </div>
+                    <div class="secondary-links__column">
+                            <div>
+                                <input type="checkbox" id="drou">
+                                <label for="drou">
+                                    <h3>DEPARTAMENTOS EN RENTA EN OTRAS UBICACIONES</h3>
+                                    <i></i>
+                                </label>
+                                <p>
+                                        <a class="link" href="/nuevo-leon/monterrey/departamento/for-rent/" title="Departamentos en renta en Monterrey">Departamentos en renta en Monterrey</a>
+                                        <a class="link" href="/jalisco/guadalajara/departamento/for-rent/" title="Departamentos en renta en Guadalajara">Departamentos en renta en Guadalajara</a>
+                                        <a class="link" href="/san-luis-potosi/san-luis-potosi-1/departamento/for-rent/" title="Departamentos en renta en San Luis Potosí">Departamentos en renta en San Luis Potosí</a>
+                                        <a class="link" href="/puebla/puebla-1/departamento/for-rent/" title="Departamentos en renta en Puebla">Departamentos en renta en Puebla</a>
+                                        <a class="link" href="/queretaro-arteaga/queretaro/departamento/for-rent/" title="Departamentos en renta en Querétaro">Departamentos en renta en Querétaro</a>
+                                        <a class="link" href="/yucatan/merida/departamento/for-rent/" title="Departamentos en renta en Mérida">Departamentos en renta en Mérida</a>
+                                        <a class="link" href="/puebla/san-andres-cholula/departamento/for-rent/" title="Departamentos en renta en San Andrés Cholula">Departamentos en renta en San Andrés Cholula</a>
+                                        <a class="link" href="/morelos/cuernavaca/departamento/for-rent/" title="Departamentos en renta en Cuernavaca">Departamentos en renta en Cuernavaca</a>
+                                        <a class="link" href="/veracruz-llave/boca-del-rio/departamento/for-rent/" title="Departamentos en renta en Boca del Río">Departamentos en renta en Boca del Río</a>
+                                        <a class="link" href="/mexico/huixquilucan/departamento/for-rent/" title="Departamentos en renta en Huixquilucan">Departamentos en renta en Huixquilucan</a>
+                                        <a class="link" href="/baja-california/tijuana/departamento/for-rent/" title="Departamentos en renta en Tijuana">Departamentos en renta en Tijuana</a>
+                                        <a class="link" href="/sonora/hermosillo/departamento/for-rent/" title="Departamentos en renta en Hermosillo">Departamentos en renta en Hermosillo</a>
+                                        <a class="link" href="/mexico/toluca/departamento/for-rent/" title="Departamentos en renta en Toluca">Departamentos en renta en Toluca</a>
+                                </p>
+                            </div>
+                    </div>
+        </div>
+    </section>
+
+
+               </div>
+           </div>
+</main>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                        <div class="col-sm">
+                            <h5>SOBRE LAMUDI</h5>
+                            <ul class="block">
+                                    <li><a href="/sobre-nosotros/" title="Quiénes somos" target="_blank" data-test="footer-link">Quiénes somos</a></li>
+                                    <li><a href="https://www.lifullconnect.com/careers/" title="Trabaja con Nosotros" target="_blank" data-test="footer-link">Trabaja con Nosotros</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/reportes-mercado-inmobiliario/" title="Reportes del Mercado Inmobiliario" target="_blank" data-test="footer-link">Reportes del Mercado Inmobiliario</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/credito-infonavit-lamudi/" title="Crédito INFONAVIT" target="_blank" data-test="footer-link">Crédito INFONAVIT</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/guia-infonavit/" title="Guía INFONAVIT 2022" target="_blank" data-test="footer-link">Guía INFONAVIT 2022</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/guia-de-inversion-inmobiliaria-lamudi/" title="Guía de Inversión Inmobiliaria" target="_blank" data-test="footer-link">Guía de Inversión Inmobiliaria</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/lamudi-tv/" title="Lamudi TV" target="_blank" data-test="footer-link">Lamudi TV</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/" title="Revista Lamudi" target="_blank" data-test="footer-link">Revista Lamudi</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm">
+                            <h5>LEGAL</h5>
+                            <ul class="block">
+                                    <li><a href="https://www.lifullconnect.com/aviso-legal-direct/" title="Aviso legal" target="_blank" data-test="footer-link">Aviso legal</a></li>
+                                    <li><a href="https://www.lifullconnect.com/global-privacy-policy-region6/" title="Política de privacidad" target="_blank" data-test="footer-link">Política de privacidad</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm">
+                            <h5>RECURSOS</h5>
+                            <ul class="block">
+                                    <li><a href="https://www.lamudi.com.mx/journal/guias-inmuebles/" title="Guías de compra y venta de propiedades" target="_blank" data-test="footer-link">Guías de compra y venta de propiedades</a></li>
+                                    <li><a href="/simulador-hipotecario" title="Simulador de crédito hipotecario" target="_blank" data-test="footer-link">Conoce tu crédito hipotecario</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm">
+                            <h5>ENCUENTRA EN LAMUDI</h5>
+                            <ul class="block">
+                                    <li><a href="/distrito-federal/foreclosures/for-sale/" title="Remates Hipotecarios en CDMX" target="_blank" data-test="footer-link">Remates Hipotecarios en CDMX</a></li>
+                                    <li><a href="/distrito-federal/departamento/for-rent/" title="Inmuebles en Renta" target="_blank" data-test="footer-link">Inmuebles en Renta</a></li>
+                                    <li><a href="/queretaro-arteaga/queretaro/casa/for-rent/" title="Propiedades en Renta" target="_blank" data-test="footer-link">Propiedades en Renta</a></li>
+                                    <li><a href="/distrito-federal/departamento/for-sale/" title="Inmuebles en Venta" target="_blank" data-test="footer-link">Inmuebles en Venta</a></li>
+                                    <li><a href="/distrito-federal/casa/for-sale/" title="Propiedades en Venta" target="_blank" data-test="footer-link">Propiedades en Venta</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm">
+                            <h5>AYUDA</h5>
+                            <ul class="block">
+                                    <li><a href="https://www.lifullconnect.com/contactanos/" title="Contacto" target="_blank" data-test="footer-link">Contacto</a></li>
+                                    <li><a href="https://www.lamudi.com.mx/journal/lamudi-como-funciona/" title="Cómo funciona" target="_blank" data-test="footer-link">Cómo funciona</a></li>
+                                    <li><a href="https://proppit.com/?country=mx" title="Quiero anunciarme" target="_blank" data-test="footer-link">Quiero anunciarme</a></li>
+                            </ul>
+                        </div>
+                <div class="col-sm logos">
+                    <div class="logos__brand-logo">
+                        <img src="https://multimedia.lamudi.com/lamudi/common/images/lamudi-positive.svg" alt="Lamudi." width="158" height="40">
+                    </div>
+                        <div class="logos__social-logo">
+                                <a href="https://www.facebook.com/LamudiMX/" target="_blank">
+                                    <img src="https://multimedia.lamudi.com/lamudi/common/images/facebook.svg" alt="icono Facebook" width="30" height="30">
+                                </a>
+                                <a href="https://www.lamudi.com.mx/journal/" target="_blank">
+                                    <img src="https://multimedia.lamudi.com/lamudi/common/images/rss.svg" alt="icono RSS" width="30" height="30">
+                                </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <span>© Copyright 2026. www.lamudi.com.mx</span>
+                <div class="logo-lc">
+                    <span>PART OF</span>
+                    <a href="https://www.lifullconnect.com/" target="_blank"><img src="https://multimedia.lamudi.com/lamudi/common/images/lc.svg" alt="logo Lifull Connect" width="160" height="20"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<div id="g_id_onload" data-client_id="577924979198-89dammii2rqb7lsel5lhbmo72dbreb2a.apps.googleusercontent.com" data-callback="onGoogleTapSignInWL" data-intermediate_iframe_close_callback="onGoogleTapCloseWL" data-use_fedcm_for_prompt="true" data-cancel_on_tap_outside="false" data-context="use" data-skip_prompt_cookie="_showGoogleOneTapWL" data-moment_callback="checkMomentNotificationWL" data-auto_prompt="false" data-brand="LAMUDI" data-country="MX" data-reload="true" data-wl-auto-prompt="true" data-wl-user-has-interacted="true"></div>
+<script src="https://accounts.google.com/gsi/client" async="" defer=""></script>
+    <script src="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-wl_googleOneTapComponent.js"></script>
+    <script src="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-lamudiAutocompleter.js"></script>
+    <script src="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-lamudiHome.js"></script>
+    <script src="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-lamudiNavbar.js"></script>
+    <script src="https://multimedia.lamudi.com/front/b15c05d0/adform/bundle-sentry_performance.js"></script>
+
+
+
+</body></html>

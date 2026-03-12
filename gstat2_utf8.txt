@@ -1,5 +1,0 @@
-b3b92834 fix(db): prioritize DATABASE_URL over Vercel POSTGRES_PRISMA_URL to hit active production db
-9c04da95 Fix ML Dashboard UI and search
-c5ca6233 fix(crawler): remove authorization from ML public endpoints to prevent 403 on expired token
-150c8788 fix(crawler): migrate FB crawler to edge API & patch ML thumbnails
-69718fa4 fix(crawler): proxy trigger endpoint to railway backend to actually run the facebook crawler

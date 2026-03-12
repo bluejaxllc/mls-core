@@ -1,0 +1,28 @@
+Vercel CLI 50.23.2
+WARN! Build not running on Vercel. System environment variables will not be available.
+WARNING: You should not upload the `.next` directory.
+Running "install" command: `npm install`...
+
+up to date, audited 678 packages in 2s
+
+245 packages are looking for funding
+  run `npm fund` for details
+
+3 vulnerabilities (1 moderate, 1 high, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+Detected Next.js version: 14.1.0
+Running "npm run build"
+
+> mls-governance-web@0.1.0 build
+> PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && next build
+
+'PRISMA_CLI_BINARY_TARGETS' is not recognized as an internal or external command,
+operable program or batch file.
+Error: Command "npm run build" exited with 1

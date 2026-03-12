@@ -68,6 +68,7 @@
     "has-tostringtag": "^1.0.2",
     "hasown": "^2.0.2",
     "http-errors": "^2.0.1",
+    "https-proxy-agent": "^7.0.6",
     "iconv-lite": "^0.4.24",
     "inherits": "^2.0.4",
     "ipaddr.js": "^1.9.1",
@@ -94,6 +95,7 @@
     "ms": "^2.0.0",
     "multer": "^1.4.5-lts.2",
     "negotiator": "^0.6.3",
+    "node-html-parser": "^7.1.0",
     "nodemailer": "^8.0.1",
     "object-assign": "^4.1.1",
     "object-inspect": "^1.13.4",
@@ -104,7 +106,8 @@
     "process-nextick-args": "^2.0.1",
     "proxy-addr": "^2.0.7",
     "proxy-from-env": "^1.1.0",
-    "puppeteer": "^24.37.2",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "qs": "^6.14.1",
     "range-parser": "^1.2.1",
     "resolve-pkg-maps": "^1.0.0",
@@ -154,5 +157,9 @@
   "bugs": {
     "url": "https://github.com/bluejaxllc/mls-core/issues"
   },
-  "homepage": "https://github.com/bluejaxllc/mls-core#readme"
+  "homepage": "https://github.com/bluejaxllc/mls-core#readme",
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "puppeteer": "^24.37.5"
+  }
 }

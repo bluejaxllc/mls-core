@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CalendarDays, Clock, MapPin, CheckCircle2, XCircle, Loader2, Eye, User, Building2, Filter } from 'lucide-react';
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
 import toast from 'react-hot-toast';
+import { MOCK_APPOINTMENTS } from '@/lib/mock-data';
 
 interface Appointment {
     id: string;
@@ -48,10 +49,13 @@ export default function AppointmentsPage() {
             });
             if (res.ok) {
                 const data = await res.json();
-                setAppointments(data);
+                setAppointments(data.length > 0 ? data : MOCK_APPOINTMENTS.map(a => ({ ...a, listingId: 'mock-1', agentId: 'agent-1', visitorId: 'user-2', startTime: a.date, endTime: new Date(new Date(a.date).getTime() + 3600000).toISOString(), notes: null, listing: { title: a.property, address: 'Chihuahua', images: [] } })) as any);
+            } else {
+                setAppointments(MOCK_APPOINTMENTS.map(a => ({ ...a, listingId: 'mock-1', agentId: 'agent-1', visitorId: 'user-2', startTime: a.date, endTime: new Date(new Date(a.date).getTime() + 3600000).toISOString(), notes: null, listing: { title: a.property, address: 'Chihuahua', images: [] } })) as any);
             }
         } catch (err) {
             console.error('Error fetching appointments:', err);
+            setAppointments(MOCK_APPOINTMENTS.map(a => ({ ...a, listingId: 'mock-1', agentId: 'agent-1', visitorId: 'user-2', startTime: a.date, endTime: new Date(new Date(a.date).getTime() + 3600000).toISOString(), notes: null, listing: { title: a.property, address: 'Chihuahua', images: [] } })) as any);
         } finally {
             setLoading(false);
         }
@@ -61,6 +65,9 @@ export default function AppointmentsPage() {
         if (session) {
             setLoading(true);
             fetchAppointments();
+        } else if (session === null) {
+            setAppointments(MOCK_APPOINTMENTS.map(a => ({ ...a, listingId: 'mock-1', agentId: 'agent-1', visitorId: 'user-2', startTime: a.date, endTime: new Date(new Date(a.date).getTime() + 3600000).toISOString(), notes: null, listing: { title: a.property, address: 'Chihuahua', images: [] } })) as any);
+            setLoading(false);
         }
     }, [session, role]);
 

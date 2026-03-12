@@ -50,9 +50,10 @@ export function PageTransition({ children, className }: { children: React.ReactN
     );
 }
 
-export function AnimatedCard({ children, className, index = 0 }: { children: React.ReactNode; className?: string; index?: number }) {
+export function AnimatedCard({ children, className, index = 0, onClick }: { children: React.ReactNode; className?: string; index?: number; onClick?: (e: React.MouseEvent<HTMLDivElement>) => void }) {
     return (
         <motion.div
+            onClick={onClick}
             custom={index}
             variants={fadeIn}
             whileHover={{ y: -5, boxShadow: "0 0 25px -5px rgba(59,130,246,0.25)" }}

@@ -9,6 +9,7 @@ import { PageTransition, AnimatedCard, AnimatedButton } from '@/components/ui/an
 import { GovernanceMenu } from '@/components/listings/GovernanceMenu';
 import { motion } from 'framer-motion';
 import { useComparison } from '@/lib/comparison-context';
+import { MOCK_LISTINGS } from '@/lib/mock-data';
 
 // Assuming we have a unified type or an "any" soup for now
 interface UnifiedListing {
@@ -55,44 +56,60 @@ function ListingsContent() {
     const [loading, setLoading] = useState(false);
     const { addItem, removeItem, isInComparison, isFull } = useComparison();
 
-    useEffect(() => {
-        if (session?.accessToken) {
-            fetchListings();
-        }
-    }, [session, activeTab, cityFilter, propertyTypeFilter]); // Refetch on filter change
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const ITEMS_PER_PAGE = 12;
 
-    const fetchListings = async () => {
+    useEffect(() => {
+        fetchListings(1);
+    }, [activeTab, cityFilter, propertyTypeFilter, minPrice, maxPrice]); // Refetch on filter change
+
+    const fetchListings = async (page = currentPage) => {
         try {
             setLoading(true);
-            const API_URL = '';
 
-            let status = 'ACTIVE';
-            if (activeTab === 'drafts') status = 'DRAFT';
-            if (activeTab === 'observed') status = 'OBSERVED';
+            // Build query params for the live endpoint
+            const params = new URLSearchParams();
+            if (cityFilter) params.set('city', cityFilter);
+            if (propertyTypeFilter) params.set('propertyType', propertyTypeFilter);
+            if (minPrice) params.set('minPrice', minPrice);
+            if (maxPrice) params.set('maxPrice', maxPrice);
+            if (searchQuery) params.set('q', searchQuery);
+            params.set('page', page.toString());
+            params.set('limit', ITEMS_PER_PAGE.toString());
 
-            // Construct query params
-            const params = new URLSearchParams({
-                status: status,
-                q: searchQuery,
-                ...(cityFilter && { city: cityFilter }),
-                ...(propertyTypeFilter && { propertyType: propertyTypeFilter }),
-                ...(minPrice && { minPrice }),
-                ...(maxPrice && { maxPrice })
-            });
-
-            const res = await fetch(`${API_URL}/api/protected/search?${params.toString()}`, {
-                headers: {
-                    'Authorization': `Bearer ${session.accessToken}`
-                }
-            });
+            const res = await fetch(`/api/listings/live?${params.toString()}`);
 
             if (res.ok) {
                 const response = await res.json();
-                const listingsData = Array.isArray(response) ? response : (response.data || []);
-                setListings(listingsData);
+                const listingsData = response.listings || [];
+
+                // Map the live API response to our UnifiedListing format
+                const mapped: UnifiedListing[] = listingsData.map((item: any) => ({
+                    id: item.id || item.snapshotId || crypto.randomUUID(),
+                    type: 'OBSERVED' as const,
+                    title: item.title || 'Sin título',
+                    price: item.price || null,
+                    address: item.address || item.city || 'Chihuahua',
+                    status: item.status || 'active',
+                    image: item.imageUrl || null,
+                    trustScore: 90,
+                    source: item.source || 'Mercado Libre',
+                    sourceUrl: item.sourceUrl || item.snapshot?.source?.baseUrl || '',
+                    updatedAt: item.createdAt || new Date().toISOString(),
+                    confidence: item.confidenceScore || 0.8,
+                }));
+
+                setListings(mapped.length > 0 ? mapped : MOCK_LISTINGS);
+                setTotalPages(response.totalPages || 1);
+                setCurrentPage(response.page || page);
+                console.log(`[Listings] Loaded ${mapped.length} properties (source: ${response.source})`);
+            } else {
+                setListings(MOCK_LISTINGS);
             }
         } catch (error) {
             console.error(error);
+            setListings(MOCK_LISTINGS);
         } finally {
             setLoading(false);
         }
@@ -100,7 +117,7 @@ function ListingsContent() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        fetchListings();
+        fetchListings(1);
     }
 
     // SAVED SEARCH LOGIC
@@ -300,7 +317,7 @@ function ListingsContent() {
                             </button>
                             <AnimatedButton
                                 variant="primary"
-                                onClick={fetchListings}
+                                onClick={() => fetchListings()}
                                 className="text-xs px-4 py-1.5"
                             >
                                 Aplicar
@@ -522,6 +539,40 @@ function ListingsContent() {
                     )}
                 </div>
             )}
+
+            {/* Pagination for Listings */}
+            {viewMode === 'grid' && totalPages > 1 && listings.length > 0 && !loading && (
+                <div className="flex justify-center items-center gap-4 py-8">
+                    <AnimatedButton
+                        variant="secondary"
+                        onClick={() => {
+                            setCurrentPage(Math.max(1, currentPage - 1));
+                            fetchListings(Math.max(1, currentPage - 1));
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        disabled={currentPage <= 1 || loading}
+                        className="px-4 py-2"
+                    >
+                        Anterior
+                    </AnimatedButton>
+                    <span className="text-sm font-medium text-muted-foreground">
+                        Página {currentPage} de {totalPages}
+                    </span>
+                    <AnimatedButton
+                        variant="secondary"
+                        onClick={() => {
+                            setCurrentPage(Math.min(totalPages, currentPage + 1));
+                            fetchListings(Math.min(totalPages, currentPage + 1));
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        disabled={currentPage >= totalPages || loading}
+                        className="px-4 py-2"
+                    >
+                        Siguiente
+                    </AnimatedButton>
+                </div>
+            )}
+
             {/* Save Search Modal */}
             {isSaveSearchOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

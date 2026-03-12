@@ -1,13 +1,12 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../node_modules/@prisma/client-intelligence"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  engineType    = "library"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("INTELLIGENCE_DATABASE_URL")
-  directUrl = env("INTELLIGENCE_DATABASE_URL_UNPOOLED")
+  url       = env("MLS_INTELLIGENCE_URL")
 }
 
 // Layer 3: Intelligence Store (Non-Canonical)
@@ -94,6 +93,10 @@ model ObservedListing {
   
   // Confidence metadata
   confidenceScore Float    @default(0.5) // 0.0 - 1.0
+  
+  // Cache metadata for on-demand fetching
+  cacheKey       String?  // Filter hash for cache lookup
+  propertyType   String?  // residencial, comercial, terreno, industrial
   
   // Signals generated from this observation
   signals         Signal[]

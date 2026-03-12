@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* "Nano Banana" Theme - Cyberpunk Dark */
+    /* "Nano Banana" Theme - Cyberpunk Dark (default) */
     --background: 240 10% 3.9%;
     /* #09090b - Deep Void */
     --foreground: 0 0% 98%;
@@ -29,7 +29,7 @@
     --secondary-foreground: 0 0% 98%;
 
     --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted-foreground: 240 5% 72%;
 
     /* Cyan Accent */
     --accent: 184 100% 50%;
@@ -45,6 +45,37 @@
     /* Focus rings are now Banana Yellow */
 
     --radius: 0.75rem;
+  }
+
+  /* Light Mode — Professional & Clean */
+  [data-theme='light'] {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 92%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 92%;
+    --muted-foreground: 240 3.8% 35%;
+
+    --accent: 240 4.8% 92%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 75%;
+    --input: 240 6% 75%;
+    --ring: 221 83% 53%;
   }
 }
 

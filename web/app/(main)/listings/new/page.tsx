@@ -49,38 +49,94 @@ export default function NewListingPage() {
     // Handle Import Param
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
-        const importId = searchParams.get('import');
-        if (importId) {
-            setLoading(true);
-            const token = (session as any)?.accessToken;
+        
+        // 1. Check Session Storage (for large payloads like Facebook with massive image URLs)
+        let sessionData: any = null;
+        try {
+            const stored = sessionStorage.getItem('mls_pending_import');
+            if (stored) {
+                sessionData = JSON.parse(stored);
+                sessionStorage.removeItem('mls_pending_import'); // clear after reading
+            }
+        } catch (e) { console.error("Could not parse session storage import:", e); }
 
-            // Re-wired to pull from live Intelligence Database instead of static properties.json
-            authFetch(`/api/intelligence/observed/${importId}`, {}, token)
-                .then((listing: any) => {
-                    if (listing && !listing.error) {
-                        setFormData(prev => ({
-                            ...prev,
-                            title: listing.title || '',
-                            description: listing.description || '',
-                            price: listing.price?.toString() || '',
-                            address: listing.address || '',
-                            city: listing.city || '',
-                            type: listing.propertyType?.toLowerCase() || 'commercial',
-                            images: listing.images && listing.images.length > 0 ? listing.images : (listing.imageUrl ? [listing.imageUrl] : []),
-                            mapUrl: listing.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}` : ''
-                        }));
-                        // Trigger AI analysis for the imported address
-                        if (listing.address) {
-                            runAddressAI(listing.address);
-                        }
+        const importId = sessionData?.import || searchParams.get('import');
+        if (!importId) return;
+
+        // Helper: prefill form from params or session data
+        const prefillFromData = () => {
+            const title = sessionData?.title || searchParams.get('title');
+            const price = sessionData?.price || searchParams.get('price');
+            const address = sessionData?.address || searchParams.get('address');
+            const city = sessionData?.city || searchParams.get('city');
+            const type = sessionData?.type || searchParams.get('type');
+            const description = sessionData?.description || searchParams.get('description');
+            
+            // Support session images, JSON array of images, or single imageUrl
+            const imagesJson = searchParams.get('images');
+            const imageUrl = searchParams.get('imageUrl');
+            let importedImages: string[] = sessionData?.images || [];
+            if (importedImages.length === 0 && imagesJson) {
+                try { importedImages = JSON.parse(imagesJson); } catch { }
+            }
+            if (importedImages.length === 0 && imageUrl) {
+                importedImages = [imageUrl];
+            }
+
+            if (title || price || address || importedImages.length > 0) {
+                setFormData(prev => ({
+                    ...prev,
+                    title: title || prev.title,
+                    price: price ? String(Math.round(Number(price))) : prev.price,
+                    description: description || prev.description,
+                    address: address || prev.address,
+                    city: city || prev.city,
+                    type: type?.toLowerCase() || prev.type,
+                    images: importedImages.length > 0 ? importedImages : prev.images,
+                    mapUrl: address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : prev.mapUrl,
+                }));
+                if (address) {
+                    runAddressAI(address);
+                }
+                return true;
+            }
+            return false;
+        };
+
+        setLoading(true);
+        const token = (session as any)?.accessToken;
+
+        // Try fetching from intelligence DB first
+        authFetch(`/api/intelligence/observed/${importId}`, {}, token)
+            .then((listing: any) => {
+                if (listing && !listing.error) {
+                    setFormData(prev => ({
+                        ...prev,
+                        title: listing.title || sessionData?.title || '',
+                        description: listing.description || sessionData?.description || '',
+                        price: listing.price?.toString() || sessionData?.price || '',
+                        address: listing.address || sessionData?.address || '',
+                        city: listing.city || sessionData?.city || '',
+                        type: listing.propertyType?.toLowerCase() || sessionData?.type?.toLowerCase() || 'commercial',
+                        images: listing.images && listing.images.length > 0 ? listing.images : (sessionData?.images?.length ? sessionData.images : (listing.imageUrl ? [listing.imageUrl] : [])),
+                        mapUrl: listing.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}` : ''
+                    }));
+                    if (listing.address || sessionData?.address) {
+                        runAddressAI(listing.address || sessionData?.address);
                     }
-                })
-                .catch(err => {
-                    console.error("Failed to load intelligence observed listing:", err);
+                } else {
+                    // DB returned empty/error — try session/query params
+                    prefillFromData();
+                }
+            })
+            .catch(err => {
+                console.warn("Intelligence DB fetch failed, using query/session params:", err.message);
+                // Fallback: prefill from query/session params
+                if (!prefillFromData()) {
                     toast.error("Error al cargar la propiedad importada");
-                })
-                .finally(() => setLoading(false));
-        }
+                }
+            })
+            .finally(() => setLoading(false));
     }, [session]);
 
     const buildStreetViewAndSatelliteUrls = useCallback((lat: number, lng: number): string[] => {

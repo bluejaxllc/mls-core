@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ShieldCheck, Database, Scale, FileSearch, Layers, Gavel, Eye, Clock, Rocket, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Database, Scale, FileSearch, Layers, Gavel, Eye, Clock, Rocket, ChevronRight, Users, Target, CheckCircle2, AlertTriangle, Workflow } from 'lucide-react';
 
 const fadeUp = (delay: number = 0) => ({
     initial: { opacity: 0, y: 20 },
@@ -359,9 +359,106 @@ export default function WhitepaperPage() {
 
                 <Divider />
 
-                {/* ─── 5. FASES DE IMPLEMENTACIÓN ─── */}
+                {/* ─── 5. EL ROL DEL ASESOR ─── */}
                 <motion.section {...fadeUp()} className="mb-20 md:mb-28">
                     <SectionNumber number="05" />
+                    <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">
+                        El Rol del Asesor{' '}
+                        <span className="text-zinc-600">(Manual del Operador)</span>
+                    </h2>
+                    <p className="text-base md:text-lg leading-relaxed mb-10">
+                        La arquitectura de la MLS no solo audita a los brokers, sino que
+                        <span className="text-white font-medium"> empodera al asesor profesional</span> proporcionándole
+                        el entorno seguro y con fricción cero que necesita para escalar sus operaciones de venta compartida.
+                    </p>
+
+                    {/* Workflow Visual Aid */}
+                    <div className="mb-12">
+                        <div className="text-[10px] font-mono text-emerald-500/60 tracking-wider uppercase mb-5">
+                            Ciclo de Interacción del Asesor
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-4 relative">
+                            {/* Connecting Line (Desktop) */}
+                            <div className="hidden sm:block absolute top-[28px] left-[10%] right-[10%] h-px bg-gradient-to-r from-emerald-500/10 via-emerald-500/50 to-emerald-500/10"></div>
+                            
+                            {[
+                                { step: 1, icon: Users, title: 'Autenticación', desc: 'Ingreso mediante sistema centralizado de identidad del broker.', color: 'emerald' },
+                                { step: 2, icon: Database, title: 'Aportación', desc: 'Sube exclusivas estrictamente documentadas.', color: 'blue' },
+                                { step: 3, icon: Workflow, title: 'Interacción', desc: 'Búsqueda y matching sobre inventario auditado global.', color: 'cyan' },
+                                { step: 4, icon: Scale, title: 'Cierre Seguro', desc: 'Cobro de splits de comisión con protección criptográfica.', color: 'indigo' },
+                            ].map((s, i) => (
+                                <motion.div key={i} {...fadeUp(0.1 + i * 0.1)} className="relative flex flex-col items-center text-center px-2 pb-8 sm:pb-0 group">
+                                    <div className={`relative z-10 h-14 w-14 rounded-full border bg-[#0a0a0a] flex items-center justify-center mb-4 transition-all duration-500
+                                        ${s.color === 'emerald' ? 'border-emerald-500/30 text-emerald-400 group-hover:shadow-[0_0_20px_-3px_rgba(16,185,129,0.4)] group-hover:scale-110' : ''}
+                                        ${s.color === 'blue' ? 'border-blue-500/30 text-blue-400 group-hover:shadow-[0_0_20px_-3px_rgba(59,130,246,0.4)] group-hover:scale-110' : ''}
+                                        ${s.color === 'cyan' ? 'border-cyan-500/30 text-cyan-400 group-hover:shadow-[0_0_20px_-3px_rgba(6,182,212,0.4)] group-hover:scale-110' : ''}
+                                        ${s.color === 'indigo' ? 'border-indigo-500/30 text-indigo-400 group-hover:shadow-[0_0_20px_-3px_rgba(99,102,241,0.4)] group-hover:scale-110' : ''}
+                                    `}>
+                                        <s.icon className="h-6 w-6" />
+                                        <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-zinc-800 border border-zinc-700 text-[9px] font-bold flex items-center justify-center text-white">
+                                            {s.step}
+                                        </div>
+                                    </div>
+                                    <h4 className="text-sm font-bold text-white mb-2">{s.title}</h4>
+                                    <p className="text-xs text-zinc-500 leading-relaxed max-w-[180px]">{s.desc}</p>
+                                    
+                                    {/* Mobile Connecting Line */}
+                                    {i < 3 && <div className="sm:hidden absolute bottom-0 top-[60px] left-1/2 w-px bg-gradient-to-b from-zinc-800 to-transparent"></div>}
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* The 4 Rules Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+                        <motion.div {...fadeUp(0.2)} className="bg-gradient-to-br from-emerald-950/20 via-zinc-900/60 to-zinc-900/40 border border-emerald-500/10 p-6 md:p-8 rounded-xl hover:border-emerald-500/25 transition-all group">
+                            <div className="flex items-center gap-3 mb-4">
+                                <CheckCircle2 className="h-6 w-6 text-emerald-400 group-hover:scale-110 transition-transform" />
+                                <h3 className="text-lg font-bold text-white">Los Beneficios</h3>
+                            </div>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                <strong className="text-zinc-200">Acceso a un inventario real y auditado.</strong> No más tiempo desperdiciado contactando colegas para verificar si una propiedad sigue disponible. Si está activa en la MLS, el listar broker la tiene lista para venta compartida inmediata. Tú te enfocas en cerrar tratos, no en cazar datos fantasmas.
+                            </p>
+                        </motion.div>
+
+                        <motion.div {...fadeUp(0.3)} className="bg-gradient-to-br from-blue-950/20 via-zinc-900/60 to-zinc-900/40 border border-blue-500/10 p-6 md:p-8 rounded-xl hover:border-blue-500/25 transition-all group">
+                            <div className="flex items-center gap-3 mb-4">
+                                <Users className="h-6 w-6 text-blue-400 group-hover:scale-110 transition-transform" />
+                                <h3 className="text-lg font-bold text-white">Las Interacciones</h3>
+                            </div>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                <strong className="text-zinc-200">Colaboración sin fricción.</strong> El proceso de identidad elimina las barreras de confianza inicial. Todo contacto inter-agencia se realiza a través de perfiles verificados y criptográficamente sellados, garantizando la división justa de comisiones pactada de antemano.
+                            </p>
+                        </motion.div>
+
+                        <motion.div {...fadeUp(0.4)} className="bg-gradient-to-br from-cyan-950/20 via-zinc-900/60 to-zinc-900/40 border border-cyan-500/10 p-6 md:p-8 rounded-xl hover:border-cyan-500/25 transition-all group">
+                            <div className="flex items-center gap-3 mb-4">
+                                <Target className="h-6 w-6 text-cyan-400 group-hover:scale-110 transition-transform" />
+                                <h3 className="text-lg font-bold text-white">Las Expectativas</h3>
+                            </div>
+                            <p className="text-sm text-zinc-400 leading-relaxed">
+                                <strong className="text-zinc-200">Profesionalismo radical.</strong> La calidad de los datos es la moneda de cambio de la red. Se exige fotografía profesional, polígonos GPS precisos, documentación soporte obligatoria, actualización de estatus en tiempo real y comunicación protocolar entre miembros.
+                            </p>
+                        </motion.div>
+
+                        <motion.div {...fadeUp(0.5)} className="relative overflow-hidden bg-gradient-to-br from-red-950/20 via-zinc-900/60 to-zinc-900/40 border border-red-500/10 p-6 md:p-8 rounded-xl hover:border-red-500/25 transition-all group">
+                            <div className="absolute right-0 top-0 w-24 h-24 bg-red-500/[0.03] rounded-full blur-2xl"></div>
+                            <div className="flex items-center gap-3 mb-4 relative z-10">
+                                <AlertTriangle className="h-6 w-6 text-red-400 group-hover:scale-110 transition-transform" />
+                                <h3 className="text-lg font-bold text-white">Las Reglas del Juego</h3>
+                            </div>
+                            <p className="text-sm text-zinc-400 leading-relaxed relative z-10">
+                                <strong className="text-zinc-200">0% tolerancia a engaños y piratería.</strong> Quien sube listados no exclusivos falsamente, intenta desviar leads (clientes) de colegas al momento de mostrar propiedades, omite el pago de splits acordados, o altera datos geográficos es congelado y expulsado por el sistema de forma inmediata.
+                            </p>
+                        </motion.div>
+                    </div>
+                </motion.section>
+
+                <Divider />
+
+                {/* ─── 6. FASES DE IMPLEMENTACIÓN ─── */}
+                <motion.section {...fadeUp()} className="mb-20 md:mb-28">
+                    <SectionNumber number="06" />
                     <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">
                         Fases de Implementación{' '}
                         <span className="text-zinc-600">(Roadmap de Ejecución)</span>

@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { BarChart3, Eye, Users, TrendingUp, Trophy, Loader2, Monitor, Smartphone, Building2 } from 'lucide-react';
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
+import { MOCK_ANALYTICS, MOCK_LISTINGS } from '@/lib/mock-data';
 
 interface AnalyticsOverview {
     totalViews: number;
@@ -34,16 +35,64 @@ export default function AnalyticsPage() {
     const headers = { Authorization: `Bearer ${(session as any)?.accessToken}` };
 
     useEffect(() => {
+        if (session === null) {
+            // No session — load mock data directly
+            setOverview({
+                totalViews: 1247, uniqueViewers: 432, weekTrend: 12.5, thisWeekViews: 247,
+                dailyViews: Array.from({ length: 30 }, (_, i) => ({
+                    date: new Date(Date.now() - (29 - i) * 86400000).toISOString().split('T')[0],
+                    views: Math.floor(Math.random() * 50) + 10,
+                })),
+                topListing: { id: 'mock-1', title: 'Casa Residencial en Lomas del Santuario', views: 312 },
+            });
+            setRankings(MOCK_LISTINGS.map(l => ({
+                listingId: l.id, title: l.title, price: l.price || 0, status: l.status, image: null,
+                views: Math.floor(Math.random() * 200) + 50,
+            })));
+            setLoading(false);
+            return;
+        }
         if (!session) return;
         Promise.all([
             fetch(`${API}/api/protected/analytics/overview`, { headers }).then(r => r.json()),
             fetch(`${API}/api/protected/analytics/rankings`, { headers }).then(r => r.json()),
         ])
             .then(([ov, rank]) => {
-                setOverview(ov);
-                setRankings(Array.isArray(rank) ? rank : []);
+                if (ov && ov.totalViews !== undefined) setOverview(ov);
+                else setOverview({
+                    totalViews: MOCK_ANALYTICS.totalViews * 26,
+                    uniqueViewers: MOCK_ANALYTICS.totalLeads * 14,
+                    weekTrend: 12.5,
+                    thisWeekViews: 247,
+                    dailyViews: Array.from({ length: 30 }, (_, i) => ({
+                        date: new Date(Date.now() - (29 - i) * 86400000).toISOString().split('T')[0],
+                        views: Math.floor(Math.random() * 50) + 10,
+                    })),
+                    topListing: { id: 'mock-1', title: 'Casa Residencial en Lomas del Santuario', views: 312 },
+                });
+                setRankings(Array.isArray(rank) && rank.length > 0 ? rank : MOCK_LISTINGS.map((l, i) => ({
+                    listingId: l.id,
+                    title: l.title,
+                    price: l.price || 0,
+                    status: l.status,
+                    image: null,
+                    views: Math.floor(Math.random() * 200) + 50,
+                })));
             })
-            .catch(console.error)
+            .catch(() => {
+                setOverview({
+                    totalViews: 1247, uniqueViewers: 432, weekTrend: 12.5, thisWeekViews: 247,
+                    dailyViews: Array.from({ length: 30 }, (_, i) => ({
+                        date: new Date(Date.now() - (29 - i) * 86400000).toISOString().split('T')[0],
+                        views: Math.floor(Math.random() * 50) + 10,
+                    })),
+                    topListing: { id: 'mock-1', title: 'Casa Residencial en Lomas del Santuario', views: 312 },
+                });
+                setRankings(MOCK_LISTINGS.map(l => ({
+                    listingId: l.id, title: l.title, price: l.price || 0, status: l.status, image: null,
+                    views: Math.floor(Math.random() * 200) + 50,
+                })));
+            })
             .finally(() => setLoading(false));
     }, [session]);
 

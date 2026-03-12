@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    experimental: {
+        outputFileTracingIncludes: {
+            '/api/**': [
+                './node_modules/@prisma/client-intelligence/**',
+                './node_modules/@prisma/client-core/**',
+            ],
+        },
+        serverComponentsExternalPackages: ['@prisma/client-core', '@prisma/client-intelligence'],
+    },
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -36,6 +45,9 @@ const nextConfig = {
                 ],
             },
         ];
+    },
+    async redirects() {
+        return [];
     },
     async rewrites() {
         return [];

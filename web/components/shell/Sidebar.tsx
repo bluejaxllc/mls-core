@@ -7,6 +7,7 @@ import { Home, Search, FileText, Upload, ShieldAlert, Settings, Sparkles, Globe,
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/lib/i18n';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Sidebar() {
     const { t } = useLanguage();
@@ -16,10 +17,9 @@ export function Sidebar() {
     const items = [
         { name: t.sidebar.dashboard, href: '/dashboard', icon: Home, badge: null },
         { name: t.sidebar.search, href: '/properties', icon: Search, badge: null },
-        { name: t.sidebar.listings, href: '/listings', icon: FileText, badge: 12 },
+        { name: t.sidebar.listings, href: '/listings', icon: FileText, badge: null },
         { name: t.sidebar.ingestion, href: '/ingestion', icon: Upload, badge: null },
-        { name: t.sidebar.governance, href: '/governance', icon: ShieldAlert, badge: 3 },
-        { name: (t.sidebar as any).intelligence, href: '/intelligence', icon: Globe, badge: 5 },
+        { name: t.sidebar.governance, href: '/governance', icon: ShieldAlert, badge: null },
         { name: 'Mensajes', href: '/messages', icon: MessageCircle, badge: null },
         { name: 'Favoritos', href: '/favorites', icon: Heart, badge: null },
         { name: 'Reseñas', href: '/reviews', icon: Star, badge: null },
@@ -27,7 +27,6 @@ export function Sidebar() {
         { name: 'Notificaciones', href: '/notifications', icon: Bell, badge: null },
         { name: 'Analíticas', href: '/analytics', icon: BarChart3, badge: null },
         { name: 'Agentes', href: '/agents', icon: Users, badge: null },
-        { name: 'Mapa', href: '/map', icon: MapPin, badge: null },
         { name: 'Herramientas', href: '/tools', icon: Wrench, badge: null },
         { name: t.sidebar.system, href: '/system', icon: Settings, badge: null },
     ];
@@ -71,7 +70,7 @@ export function Sidebar() {
             </div>
 
             {/* Navigation Items */}
-            <div className="flex-1 relative z-10">
+            <div className="flex-1 relative z-10 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500/20 scrollbar-track-transparent">
                 {items.map((item, index) => {
                     const isActive = pathname === item.href;
                     return (
@@ -212,6 +211,11 @@ export function Sidebar() {
                         </motion.div>
                     )}
                 </AnimatePresence>
+            </div>
+
+            {/* Theme Toggle */}
+            <div className="relative z-10 mx-2 mt-2">
+                <ThemeToggle />
             </div>
 
             {/* Bottom decorative element */}

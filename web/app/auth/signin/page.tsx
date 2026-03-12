@@ -3,11 +3,22 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ShieldCheck, ArrowLeft, Loader2 } from "lucide-react";
 
-export default function RetroSignInPage() {
+const fadeUp = (delay: number = 0) => ({
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, delay, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }
+});
+
+export default function SignInPage() {
     const router = useRouter();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [showBeta, setShowBeta] = useState(false);
     const [betaForm, setBetaForm] = useState({ name: '', email: '', company: '', phone: '' });
     const [betaStatus, setBetaStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -27,17 +38,20 @@ export default function RetroSignInPage() {
                     setShowBeta(false);
                     setBetaStatus('idle');
                     setBetaForm({ name: '', email: '', company: '', phone: '' });
-                }, 2000);
+                }, 2500);
             } else {
                 setBetaStatus('error');
             }
-        } catch (error) {
+        } catch {
             setBetaStatus('error');
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
+        setError("");
+
         const result = await signIn("credentials", {
             username,
             password,
@@ -46,68 +60,102 @@ export default function RetroSignInPage() {
 
         if (result?.ok) {
             router.push("/dashboard");
+        } else if (result?.error?.includes("EMAIL_NOT_VERIFIED")) {
+            setError("Su email no ha sido verificado. Revise su bandeja de entrada.");
+            setLoading(false);
         } else {
-            alert("GAME OVER: Invalid Credentials");
+            setError("Credenciales inválidas. Verifique e intente nuevamente.");
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-zinc-900 flex flex-col items-center justify-center font-['Press_Start_2P'] text-white relative">
+        <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center relative overflow-hidden"
+            style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
+        >
+            {/* Background Effects */}
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/30 via-[#0a0a0a] to-[#0a0a0a]"></div>
+                <div
+                    className="absolute inset-0 opacity-[0.03]"
+                    style={{
+                        backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,255,255,0.1) 50px),
+                                          repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(255,255,255,0.1) 50px)`
+                    }}
+                ></div>
+            </div>
 
-            {/* Beta Modal */}
+            {/* Beta Access Modal */}
             {showBeta && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-zinc-900 border-4 border-blue-500 p-6 max-w-md w-full shadow-[0_0_50px_rgba(59,130,246,0.3)] relative rounded-lg">
-                        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative overflow-hidden rounded-2xl border border-blue-500/15 bg-gradient-to-br from-blue-950/40 via-zinc-900/80 to-zinc-900/60 p-8 max-w-md w-full shadow-2xl"
+                    >
+                        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
                         <button
                             onClick={() => setShowBeta(false)}
-                            className="absolute top-2 right-2 text-zinc-500 hover:text-white"
+                            className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors text-lg"
                         >
                             ✕
                         </button>
 
-                        <h2 className="text-xl text-blue-500 mb-4 text-center">JOIN PROTOCOL BETA</h2>
+                        <div className="text-center mb-6">
+                            <div className="h-12 w-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-4">
+                                <ShieldCheck className="h-6 w-6 text-blue-400" />
+                            </div>
+                            <h2 className="text-xl font-bold tracking-tight">Solicitar Acceso Beta</h2>
+                            <p className="text-sm text-zinc-500 mt-1">Complete el formulario para iniciar el proceso de verificación</p>
+                        </div>
 
                         {betaStatus === 'success' ? (
                             <div className="text-center py-8">
-                                <div className="text-4xl mb-4">✅</div>
-                                <p className="text-green-500 text-sm mb-2">REQUEST RECEIVED</p>
-                                <p className="text-[10px] text-zinc-400">ADMIN WILL PROCESS YOUR ACCESS TOKEN.</p>
+                                <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)]">
+                                    <ShieldCheck className="h-8 w-8 text-emerald-400" />
+                                </div>
+                                <p className="text-emerald-400 font-medium mb-1">Solicitud Recibida</p>
+                                <p className="text-xs text-zinc-500">Un administrador procesará su solicitud en 72 horas hábiles.</p>
                             </div>
                         ) : (
                             <form onSubmit={handleBetaSubmit} className="space-y-4">
                                 <div>
-                                    <label className="text-[10px] text-blue-400 block mb-1">CODENAME / NAME *</label>
+                                    <label className="block text-xs font-mono tracking-wider text-zinc-500 uppercase mb-2">Nombre Completo *</label>
                                     <input
                                         required
-                                        className="w-full bg-black border border-zinc-700 p-2 text-xs focus:border-blue-500 outline-none text-white font-mono"
+                                        className="w-full bg-zinc-800/50 border border-zinc-700/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 text-white placeholder:text-zinc-600 transition-all"
+                                        placeholder="Nombre del broker o agente"
                                         value={betaForm.name}
                                         onChange={e => setBetaForm({ ...betaForm, name: e.target.value })}
                                     />
                                 </div>
                                 <div>
-                                    <label className="text-[10px] text-blue-400 block mb-1">EMAIL FREQUENCY *</label>
+                                    <label className="block text-xs font-mono tracking-wider text-zinc-500 uppercase mb-2">Correo Electrónico *</label>
                                     <input
                                         required
                                         type="email"
-                                        className="w-full bg-black border border-zinc-700 p-2 text-xs focus:border-blue-500 outline-none text-white font-mono"
+                                        className="w-full bg-zinc-800/50 border border-zinc-700/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 text-white placeholder:text-zinc-600 transition-all"
+                                        placeholder="correo@empresa.com"
                                         value={betaForm.email}
                                         onChange={e => setBetaForm({ ...betaForm, email: e.target.value })}
                                     />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="text-[10px] text-blue-400 block mb-1">FACTION (COMPANY)</label>
+                                        <label className="block text-xs font-mono tracking-wider text-zinc-500 uppercase mb-2">Empresa</label>
                                         <input
-                                            className="w-full bg-black border border-zinc-700 p-2 text-xs focus:border-blue-500 outline-none text-white font-mono"
+                                            className="w-full bg-zinc-800/50 border border-zinc-700/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 text-white placeholder:text-zinc-600 transition-all"
+                                            placeholder="Inmobiliaria"
                                             value={betaForm.company}
                                             onChange={e => setBetaForm({ ...betaForm, company: e.target.value })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-[10px] text-blue-400 block mb-1">COMMS (PHONE)</label>
+                                        <label className="block text-xs font-mono tracking-wider text-zinc-500 uppercase mb-2">Teléfono</label>
                                         <input
-                                            className="w-full bg-black border border-zinc-700 p-2 text-xs focus:border-blue-500 outline-none text-white font-mono"
+                                            className="w-full bg-zinc-800/50 border border-zinc-700/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 text-white placeholder:text-zinc-600 transition-all"
+                                            placeholder="+52..."
                                             value={betaForm.phone}
                                             onChange={e => setBetaForm({ ...betaForm, phone: e.target.value })}
                                         />
@@ -115,88 +163,151 @@ export default function RetroSignInPage() {
                                 </div>
 
                                 {betaStatus === 'error' && (
-                                    <p className="text-red-500 text-[10px] text-center">TRANSMISSION FAILED. RETRY.</p>
+                                    <p className="text-red-400 text-xs text-center">Error al enviar. Intente nuevamente.</p>
                                 )}
 
                                 <button
                                     disabled={betaStatus === 'loading'}
-                                    className="w-full bg-blue-600 hover:bg-blue-500 text-white p-3 text-xs mt-4 border-2 border-transparent hover:border-white transition-all disabled:opacity-50"
+                                    className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg font-semibold text-sm transition-all hover:from-blue-500 hover:to-blue-400 disabled:opacity-50 flex items-center justify-center gap-2 shadow-[0_0_30px_-8px_rgba(59,130,246,0.4)]"
                                 >
-                                    {betaStatus === 'loading' ? 'TRANSMITTING...' : 'INITIATE REQUEST'}
+                                    {betaStatus === 'loading' ? (
+                                        <><Loader2 className="h-4 w-4 animate-spin" /> Enviando...</>
+                                    ) : (
+                                        'Enviar Solicitud'
+                                    )}
                                 </button>
                             </form>
                         )}
-                    </div>
+                    </motion.div>
                 </div>
             )}
 
-            <div className="max-w-md w-full border-4 border-blue-500/40 p-2 bg-black shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)] rounded-lg">
-                <div className="border-4 border-blue-500/30 p-8 flex flex-col items-center gap-8 rounded-lg relative overflow-hidden">
-                    <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
+            {/* Back Link */}
+            <motion.div {...fadeUp(0)} className="absolute top-6 left-6 z-20">
+                <Link href="/" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 transition-colors text-sm group">
+                    <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                    <span className="font-mono text-xs tracking-wider uppercase">Inicio</span>
+                </Link>
+            </motion.div>
 
-                    {/* Header */}
-                    <div className="text-center space-y-4">
-                        <h1 className="text-2xl text-[#3b82f6] drop-shadow-[2px_2px_0px_white] tracking-tighter">.BLUE JAX</h1>
-                        <p className="text-xs text-zinc-400">CORE SYSTEM ACCESS</p>
-                    </div>
+            {/* Logo */}
+            <motion.div {...fadeUp(0)} className="absolute top-6 right-6 z-20">
+                <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 bg-blue-600 rounded-sm"></div>
+                    <span className="font-bold tracking-tight text-sm font-mono">BLUE JAX</span>
+                    <span className="text-zinc-600 text-xs font-mono">/ MLS</span>
+                </div>
+            </motion.div>
 
-                    {/* Form */}
-                    <div className="w-full">
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-[10px] text-[#3b82f6]">USERNAME</label>
+            {/* Login Card */}
+            <div className="relative z-10 w-full max-w-md px-4">
+                <motion.div
+                    {...fadeUp(0.1)}
+                    className="relative overflow-hidden rounded-2xl border border-blue-500/10 bg-gradient-to-br from-blue-950/20 via-zinc-900/80 to-zinc-900/60 shadow-2xl"
+                >
+                    {/* Top Glow */}
+                    <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
+
+                    <div className="p-8 md:p-10">
+                        {/* Header */}
+                        <motion.div {...fadeUp(0.2)} className="text-center mb-8">
+                            <div className="h-14 w-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-5 shadow-[0_0_40px_-8px_rgba(59,130,246,0.3)]">
+                                <ShieldCheck className="h-7 w-7 text-blue-400" />
+                            </div>
+                            <h1 className="text-2xl font-black tracking-[-0.02em]">
+                                <span className="bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
+                                    Acceso al Sistema
+                                </span>
+                            </h1>
+                            <p className="text-zinc-500 text-sm mt-2">
+                                Ingrese sus credenciales de broker autorizado
+                            </p>
+                        </motion.div>
+
+                        {/* Form */}
+                        <motion.form {...fadeUp(0.3)} onSubmit={handleSubmit} className="space-y-5">
+                            <div>
+                                <label className="block text-xs font-mono tracking-wider text-zinc-500 uppercase mb-2">
+                                    Usuario
+                                </label>
                                 <input
                                     type="text"
+                                    required
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    className="w-full bg-black border-2 border-blue-500/30 p-3 text-xs focus:outline-none focus:border-blue-400 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] text-white font-mono rounded transition-all"
-                                    style={{ imageRendering: 'pixelated' }}
+                                    className="w-full bg-zinc-800/50 border border-zinc-700/50 rounded-lg px-4 py-3.5 text-sm focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] text-white placeholder:text-zinc-600 transition-all"
+                                    placeholder="nombre.broker"
+                                    autoComplete="username"
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] text-[#3b82f6]">PASSWORD</label>
+                            <div>
+                                <label className="block text-xs font-mono tracking-wider text-zinc-500 uppercase mb-2">
+                                    Contraseña
+                                </label>
                                 <input
                                     type="password"
+                                    required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-black border-2 border-blue-500/30 p-3 text-xs focus:outline-none focus:border-blue-400 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] text-white font-mono rounded transition-all"
+                                    className="w-full bg-zinc-800/50 border border-zinc-700/50 rounded-lg px-4 py-3.5 text-sm focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 focus:shadow-[0_0_15px_-3px_rgba(59,130,246,0.2)] text-white placeholder:text-zinc-600 transition-all"
+                                    placeholder="••••••••"
+                                    autoComplete="current-password"
                                 />
                             </div>
+
+                            {/* Error Message */}
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -5 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="flex items-center gap-2 px-4 py-3 rounded-lg border border-red-500/20 bg-red-950/20 text-red-400 text-sm"
+                                >
+                                    <span>⚠</span>
+                                    <span>{error}</span>
+                                </motion.div>
+                            )}
 
                             <button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 border-2 border-blue-400/30 text-white p-4 text-xs hover:from-blue-500 hover:to-cyan-500 active:translate-y-1 transition-all rounded shadow-[0_0_20px_-5px_rgba(59,130,246,0.4)]"
+                                disabled={loading}
+                                className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl font-bold text-sm transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 shadow-[0_0_40px_-10px_rgba(59,130,246,0.4)] hover:shadow-[0_0_60px_-10px_rgba(59,130,246,0.5)] hover:from-blue-500 hover:to-blue-400 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                             >
-                                AUTHENTICATE
+                                {loading ? (
+                                    <><Loader2 className="h-4 w-4 animate-spin" /> Autenticando...</>
+                                ) : (
+                                    'Iniciar Sesión'
+                                )}
                             </button>
-                        </form>
+                        </motion.form>
 
-                        <div className="mt-6 text-center">
-                            <button
-                                onClick={() => setShowBeta(true)}
-                                className="text-[10px] text-zinc-500 hover:text-blue-400 underline decoration-dashed underline-offset-4"
-                            >
-                                [ REQUEST BETA ACCESS ]
-                            </button>
+                        {/* Divider */}
+                        <div className="my-6 flex items-center gap-4">
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-zinc-800"></div>
+                            <span className="text-[10px] font-mono text-zinc-600 tracking-wider uppercase">o</span>
+                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-zinc-800"></div>
                         </div>
-                    </div>
 
-                    {/* Footer / Credits */}
-                    <div className="text-[8px] text-zinc-500 text-center mt-4">
-                        <p>bluejax.core © 2026</p>
-                        <p>INSERT TOKEN TO CONTINUE</p>
+                        {/* Register Link */}
+                        <motion.div {...fadeUp(0.4)} className="text-center">
+                            <Link
+                                href="/auth/register"
+                                className="text-xs text-zinc-500 hover:text-blue-400 transition-colors group"
+                            >
+                                ¿No tiene cuenta?{' '}
+                                <span className="text-blue-500/70 group-hover:text-blue-400 underline decoration-dashed underline-offset-4 decoration-blue-500/30">
+                                    Crear cuenta
+                                </span>
+                            </Link>
+                        </motion.div>
                     </div>
-                </div>
+                </motion.div>
+
+                {/* Footer */}
+                <motion.p {...fadeUp(0.5)} className="text-center mt-6 text-zinc-600 text-[10px] font-mono tracking-wider">
+                    © 2026 BLUE JAX CORE — Acceso restringido a brokers autorizados.
+                </motion.p>
             </div>
-
-            {/* Background Decoration */}
-            <div className="fixed inset-0 pointer-events-none opacity-5 z-[-1]"
-                style={{
-                    backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-                    backgroundSize: '20px 20px'
-                }}
-            ></div>
         </div>
     );
 }

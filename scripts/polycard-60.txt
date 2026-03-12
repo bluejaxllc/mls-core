@@ -1,0 +1,1 @@
+<script async src="https://http2.mlstatic.com/frontend-assets/search-nordic/chunk-item-to-polycard.c2ceaa3a.js" crossorigin="anonymous" nonce="HXwkIfKZjCT2lItWcG0FJA=="></script>
