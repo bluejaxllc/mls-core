@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Database, Scale, FileSearch, ArrowRight, AlertTriangle, ChevronRight, Lock, Eye, Gavel } from 'lucide-react';
-import { useState } from 'react';
+import { ShieldCheck, Database, Scale, FileSearch, ArrowRight, AlertTriangle, ChevronRight, Lock, Eye, Gavel, Sun, Moon } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const fadeUp = (delay: number = 0) => ({
     initial: { opacity: 0, y: 30 },
@@ -19,6 +19,22 @@ export default function LandingPage() {
         problem: ''
     });
     const [submitted, setSubmitted] = useState(false);
+    const [isDark, setIsDark] = useState(true);
+
+    useEffect(() => {
+        // Auto-detect: dark mode after 7pm and before 7am
+        const hour = new Date().getHours();
+        const shouldBeDark = hour >= 19 || hour < 7;
+        setIsDark(shouldBeDark);
+    }, []);
+
+    useEffect(() => {
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDark]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,11 +42,11 @@ export default function LandingPage() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] text-slate-900 dark:text-white selection:bg-blue-500/30 overflow-hidden relative transition-colors duration-500">
+        <div className="min-h-screen bg-[#f0f2f5] dark:bg-[#0a0a0a] text-slate-900 dark:text-white selection:bg-blue-500/30 overflow-hidden relative transition-colors duration-500">
 
             {/* Background Effects */}
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-slate-50 to-slate-50 dark:from-blue-950/20 dark:via-[#0a0a0a] dark:to-[#0a0a0a] transition-colors duration-500"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100/50 via-[#f0f2f5] to-[#e8eaed] dark:from-blue-950/20 dark:via-[#0a0a0a] dark:to-[#0a0a0a] transition-colors duration-500"></div>
                 <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{
@@ -53,12 +69,23 @@ export default function LandingPage() {
                 <div className="flex items-center gap-2">
                     <div className="h-3 w-3 md:h-4 md:w-4 bg-blue-600 rounded-sm"></div>
                     <span className="font-bold tracking-tight text-base md:text-lg font-mono">BLUE JAX</span>
-                    <span className="text-zinc-600 text-xs font-mono hidden sm:inline">/ MLS</span>
+                    <span className="text-slate-500 dark:text-zinc-600 text-xs font-mono hidden sm:inline">/ MLS</span>
                 </div>
                 <div className="flex items-center gap-2 md:gap-6">
                     <Link href="/whitepaper" className="hidden sm:block text-xs text-slate-500 hover:text-slate-800 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors font-mono uppercase tracking-wider">
                         Whitepaper
                     </Link>
+                    <button
+                        onClick={() => setIsDark(!isDark)}
+                        className="p-2 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 transition-all duration-300 group"
+                        aria-label="Cambiar tema"
+                    >
+                        {isDark ? (
+                            <Sun className="h-4 w-4 text-amber-500 group-hover:rotate-45 transition-transform duration-300" />
+                        ) : (
+                            <Moon className="h-4 w-4 text-slate-600 group-hover:-rotate-12 transition-transform duration-300" />
+                        )}
+                    </button>
                     <Link
                         href="/auth/signin"
                         className="bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-black px-3 md:px-4 py-1.5 md:py-2 rounded text-[10px] md:text-xs font-bold dark:hover:bg-zinc-200 transition-colors flex items-center gap-2 font-mono uppercase tracking-wider"
@@ -75,7 +102,7 @@ export default function LandingPage() {
 
                 {/* Pre-título monoespaciado */}
                 <motion.div {...fadeUp(0)} className="mb-6 md:mb-8">
-                    <span className="font-mono text-[10px] md:text-xs tracking-[0.3em] text-slate-500 dark:text-zinc-500 uppercase border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded bg-white/50 dark:bg-transparent backdrop-blur-sm">
+                    <span className="font-mono text-[10px] md:text-xs tracking-[0.3em] text-slate-600 dark:text-zinc-500 uppercase border border-slate-300 dark:border-zinc-800 px-4 py-2 rounded bg-white/70 dark:bg-transparent backdrop-blur-sm">
                         Sistema de Registro y Gobernanza Inmobiliaria
                     </span>
                 </motion.div>
@@ -86,14 +113,14 @@ export default function LandingPage() {
                     className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black tracking-[-0.04em] mb-6 md:mb-8 leading-[0.9] max-w-4xl"
                     style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif" }}
                 >
-                    <span className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-500 dark:from-white dark:via-white dark:to-zinc-600 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-600 dark:from-white dark:via-white dark:to-zinc-600 bg-clip-text text-transparent">
                         La Verdad{' '}
                     </span>
-                    <span className="bg-gradient-to-b from-slate-800 via-slate-500 to-slate-400 dark:from-white dark:via-zinc-200 dark:to-zinc-600 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-b from-slate-800 via-slate-700 to-slate-500 dark:from-white dark:via-zinc-200 dark:to-zinc-600 bg-clip-text text-transparent">
                         Compartida
                     </span>
                     <br />
-                    <span className="bg-gradient-to-b from-slate-600 via-slate-500 to-slate-300 dark:from-zinc-300 dark:via-zinc-400 dark:to-zinc-700 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-b from-blue-700 via-blue-600 to-slate-500 dark:from-zinc-300 dark:via-zinc-400 dark:to-zinc-700 bg-clip-text text-transparent">
                         del Mercado Inmobiliario.
                     </span>
                 </motion.h1>
@@ -188,7 +215,7 @@ export default function LandingPage() {
                         <motion.div
                             key={i}
                             {...fadeUp(stat.delay)}
-                            className={`relative overflow-hidden rounded-xl p-6 md:p-8 border text-center group hover:scale-[1.02] transition-all duration-500 bg-white shadow-sm dark:shadow-none
+                            className={`relative overflow-hidden rounded-xl p-6 md:p-8 border text-center group hover:scale-[1.02] transition-all duration-500 bg-white/80 shadow-sm dark:shadow-none
                                 ${stat.color === 'blue' ? 'border-blue-100 hover:border-blue-300 dark:border-blue-500/15 dark:bg-gradient-to-br dark:from-blue-950/30 dark:to-zinc-900/40 dark:hover:border-blue-500/30' : ''}
                                 ${stat.color === 'cyan' ? 'border-cyan-100 hover:border-cyan-300 dark:border-cyan-500/15 dark:bg-gradient-to-br dark:from-cyan-950/30 dark:to-zinc-900/40 dark:hover:border-cyan-500/30' : ''}
                                 ${stat.color === 'indigo' ? 'border-indigo-100 hover:border-indigo-300 dark:border-indigo-500/15 dark:bg-gradient-to-br dark:from-indigo-950/30 dark:to-zinc-900/40 dark:hover:border-indigo-500/30' : ''}
@@ -225,7 +252,7 @@ export default function LandingPage() {
                     </span>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.03em] text-slate-900 dark:text-white">
                         Tres Pilares.{' '}
-                        <span className="text-slate-500 dark:text-zinc-600">Cero Ambigüedad.</span>
+                        <span className="text-slate-400 dark:text-zinc-500">Cero Ambigüedad.</span>
                     </h2>
                 </motion.div>
 
@@ -234,7 +261,7 @@ export default function LandingPage() {
                     {/* Pilar 1 */}
                     <motion.div
                         {...fadeUp(0.1)}
-                        className="relative overflow-hidden rounded-2xl border p-8 md:p-10 group transition-all duration-500 bg-white border-blue-100 hover:border-blue-300 shadow-sm dark:shadow-none dark:border-blue-500/10 dark:bg-gradient-to-br dark:from-blue-950/40 dark:via-zinc-900/60 dark:to-zinc-900/40 dark:hover:border-blue-500/25"
+                        className="relative overflow-hidden rounded-2xl border p-8 md:p-10 group transition-all duration-500 bg-white/80 border-blue-200 hover:border-blue-400 shadow-sm dark:shadow-none dark:border-blue-500/10 dark:bg-gradient-to-br dark:from-blue-950/40 dark:via-zinc-900/60 dark:to-zinc-900/40 dark:hover:border-blue-500/25"
                     >
                         {/* Watermark Number */}
                         <div className="absolute -right-4 -top-6 text-[120px] font-black leading-none select-none pointer-events-none text-slate-100 dark:text-blue-500/[0.04]">01</div>
@@ -262,7 +289,7 @@ export default function LandingPage() {
                     {/* Pilar 2 */}
                     <motion.div
                         {...fadeUp(0.2)}
-                        className="relative overflow-hidden rounded-2xl border p-8 md:p-10 group transition-all duration-500 bg-white border-cyan-100 hover:border-cyan-300 shadow-sm dark:shadow-none dark:border-cyan-500/10 dark:bg-gradient-to-br dark:from-cyan-950/40 dark:via-zinc-900/60 dark:to-zinc-900/40 dark:hover:border-cyan-500/25"
+                        className="relative overflow-hidden rounded-2xl border p-8 md:p-10 group transition-all duration-500 bg-white/80 border-cyan-200 hover:border-cyan-400 shadow-sm dark:shadow-none dark:border-cyan-500/10 dark:bg-gradient-to-br dark:from-cyan-950/40 dark:via-zinc-900/60 dark:to-zinc-900/40 dark:hover:border-cyan-500/25"
                     >
                         <div className="absolute -right-4 -top-6 text-[120px] font-black leading-none select-none pointer-events-none text-slate-100 dark:text-cyan-500/[0.04]">02</div>
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-cyan-300 dark:via-cyan-500/40 to-transparent group-hover:via-cyan-500 dark:group-hover:via-cyan-400/60 transition-all duration-500"></div>
@@ -286,7 +313,7 @@ export default function LandingPage() {
                     {/* Pilar 3 */}
                     <motion.div
                         {...fadeUp(0.3)}
-                        className="relative overflow-hidden rounded-2xl border p-8 md:p-10 group transition-all duration-500 bg-white border-indigo-100 hover:border-indigo-300 shadow-sm dark:shadow-none dark:border-indigo-500/10 dark:bg-gradient-to-br dark:from-indigo-950/40 dark:via-zinc-900/60 dark:to-zinc-900/40 dark:hover:border-indigo-500/25"
+                        className="relative overflow-hidden rounded-2xl border p-8 md:p-10 group transition-all duration-500 bg-white/80 border-indigo-200 hover:border-indigo-400 shadow-sm dark:shadow-none dark:border-indigo-500/10 dark:bg-gradient-to-br dark:from-indigo-950/40 dark:via-zinc-900/60 dark:to-zinc-900/40 dark:hover:border-indigo-500/25"
                     >
                         <div className="absolute -right-4 -top-6 text-[120px] font-black leading-none select-none pointer-events-none text-slate-100 dark:text-indigo-500/[0.04]">03</div>
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-indigo-300 dark:via-indigo-500/40 to-transparent group-hover:via-indigo-500 dark:group-hover:via-indigo-400/60 transition-all duration-500"></div>
@@ -329,7 +356,7 @@ export default function LandingPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                     {/* Visual representation */}
-                    <motion.div {...fadeUp(0.1)} className="relative h-full min-h-[400px] rounded-2xl border bg-white border-emerald-100 shadow-sm dark:shadow-none dark:border-emerald-500/10 dark:bg-gradient-to-br dark:from-emerald-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40 p-8 flex flex-col items-center justify-center overflow-hidden">
+                    <motion.div {...fadeUp(0.1)} className="relative h-full min-h-[400px] rounded-2xl border bg-white/80 border-emerald-200 shadow-sm dark:shadow-none dark:border-emerald-500/10 dark:bg-gradient-to-br dark:from-emerald-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40 p-8 flex flex-col items-center justify-center overflow-hidden">
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-emerald-300 dark:via-emerald-500/40 to-transparent"></div>
                         
                         {/* Broker A & B Connection */}
@@ -422,7 +449,7 @@ export default function LandingPage() {
             ══════════════════════════════════════════════════════════════ */}
             <section className="relative z-10 py-24 md:py-32 px-4">
                 <div className="max-w-7xl mx-auto">
-                    <div className="relative overflow-hidden border rounded-2xl bg-white border-blue-100 shadow-xl dark:shadow-none dark:border-blue-500/10 dark:bg-gradient-to-br dark:from-blue-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40">
+                    <div className="relative overflow-hidden border rounded-2xl bg-white/80 border-blue-200 shadow-xl dark:shadow-none dark:border-blue-500/10 dark:bg-gradient-to-br dark:from-blue-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40">
                         {/* Top glow */}
                         <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-300 dark:via-blue-500/30 to-transparent"></div>
                         {/* Watermark */}
@@ -449,14 +476,14 @@ export default function LandingPage() {
                                     El sistema registra{' '}
                                     <span className="text-slate-900 dark:text-white font-medium">quién</span> realizó la acción,{' '}
                                     <span className="text-slate-900 dark:text-white font-medium">qué</span> cambió,{' '}
-                                    <span className="text-white font-medium">por qué</span> cambió y{' '}
-                                    <span className="text-white font-medium">qué reglas se activaron</span>,
+                                    <span className="text-blue-700 dark:text-blue-300 font-medium">por qué</span> cambió y{' '}
+                                    <span className="text-blue-700 dark:text-blue-300 font-medium">qué reglas se activaron</span>,
                                     haciéndolo apto para revisión regulatoria y disputas legales.
                                 </motion.p>
                             </div>
 
                             {/* Right: Visual audit trail */}
-                            <div className="p-8 md:p-12 lg:p-16 border-t md:border-t-0 md:border-l border-slate-200 dark:border-blue-500/10 flex flex-col justify-center">
+                            <div className="p-8 md:p-12 lg:p-16 border-t md:border-t-0 md:border-l border-slate-300 dark:border-blue-500/10 flex flex-col justify-center">
                                 <div className="space-y-3">
                                     {[
                                         { icon: Eye, label: 'Quién', desc: 'Identidad verificada del actor', color: 'emerald', delay: 0.2 },
@@ -467,7 +494,7 @@ export default function LandingPage() {
                                         <motion.div
                                             key={i}
                                             {...fadeUp(item.delay)}
-                                            className={`flex items-start gap-4 p-4 rounded-xl border group transition-all duration-500 hover:scale-[1.02] bg-white dark:bg-transparent shadow-sm dark:shadow-none
+                                            className={`flex items-start gap-4 p-4 rounded-xl border group transition-all duration-500 hover:scale-[1.02] bg-white/80 dark:bg-transparent shadow-sm dark:shadow-none
                                                 ${item.color === 'emerald' ? 'border-emerald-100 hover:border-emerald-300 dark:bg-emerald-950/20 dark:border-emerald-500/10 dark:hover:border-emerald-500/25 dark:hover:bg-emerald-950/30' : ''}
                                                 ${item.color === 'cyan' ? 'border-cyan-100 hover:border-cyan-300 dark:bg-cyan-950/20 dark:border-cyan-500/10 dark:hover:border-cyan-500/25 dark:hover:bg-cyan-950/30' : ''}
                                                 ${item.color === 'blue' ? 'border-blue-100 hover:border-blue-300 dark:bg-blue-950/20 dark:border-blue-500/10 dark:hover:border-blue-500/25 dark:hover:bg-blue-950/30' : ''}
@@ -520,7 +547,7 @@ export default function LandingPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     {/* Beneficios */}
-                    <motion.div {...fadeUp(0.1)} className="bg-white border-slate-200 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-emerald-300 dark:hover:border-emerald-500/30 transition-colors group">
+                    <motion.div {...fadeUp(0.1)} className="bg-white/80 border-slate-300 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-emerald-400 dark:hover:border-emerald-500/30 transition-colors group">
                         <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                         </div>
@@ -531,7 +558,7 @@ export default function LandingPage() {
                     </motion.div>
 
                     {/* Interacciones */}
-                    <motion.div {...fadeUp(0.2)} className="bg-white border-slate-200 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-blue-300 dark:hover:border-blue-500/30 transition-colors group">
+                    <motion.div {...fadeUp(0.2)} className="bg-white/80 border-slate-300 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-blue-400 dark:hover:border-blue-500/30 transition-colors group">
                         <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 mb-6 group-hover:scale-110 transition-transform">
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" /></svg>
                         </div>
@@ -542,7 +569,7 @@ export default function LandingPage() {
                     </motion.div>
 
                     {/* Expectativas */}
-                    <motion.div {...fadeUp(0.3)} className="bg-white border-slate-200 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-cyan-300 dark:hover:border-cyan-500/30 transition-colors group">
+                    <motion.div {...fadeUp(0.3)} className="bg-white/80 border-slate-300 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-cyan-400 dark:hover:border-cyan-500/30 transition-colors group">
                         <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-cyan-50 text-cyan-600 dark:bg-cyan-500/10 dark:text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
                         </div>
@@ -553,7 +580,7 @@ export default function LandingPage() {
                     </motion.div>
 
                     {/* Reglas del Juego */}
-                    <motion.div {...fadeUp(0.4)} className="bg-white border-slate-200 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-red-300 dark:hover:border-red-500/30 transition-colors group relative overflow-hidden">
+                    <motion.div {...fadeUp(0.4)} className="bg-white/80 border-slate-300 shadow-sm dark:bg-zinc-900/40 border dark:border-zinc-800 p-8 rounded-2xl hover:border-red-400 dark:hover:border-red-500/30 transition-colors group relative overflow-hidden">
                         <div className="absolute right-0 top-0 w-32 h-32 bg-red-50 dark:bg-red-500/[0.03] rounded-full blur-3xl"></div>
                         <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 mb-6 group-hover:scale-110 transition-transform relative z-10">
                             <AlertTriangle className="h-5 w-5" />
@@ -579,19 +606,19 @@ export default function LandingPage() {
 
                 <motion.h2
                     {...fadeUp(0.1)}
-                    className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.03em] mb-6 md:mb-8 text-center leading-tight"
+                    className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.03em] mb-6 md:mb-8 text-center leading-tight text-slate-900 dark:text-white"
                 >
                     El Mercado se Controla,{' '}
                     <br className="hidden md:block" />
-                    <span className="bg-gradient-to-r from-zinc-500 to-zinc-600 bg-clip-text text-transparent">No se Ruega.</span>
+                    <span className="bg-gradient-to-r from-slate-500 to-slate-700 dark:from-zinc-400 dark:to-zinc-600 bg-clip-text text-transparent">No se Ruega.</span>
                 </motion.h2>
 
                 <motion.p
                     {...fadeUp(0.2)}
-                    className="text-base md:text-lg text-zinc-500 leading-relaxed text-center max-w-2xl mx-auto mb-14"
+                    className="text-base md:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed text-center max-w-2xl mx-auto mb-14"
                 >
                     El acceso a la capa base de la MLS está estrictamente limitado a brokers con{' '}
-                    <span className="text-zinc-300 font-medium">volumen comprobable</span>{' '}
+                    <span className="text-slate-900 dark:text-zinc-200 font-medium">volumen comprobable</span>{' '}
                     que busquen proteger su inventario. El sistema optimiza para la confianza, la equidad y
                     la legitimidad a largo plazo, no para el crecimiento desmedido.
                 </motion.p>
@@ -611,7 +638,7 @@ export default function LandingPage() {
                             </p>
                         </div>
                     ) : (
-                        <div className="relative overflow-hidden rounded-2xl border bg-white border-blue-100 dark:border-blue-500/10 dark:bg-gradient-to-br dark:from-blue-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40 transform dark:shadow-none shadow-xl">
+                        <div className="relative overflow-hidden rounded-2xl border bg-white/80 border-blue-200 dark:border-blue-500/10 dark:bg-gradient-to-br dark:from-blue-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40 transform dark:shadow-none shadow-xl">
                             <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-300 dark:via-blue-500/30 to-transparent"></div>
                             <div className="absolute -right-6 -top-8 text-[140px] font-black leading-none select-none pointer-events-none text-slate-100 dark:text-blue-500/[0.03]">✦</div>
                             <form onSubmit={handleSubmit} className="relative z-10 p-8 md:p-12">
@@ -679,7 +706,7 @@ export default function LandingPage() {
             </section>
 
             {/* Footer */}
-            <footer className="relative z-10 border-t border-slate-200 dark:border-blue-500/10 py-10 text-center bg-slate-50/50 dark:bg-transparent">
+            <footer className="relative z-10 border-t border-slate-300 dark:border-blue-500/10 py-10 text-center bg-[#e8eaed]/50 dark:bg-transparent">
                 <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-200 dark:via-blue-500/20 to-transparent"></div>
                 <p className="text-slate-500 dark:text-zinc-600 text-xs font-mono tracking-wider">&copy; 2026 BLUE JAX CORE — Todos los sistemas operativos.</p>
                 <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4 text-xs font-mono">
