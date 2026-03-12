@@ -47,35 +47,35 @@
     --radius: 0.75rem;
   }
 
-  /* Light Mode — Professional & Clean */
+  /* Light Mode — High Contrast Professional */
   [data-theme='light'] {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 220 14% 96%;       /* #F1F3F8 — soft cool gray, not pure white */
+    --foreground: 222 47% 11%;       /* #0F172A — near-black for text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;               /* #FFFFFF — cards pop on gray bg */
+    --card-foreground: 222 47% 11%;  /* #0F172A */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 221 83% 53%;          /* #3B82F6 — strong blue */
+    --primary-foreground: 0 0% 100%; /* white on blue */
 
-    --secondary: 240 4.8% 92%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 215 28% 17%;        /* #1E293B — dark slate, high contrast */
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 4.8% 92%;
-    --muted-foreground: 240 3.8% 35%;
+    --muted: 220 14% 90%;            /* #E2E5EB — visible muted bg */
+    --muted-foreground: 215 16% 40%; /* #53607A — readable gray text */
 
-    --accent: 240 4.8% 92%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 221 83% 53%;           /* #3B82F6 — accent = primary blue */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 6% 75%;
-    --input: 240 6% 75%;
-    --ring: 221 83% 53%;
+    --border: 220 13% 82%;           /* #CDD1D9 — visible borders */
+    --input: 220 13% 82%;
+    --ring: 221 83% 53%;             /* blue focus ring */
   }
 }
 

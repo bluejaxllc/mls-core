@@ -18,9 +18,10 @@ export function useTheme() {
     return useContext(ThemeContext);
 }
 
-function getSystemTheme(): 'light' | 'dark' {
-    if (typeof window === 'undefined') return 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+/** Time-based auto theme: 7 AM → light, 7 PM → dark */
+function getTimeBasedTheme(): 'light' | 'dark' {
+    const hour = new Date().getHours();
+    return (hour >= 7 && hour < 19) ? 'light' : 'dark';
 }
 
 function applyTheme(r: 'light' | 'dark') {
@@ -33,28 +34,30 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setThemeState] = useState<Theme>('auto');
     const [resolved, setResolved] = useState<'light' | 'dark'>('dark');
 
+    // Load saved preference
     useEffect(() => {
         const saved = localStorage.getItem('mls-theme') as Theme | null;
         if (saved) setThemeState(saved);
     }, []);
 
+    // Resolve and apply theme
     useEffect(() => {
-        const r = theme === 'auto' ? getSystemTheme() : theme;
+        const r = theme === 'auto' ? getTimeBasedTheme() : theme;
         setResolved(r);
         applyTheme(r);
     }, [theme]);
 
-    // Listen for OS theme changes in real-time (only in auto mode)
+    // In auto mode: re-check every 60s so the switch happens automatically at 7 AM / 7 PM
     useEffect(() => {
         if (theme !== 'auto') return;
-        const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        const handler = (e: MediaQueryListEvent) => {
-            const r = e.matches ? 'dark' : 'light';
-            setResolved(r);
-            applyTheme(r);
-        };
-        mq.addEventListener('change', handler);
-        return () => mq.removeEventListener('change', handler);
+        const interval = setInterval(() => {
+            const r = getTimeBasedTheme();
+            setResolved(prev => {
+                if (prev !== r) applyTheme(r);
+                return r;
+            });
+        }, 60_000);
+        return () => clearInterval(interval);
     }, [theme]);
 
     const setTheme = (t: Theme) => {
