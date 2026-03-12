@@ -17,7 +17,7 @@ puppeteerExtra.use(StealthPlugin());
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const PORT = 3004;
+const PORT = process.env.PROXY_PORT || 3007;
 const SECRET = process.env.PROXY_SECRET || 'bluejax-ml-proxy-2026';
 
 // ── Shared Browser Pool ──────────────────────────────────────────────────
