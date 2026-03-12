@@ -215,23 +215,31 @@ export default function LandingPage() {
                         <motion.div
                             key={i}
                             {...fadeUp(stat.delay)}
-                            className={`relative overflow-hidden rounded-xl p-6 md:p-8 border text-center group hover:scale-[1.02] transition-all duration-500 bg-white/80 shadow-sm dark:shadow-none
-                                ${stat.color === 'blue' ? 'border-blue-100 hover:border-blue-300 dark:border-blue-500/15 dark:bg-gradient-to-br dark:from-blue-950/30 dark:to-zinc-900/40 dark:hover:border-blue-500/30' : ''}
-                                ${stat.color === 'cyan' ? 'border-cyan-100 hover:border-cyan-300 dark:border-cyan-500/15 dark:bg-gradient-to-br dark:from-cyan-950/30 dark:to-zinc-900/40 dark:hover:border-cyan-500/30' : ''}
-                                ${stat.color === 'indigo' ? 'border-indigo-100 hover:border-indigo-300 dark:border-indigo-500/15 dark:bg-gradient-to-br dark:from-indigo-950/30 dark:to-zinc-900/40 dark:hover:border-indigo-500/30' : ''}
+                            className={`relative overflow-hidden rounded-xl p-6 md:p-8 border text-center group hover:scale-[1.02] transition-all duration-500
+                                bg-white/80 shadow-sm
+                                dark:bg-[#111318] dark:shadow-none
+                                ${stat.color === 'blue' ? 'border-blue-200 hover:border-blue-400 dark:border-blue-500/20 dark:hover:border-blue-400/40' : ''}
+                                ${stat.color === 'cyan' ? 'border-cyan-200 hover:border-cyan-400 dark:border-cyan-500/20 dark:hover:border-cyan-400/40' : ''}
+                                ${stat.color === 'indigo' ? 'border-indigo-200 hover:border-indigo-400 dark:border-indigo-500/20 dark:hover:border-indigo-400/40' : ''}
                             `}
                         >
-                            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-500
-                                ${stat.color === 'blue' ? 'via-blue-300 dark:via-blue-500/30 group-hover:via-blue-500 group-hover:w-32' : ''}
-                                ${stat.color === 'cyan' ? 'via-cyan-300 dark:via-cyan-500/30 group-hover:via-cyan-500 group-hover:w-32' : ''}
-                                ${stat.color === 'indigo' ? 'via-indigo-300 dark:via-indigo-500/30 group-hover:via-indigo-500 group-hover:w-32' : ''}
+                            {/* Colored inner glow for dark mode */}
+                            <div className={`absolute inset-0 opacity-0 dark:opacity-100 transition-opacity
+                                ${stat.color === 'blue' ? 'bg-gradient-to-br from-blue-500/[0.07] via-transparent to-blue-900/[0.05]' : ''}
+                                ${stat.color === 'cyan' ? 'bg-gradient-to-br from-cyan-500/[0.07] via-transparent to-cyan-900/[0.05]' : ''}
+                                ${stat.color === 'indigo' ? 'bg-gradient-to-br from-indigo-500/[0.07] via-transparent to-indigo-900/[0.05]' : ''}
                             `}></div>
-                            <div className={`text-3xl md:text-5xl font-black font-mono mb-2 md:mb-3 bg-clip-text text-transparent bg-gradient-to-b
+                            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent to-transparent transition-all duration-500
+                                ${stat.color === 'blue' ? 'via-blue-300 dark:via-blue-400/50 group-hover:via-blue-500 group-hover:w-32' : ''}
+                                ${stat.color === 'cyan' ? 'via-cyan-300 dark:via-cyan-400/50 group-hover:via-cyan-500 group-hover:w-32' : ''}
+                                ${stat.color === 'indigo' ? 'via-indigo-300 dark:via-indigo-400/50 group-hover:via-indigo-500 group-hover:w-32' : ''}
+                            `}></div>
+                            <div className={`relative z-10 text-3xl md:text-5xl font-black font-mono mb-2 md:mb-3 bg-clip-text text-transparent bg-gradient-to-b
                                 ${stat.color === 'blue' ? 'from-blue-600 to-blue-800 dark:from-blue-300 dark:to-blue-500' : ''}
                                 ${stat.color === 'cyan' ? 'from-cyan-600 to-cyan-800 dark:from-cyan-300 dark:to-cyan-500' : ''}
                                 ${stat.color === 'indigo' ? 'from-indigo-600 to-indigo-800 dark:from-indigo-300 dark:to-indigo-500' : ''}
                             `}>{stat.value}</div>
-                            <div className="text-[10px] md:text-xs text-slate-500 dark:text-zinc-500 leading-tight">{stat.label}</div>
+                            <div className="relative z-10 text-[10px] md:text-xs text-slate-500 dark:text-zinc-400 leading-tight">{stat.label}</div>
                         </motion.div>
                     ))}
                 </div>
