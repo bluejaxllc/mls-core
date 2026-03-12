@@ -354,7 +354,7 @@ export default function LandingPage() {
                                 <div className="space-y-3">
                                     {[
                                         { icon: Eye, label: 'Quién', desc: 'Identidad verificada del actor', color: 'emerald', delay: 0.2 },
-                                        { icon: FileSearch, label: 'Qué', desc: 'Cambio exacto registrado con diff', color: 'cyan', delay: 0.3 },
+                                        { icon: FileSearch, label: 'Qué (El "Diff")', desc: 'Comparación exacta del antes y el después', color: 'cyan', delay: 0.3 },
                                         { icon: Gavel, label: 'Por Qué', desc: 'Regla de gobernanza que se activó', color: 'blue', delay: 0.4 },
                                         { icon: Lock, label: 'Inmutable', desc: 'Registro blindado contra manipulación', color: 'indigo', delay: 0.5 },
                                     ].map((item, i) => (
@@ -395,10 +395,77 @@ export default function LandingPage() {
             </section>
 
             {/* ══════════════════════════════════════════════════════════════
-                SECCIÓN 5: CTA FINAL — EL FILTRO
+                SECCIÓN 5: PARA EL ASESOR — REGLAS DEL JUEGO
+            ══════════════════════════════════════════════════════════════ */}
+            <section className="relative z-10 py-24 md:py-32 px-4 max-w-7xl mx-auto">
+                <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-800/20 to-transparent"></div>
+
+                <motion.div {...fadeUp(0)} className="text-center mb-16 md:mb-20 pt-8">
+                    <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-zinc-500 uppercase block mb-4">
+                        // manual del operador
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.03em] mb-6">
+                        Para el Asesor <span className="text-white">Diferenciado.</span>
+                    </h2>
+                    <p className="text-base md:text-lg text-zinc-400 max-w-2xl mx-auto">
+                        La MLS es tu principal herramienta productiva. Establece las reglas claras de cómo operas, con quién interactúas y qué se espera de ti.
+                    </p>
+                </motion.div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                    {/* Beneficios */}
+                    <motion.div {...fadeUp(0.1)} className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-2xl hover:border-emerald-500/30 transition-colors group">
+                        <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <h3 className="text-xl font-bold mb-3 text-white">Los Beneficios</h3>
+                        <p className="text-sm text-zinc-400 leading-relaxed">
+                            <strong className="text-zinc-200">Inventario real y auditado.</strong> No más perder el tiempo llamando para verificar si una propiedad sigue disponible. Si está activa en la MLS, el listar broker la tiene lista para venta compartida inmediata.
+                        </p>
+                    </motion.div>
+
+                    {/* Interacciones */}
+                    <motion.div {...fadeUp(0.2)} className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-2xl hover:border-blue-500/30 transition-colors group">
+                        <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" /></svg>
+                        </div>
+                        <h3 className="text-xl font-bold mb-3 text-white">Las Interacciones</h3>
+                        <p className="text-sm text-zinc-400 leading-relaxed">
+                            <strong className="text-zinc-200">Colaboración sin fricción.</strong> El proceso elimina las barreras de confianza inicial. Todo contacto inter-agencia se realiza a través de perfiles verificados, garantizando la división justa de comisiones pactada.
+                        </p>
+                    </motion.div>
+
+                    {/* Expectativas */}
+                    <motion.div {...fadeUp(0.3)} className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-2xl hover:border-cyan-500/30 transition-colors group">
+                        <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                        </div>
+                        <h3 className="text-xl font-bold mb-3 text-white">Las Expectativas</h3>
+                        <p className="text-sm text-zinc-400 leading-relaxed">
+                            <strong className="text-zinc-200">Profesionalismo radical.</strong> La calidad de los datos es sagrada. Se exige fotografía profesional, información precisa 100% verificable, estatus actualizado en tiempo real y respuestas formales y ágiles entre colegas.
+                        </p>
+                    </motion.div>
+
+                    {/* Reglas del Juego */}
+                    <motion.div {...fadeUp(0.4)} className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-2xl hover:border-red-500/30 transition-colors group relative overflow-hidden">
+                        <div className="absolute right-0 top-0 w-32 h-32 bg-red-500/[0.03] rounded-full blur-3xl"></div>
+                        <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-red-500/10 text-red-400 mb-6 group-hover:scale-110 transition-transform">
+                            <AlertTriangle className="h-5 w-5" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-3 text-white">Las Reglas del Juego</h3>
+                        <p className="text-sm text-zinc-400 leading-relaxed">
+                            <strong className="text-zinc-200">Cero tolerancia a engaños.</strong> Quien sube listados no autorizados, roba leads de colegas, altera datos de propiedades o evade los splits de comisiones acordados es congelado y expulsado por el sistema, no por un comité humano.
+                        </p>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* ══════════════════════════════════════════════════════════════
+                SECCIÓN 6: CTA FINAL — EL FILTRO
             ══════════════════════════════════════════════════════════════ */}
             <section id="aplicar" className="relative z-10 py-24 md:py-32 px-4 max-w-4xl mx-auto">
-                <motion.div {...fadeUp(0)} className="text-center mb-4">
+                <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-blue-800/20 to-transparent"></div>
+                <motion.div {...fadeUp(0)} className="text-center mb-4 pt-8">
                     <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-blue-500/60 uppercase">
                         // acceso restringido
                     </span>
