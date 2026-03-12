@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && prisma db push --schema=prisma/schema.prisma --accept-data-loss && prisma db push --schema=prisma/schema.intelligence.prisma --accept-data-loss && next build",
-    "start": "next start",
+    "start": "next start -p ${PORT:-3000}",
     "lint": "next lint"
   },
   "dependencies": {
