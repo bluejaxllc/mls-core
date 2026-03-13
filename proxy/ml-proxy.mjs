@@ -741,8 +741,9 @@ const server = http.createServer(async (req, res) => {
 
 server.keepAliveTimeout = 120_000; // 2 min keep-alive
 
-server.listen(PORT, '127.0.0.1', () => {
-    console.log(`\n🏠 MLS Scrape Proxy v2 running on http://127.0.0.1:${PORT}`);
+const HOST = process.env.HOST || '0.0.0.0';
+server.listen(PORT, HOST, () => {
+    console.log(`\n🏠 MLS Scrape Proxy v2 running on http://${HOST}:${PORT}`);
     console.log(`   Health:  GET /health`);
     console.log(`   ML:      GET /?url=<ml_url>  (direct fetch)`);
     console.log(`   I24:     GET /scrape?portal=inmuebles24&url=<url>`);
@@ -750,23 +751,7 @@ server.listen(PORT, '127.0.0.1', () => {
     console.log(`   Viva:    GET /scrape?portal=vivanuncios&url=<url>\n`);
 });
 
-// Keep-alive: ping tunnel every 5 min to prevent connection drop
-const TUNNEL_URL = process.env.TUNNEL_URL || 'https://bluejax-ml-proxy-2026.loca.lt';
-setInterval(async () => {
-    try {
-        const res = await fetch(`${TUNNEL_URL}/health`, {
-            headers: { 'Bypass-Tunnel-Reminder': 'true', 'x-proxy-secret': SECRET },
-            signal: AbortSignal.timeout(10000),
-        });
-        if (res.ok) {
-            console.log(`[KeepAlive] Tunnel ping OK`);
-        } else {
-            console.warn(`[KeepAlive] Tunnel ping failed: ${res.status}`);
-        }
-    } catch (e) {
-        console.warn(`[KeepAlive] Tunnel unreachable: ${e.message}`);
-    }
-}, 5 * 60 * 1000);
+// Note: tunnel keep-alive removed — proxy runs directly on Railway now
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
