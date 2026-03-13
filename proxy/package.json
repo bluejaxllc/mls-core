@@ -1,17 +1,16 @@
 {
-  "name": "proxy",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "mls-scrape-proxy",
+  "version": "2.0.0",
+  "description": "MLS Scrape Proxy with Puppeteer — runs on Railway",
+  "main": "ml-proxy.mjs",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ml-proxy.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "node-fetch": "^3.3.2",
-    "puppeteer": "^24.38.0"
+    "puppeteer": "^24.38.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }

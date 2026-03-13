@@ -27,7 +27,8 @@ async function getBrowser() {
         console.log('[Proxy] Launching browser...');
         browser = await puppeteer.launch({
             headless: 'new',
-            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled'],
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled', '--disable-dev-shm-usage'],
         });
         console.log('[Proxy] Browser launched.');
     }
