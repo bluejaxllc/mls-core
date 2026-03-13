@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && next build",
-    "start": "(npx prisma db push --schema=prisma/schema.prisma --accept-data-loss || true) && (npx prisma db push --schema=prisma/schema.intelligence.prisma --accept-data-loss || true) && next start -p ${PORT:-3000}",
+    "build": "cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && (npx prisma db push --schema=prisma/schema.prisma --accept-data-loss || true) && (npx prisma db push --schema=prisma/schema.intelligence.prisma --accept-data-loss || true) && next build",
+    "start": "next start -p ${PORT:-3000}",
+    "db:push": "prisma db push --schema=prisma/schema.prisma --accept-data-loss && prisma db push --schema=prisma/schema.intelligence.prisma --accept-data-loss",
     "lint": "next lint"
   },
   "dependencies": {

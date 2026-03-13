@@ -8,6 +8,6 @@
         "startCommand": "cd web && npm start",
         "healthcheckPath": "/health",
         "restartPolicyType": "ON_FAILURE",
-        "healthcheckTimeout": 120
+        "healthcheckTimeout": 180
     }
 }
