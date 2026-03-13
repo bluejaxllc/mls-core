@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 min — scrapers need time
 
-const PROXY_URL = process.env.ML_PROXY_URL || 'https://bluejax-ml-proxy-2026.loca.lt';
+const PROXY_URL = (process.env.ML_PROXY_URL || 'https://mls-proxy-production.up.railway.app').trim();
 const PROXY_SECRET = process.env.ML_PROXY_SECRET || 'bluejax-ml-proxy-2026';
 const CRON_SECRET = process.env.CRON_SECRET || 'bluejax-cron-2026';
 
