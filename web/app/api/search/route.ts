@@ -20,7 +20,11 @@ export async function GET(req: NextRequest) {
 
         // 1. Fetch Canonical Listings
         const where: import('@prisma/client-core').Prisma.ListingWhereInput = {};
-        if (status && status !== 'OBSERVED') where.status = status;
+        if (status && status !== 'OBSERVED') {
+            where.status = status;
+        } else {
+            where.status = { not: 'EXPIRED' };
+        }
 
         if (city && city !== 'All') {
             where.address = { contains: city };

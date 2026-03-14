@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { prismaCore as prisma } from '@/lib/prisma-core';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 min — scrapers need time
@@ -30,18 +30,18 @@ export async function GET(req: NextRequest) {
 
     // Define all scraper targets for Chihuahua
     const scrapers = [
-        { name: 'Facebook Marketplace', portal: 'facebook', url: 'https://www.facebook.com/marketplace/chihuahua/propertyforsale/?exact=false', timeout: 60000 },
-        { name: 'Mercado Libre', portal: 'ml', url: 'https://inmuebles.mercadolibre.com.mx/inmuebles/venta/chihuahua/chihuahua/', timeout: 25000 },
-        { name: 'Inmuebles24', portal: 'inmuebles24', url: 'https://www.inmuebles24.com/inmuebles-en-venta-en-chihuahua.html', timeout: 50000 },
-        { name: 'Lamudi', portal: 'lamudi', url: 'https://www.lamudi.com.mx/chihuahua/chihuahua-1/for-sale/', timeout: 50000 },
-        { name: 'Vivanuncios', portal: 'vivanuncios', url: 'https://www.vivanuncios.com.mx/inmuebles-en-venta-en-chihuahua.html', timeout: 50000 },
+        { name: 'Facebook Marketplace', portal: 'facebook', url: 'https://www.facebook.com/marketplace/chihuahua/propertyforsale/?exact=false', timeout: 120000 },
+        { name: 'Mercado Libre', portal: 'ml', url: 'https://inmuebles.mercadolibre.com.mx/inmuebles/venta/chihuahua/chihuahua/', timeout: 150000 },
+        { name: 'Inmuebles24', portal: 'inmuebles24', url: 'https://www.inmuebles24.com/inmuebles-en-venta-en-chihuahua.html', timeout: 180000 },
+        { name: 'Lamudi', portal: 'lamudi', url: 'https://www.lamudi.com.mx/chihuahua/chihuahua-1/for-sale/', timeout: 180000 },
+        { name: 'Vivanuncios', portal: 'vivanuncios', url: 'https://www.vivanuncios.com.mx/inmuebles-en-venta-en-chihuahua.html', timeout: 180000 },
     ];
 
     // Run all scrapers in parallel
     const scrapePromises = scrapers.map(async ({ name, portal, url, timeout }) => {
         try {
-            const proxyRes = await fetch(
-                `${PROXY_URL}/scrape?portal=${portal}&url=${encodeURIComponent(url)}`,
+        const proxyRes = await fetch(
+                `${PROXY_URL}/scrape?portal=${portal}&url=${encodeURIComponent(url)}&maxPages=5`,
                 {
                     headers: { 'x-proxy-secret': PROXY_SECRET, 'Bypass-Tunnel-Reminder': 'true' },
                     signal: AbortSignal.timeout(timeout),
@@ -107,9 +107,26 @@ export async function GET(req: NextRequest) {
         }
     }
 
+    // ── Expiry Sweep: mark stale listings as EXPIRED ──
+    let expired = 0;
+    try {
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        const expireResult = await prisma.listing.updateMany({
+            where: {
+                lastVerifiedAt: { lt: sevenDaysAgo },
+                status: { not: 'EXPIRED' },
+            },
+            data: { status: 'EXPIRED' },
+        });
+        expired = expireResult.count;
+        if (expired > 0) console.log(`[Cron Scrape] Expired ${expired} stale listings (not verified in 7 days)`);
+    } catch (e: any) {
+        console.error('[Cron Scrape] Expiry sweep failed:', e.message);
+    }
+
     const elapsed = Date.now() - startTime;
 
-    console.log(`[Cron Scrape] Done in ${elapsed}ms — ${saved} saved, ${skipped} skipped, ${allListings.length} total`);
+    console.log(`[Cron Scrape] Done in ${elapsed}ms — ${saved} saved, ${skipped} skipped, ${expired} expired, ${allListings.length} total`);
 
     return NextResponse.json({
         success: true,
@@ -117,6 +134,7 @@ export async function GET(req: NextRequest) {
         total: allListings.length,
         saved,
         skipped,
+        expired,
         sources: results,
     });
 }
