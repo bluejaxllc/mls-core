@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
         const propertyType = searchParams.get('propertyType') || '';
         const minPrice = searchParams.get('minPrice');
         const maxPrice = searchParams.get('maxPrice');
+        const source = searchParams.get('source') || '';
         const skip = (page - 1) * limit;
 
         // 1. Fetch Canonical Listings
@@ -31,6 +32,9 @@ export async function GET(req: NextRequest) {
         }
         if (propertyType && propertyType !== 'ALL') {
             where.propertyType = propertyType;
+        }
+        if (source && source !== 'ALL') {
+            where.source = source;
         }
         if (minPrice || maxPrice) {
             where.price = {};

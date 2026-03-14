@@ -37,6 +37,7 @@ export default function PropertiesPage() {
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [total, setTotal] = useState(0);
+    const [source, setSource] = useState('ALL');
 
     // Selected listing for map
     const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -45,7 +46,7 @@ export default function PropertiesPage() {
 
     useEffect(() => {
         fetchListings();
-    }, [page, limit, city, listingType, propertyType, bedrooms, bathrooms, minPrice, maxPrice]);
+    }, [page, limit, city, listingType, propertyType, bedrooms, bathrooms, minPrice, maxPrice, source]);
 
     const fetchListings = async () => {
         try {
@@ -54,6 +55,7 @@ export default function PropertiesPage() {
             if (city !== 'All') params.set('city', city);
             if (listingType !== 'ALL') params.set('listingType', listingType);
             if (propertyType !== 'ALL') params.set('propertyType', propertyType);
+            if (source !== 'ALL') params.set('source', source);
             if (searchQuery.trim()) params.set('q', searchQuery.trim());
             params.set('page', String(page));
             params.set('limit', String(limit));
@@ -88,16 +90,16 @@ export default function PropertiesPage() {
             const res = await fetch(`${API_URL}/api/cron/scrape?secret=bluejax-cron-2026`);
             if (res.ok) {
                 const data = await res.json();
-                setSyncResult(`✓ ${data.saved} nuevas, ${data.skipped} existentes`);
-                toast.success(`Sincronización completa: ${data.saved} nuevas propiedades`);
+                setSyncResult(`âœ“ ${data.saved} nuevas, ${data.skipped} existentes`);
+                toast.success(`SincronizaciÃ³n completa: ${data.saved} nuevas propiedades`);
                 // Refresh listings from DB
                 fetchListings();
             } else {
                 setSyncResult('Error al sincronizar');
-                toast.error('Error al sincronizar. ¿Está el proxy corriendo?');
+                toast.error('Error al sincronizar. Â¿EstÃ¡ el proxy corriendo?');
             }
         } catch (e: any) {
-            setSyncResult('Sin conexión al proxy');
+            setSyncResult('Sin conexiÃ³n al proxy');
             toast.error('No se pudo conectar al proxy de scraping');
         } finally {
             setSyncing(false);
@@ -106,12 +108,12 @@ export default function PropertiesPage() {
 
     const saveSearch = async () => {
         if (!session?.accessToken) {
-            toast.error('Inicia sesión para guardar búsquedas');
+            toast.error('Inicia sesiÃ³n para guardar bÃºsquedas');
             return;
         }
         try {
             const criteria = JSON.stringify({ city, listingType, searchQuery, bedrooms, bathrooms, minPrice, maxPrice });
-            const name = `${city !== 'All' ? city : 'Todas'} — ${listingType === 'RENT' ? 'Renta' : listingType === 'SALE' ? 'Venta' : 'Todo'}${searchQuery ? ` — "${searchQuery}"` : ''}`;
+            const name = `${city !== 'All' ? city : 'Todas'} â€” ${listingType === 'RENT' ? 'Renta' : listingType === 'SALE' ? 'Venta' : 'Todo'}${searchQuery ? ` â€” "${searchQuery}"` : ''}`;
 
             const res = await fetch(`${API_URL}/api/protected/saved-searches`, {
                 method: 'POST',
@@ -122,12 +124,12 @@ export default function PropertiesPage() {
                 body: JSON.stringify({ name, criteria })
             });
             if (res.ok) {
-                toast.success('Búsqueda guardada correctamente');
+                toast.success('BÃºsqueda guardada correctamente');
             } else {
-                toast.error('Error al guardar búsqueda');
+                toast.error('Error al guardar bÃºsqueda');
             }
         } catch (error) {
-            toast.error('Error al guardar búsqueda');
+            toast.error('Error al guardar bÃºsqueda');
         }
     };
 
@@ -195,7 +197,7 @@ export default function PropertiesPage() {
                 </div>
                 {/* Sync result indicator */}
                 {syncResult && (
-                    <div className={`text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 w-fit ${syncResult.startsWith('✓') ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-400'}`}>
+                    <div className={`text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 w-fit ${syncResult.startsWith('âœ“') ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-400'}`}>
                         {syncResult}
                     </div>
                 )}
@@ -210,9 +212,9 @@ export default function PropertiesPage() {
                             className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-32 flex-shrink-0">
                             <option value="All">Todas</option>
                             <option value="Chihuahua">Chihuahua</option>
-                            <option value="Juárez">Juárez</option>
+                            <option value="JuÃ¡rez">JuÃ¡rez</option>
                             <option value="Delicias">Delicias</option>
-                            <option value="Cuauhtémoc">Cuauhtémoc</option>
+                            <option value="CuauhtÃ©moc">CuauhtÃ©moc</option>
                             <option value="Parral">Parral</option>
                         </select>
 
@@ -232,45 +234,37 @@ export default function PropertiesPage() {
                             <option value="COMMERCIAL">Comercial</option>
                         </select>
 
+                        <select value={source} onChange={(e) => { setSource(e.target.value); setPage(1); }}
+                            className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-36 flex-shrink-0">
+                            <option value="ALL">Todas Fuentes</option>
+                            <option value="Lamudi">Lamudi</option>
+                            <option value="Mercado Libre">Mercado Libre</option>
+                            <option value="Inmuebles24">Inmuebles24</option>
+                            <option value="Vivanuncios">Vivanuncios</option>
+                            <option value="Facebook Marketplace">Facebook</option>
+                        </select>
+
                         <AnimatedButton onClick={() => setShowFilters(!showFilters)} variant={showFilters ? "primary" : "secondary"} className="h-9 px-3 flex items-center gap-2 flex-shrink-0">
                             <Filter className="h-4 w-4" />
-                            <span className="hidden sm:inline">{showFilters ? 'Menos' : 'Más'}</span>
+                            <span className="hidden sm:inline">{showFilters ? 'Menos' : 'MÃ¡s'}</span>
                         </AnimatedButton>
 
-                        <AnimatedButton onClick={saveSearch} variant="secondary" className="h-9 px-3 flex items-center gap-2 flex-shrink-0" title="Guardar esta búsqueda">
+                        <AnimatedButton onClick={saveSearch} variant="secondary" className="h-9 px-3 flex items-center gap-2 flex-shrink-0" title="Guardar esta bÃºsqueda">
                             <Bookmark className="h-4 w-4" />
                             <span className="hidden sm:inline">Guardar</span>
                         </AnimatedButton>
                     </div>
 
-                    {/* Search & Pagination */}
-                    <div className="flex-1 w-full flex flex-col sm:flex-row gap-2">
-                        <div className="relative flex-1">
+                    <div className="flex-1 w-full">
+                        <div className="relative">
                             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground z-10" />
                             <AnimatedInput
-                                placeholder="Buscar por dirección, colonia..."
+                                placeholder="Buscar por direcciÃ³n, colonia..."
                                 className="w-full pl-9 h-9"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={(e) => { if (e.key === 'Enter') { setPage(1); fetchListings(); } }}
                             />
-                        </div>
-                        <div className="flex items-center gap-2 self-end sm:self-auto">
-                            <select value={limit} onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
-                                className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary w-20 sm:w-auto">
-                                <option value={10}>10</option>
-                                <option value={20}>20</option>
-                                <option value={50}>50</option>
-                            </select>
-                            <div className="flex items-center gap-1 bg-muted rounded-md p-0.5 h-9">
-                                <AnimatedButton variant="ghost" disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))} className="h-8 w-8 p-0 hover:bg-background">
-                                    <ChevronLeft className="h-4 w-4" />
-                                </AnimatedButton>
-                                <span className="text-sm font-medium w-6 text-center tabular-nums">{page}</span>
-                                <AnimatedButton variant="ghost" onClick={() => setPage(p => p + 1)} className="h-8 w-8 p-0 hover:bg-background">
-                                    <ChevronRight className="h-4 w-4" />
-                                </AnimatedButton>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -279,7 +273,7 @@ export default function PropertiesPage() {
                 {showFilters && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t animate-in fade-in slide-in-from-top-2">
                         <div className="space-y-1.5">
-                            <label className="text-xs font-medium text-muted-foreground">Recámaras</label>
+                            <label className="text-xs font-medium text-muted-foreground">RecÃ¡maras</label>
                             <div className="flex rounded-md shadow-sm">
                                 {['Any', 1, 2, 3, 4].map((num) => (
                                     <button key={num} onClick={() => { setBedrooms(num as any); setPage(1); }}
@@ -290,7 +284,7 @@ export default function PropertiesPage() {
                             </div>
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-xs font-medium text-muted-foreground">Baños</label>
+                            <label className="text-xs font-medium text-muted-foreground">BaÃ±os</label>
                             <div className="flex rounded-md shadow-sm">
                                 {['Any', 1, 2, 3].map((num) => (
                                     <button key={num} onClick={() => { setBathrooms(num as any); setPage(1); }}
@@ -377,14 +371,14 @@ export default function PropertiesPage() {
                                                 <h3 className="font-semibold text-sm line-clamp-2" title={listing.title}>{listing.title}</h3>
                                                 {(listing.propertyType === 'HOUSE' || listing.propertyType === 'APARTMENT') && (
                                                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                                                        <span>• {listing.bedrooms || 0} Recs</span>
-                                                        <span>• {listing.bathrooms || 0} Baños</span>
-                                                        <span>• {listing.parking || 0} Autos</span>
+                                                        <span>â€¢ {listing.bedrooms || 0} Recs</span>
+                                                        <span>â€¢ {listing.bathrooms || 0} BaÃ±os</span>
+                                                        <span>â€¢ {listing.parking || 0} Autos</span>
                                                     </div>
                                                 )}
                                                 <div className="flex items-start gap-1 text-xs text-muted-foreground mt-auto">
                                                     <MapPin className="h-3 w-3 mt-0.5 shrink-0" />
-                                                    <span className="line-clamp-2">{listing.address || 'Sin dirección'}</span>
+                                                    <span className="line-clamp-2">{listing.address || 'Sin direcciÃ³n'}</span>
                                                 </div>
                                             </div>
 
@@ -393,7 +387,7 @@ export default function PropertiesPage() {
                                                     <a href={listing.sourceUrl} target="_blank" rel="noopener noreferrer"
                                                         className="text-[10px] text-blue-500 hover:underline"
                                                         onClick={(e) => e.stopPropagation()}>
-                                                        Ver original ↗
+                                                        Ver original â†—
                                                     </a>
                                                 ) : (
                                                     <span className="text-[10px] bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded-full">
@@ -430,8 +424,30 @@ export default function PropertiesPage() {
                 )}
             </div>
 
-            <div className="flex justify-center text-xs text-muted-foreground pt-4">
-                Mostrando {listings.length} de {total} resultados
+            {/* Bottom Pagination */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-lg border">
+                <span className="text-sm text-muted-foreground">
+                    Mostrando {listings.length} de {total.toLocaleString()} resultados
+                </span>
+                <div className="flex items-center gap-3">
+                    <select value={limit} onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
+                        className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value={10}>10 por pÃ¡gina</option>
+                        <option value={20}>20 por pÃ¡gina</option>
+                        <option value={50}>50 por pÃ¡gina</option>
+                    </select>
+                    <div className="flex items-center gap-1 bg-muted rounded-md p-0.5 h-9">
+                        <AnimatedButton variant="ghost" disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))} className="h-8 w-8 p-0 hover:bg-background">
+                            <ChevronLeft className="h-4 w-4" />
+                        </AnimatedButton>
+                        <span className="text-sm font-medium px-2 text-center tabular-nums">
+                            PÃ¡gina {page} de {Math.max(1, Math.ceil(total / limit))}
+                        </span>
+                        <AnimatedButton variant="ghost" disabled={page >= Math.ceil(total / limit)} onClick={() => setPage(p => p + 1)} className="h-8 w-8 p-0 hover:bg-background">
+                            <ChevronRight className="h-4 w-4" />
+                        </AnimatedButton>
+                    </div>
+                </div>
             </div>
         </PageTransition>
     );
