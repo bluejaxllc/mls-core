@@ -432,16 +432,16 @@ export default function PropertiesPage() {
                 <div className="flex items-center gap-3">
                     <select value={limit} onChange={(e) => { setLimit(Number(e.target.value)); setPage(1); }}
                         className="h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option value={10}>10 por pÃ¡gina</option>
-                        <option value={20}>20 por pÃ¡gina</option>
-                        <option value={50}>50 por pÃ¡gina</option>
+                        <option value={10}>10 por página</option>
+                        <option value={20}>20 por página</option>
+                        <option value={50}>50 por página</option>
                     </select>
                     <div className="flex items-center gap-1 bg-muted rounded-md p-0.5 h-9">
                         <AnimatedButton variant="ghost" disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))} className="h-8 w-8 p-0 hover:bg-background">
                             <ChevronLeft className="h-4 w-4" />
                         </AnimatedButton>
                         <span className="text-sm font-medium px-2 text-center tabular-nums">
-                            PÃ¡gina {page} de {Math.max(1, Math.ceil(total / limit))}
+                            Página {page} de {Math.max(1, Math.ceil(total / limit))}
                         </span>
                         <AnimatedButton variant="ghost" disabled={page >= Math.ceil(total / limit)} onClick={() => setPage(p => p + 1)} className="h-8 w-8 p-0 hover:bg-background">
                             <ChevronRight className="h-4 w-4" />
