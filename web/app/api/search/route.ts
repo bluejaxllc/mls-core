@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
             where.propertyType = propertyType;
         }
         if (source && source !== 'ALL') {
-            where.source = source;
+            where.source = { contains: source, mode: 'insensitive' };
         }
         if (minPrice || maxPrice) {
             where.price = {};
@@ -48,17 +48,21 @@ export async function GET(req: NextRequest) {
             ];
         }
 
-        const canonical = await prismaCore.listing.findMany({
-            where,
-            orderBy: { createdAt: 'desc' },
-            take: limit,
-            skip
-        });
+        const [canonical, canonicalCount] = await Promise.all([
+            prismaCore.listing.findMany({
+                where,
+                orderBy: { createdAt: 'desc' },
+                take: limit,
+                skip
+            }),
+            prismaCore.listing.count({ where })
+        ]);
 
         // 2. Fetch Observed Listings (Intelligence)
         let observed: any[] = [];
+        let observedCount = 0;
         if (!status || status === 'OBSERVED') {
-            const whereObs: import('.prisma/client-intelligence').Prisma.ObservedListingWhereInput = {};
+            const whereObs: import('@prisma/client-intelligence').Prisma.ObservedListingWhereInput = {};
             if (city && city !== 'All') {
                 whereObs.address = { contains: city };
             }
@@ -72,15 +76,27 @@ export async function GET(req: NextRequest) {
                     { address: { contains: q } }
                 ];
             }
+            if (source && source !== 'ALL') {
+                whereObs.snapshot = {
+                    source: {
+                        name: { contains: source, mode: 'insensitive' }
+                    }
+                };
+            }
 
             try {
-                observed = await prismaIntelligence.observedListing.findMany({
-                    where: whereObs,
-                    orderBy: { createdAt: 'desc' },
-                    take: limit,
-                    skip,
-                    include: { snapshot: { include: { source: true } } }
-                } as any);
+                const [obsDocs, obsCount] = await Promise.all([
+                    prismaIntelligence.observedListing.findMany({
+                        where: whereObs,
+                        orderBy: { createdAt: 'desc' },
+                        take: limit,
+                        skip,
+                        include: { snapshot: { include: { source: true } } }
+                    } as any),
+                    prismaIntelligence.observedListing.count({ where: whereObs } as any)
+                ]);
+                observed = obsDocs;
+                observedCount = obsCount;
             } catch (e) {
                 // Intelligence DB may not exist yet — graceful fallback
                 console.warn('[Search] Intelligence DB query failed, skipping observed listings');
@@ -148,7 +164,7 @@ export async function GET(req: NextRequest) {
             data: unified,
             page,
             limit,
-            total: unified.length
+            total: canonicalCount + observedCount
         });
 
     } catch (e: any) {

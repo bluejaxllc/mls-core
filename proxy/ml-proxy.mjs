@@ -100,7 +100,7 @@ async function scrapeInmuebles24SinglePage(url) {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-        try { await page.waitForSelector('[data-posting-type], [class*="postingCard"]', { timeout: 10000 }); } catch (_) {}
+        try { await page.waitForSelector('[data-posting-type], [class*="postingCard"]', { timeout: 10000 }); } catch (_) { }
         const listings = await page.evaluate(() => {
             const cards = document.querySelectorAll('[data-posting-type="PROPERTY"]');
             if (cards.length === 0) return [];
@@ -160,7 +160,7 @@ async function scrapeLamudiSinglePage(url) {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-        try { await page.waitForSelector('.snippet[data-idanuncio], [data-test="serp-project"]', { timeout: 10000 }); } catch (_) {}
+        try { await page.waitForSelector('.snippet[data-idanuncio], [data-test="serp-project"]', { timeout: 10000 }); } catch (_) { }
         const listings = await page.evaluate((targetUrl) => {
             const cards = document.querySelectorAll('.snippet[data-idanuncio]');
             return Array.from(cards).map((card, i) => {
@@ -215,7 +215,7 @@ async function scrapeVivanunciosSinglePage(url) {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-        try { await page.waitForSelector('[class*="postingCardLayout"], [data-posting-type]', { timeout: 10000 }); } catch (_) {}
+        try { await page.waitForSelector('[class*="postingCardLayout"], [data-posting-type]', { timeout: 10000 }); } catch (_) { }
         const listings = await page.evaluate(() => {
             const cards = document.querySelectorAll('[data-posting-type="PROPERTY"], [class*="postingCardLayout-module__posting-card-layout"]');
             if (cards.length === 0) return [];
@@ -329,13 +329,13 @@ async function scrapeFacebook(url, limit = 100) {
                         const priceRegex = /"formatted_amount"\s*:\s*"([^"]+)"/g;
                         const titleRegex = /"marketplace_listing_title"\s*:\s*"([^"]+)"/g;
                         const imageRegex = /"uri"\s*:\s*"(https:\/\/[^"]*?fbcdn[^"]*?)"/g;
-                        
+
                         let pm, tm, im;
                         const prices = []; const titles = []; const images = [];
                         while ((pm = priceRegex.exec(text)) !== null) prices.push(pm[1]);
                         while ((tm = titleRegex.exec(text)) !== null) titles.push(tm[1]);
                         while ((im = imageRegex.exec(text)) !== null) images.push(im[1]);
-                        
+
                         // Match extracted data to listings in order
                         let idx = 0;
                         for (const [id, listing] of collectedListings) {
@@ -457,7 +457,7 @@ async function scrapeFacebook(url, limit = 100) {
 
 // ── HTTP Server ──────────────────────────────────────────────────────────
 const server = http.createServer(async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'x-proxy-secret, bypass-tunnel-reminder, content-type');
 

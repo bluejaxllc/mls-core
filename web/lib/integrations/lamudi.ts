@@ -3,7 +3,7 @@
  * Uses the same ML_PROXY_URL + ML_PROXY_SECRET env vars.
  */
 
-const ML_PROXY_URL = process.env.ML_PROXY_URL;
+const ML_PROXY_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3008' : (process.env.ML_PROXY_URL || 'http://localhost:3008');
 const ML_PROXY_SECRET = process.env.ML_PROXY_SECRET || 'bluejax-ml-proxy-2026';
 
 /**

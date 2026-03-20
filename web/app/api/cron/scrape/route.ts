@@ -4,10 +4,11 @@ import { prismaCore as prisma } from '@/lib/prisma-core';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 min — scrapers need time
 
-const RAILWAY_PROXY = 'https://mls-proxy-production.up.railway.app';
+const GCP_PROXY = 'https://mls-proxy-snz5dayccq-uc.a.run.app';
 const PROXY_URL = (() => {
-  const env = (process.env.ML_PROXY_URL || '').trim();
-  return env.includes('railway.app') ? env : RAILWAY_PROXY;
+    const env = (process.env.ML_PROXY_URL || '').trim();
+    if (process.env.NODE_ENV === 'development') return 'http://localhost:3008';
+    return env ? env : GCP_PROXY;
 })();
 const PROXY_SECRET = process.env.ML_PROXY_SECRET || 'bluejax-ml-proxy-2026';
 const CRON_SECRET = process.env.CRON_SECRET || 'bluejax-cron-2026';
@@ -40,7 +41,7 @@ export async function GET(req: NextRequest) {
     // Run all scrapers in parallel
     const scrapePromises = scrapers.map(async ({ name, portal, url, timeout }) => {
         try {
-        const proxyRes = await fetch(
+            const proxyRes = await fetch(
                 `${PROXY_URL}/scrape?portal=${portal}&url=${encodeURIComponent(url)}&maxPages=5`,
                 {
                     headers: { 'x-proxy-secret': PROXY_SECRET, 'Bypass-Tunnel-Reminder': 'true' },

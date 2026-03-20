@@ -47,6 +47,7 @@ function ListingsContent() {
     const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
     const [cityFilter, setCityFilter] = useState<string>('');
     const [propertyTypeFilter, setPropertyTypeFilter] = useState<string>('');
+    const [sourceFilter, setSourceFilter] = useState<string>('');
     const [minPrice, setMinPrice] = useState<string>('');
     const [maxPrice, setMaxPrice] = useState<string>('');
     const [showFilters, setShowFilters] = useState(false);
@@ -62,7 +63,7 @@ function ListingsContent() {
 
     useEffect(() => {
         fetchListings(1);
-    }, [activeTab, cityFilter, propertyTypeFilter, minPrice, maxPrice]); // Refetch on filter change
+    }, [activeTab, cityFilter, propertyTypeFilter, sourceFilter, minPrice, maxPrice]); // Refetch on filter change
 
     const fetchListings = async (page = currentPage) => {
         try {
@@ -72,6 +73,7 @@ function ListingsContent() {
             const params = new URLSearchParams();
             if (cityFilter) params.set('city', cityFilter);
             if (propertyTypeFilter) params.set('propertyType', propertyTypeFilter);
+            if (sourceFilter) params.set('source', sourceFilter);
             if (minPrice) params.set('minPrice', minPrice);
             if (maxPrice) params.set('maxPrice', maxPrice);
             if (searchQuery) params.set('q', searchQuery);
@@ -208,6 +210,23 @@ function ListingsContent() {
                                 ))}
                             </select>
                             <Filter className="absolute right-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground pointer-events-none" />
+                        </div>
+
+                        {/* Source Filter */}
+                        <div className="relative">
+                            <select
+                                className="h-10 pl-3 pr-8 rounded-lg border border-input bg-background text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 appearance-none cursor-pointer hidden md:block"
+                                value={sourceFilter}
+                                onChange={(e) => setSourceFilter(e.target.value)}
+                            >
+                                <option value="">Todas las Fuentes</option>
+                                <option value="Mercado Libre">Mercado Libre</option>
+                                <option value="Inmuebles24">Inmuebles24</option>
+                                <option value="Lamudi">Lamudi</option>
+                                <option value="Vivanuncios">Vivanuncios</option>
+                                <option value="Facebook">Facebook Marketplace</option>
+                            </select>
+                            <Filter className="absolute right-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground pointer-events-none hidden md:block" />
                         </div>
 
                         <AnimatedButton variant="secondary" className="h-10 px-4" type="submit">
@@ -463,7 +482,7 @@ function ListingsContent() {
 
                                     {/* Price */}
                                     <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-4">
-                                        {listing.price ? `$${listing.price.toLocaleString()}` : 'Precio no detectado'}
+                                        {listing.price ? `$${listing.price.toLocaleString('en-US')}` : 'Precio no detectado'}
                                         {listing.price && <span className="text-xs text-muted-foreground ml-2">MXN</span>}
                                     </p>
 
