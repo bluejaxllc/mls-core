@@ -140,9 +140,19 @@ export default function PropertiesPage() {
     };
 
     const selectedListing = listings.find(l => l.id === selectedId);
-    const mapQuery = selectedListing?.address
-        ? encodeURIComponent(selectedListing.address + ', Chihuahua, Mexico')
-        : encodeURIComponent((city !== 'All' ? city : 'Chihuahua') + ', Chihuahua, Mexico');
+    const buildMapQuery = () => {
+        if (selectedListing?.address) {
+            const parts = [selectedListing.address];
+            if (selectedListing.city) parts.push(selectedListing.city);
+            if (selectedListing.state) parts.push(selectedListing.state);
+            else parts.push('Chihuahua');
+            parts.push('Mexico');
+            return encodeURIComponent(parts.join(', '));
+        }
+        return encodeURIComponent((city !== 'All' ? city : 'Chihuahua') + ', Chihuahua, Mexico');
+    };
+    const mapQuery = buildMapQuery();
+    const mapZoom = selectedListing?.address ? 16 : 13;
 
     const parseImages = (s: any): string[] => {
         if (Array.isArray(s)) return s;
@@ -313,7 +323,7 @@ export default function PropertiesPage() {
             </div>
 
             {/* Content Area: List + Map based on view mode */}
-            <div className={`flex gap-4 ${view === 'split' ? 'flex-col md:flex-row' : 'flex-col'}`} style={view !== 'list' ? { height: 'calc(100vh - 20rem)' } : undefined}>
+            <div className={`flex gap-4 ${view === 'split' ? 'flex-col md:flex-row' : 'flex-col'} ${view === 'map' ? 'flex-1' : ''}`} style={view !== 'list' ? { minHeight: view === 'map' ? 'calc(100vh - 14rem)' : 'calc(100vh - 20rem)' } : undefined}>
                 {/* Listings Grid/List */}
                 {view !== 'map' && (
                     <div className={`${view === 'split' ? 'md:w-1/2 overflow-y-auto' : 'w-full'}`}>
@@ -411,11 +421,11 @@ export default function PropertiesPage() {
 
                 {/* Map Panel */}
                 {view !== 'list' && (
-                    <div className={`${view === 'split' ? 'md:w-1/2' : 'w-full'} min-h-[400px] rounded-xl overflow-hidden border shadow-inner`}>
+                    <div className={`${view === 'split' ? 'md:w-1/2' : 'w-full'} rounded-xl overflow-hidden border shadow-inner ${view === 'map' ? 'flex-1' : 'min-h-[400px]'}`} style={view === 'map' ? { height: '100%' } : undefined}>
                         <iframe
-                            src={`https://maps.google.com/maps?q=${mapQuery}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                            src={`https://maps.google.com/maps?q=${mapQuery}&t=&z=${mapZoom}&ie=UTF8&iwloc=&output=embed`}
                             className="w-full h-full border-0"
-                            style={{ minHeight: '400px' }}
+                            style={{ minHeight: view === 'map' ? '100%' : '400px' }}
                             allowFullScreen
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
@@ -424,8 +434,8 @@ export default function PropertiesPage() {
                 )}
             </div>
 
-            {/* Bottom Pagination */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-lg border">
+            {/* Bottom Pagination (hidden in full map mode) */}
+            {view !== 'map' && <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-lg border">
                 <span className="text-sm text-muted-foreground">
                     Mostrando {listings.length} de {total.toLocaleString('en-US')} resultados
                 </span>
@@ -448,7 +458,7 @@ export default function PropertiesPage() {
                         </AnimatedButton>
                     </div>
                 </div>
-            </div>
+            </div>}
         </PageTransition>
     );
 }
