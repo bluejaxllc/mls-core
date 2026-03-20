@@ -1,0 +1,139 @@
+<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-AAAAAAAAAA&amp;cx=c&amp;gtm=4
+<script src="//bat.bing.com/bat.js" async=""></script>
+<script type="text/javascript" async="" src="https://gum.criteo.com/sync?c=932&amp;r=2&amp;a=1&amp;j=crto_callback"></sc
+<script type="text/javascript" async="" src="https://tags.creativecdn.com/VfIP3ynbnTYnwPkK9X5S.js"></script>
+<script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-8XFRKTEF9J&amp;cx=c&amp;gtm=4
+<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-MC2DBQN"></script>
+<script src="https://accounts.google.com/gsi/client" async="" defer=""></script>
+<script async=""> 		(function(w,d,s,l,i){ 			w[l] = w[l] || []; 			w[l].push({ 				'gtm.start': new Date().getTime(), 		
+<script type="text/javascript"> ;window.NREUM||(NREUM={});NREUM.init={privacy:{cookies_enabled:true},ajax:{deny_list:["b
+<script type="text/javascript">;/*! For license information please see nr-loader-spa-1.297.0.min.js.LICENSE.txt */(()=>{
+<script type="text/javascript">newrelic.addRelease("RPLIS","v8.283.0-RC1");newrelic.setCustomAttribute('siteId', '24MX')
+<script async="" type="application/ld+json">   {   "@context": "https://schema.org",   "@type": "Organization",   "url":
+<script src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" async="" type="text/javascript"></script>
+<script id="cf-turnstile-script" src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallba
+<script src="https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202603160101/pubads_impl.js" async=""></scrip
+<script src="https://bat.bing.com/p/action/187179256.js" type="text/javascript" async="" data-ueto="ueto_f04e5a4626"></s
+<script async="" src="//static.hotjar.com/c/hotjar-174024.js?sv=5"></script>
+<script type="text/javascript" id="__mstrkscpt" src="https://ssl.mousestats.com/js/4/8/4894037394472667672.js?2956623" a
+<script async="" src="https://script.hotjar.com/modules.6a0f3932cb1341a35c18.js" charset="utf-8"></script>
+<script async="" type="application/ld+json"> 	{   "@context": "https://schema.org",   "@type": "RealEstateListing",   "u
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "House",   "name": "Casa ·
+<script id="__LOADABLE_REQUIRED_CHUNKS__" type="application/json">[5622,4040,6060,6412,4254,8027,1285,8545,5718,8033,653
+<script id="__LOADABLE_REQUIRED_CHUNKS___ext" type="application/json">{"namedChunks":["site_provider","site_modal_provid
+<script async="" data-chunk="main" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/libphonenumber.js"></scrip
+<script async="" data-chunk="main" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/react-dom.js"></script>
+<script async="" data-chunk="main" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/6968.js"></script>
+<script async="" data-chunk="main" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/main.js"></script>
+<script async="" data-chunk="site_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/site_provider.js"
+<script async="" data-chunk="site_modal_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/site_modal_
+<script async="" data-chunk="header_app" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/6060.js"></script>
+<script async="" data-chunk="header_app" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/header_app.js"></scr
+<script async="" data-chunk="header_content" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/header_content.j
+<script async="" data-chunk="header_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/8027.js"></scrip
+<script async="" data-chunk="header_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/1285.js"></scrip
+<script async="" data-chunk="header_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/8545.js"></scrip
+<script async="" data-chunk="header_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/5718.js"></scrip
+<script async="" data-chunk="header_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/header_desktop.j
+<script async="" data-chunk="nav_menu" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/nav_menu.js"></script>
+<script async="" data-chunk="operation_nav_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/operation
+<script async="" data-chunk="navent-re-dropdown-menu" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/1288.js
+<script async="" data-chunk="navent-re-item-menu" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/navent-re-i
+<script async="" data-chunk="fintech_block" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/1685.js"></script
+<script async="" data-chunk="fintech_block" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/fintech_block.js"
+<script async="" data-chunk="publish_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/publish_button.j
+<script async="" data-chunk="login_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/login_button.js"><
+<script async="" data-chunk="dropdown_user_not_logged" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/dropdo
+<script async="" data-chunk="main_layout_container" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/main_layo
+<script async="" data-chunk="main_app" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/main_app.js"></script>
+<script async="" data-chunk="main_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/main_provider.js"
+<script async="" data-chunk="listing_view_columns" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/listing_vi
+<script async="" data-chunk="filters_layout" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/filters_layout.j
+<script async="" data-chunk="filters_top" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/filters_top.js"></s
+<script async="" data-chunk="new_locations_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/994.j
+<script async="" data-chunk="new_locations_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/6393.
+<script async="" data-chunk="new_locations_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/new_l
+<script async="" data-chunk="operation_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/1993.js">
+<script async="" data-chunk="operation_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/operation
+<script async="" data-chunk="checkbox_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/checkbox_r
+<script async="" data-chunk="range_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/range_render_
+<script async="" data-chunk="monetary_render_type" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/monetary_r
+<script async="" data-chunk="more_filters" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/more_filters.js"><
+<script async="" data-chunk="list_top_section_desktop" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/list_t
+<script async="" data-chunk="postings_title" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/postings_title.j
+<script async="" data-chunk="create_bookmarks" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/create_bookmar
+<script async="" data-chunk="select_render_type_filter" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/selec
+<script async="" data-chunk="list_view" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/list_view.js"></scrip
+<script async="" data-chunk="posting_list_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/6975.js">
+<script async="" data-chunk="posting_list_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/3281.js">
+<script async="" data-chunk="posting_list_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/6731.js">
+<script async="" data-chunk="posting_list_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/2167.js">
+<script async="" data-chunk="posting_list_provider" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/posting_l
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/2522.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/5155.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/2871.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/1598.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/9877.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/9017.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/8463.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/5792.js"></script>
+<script async="" data-chunk="posting_card" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/posting_card.js"><
+<script async="" data-chunk="posting_gallery_fixed_components" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC
+<script async="" data-chunk="postings_call_to_actions" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/postin
+<script async="" data-chunk="call_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/2625.js"></script>
+<script async="" data-chunk="call_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/797.js"></script>
+<script async="" data-chunk="call_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/9563.js"></script>
+<script async="" data-chunk="call_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/call_button.js"></s
+<script async="" data-chunk="whatsapp_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/whatsapp_button
+<script async="" data-chunk="contact_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/contact_button.j
+<script async="" data-chunk="recommended_container" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/recommend
+<script async="" data-chunk="map_button" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/map_button.js"></scr
+<script async="" data-chunk="side_column_ads_slots" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/side_colu
+<script async="" data-chunk="container_ads_slots" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/container_a
+<script async="" data-chunk="memoized_ads_slots" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/memoized_ads
+<script async="" data-chunk="breadcrumb" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/breadcrumb.js"></scr
+<script async="" data-chunk="paging" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/paging.js"></script>
+<script async="" data-chunk="turnstile" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/turnstile.js"></scrip
+<script async="" data-chunk="cookies_policy_banner" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/461.js"><
+<script async="" data-chunk="cookies_policy_banner" src="https://img10.naventcdn.com/listado/RPLISv8.283.0-RC1/cookies_p
+<script async="" type="application/ld+json"> {   "@context": "https://schema.org",   "@type": "BreadcrumbList",   "itemL
+<script async="" id="footerScripts"> 		const footer = document.getElementById('rootFooter'); 		const accordionsItem = fo
+<script> 		window.onload = () => { 			if(typeof dataLayer !== 'undefined' && Array.isArray(dataLayer)){ 				const GTMIsS
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script')
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015
+<script type="text/javascript" id="" charset="">(function(){function h(){var a="_fbc",b="fbclid",c=new URLSearchParams(w
+<script type="text/javascript" id="" charset="">(function(c,d,f,g,e){c[e]=c[e]||[];var h=function(){var b={ti:"187179256
+<script type="text/javascript" id="" charset="">(function(){var c=390,d="_ttp",a="ttclid",b=new URLSearchParams(window.l
+<script type="text/javascript" id="" charset="">(function(a,c,e,f,d,b){a.hj=a.hj||function(){(a.hj.q=a.hj.q||[]).push(ar
+<script type="text/javascript" id="" charset="">var MouseStats_Commands=MouseStats_Commands?MouseStats_Commands:[]; (fun
+<script type="text/javascript" id="" charset="">try{var client_id=google_tag_manager["rm"]["58857621"](381),daysToExpire
+<script type="text/javascript" id="" charset="">try{var session_id=google_tag_manager["rm"]["58857621"](382),daysToExpir

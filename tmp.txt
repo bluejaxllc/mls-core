@@ -1,0 +1,10 @@
+﻿686f702 feat(whitepaper): add Agent role section and visual workflow aids, resolve merge conflicts
+8fcf2fc feat(landing): add Agents section and clarify diff terminology
+ff9961c feat(landing): add Broker/Agent interaction section and update diff wording
+df90cb0 fix: force deploy with web/ change + health endpoint v2
+f980b06 fix: remove watchPatterns from railway.json to allow deploy
+bd27afb fix: railway - build and start from web/ directory (Next.js) instead of broken Express backend
+0888858 fix: add /health endpoint, fix PORT in start command for Railway
+cac3f70 fix: use MLS_DATABASE_URL for core DB, fix prisma type imports, add db push to build
+675cd18 fix: update properties page import
+8737a88 auto: update package.json

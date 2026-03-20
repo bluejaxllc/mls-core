@@ -48,9 +48,11 @@ export async function POST(req: NextRequest) {
     try {
         const auth = await verifyAuth(req);
         if (isAuthError(auth)) return auth;
-        const { name, criteria, frequency } = await req.json();
+        const body = await req.json();
+        const { name, criteria, frequency } = body;
 
-        if (!name?.trim()) return NextResponse.json({ error: 'Name is required' }, { status: 400 });
+        if (!name?.trim() || name.length > 255) return NextResponse.json({ error: 'Valid name is required (< 255 chars)' }, { status: 400 });
+        if (JSON.stringify(body).length > 20000) return NextResponse.json({ error: 'Payload size exceeded limit' }, { status: 413 });
 
         const search = await prismaCore.savedSearch.create({
             data: { userId: auth.id, name: name.trim(), criteria: typeof criteria === 'string' ? criteria : JSON.stringify(criteria || {}), frequency: frequency || 'INSTANT' }

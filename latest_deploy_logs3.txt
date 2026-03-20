@@ -1,0 +1,28 @@
+﻿Starting Container
+npm warn config production Use `--omit=dev` instead.
+
+> mls-governance-web@1.0.1772752671278 start
+> (npx prisma db push --schema=prisma/schema.prisma --accept-data-loss || true) && (npx prisma db push --schema=prisma/schema.intelligence.prisma --accept-data-loss || true) && next start -p ${PORT:-3000}
+
+npm warn config production Use `--omit=dev` instead.
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "railway", schema "public" at "postgres.railway.internal:5432"
+
+The database is already in sync with the Prisma schema.
+
+Running generate... (Use --skip-generate to skip the generators)
+[2K[1A[2K[GRunning generate... - Prisma Client
+[2K[1A[2K[GΓ£ö Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client-core in 149
+ms
+
+npm warn config production Use `--omit=dev` instead.
+Prisma schema loaded from prisma/schema.intelligence.prisma
+Datasource "db": PostgreSQL database "postgres", schema "public" at "aws-0-us-east-1.pooler.supabase.com:6543"
+
+
+Error: Schema engine error:
+FATAL: Tenant or user not found
+   Γû▓ Next.js 14.1.0
+   - Local:        http://localhost:3001
+
+ Γ£ô Ready in 230ms

@@ -1,0 +1,138 @@
+﻿
+> mls-governance-web@1.0.1772752671278 build
+> cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Γ£ö Generated Prisma Client (v5.10.2) to .\node_modules\@prisma\client-core in 120ms
+
+Prisma Client has been generated to a custom path:
+
+1. Make it a dependency of your project
+```
+# adapt this relative path if needed
+npm i db@./node_modules/@prisma/client-core
+```
+
+More information: https://pris.ly/d/custom-output
+
+2. Start using Prisma Client
+```
+import { PrismaClient } from 'db'
+const prisma = new PrismaClient()
+```
+
+More information: https://pris.ly/d/client
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé  Deploying your app to serverless or edge functions?        Γöé
+Γöé  Try Prisma Accelerate for connection pooling and caching.  Γöé
+Γöé  https://pris.ly/cli/accelerate                             Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.intelligence.prisma
+
+Γ£ö Generated Prisma Client (v5.10.2) to .\node_modules\@prisma\client-intelligence in 85ms
+
+Start using Prisma Client in Node.js (See: https://pris.ly/d/client)
+```
+import { PrismaClient } from './node_modules/@prisma/client-intelligence'
+const prisma = new PrismaClient()
+```
+or start using Prisma Client at the edge (See: https://pris.ly/d/accelerate)
+```
+import { PrismaClient } from './node_modules/@prisma/client-intelligence/edge'
+const prisma = new PrismaClient()
+```
+
+See other ways of importing Prisma Client: http://pris.ly/d/importing-client
+
+ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé  Deploying your app to serverless or edge functions?        Γöé
+Γöé  Try Prisma Accelerate for connection pooling and caching.  Γöé
+Γöé  https://pris.ly/cli/accelerate                             Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+node.exe : Failed to 
+compile.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Failed to com   
+ pile.:String) [],     
+RemoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+
+./app/api/auth/register
+/route.ts
+Module not found: 
+Can't resolve 
+'bcryptjs'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+./lib/auth.ts
+Module not found: 
+Can't resolve 
+'bcryptjs'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./app/api/auth/[...next
+auth]/route.ts
+
+./lib/email.ts
+Module not found: 
+Can't resolve 'resend'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./app/api/auth/register
+/route.ts
+
+./lib/integrations/zenr
+ows.ts
+Module not found: 
+Can't resolve 
+'node-html-parser'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./app/api/listings/live
+/route.ts
+
+
+> Build failed because 
+of webpack errors

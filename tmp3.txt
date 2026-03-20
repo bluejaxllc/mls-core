@@ -1,0 +1,3 @@
+﻿ff786c8 fix(deploy): move prisma db push to start script
+2a81081 fix: move prisma db push to start script to avoid internal network access during Railway build process
+bd65cc4 fix: remove Procfile causing Express to start over Next.js & add remote seed route

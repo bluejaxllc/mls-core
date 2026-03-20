@@ -1,0 +1,11 @@
+node_modules
+cloudflared.exe
+*.log
+*.txt
+fb-profile
+proxy-state.json
+proxy-error.log
+tunnel-stdout.log
+proxy.log
+proxy-runtime.log
+startup-error.txt

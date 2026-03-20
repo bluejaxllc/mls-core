@@ -1,0 +1,1 @@
+﻿{"error":"Search failed","message":"\nInvalid `prisma.listing.findMany()` invocation:\n\n\nerror: Environment variable not found: MLS_DATABASE_URL.\n  -->  schema.prisma:13\n   | \n12 |   provider = \"postgresql\"\n13 |   url      = env(\"MLS_DATABASE_URL\")\n   | \n\nValidation Error Count: 1"}

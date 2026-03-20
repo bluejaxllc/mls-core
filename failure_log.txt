@@ -1,0 +1,50 @@
+﻿npm notice
+[0mRemoving intermediate container 571ee015ff8a
+ ---> 7a121342cc0a
+Step 13/31 : RUN npx prisma generate --schema=prisma/schema.intelligence.prisma
+ ---> Running in de0c795f7b01
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.intelligence.prisma
+? Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client-intelligence in 235ms
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+Removing intermediate container de0c795f7b01
+ ---> 4619d7fb395a
+Step 14/31 : ENV NEXT_TELEMETRY_DISABLED=1
+ ---> Running in df2998a9ae56
+Removing intermediate container df2998a9ae56
+ ---> 4104b5c4fa35
+Step 15/31 : RUN npx next build
+ ---> Running in c3859803e0fe
+   ? Next.js 14.1.0
+   - Environments: .env
+   Creating an optimized production build ...
+ ? Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+[91mPrismaClientConstructorValidationError: Invalid value undefined for datasource "db" provided to PrismaClient constructor.
+It should have this form: { url: "CONNECTION_STRING" }
+Read more at https://pris.ly/d/client-constructor
+    at Object.datasources (/app/node_modules/@prisma/client-intelligence/runtime/library.js:124:86)
+    at Gl (/app/node_modules/@prisma/client-intelligence/runtime/library.js:126:2527)
+    at new t (/app/node_modules/@prisma/client-intelligence/runtime/library.js:130:748)
+    at 82580 (/app/.next/server/app/api/listings/[id]/route.js:1:6165)
+    at t (/app/.next/server/webpack-runtime.js:1:143)
+    at 51720 (/app/.next/server/app/api/listings/[id]/route.js:1:770)
+    at t (/app/.next/server/webpack-runtime.js:1:143)
+    at t (/app/.next/server/app/api/listings/[id]/route.js:1:6342)
+    at /app/.next/server/app/api/listings/[id]/route.js:1:6380
+    at t.X (/app/.next/server/webpack-runtime.js:1:1285)
+[0m[91m
+[0m[91m> Build error occurred
+[0m[91mError: Failed to collect page data for /api/listings/[id]
+    at /app/node_modules/next/dist/build/utils.js:1258:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  type: 'Error'
+}
+The command '/bin/sh -c npx next build' returned a non-zero code: 1
+ERROR
+ERROR: build step 0 "gcr.io/cloud-builders/docker" failed: step exited with non-zero status: 1
+[0m
+--------------------------------------------------------------------------------

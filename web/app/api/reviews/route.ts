@@ -8,18 +8,25 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const agentId = searchParams.get('agentId');
         const type = searchParams.get('type');
-        const page = parseInt(searchParams.get('page') || '1');
-        const limit = parseInt(searchParams.get('limit') || '10');
+        const pageRaw = parseInt(searchParams.get('page') || '1');
+        const limitRaw = parseInt(searchParams.get('limit') || '10');
+        const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
+        const limit = Math.min(isNaN(limitRaw) || limitRaw < 1 ? 10 : limitRaw, 50);
 
         // Protected: my-reviews
         if (type === 'my-reviews') {
             const auth = await verifyAuth(req);
             if (isAuthError(auth)) return auth;
             const reviews = await prismaCore.review.findMany({ where: { reviewerId: auth.id }, orderBy: { createdAt: 'desc' } });
-            const enriched = await Promise.all(reviews.map(async (rev: any) => {
-                const agent = await prismaCore.user.findUnique({ where: { id: rev.agentId }, select: { id: true, firstName: true, lastName: true, email: true } });
-                return { ...rev, agent };
-            }));
+
+            const agentIds = Array.from(new Set(reviews.map((r: any) => r.agentId).filter(Boolean)));
+            const agents = await prismaCore.user.findMany({
+                where: { id: { in: agentIds as string[] } },
+                select: { id: true, firstName: true, lastName: true, email: true }
+            });
+            const agentMap = Object.fromEntries(agents.map((a: any) => [a.id, a]));
+
+            const enriched = reviews.map((rev: any) => ({ ...rev, agent: agentMap[rev.agentId] || null }));
             return NextResponse.json(enriched);
         }
 
@@ -34,10 +41,17 @@ export async function GET(req: NextRequest) {
         const avgRating = allRatings.length > 0 ? allRatings.reduce((sum: number, r: any) => sum + r.rating, 0) / allRatings.length : 0;
         const distribution = [1, 2, 3, 4, 5].map(star => ({ stars: star, count: allRatings.filter((r: any) => r.rating === star).length }));
 
-        const enriched = await Promise.all(reviews.map(async (rev: any) => {
-            const reviewer = await prismaCore.user.findUnique({ where: { id: rev.reviewerId }, select: { firstName: true, lastName: true } });
+        const reviewerIds = Array.from(new Set(reviews.map((r: any) => r.reviewerId).filter(Boolean)));
+        const reviewers = await prismaCore.user.findMany({
+            where: { id: { in: reviewerIds as string[] } },
+            select: { id: true, firstName: true, lastName: true }
+        });
+        const reviewerMap = Object.fromEntries(reviewers.map((u: any) => [u.id, u]));
+
+        const enriched = reviews.map((rev: any) => {
+            const reviewer = reviewerMap[rev.reviewerId];
             return { ...rev, reviewerName: reviewer ? `${reviewer.firstName || ''} ${reviewer.lastName || ''}`.trim() || 'Usuario' : 'Usuario Anónimo' };
-        }));
+        });
 
         return NextResponse.json({ reviews: enriched, total, avgRating: Math.round(avgRating * 10) / 10, distribution, page, totalPages: Math.ceil(total / limit) });
     } catch (error: any) {

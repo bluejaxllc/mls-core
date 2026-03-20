@@ -1,0 +1,6 @@
+node_modules
+cloudflared.exe
+*.log
+*.txt
+fb-profile
+proxy-state.json

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prismaCore as prisma } from '@/lib/prisma-core';
 
+const GOOGLE_MAPS_KEY = process.env.GOOGLE_MAPS_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '';
+
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 min — scrapers need time
 
@@ -135,6 +137,50 @@ export async function GET(req: NextRequest) {
         console.error('[Cron Scrape] Expiry sweep failed:', e.message);
     }
 
+    // ── Geocoding: batch-geocode listings without coordinates ──
+    let geocoded = 0;
+    if (GOOGLE_MAPS_KEY) {
+        try {
+            const ungeocoded = await prisma.listing.findMany({
+                where: {
+                    OR: [
+                        { mapUrl: null },
+                        { mapUrl: '' },
+                    ],
+                    address: { not: null },
+                    status: { not: 'EXPIRED' },
+                },
+                select: { id: true, address: true, city: true, state: true },
+                take: 50, // Limit batch size to control API costs
+            });
+
+            for (const listing of ungeocoded) {
+                try {
+                    const addr = [listing.address, listing.city, listing.state, 'Mexico'].filter(Boolean).join(', ');
+                    const geoRes = await fetch(
+                        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(addr)}&key=${GOOGLE_MAPS_KEY}`
+                    );
+                    const geoData = await geoRes.json();
+                    if (geoData.status === 'OK' && geoData.results?.[0]) {
+                        const { lat, lng } = geoData.results[0].geometry.location;
+                        await prisma.listing.update({
+                            where: { id: listing.id },
+                            data: { mapUrl: `${lat},${lng}` },
+                        });
+                        geocoded++;
+                    }
+                    // Rate limit: 100ms between geocoding calls
+                    await new Promise(r => setTimeout(r, 100));
+                } catch (geoErr: any) {
+                    console.warn(`[Geocode] Failed for listing ${listing.id}:`, geoErr.message);
+                }
+            }
+            if (geocoded > 0) console.log(`[Cron Scrape] Geocoded ${geocoded}/${ungeocoded.length} listings`);
+        } catch (e: any) {
+            console.error('[Cron Scrape] Geocoding batch failed:', e.message);
+        }
+    }
+
     const elapsed = Date.now() - startTime;
 
     console.log(`[Cron Scrape] Done in ${elapsed}ms — ${saved} saved, ${skipped} skipped, ${expired} expired, ${allListings.length} total`);
@@ -146,6 +192,7 @@ export async function GET(req: NextRequest) {
         saved,
         skipped,
         expired,
+        geocoded,
         sources: results,
     });
 }

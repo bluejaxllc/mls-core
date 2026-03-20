@@ -36,8 +36,17 @@ export default function LandingPage() {
         }
     }, [isDark]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        try {
+            await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+        } catch (err) {
+            console.error('Submission failed:', err);
+        }
         setSubmitted(true);
     };
 
@@ -366,12 +375,12 @@ export default function LandingPage() {
                     {/* Visual representation */}
                     <motion.div {...fadeUp(0.1)} className="relative h-full min-h-[400px] rounded-2xl border bg-white/80 border-emerald-200 shadow-sm dark:shadow-none dark:border-emerald-500/10 dark:bg-gradient-to-br dark:from-emerald-950/20 dark:via-zinc-900/60 dark:to-zinc-900/40 p-8 flex flex-col items-center justify-center overflow-hidden">
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-emerald-300 dark:via-emerald-500/40 to-transparent"></div>
-                        
+
                         {/* Broker A & B Connection */}
                         <div className="flex justify-between w-full max-w-md items-center mb-16 relative">
                             {/* Connection line */}
                             <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-300 via-emerald-300 to-cyan-300 dark:from-blue-500/50 dark:via-emerald-500/50 dark:to-cyan-500/50 -translate-y-1/2 overflow-hidden">
-                                <motion.div 
+                                <motion.div
                                     className="w-full h-full bg-gradient-to-r from-transparent via-white dark:via-white opacity-50"
                                     animate={{ x: ['-100%', '100%'] }}
                                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -384,7 +393,7 @@ export default function LandingPage() {
                                 </div>
                                 <span className="font-bold text-sm bg-blue-100 text-blue-800 dark:bg-blue-400 dark:text-blue-950 px-2 pl-2 rounded">Broker A</span>
                             </div>
-                            
+
                             <div className="relative z-10 bg-white dark:bg-zinc-900 border border-emerald-200 dark:border-emerald-500/30 px-4 py-2 rounded-full shadow-sm dark:shadow-[0_0_15px_-3px_rgba(16,185,129,0.2)]">
                                 <span className="text-[10px] md:text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">CO-BROKERAGE</span>
                             </div>
@@ -406,7 +415,7 @@ export default function LandingPage() {
                                 </div>
                                 <span className="text-[10px] text-slate-500 dark:text-zinc-400 mt-2 font-mono">Agentes</span>
                             </div>
-                            
+
                             <div className="flex flex-col items-center relative">
                                 <div className="h-20 w-px bg-cyan-200 dark:bg-cyan-500/30 absolute bottom-10"></div>
                                 <div className="h-10 w-10 rounded-full bg-slate-100 border-cyan-200 dark:bg-zinc-800 border dark:border-cyan-500/30 flex items-center justify-center z-10">
@@ -422,9 +431,9 @@ export default function LandingPage() {
                         <motion.div {...fadeUp(0.2)} className="border-l-2 border-emerald-300 dark:border-emerald-500/30 pl-5">
                             <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">Los Agentes (Asesores)</h3>
                             <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-                                Operan bajo el paraguas de su <span className="text-slate-900 dark:text-white font-medium">Broker</span>. 
-                                Utilizan la plataforma para subir listados, buscar propiedades para sus clientes, 
-                                y gestionar prospectos. Cada acción de un agente está vinculada a su agencia, garantizando que 
+                                Operan bajo el paraguas de su <span className="text-slate-900 dark:text-white font-medium">Broker</span>.
+                                Utilizan la plataforma para subir listados, buscar propiedades para sus clientes,
+                                y gestionar prospectos. Cada acción de un agente está vinculada a su agencia, garantizando que
                                 <span className="text-emerald-700 dark:text-emerald-400 font-medium"> la exclusividad y las comisiones siempre les pertenezcan a ellos</span>.
                             </p>
                         </motion.div>
@@ -432,7 +441,7 @@ export default function LandingPage() {
                         <motion.div {...fadeUp(0.3)} className="border-l-2 border-blue-300 dark:border-blue-500/30 pl-5">
                             <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">Los Brokers (Agencias)</h3>
                             <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
-                                Son los titulares de las exclusivas y los directores de orquesta. 
+                                Son los titulares de las exclusivas y los directores de orquesta.
                                 Los brokers invitan a sus agentes, supervisan el inventario de su equipo, y participan en la Gobernanza. Tienen visibilidad total sobre las operaciones de su agencia.
                             </p>
                         </motion.div>

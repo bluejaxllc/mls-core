@@ -1,0 +1,316 @@
+﻿
+> mls-governance-web@1.0.1772752671278 build
+> cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.intelligence.prisma && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Γ£ö Generated Prisma Client (v5.22.0) to .\node_modules\@prisma\client-core in 162ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want real-time updates to your database without manual polling? Discover how with Pulse: https://pris.ly/tip-0-pulse
+
+node.exe : ΓöîΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÉ
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (ΓöîΓöÇΓöÇΓöÇΓ   
+ öÇ...ΓöÇΓöÇΓöÇΓöÇΓ    
+öÉ:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Γöé  Update available 
+5.22.0 -> 7.5.0        
+               Γöé
+Γöé                    
+                       
+              Γöé
+Γöé  This is a major 
+update - please follow 
+the guide at    Γöé
+Γöé  https://pris.ly/d/
+major-version-upgrade  
+              Γöé
+Γöé                    
+                       
+              Γöé
+Γöé  Run the following 
+to update              
+              Γöé
+Γöé    npm i 
+--save-dev 
+prisma@latest          
+             Γöé
+Γöé    npm i 
+@prisma/client@latest  
+                       
+ Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓö
+ÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.intelligence.prisma
+
+Γ£ö Generated Prisma Client (v5.22.0) to .\node_modules\@prisma\client-intelligence in 81ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want real-time updates to your database without manual polling? Discover how with Pulse: https://pris.ly/tip-0-pulse
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+[ML Auth] Missing 
+ML_CLIENT_ID or 
+ML_CLIENT_SECRET in 
+.env
+[ML Auth] Missing 
+ML_CLIENT_ID or 
+ML_CLIENT_SECRET in 
+.env
+[ML Auth] Missing 
+ML_CLIENT_ID or 
+ML_CLIENT_SECRET in 
+.env
+[ML Auth] Missing 
+ML_CLIENT_ID or 
+ML_CLIENT_SECRET in 
+.env
+[ML Auth] Missing 
+ML_CLIENT_ID or 
+ML_CLIENT_SECRET in 
+.env
+   Generating static pages (0/63) ...
+
+   Generating static pages (15/63) 
+Verify Error: ex 
+[Error]: Dynamic 
+server usage: Page 
+couldn't be rendered 
+statically because it 
+used `request.url`. 
+See more info here: htt
+ps://nextjs.org/docs/me
+ssages/dynamic-server-e
+rror
+    at Object.eP [as st
+aticGenerationBailout] 
+(C:\Users\edgar\OneDriv
+e\Desktop\MLS\web\node_
+modules\next\dist\compi
+led\next-server\app-rou
+te.runtime.prod.js:6:29
+358)
+    at i (C:\Users\edga
+r\OneDrive\Desktop\MLS\
+web\node_modules\next\d
+ist\compiled\next-serve
+r\app-route.runtime.pro
+d.js:6:34692)
+    at Object.get (C:\U
+sers\edgar\OneDrive\Des
+ktop\MLS\web\node_modul
+es\next\dist\compiled\n
+ext-server\app-route.ru
+ntime.prod.js:6:34788)
+    at d (C:\Users\edga
+r\OneDrive\Desktop\MLS\
+web\.next\server\app\ap
+i\auth\verify\route.js:
+1:551)
+    at C:\Users\edgar\O
+neDrive\Desktop\MLS\web
+\node_modules\next\dist
+\compiled\next-server\a
+pp-route.runtime.prod.j
+s:6:42490
+    at C:\Users\edgar\O
+neDrive\Desktop\MLS\web
+\node_modules\next\dist
+\server\lib\trace\trace
+r.js:133:36
+    at NoopContextManag
+er.with (C:\Users\edgar
+\OneDrive\Desktop\MLS\w
+eb\node_modules\next\di
+st\compiled\@openteleme
+try\api\index.js:1:7062
+)
+    at ContextAPI.with 
+(C:\Users\edgar\OneDriv
+e\Desktop\MLS\web\node_
+modules\next\dist\compi
+led\@opentelemetry\api\
+index.js:1:518)
+    at NoopTracer.start
+ActiveSpan (C:\Users\ed
+gar\OneDrive\Desktop\ML
+S\web\node_modules\next
+\dist\compiled\@opentel
+emetry\api\index.js:1:1
+8093)
+    at ProxyTracer.star
+tActiveSpan (C:\Users\e
+dgar\OneDrive\Desktop\M
+LS\web\node_modules\nex
+t\dist\compiled\@opente
+lemetry\api\index.js:1:
+18854) {
+  description: "Page 
+couldn't be rendered 
+statically because it 
+used `request.url`. 
+See more info here: htt
+ps://nextjs.org/docs/me
+ssages/dynamic-server-e
+rror",
+  digest: 
+'DYNAMIC_SERVER_USAGE'
+}
+
+   Generating static pages (31/63) 
+
+   Generating static pages (47/63) 
+
+ Γ£ô Generating static pages (63/63) 
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                  Size     First Load JS
+Γöî ╬╗ /                                        10.3 kB         141 kB
+Γö£ ╬╗ /_not-found                              891 B          85.3 kB
+Γö£ ╬╗ /admin/beta                              6.95 kB         143 kB
+Γö£ ╬╗ /admin/intelligence                      4.43 kB         105 kB
+Γö£ ╬╗ /admin/staff                             7.4 kB          143 kB
+Γö£ ╬╗ /agents                                  6.99 kB         145 kB
+Γö£ ╬╗ /agents/[id]                             4.97 kB         143 kB
+Γö£ ╬╗ /analytics                               7.45 kB         147 kB
+Γö£ ╬╗ /api/agents                              0 B                0 B
+Γö£ ╬╗ /api/agents/[id]                         0 B                0 B
+Γö£ ╬╗ /api/analytics                           0 B                0 B
+Γö£ ╬╗ /api/analytics/view                      0 B                0 B
+Γö£ ╬╗ /api/appointments                        0 B                0 B
+Γö£ ╬╗ /api/auth/[...nextauth]                  0 B                0 B
+Γö£ ╬╗ /api/auth/register                       0 B                0 B
+Γö£ ╬╗ /api/auth/test-login                     0 B                0 B
+Γö£ ╬╗ /api/auth/verify                         0 B                0 B
+Γö£ ╬╗ /api/beta                                0 B                0 B
+Γö£ ╬╗ /api/cron/scrape                         0 B                0 B
+Γö£ ╬╗ /api/dashboard                           0 B                0 B
+Γö£ ╬╗ /api/debug-env                           0 B                0 B
+Γö£ ╬╗ /api/debug-env/seed-core                 0 B                0 B
+Γö£ ╬╗ /api/env-test                            0 B                0 B
+Γö£ ╬╗ /api/favorites                           0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/auth      0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/callback  0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/crawl     0 B                0 B
+Γö£ ╬╗ /api/integrations/mercadolibre/status    0 B                0 B
+Γö£ ╬╗ /api/integrations/test                   0 B                0 B
+Γö£ ╬╗ /api/intelligence/crawl/events           0 B                0 B
+Γö£ ╬╗ /api/intelligence/crawl/trigger          0 B                0 B
+Γö£ ╬╗ /api/intelligence/debug/seed             0 B                0 B
+Γö£ ╬╗ /api/intelligence/fb_live                0 B                0 B
+Γö£ ╬╗ /api/intelligence/ml_live                0 B                0 B
+Γö£ ╬╗ /api/intelligence/observed               0 B                0 B
+Γö£ ╬╗ /api/intelligence/observed/[id]          0 B                0 B
+Γö£ ╬╗ /api/intelligence/save-scraped           0 B                0 B
+Γö£ ╬╗ /api/intelligence/search_live            0 B                0 B
+Γö£ ╬╗ /api/intelligence/sources                0 B                0 B
+Γö£ ╬╗ /api/leads                               0 B                0 B
+Γö£ ╬╗ /api/listings                            0 B                0 B
+Γö£ ╬╗ /api/listings/[id]                       0 B                0 B
+Γö£ ╬╗ /api/listings/live                       0 B                0 B
+Γö£ ╬╗ /api/messages                            0 B                0 B
+Γö£ ╬╗ /api/messages/[id]                       0 B                0 B
+Γö£ ╬╗ /api/notifications                       0 B                0 B
+Γö£ ╬╗ /api/protected/appointments              0 B                0 B
+Γö£ ╬╗ /api/protected/appointments/[id]         0 B                0 B
+Γö£ Γùï /api/protected/context/summary           0 B                0 B
+Γö£ ╬╗ /api/protected/dashboard/chart-data      0 B                0 B
+Γö£ ╬╗ /api/protected/notifications             0 B                0 B
+Γö£ ╬╗ /api/protected/notifications/[id]/read   0 B                0 B
+Γö£ ╬╗ /api/protected/saved-searches            0 B                0 B
+Γö£ ╬╗ /api/protected/saved-searches/[id]       0 B                0 B
+Γö£ Γùï /api/proxy-url                           0 B                0 B
+Γö£ ╬╗ /api/public/leads                        0 B                0 B
+Γö£ ╬╗ /api/reviews                             0 B                0 B
+Γö£ ╬╗ /api/saved-searches                      0 B                0 B
+Γö£ ╬╗ /api/search                              0 B                0 B
+Γö£ ╬╗ /api/staff                               0 B                0 B
+Γö£ ╬╗ /appointments                            9.61 kB         155 kB
+Γö£ ╬╗ /auth/register                           3.69 kB         135 kB
+Γö£ ╬╗ /auth/signin                             4.07 kB         144 kB
+Γö£ ╬╗ /auth/verify                             2.51 kB         133 kB
+Γö£ ╬╗ /claims                                  5.34 kB         139 kB
+Γö£ ╬╗ /compare                                 4.62 kB         135 kB
+Γö£ ╬╗ /dashboard                               9.82 kB         265 kB
+Γö£ ╬╗ /dashboard/analytics                     13.3 kB         268 kB
+Γö£ ╬╗ /dashboard/calendar                      3.77 kB         149 kB
+Γö£ ╬╗ /dashboard/leads                         4.24 kB         149 kB
+Γö£ ╬╗ /dashboard/profile                       3 kB            182 kB
+Γö£ ╬╗ /dashboard/saved-searches                6.15 kB         161 kB
+Γö£ ╬╗ /favorites                               5.87 kB         149 kB
+Γö£ ╬╗ /governance                              12.5 kB         164 kB
+Γö£ ╬╗ /governance/audit                        9.28 kB         147 kB
+Γö£ ╬╗ /governance/logs                         11.4 kB         158 kB
+Γö£ ╬╗ /health                                  0 B                0 B
+Γö£ ╬╗ /ingestion                               8.87 kB         157 kB
+Γö£ ╬╗ /intelligence                            15.5 kB         156 kB
+Γö£ ╬╗ /legal                                   49.1 kB         133 kB
+Γö£ ╬╗ /listings                                38.4 kB         189 kB
+Γö£ ╬╗ /listings/[id]                           14.4 kB         203 kB
+Γö£ ╬╗ /listings/new                            11 kB           164 kB
+Γö£ Γùï /manifest.webmanifest                    0 B                0 B
+Γö£ ╬╗ /messages                                6.08 kB         139 kB
+Γö£ ╬╗ /notifications                           6.38 kB         154 kB
+Γö£ ╬╗ /properties                              10.5 kB         156 kB
+Γö£ ╬╗ /properties/[id]                         10.1 kB         165 kB
+Γö£ ╬╗ /provision                               1.67 kB        86.1 kB
+Γö£ ╬╗ /reviews                                 8.56 kB         147 kB
+Γö£ Γùï /robots.txt                              0 B                0 B
+Γö£ Γùï /sitemap.xml                             0 B                0 B
+Γö£ ╬╗ /system                                  13.3 kB         158 kB
+Γö£ ╬╗ /tools                                   5.08 kB         143 kB
+Γö£ ╬╗ /tools/calculator                        7.2 kB          145 kB
+Γö£ ╬╗ /unauthorized                            180 B          91.4 kB
+Γöö ╬╗ /whitepaper                              9.33 kB         140 kB
++ First Load JS shared by all                84.4 kB
+  Γö£ chunks/8069-10fbc3c5e3b0a9d8.js          29.1 kB
+  Γö£ chunks/fd9d1056-caa447d3131172f2.js      53.4 kB
+  Γöö other shared chunks (total)              1.97 kB
+
+
+Γùï  (Static)   prerendered as static content
+╬╗  (Dynamic)  server-rendered on demand using Node.js
+

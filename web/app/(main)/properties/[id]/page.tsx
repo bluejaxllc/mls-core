@@ -59,7 +59,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
     const [activeTab, setActiveTab] = useState<'descripcion' | 'mapa' | 'historial'>('descripcion');
     const [descExpanded, setDescExpanded] = useState(false);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+    const API_URL = '';
 
     useEffect(() => {
         fetchListing();
@@ -73,7 +73,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
         const recordView = async () => {
             try {
                 const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-                await fetch(`${API_URL}/api/public/listings/${params.id}/view`, {
+                await fetch(`${API_URL}/api/listings/${params.id}/view`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -91,7 +91,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
 
     const fetchListing = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/public/listings/${params.id}`);
+            const res = await fetch(`${API_URL}/api/listings/${params.id}`);
             if (res.ok) {
                 setListing(await res.json());
             }
@@ -104,7 +104,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
 
     const fetchHistory = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/public/listings/${params.id}/history`);
+            const res = await fetch(`${API_URL}/api/listings/${params.id}/history`);
             if (res.ok) {
                 setHistory(await res.json());
             }
@@ -117,7 +117,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
 
     const fetchSimilar = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/public/listings/${params.id}/similar`);
+            const res = await fetch(`${API_URL}/api/listings/${params.id}/similar`);
             if (res.ok) {
                 setSimilar(await res.json());
             }
@@ -127,7 +127,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
     const checkFavorite = async () => {
         if (!session?.accessToken) return;
         try {
-            const res = await fetch(`${API_URL}/api/protected/favorites/ids`, {
+            const res = await fetch(`${API_URL}/api/favorites/ids`, {
                 headers: { 'Authorization': `Bearer ${session.accessToken}` }
             });
             if (res.ok) {
@@ -144,7 +144,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
         }
         try {
             const method = isFavorite ? 'DELETE' : 'POST';
-            const res = await fetch(`${API_URL}/api/protected/favorites`, {
+            const res = await fetch(`${API_URL}/api/favorites`, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -508,7 +508,7 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
                                 const form = e.currentTarget;
                                 const fd = new FormData(form);
                                 try {
-                                    const res = await fetch(`${API_URL}/api/public/leads`, {
+                                    const res = await fetch(`${API_URL}/api/leads`, {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({

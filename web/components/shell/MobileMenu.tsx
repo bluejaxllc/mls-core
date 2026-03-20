@@ -49,9 +49,8 @@ export function MobileMenu() {
             {/* Hamburger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden fixed top-3 left-3 z-[9998] p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-lg text-foreground active:scale-95 transition-all"
+                className="md:hidden fixed top-3 left-3 z-[9998] p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-lg text-foreground active:scale-95 transition-all flex items-center justify-center min-w-[44px] min-h-[44px]"
                 aria-label="Menu"
-                style={{ minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
                 {isOpen ? (
                     <X className="h-5 w-5" />

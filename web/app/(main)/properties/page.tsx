@@ -7,6 +7,7 @@ import { PageTransition, AnimatedCard, AnimatedButton, AnimatedInput } from '@/c
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { GovernanceMenu } from '@/components/listings/GovernanceMenu';
+import { MapView } from '@/components/listings/MapView';
 import { Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -445,13 +446,10 @@ export default function PropertiesPage() {
                 {/* Map Panel */}
                 {view !== 'list' && (
                     <div className={`${view === 'split' ? 'md:w-1/2' : 'w-full'} rounded-xl overflow-hidden border shadow-inner ${view === 'map' ? 'flex-1' : 'min-h-[400px]'}`} style={view === 'map' ? { height: '100%' } : undefined}>
-                        <iframe
-                            src={`https://maps.google.com/maps?q=${mapQuery}&t=&z=${mapZoom}&ie=UTF8&iwloc=&output=embed`}
-                            className="w-full h-full border-0"
-                            style={{ minHeight: view === 'map' ? '100%' : '400px' }}
-                            allowFullScreen
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
+                        <MapView
+                            listings={listings}
+                            selectedId={selectedId}
+                            onSelectListing={setSelectedId}
                         />
                     </div>
                 )}

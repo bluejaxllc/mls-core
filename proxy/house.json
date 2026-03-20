@@ -1,0 +1,492 @@
+
+	{
+  "@context": "https://schema.org",
+  "@type": "RealEstateListing",
+  "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-condesa-rejon-ii-chihuahua-146847132.html",
+  "offers": {
+    "@type": "AggregateOffer",
+    "highPrice": 29800000,
+    "priceCurrency": "MXN",
+    "lowPrice": 1790000,
+    "offerCount": "1986"
+  },
+  "mainEntity": [
+    {
+      "type": "RealEstateListing",
+      "name": "Century 21 Robles & Herrera",
+      "description": "Distribución: una planta: -2 recámaras con opción a 3. - Sala. - Comedor. - Cocina integral. - 2 baños. - Lavandería. - Estancia. - Patio. - Cochera para 2 Autos. características: - Frente a Parque. - Superficie de Terreno: 260. 04 m2. - Superficie de construcción: 174 m2. - Forma de Terreno: Regular. - Niveles totales: 1. -Uso de suelo: Habitacional. equipamiento: -Cocina Integral. -Closets y vestidor. - Estufa. - Campana. -Unidad paquete. - Hidroneumático. -Cisterna. forma de pago: Se aceptan pagos con recursos propios y créditos hipotecarios bancarios y de instituciones públicas y privadas (la aprobación de los créditos está sujeto a las políticas de cada institución). Servicios de la zona: - Agua. - cfe. - Drenaje. - Servicios municipales. - Vialidades: Av. La Cantera, Villa Toscana. - a 1 km a la redonda: Universidad la Salle. entorno: - Habitacional. Información profeco: Contrato de Adhesión de Intermediación para la compraventa de inmuebles. Registrado en la Procuraduría Federal del Consumidor (profeco). Bajo el numero 1651 - 2020. Century 21 Robles & Herrera. Tel: Ver datos. Cel: Ver datos",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-condesa-rejon-ii-chihuahua-146847132.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/46/84/71/32/720x532/1558385102.jpg",
+      "datePosted": "3/18/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Lomas del Rejón"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "EspacioR Bienes Raices",
+      "description": "Casa en venta completamente equipada en Arcadas Residencial. Condominio con Casa Club con alberca y canchas de tenis. Planta baja: * Sala* Vestíbulo* Comedor* Cocina* Medio baño* Recámara principal con baño completo y vestidor* Cochera para dos vehículos* Patio con jardin y asador* Dos terrazas* Cuarto de servicio con baño completoPlanta alta: * 3 recámaras, cada una con baño completo* Oficina  estudio* EstanciaEquipamiento: * 4 aires acondicionados* Boiler* 4 calefacciones* Portón eléctrico* Riego automático* Asador* Cocina integral con cubierta de cuarzo* Pisos de marmol* Carpinterías de encino* Ladrillo rojo con aislante* Ventanería de pella* Cocina integral con estufa, enfriador de vinosEspacioR bienes raices tu solución inmobiliaria",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-arcadas-con-recamara-en-planta-baja-147085821.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/47/08/58/21/720x532/1547764812.jpg",
+      "datePosted": "2/28/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Arcadas"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "MITLICH ASESORES INMOBILIARIOS",
+      "description": "T. 250 mtsC. 308 mts4 recámaras4. 5 bañosCochera para dos autosPlanta baja: recibidor con doble altura, sala comedor amplios, cocina, recámara con baño y clóset, medio baño, clóset de visitas, bodeguita bajo escalera, patio y cochera para dos autos. Planta alta: tres recámaras con baño y vestidor principal con balcón, estancia y lavandería. Equipo: Cocina en chapa de encino con cubierta calacata equipada con Horno parrilla y campana. CisternaHidroneumáticoBoiler1 Unidad paquete frío calor 5tonsCarpintería enchapado de encinoCristal templado en escalera y balcónVentanas doble vidrioPisos y recubrimientos InterceramicPisos formato 60x1. 20Lámparas de techoConstrucción térmica de isoblock",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-recamara-planta-baja-fraccionamiento-148887706.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/88/77/06/720x532/1586349871.jpg",
+      "datePosted": "3/15/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Bosque Real"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Century 21 Robles & Herrera",
+      "description": "Distribución: La casa cuenta con dos niveles: planta baja: - Cochera para 2 autos. - Área social. - Baño completo. planta alta: - Recibidor. - Sala. - Comedor. - Cocina. - 12 Baño. - Estancia. - Recamara principal con closet y baño completo. - 3 Recamaras con closet. - 2 Baños completos. - Patio. - Área de Lavado. - Patio de Servicio. características: - Superficie de Terreno: 374. 04 m2. - Superficie de construcción: 393. 40 m2. - Forma de Terreno: Regular. - Niveles totales: 2. - Uso de suelo: Habitacional. equipamiento: - Cocina Integral. - Aire Acondicionado. - Calefacción. - Boiler. forma de pago: Se aceptan pagos con recursos propios, Créditos Bancarios Banorte, Santander únicamente. Servicios de la zona: - Agua. - cfe. - Drenaje. - Servicios municipales. - Vialidades: Av. Zarco, Av. Ernesto Talavera, Av. Cuauhtémoc y Av. Teófilo Borunda. - a 1 km a la redonda: Santuario de Guadalupe, Al Super Las Fuentes, Oxxogas, Santander, Plaza Comercial Guadalupe, Fonda Chilangos, ichisal, Cruz Roja, Notaria 28, Consulado de España y Mujer con Valor. Entorno: - Habitacional. Información profeco: Contrato de Adhesión de Intermediación para la compraventa de inmuebles. Registrado en la Procuraduría Federal del Consumidor (profeco). Bajo el número Ver datos. Century 21 Robles & Herrera. Tel: Ver datos. Cel: Ver datos",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-col.-zarco-chihuahua-144513199.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/44/51/31/99/720x532/1484958120.jpg",
+      "datePosted": "3/17/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Zarco"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "MAAS BIENES RAICES",
+      "description": "Venta hermosa casa en zona boreal. $ 3, 640, 000. 00. terreno: 160 M2. construccion: 170 M2. planta baja: medio baño, sala con doble altura, comedor, cocina, lavanderia, patio amplio, cochera techada para 2 autos, en esquina, frente A parque. Planta alta: 2 recamaras amplias con closet que comparten un baño completo, recamara principal muy amplia con baño Y vestidor, estancia. Equipo: cuenta con unidad paquete, frio Y calor, persianas, cocina, candiles, tinaco, boiler Y detalles decorativos. Entorno: muy cerca de la uvm, en zona reliz, escuelas, supermercados, zona en crecimiento con gran plusvalia, fraccionamiento cerrado con caseta Y vigilancia. Para mayor informacion contactanos por whatsapp al: 6Ver datos. 6Ver datos. nota: si necesitas un credito hipotecario, nosotros te lo podemos tramitar sin costo alguno, trabajamos con todos los bancos. WhatsAppFacebookTwitterEmailGmailLinkedInMeneamePrintCompartir",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-bonita-casa-en-venta-zona-boreal-por-reliz-en-148975291.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/97/52/91/720x532/1588075046.jpg",
+      "datePosted": "2/23/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Monteverde"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "MITLICH ASESORES INMOBILIARIOS",
+      "description": "Casa en venta Residencia con alberca Zona Canteras $29, 800, 000. Residencia nueva completamente equipada con alberca, cuarto de cine, área social, vapor y sauna, con acabados de primera calidad, espacios amplios con alberca y elevador. Fraccionamiento residencial privado con alta plusvalía ubicado a unos min. Del Periférico de la Juventud con cercanías a escuelas, plazas de comercios, restaurantes, Iglesias, parques, ferreterías, farmacias, hospitales, gasolinerassup. Del terreno: 477. 11 M2sup. De construcción: 720 M2precio $29, 800, 000. planta baja: nivel de acceso: • vestíbulo de acceso• medio baño• estudio O despacho con librero• estancia A doble altura• comedor• bar equipado• balcón posterior con vista panorámica• cocina equipada con isla, cubierta de granito ymármol, área de lavavajilla• despensa amplia• cuarto de lavado con aérea de planchado• cuarto de servicio con baño completo• garaje cubierto para 4 – 5 autosplanta alta: • sala de tv amplia con mueble empotrado• 4 recámaras con vestidor Y baño completo. • recamara principal con vestidor amplio Y baño completo con sauna, vapor yregadera doble• recamara frontal con balcón• recamara principal con balcón Y excelente vistaplanta sótano: • salón de juegos con bar equipado con cubierta degranito• baño completo• sala de cine equipada para 13 personas con asientos reclinables. • recamara de visitas con closet Y baño completo. patio: • alberca con cascada de 6. 80 X 3. 00 (1. 35 deprofundidad) • cuarto de máquinas equipado con ducha lateral• medio baño exterior• jardín posterior (9. 00 X 5. 00) aprox. equipo: • cisterna de 5, 000 litros• sistema fotovoltaico con 31 paneles solares• 10 equipos de climatización fan &amp; coil, inverterdivididos en: (3 pzs) 5 ton. (1 pza) 3 ton. (5 pzs) 1. 5 ton. (1 pza) 2 ton. Tipo cassette• elevador marca fuji, con capacidad para 4 personas, 320 kg. • sauna con capacidad para 4 personas en madera solida de cedro rojo con equipo importado (finlandés), foco infrarrojo medicinal Y puerta en cristal templado de 6mm• vapor con generador de 5 M3, control digital detemperatura, timer Y encendido electrónico• loseta importada de 1. 20 X 1. 20 en toda la casa• cubiertas de mármol Y granito• carpintería de toda la casa con madera maciza detzalam, • carpintería hecha en el sitio• ventanería en pvc, doble cristal, color tintex, alemana marca rehau• pisos de madera de ingeniería 9 mm de espesor• detalles en fachada con cantera galarza• jardinería completa con sistema de riego• solar tube en vestidores (4 pzs) • instalación especial de transformador para la casade 50 kva• vista panorámica A la ciudad de chihuahua• cctv con 8 cámaras de ultra alta definición ygrabación de 3 semanas• sistema de audio con bocinas invisible controladasdesde sonos• sistema de iluminación automatizado lutron conintegración en plataforma rti• ipad para control del sistema en la casa• sala de cine con: • 13 butacas de piel eléctricas motorizadas• cine con sistema de proyección laser 4K • certificación dolby atmos con bocinas elac yjbl profesional• pantalla profesional marca stewart• muros con paneles acústicosconstruccion térmica. Mitlich asesores. com. mxTel 614 1 00 70 28  614 1 25 73 55Socio redpi.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-residencia-con-alberca-zona-canteras-148293352.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/29/33/52/720x532/1574252371.jpg",
+      "datePosted": "3/19/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Las Canteras"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "W Real Estate",
+      "description": "Venta de residencia en jardines del santuarioplanta baja: OficinaEstanciaSalaCocina Comedor2 baños completosCuarto de lavanderia con closetsCuarto de servicioplanta alta: 3 recamaras, principal con closet vestidor, baño completo1 baño compartidoequipo2 aires aire lavado2 calefaccionesBoilerCisternaHidroneumaticocasa habitacion usadalas imágenes, características, colores, equipo, accesorios Y productos son de carácter informativo el contenido de la presente ficha es estrictamente informativo por lo que no constituye oferta alguna Y podráN cambiar sin previo aviso sin incurrir en ninguna obligacióN O responsabilidad",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-venta-de-residencia-en-jardines-del-santuario-148206554.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/20/65/54/720x532/1572508778.jpg",
+      "datePosted": "12/15/25",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Jardines del Santuario"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Diamate Platinum",
+      "description": "Residencia en venta ubicada en Gaia Dominion, fraccionamiento residencial privado en la zona de Cantera, uno de los sectores de mayor crecimiento y plusvalía en Chihuahua. El desarrollo cuenta con acceso controlado, entorno moderno y excelente conectividad a principales vialidades, escuelas, hospitales y centros comerciales, ideal para quienes buscan seguridad, exclusividad y calidad de vida. La propiedad se encuentra construida sobre un terreno de 270 m² con 338 m² de construcción. En planta baja cuenta con sala a doble altura, comedor, cocina equipada con tarja, parrilla, microondas, campana y refrigerador, alacena, lavandería, una recámara y baño completo. En planta alta dispone de estancia familiar y tres recámaras, cada una con vestidor y baño completo, brindando privacidad y comodidad en cada espacio. La casa está equipada con cisterna de 5, 000 litros, dos unidades paquete de refrigeración y calefacción inverter, paneles solares y ventanería de pvc con doble vidrio, ofreciendo eficiencia energética y confort térmico. Una excelente opción para vivir o invertir en una de las zonas residenciales más cotizadas de la ciudad.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-se-vende-casa-en-gaia-dominion-residencial-recamara-en-149115818.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/49/11/58/18/720x532/1590804860.jpg",
+      "datePosted": "3/6/26",
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "W Real Estate",
+      "description": "Venta O renta de residencia en fraccionamiento exclusivo de la cd residencial country club san francisco cuenta con recamara planta baja con baño Y closet vestidoralbercada para campo de golfvista espectacular planta altaplanta bajarecibidorsalacocina (con parrilla, campana Y refrigerador) comedorestanciamedio bañorecamara principal con vestidor Y bañocochera para 2 autosterraza en jardin (se queda con muebles) albercacuarto de maquinasbodeguita para guardado de cosaslavanderiacuarto de servicio con baño propioplanta alta: estancia4 recamaras 1 de ellas con tina, otra con jacuzzi, todas con wolking closet (2 recamaras comparten baño) 2 recamaras con terraza, 1 con balconequipo: cuenta con aislamiento material de aisalmiento en perimetralesmaterial foamular de 2pulgadas todos los murosloza Y entrepiso material solido (4pulg fomular aisado en azotea) 16 paneles solaresventaneria doble vidrio marca winsor2 unidades paquete (uno planta alta, otro planta baja) 5, 000 celcalefaccion radiante planta alta Y planta bajapersianas hounter douglasiluminacion led interior exteriortoda la carpinteria es semi solida de encinococina italiana importada (incluye refrigerador, parrila, campana, horno de gas, horno de micoondas, barra con formica de vidrio templado con 4 bancos de pielventaneria Y puerta corrediza para jardin de material maple planta bajacubierta de cocina de cuarzoduela de encino en en recamarascuarto de servicio con baño propio alberca con calefaccion solarcuarto de maquinas equipo: filtracion de agua, sedimentos, luz ultra violeta, carbon activado, suavisadores2 cisternas (1 de 5, 000lts, otra de 3, 000lts1 minisplit inverter en una de las recamaras secundarias2 terrazas1 balconarea de jardin trasero: asador acero inoxidable de carbonplanta de gasbarraterraza con muebles incluidos, sonido ambiental Y proyector, ceramica simula madera recamara principal Y una de las secundarias con vista al campo de golf1 terraza Y un balcon dan vista A campo de golfazoteatecho: tipo de impermeabilizacion: papel prefabricado, mineralizado 4milimetros, 2 capas de asfalto malla garantia 20 años aproxcasa habitacion remodelada recientemente (br) **renta amueblada 80, 000. 00*renta sin amueblar 70, 000. 00**en caso de requerir factura, precio mas ivalas imágenes, características, colores, equipo, accesorios Y productos son de carácter informativo el contenido de la presente ficha es estrictamente informativo por lo que no constituye oferta alguna Y podrán cambiar sin previo aviso sin incurrir en ninguna obligación O responsabilidad",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-venta-de-residencia-en-fracc-san-francisco-country-148206537.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/20/65/37/720x532/1572508369.jpg",
+      "datePosted": "11/17/25",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Residencial Country Club San Francisco"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Activos Bienes Raices",
+      "description": "Casa amueblada en fraccionamiento cerrado, cerca de la uvm. Planta Baja. Sala. Comedor. Cocina equipada completamente (estufa, campana, refrigerador) Medio baño. Lavanderia. Jardin con ceramica. Cochera para dos autos. Planta Alta. Recamara Principal con baño y vestidor. 2 recamaras con closet de pared y comparten baño. Estancia. Equipo. Boiler. Tanque estacionario. Tinaco, Aire acondicionado. 2 calentones de pared. Acabados. Duela en planta alta y escalera. Persianas en toda la casa",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-venta-en-monteverde-chihuahua-144508386.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/44/50/83/86/720x532/1484862474.jpg",
+      "datePosted": "9/26/25",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Monteverde"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "METRIUM LIVING",
+      "description": "Residencia nueva en venta fracc. Bosque real con 10 paneles solareselegancia, confort y eficiencia térmica en cada detalle. Disfruta de amplios espacios, acabados premium y equipamiento de primera. Superficies Construcción: 332. 5 m2 Terreno: 250 m2 planta baja Sala Comedor Cocina en concepto abierto Medio baño Patio amplio Recámara principal con vestidor y baño completo con hidro ducha Cochera para 2 autos planta alta Estancia Lavandería 2 recámaras secundarias, cada una con baño completo y clóset Recámara principal con vestidor, baño con hidro ducha y balcón equipamiento Y acabados Construcción térmica con block y placas aislantes 10 paneles solares Pisos y recubrimientos Interceramic Hidroduchas en recámaras principales Puertas enchapadas en encino Canceles de vidrio en baños y cristal templado en escalera y terraza Cisterna de 2, 800 litros Preparación para minisplit en recámaras y áreas comunes",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-bosque-real-con-recamara-en-planta-baja-zona-valle-148053892.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/05/38/92/720x532/1569442327.jpg",
+      "datePosted": "12/1/25",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Bosque Real"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "METRIUM LIVING",
+      "description": "Casa en venta en Torralba Residencial — Valle Escondido | Esquina. Precio: $5, 490, 000 · Terreno: 225. 75 m² · Construcción: 272. 31 m² · Cochera: 2 autos. Descripción: Residencia en esquina dentro de fraccionamiento privado en Torralba, Zona Valle Escondido. Ubicada cerca de vías principales y comercios, ideal para familia que busca seguridad y comodidad. Distribución: Planta baja: recibidor, sala y comedor en concepto abierto con chimenea de leña, cocina integral amplia con isla, medio baño de visitas, lavandería y patio trasero con área de asador, barra, bancas y jardín. Planta alta: amplia estancia familiar, terraza con vista, recámara principal con vestidor y baño privado, 2 recámaras secundarias que comparten baño. Equipamiento y servicios: Cocina equipada: parrilla, horno, campana y lavavajillas. Portón eléctrico y luminarias tipo cándiles. Aire acondicionado, calefacción en planta alta y preparación para calentón en planta baja. Hidroneumático y cisterna. Contacto: Teléfono: Ver datos. Contáctanos para más información o agendar una visita.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-residencial-torralba-en-esquina-148710979.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/71/09/79/720x532/1583013752.jpg",
+      "datePosted": "1/21/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Torralba Residencial"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "MITLICH ASESORES INMOBILIARIOS",
+      "description": "Casa en venta bosques del valle $7, 600, 000. casa en venta equipada A estrenar con recamara en planta baja acabados modernos. 325m2 de Construcción258m2 de Terreno. Precio $7, 600, 000. Fraccionamiento ubicado a unos min. Del Periférico de la Juventud con cercanías a escuelas, plazas de comercios, restaurantes, Iglesias, parques, ferreterías, farmacias, hospitales, gasolineras. equipo: * Cocina en carpintería chapa de nogal, alto brillo melamina con estufa y campana. * Muebles de baño con cubierta de cuarzo. * Boiler* Cisterna con Hidroneumatico* Plafones decorativos. * Lavabos e inodoros de primera calidad. * Ventanas doble vidrio línea. * Cortinas eléctricas en planta baja, recama principal y estancia. * Canceles en baños. * Cochera para dos autos. Construcción térmica con losas aisladasPlanta baja: Sala., Comedor, Cocina equipada, lavanderia, recámara con baño, cochera para dos vehículos y patio. Planta alta: * Recámara principal con baño y vestidor. * Recámara secundaria con baño y vestidor. * Recámara secundaria con baño y vestidor. * Estancia* Lavandería. Mitlich asesores inmobiliarios. 6Ver datos  6Ver datos. Socios RedPi. www. mitlichinmobiliarios. com. mx",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-bosques-del-valle-$7-600-000.-149283866.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/49/28/38/66/720x532/1594261391.jpg",
+      "datePosted": "3/17/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Bosques del Valle"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Casa Real Bienes Raices",
+      "description": "No batalles, solo llega con tu ropa, la despensa y lo más importante. La familia y a disfrutar de ésta casa en el exclusivo fraccionamiento Bosques de San Francisco, además de todo tiene bar y cine para crear maravillosos recuerdos con los tuyos. *precio sujeto A cambios sin previo aviso.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-amueblada-en-bosques-de-san-francisco-148351704.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/35/17/04/720x532/1575407606.jpg",
+      "datePosted": "1/15/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Bosques de San Francisco "
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Century 21 Robles & Herrera",
+      "description": "Distribución: Ubicada en esquina frente al parque. La casa cuenta con 2 niveles: En planta baja: - Recibidor. - 2 medios Baños. - Sala. - Cocina integral. - Área de despensa. - Área social con opción a recamara en planta baja y baño completo. - Barra de bar. - Patio con jardín. - Cochera techada para dos autos con acceso a patio. En planta alta: - Recamara principal con terraza con vista al parque, closet vestidor y baño completo. - 2 Recamaras secundarias cada una con closet vestidor y baño completo. - Estancia. - Lavandería. características: - Superficie de Terreno: 277. 810m2. - Superficie de construcción: 321. 96m2. - Forma de Terreno: Regular. - Niveles totales: 2. - Uso de suelo: Habitacional. equipada con: - Refrigeración. - Calefacción radiante en paredes. - Ventaneria de pvc doble vidrio. - Cocina integral con cubierta de granito, estufa, campana, lavavajillas. - Área de bar. - Circuito cerrado de vigilancia. - Abanicos de techo en distintos espacios. - Puertas de cristal templado en baños. - Barandal de cristal templado. - Iluminación de luz indirecta así como spots interiores y exteriores. - Alarma. forma de pago: Se aceptan pagos con recursos propios y créditos hipotecarios bancarios y de instituciones públicas y privadas (la aprobación de los créditos está sujeto a las políticas de cada institución). Servicios de la zona: - Agua. - cfe. - Drenaje. - Servicios municipales. - Vialidades: Av Tomas Valles Vivar, Av. Cantera, Hacienda de los Morales y Periférico de la Juventud. - a 1 km a la redonda: Plaza Pedregal, Colegio Montessori, Costco, Plaza Cantera Cinco, Parroquia San Charbel, Paseo Central y Hospital Ángeles. Entorno: - Habitacional. Información profeco: Contrato de Adhesión de Intermediación para la compraventa de inmuebles. Registrado en la Procuraduría Federal del Consumidor (profeco). Bajo el numero 1651 - 2020. datos de contacto. Century 21 Robles & Herrera. Tel: Ver datos. Cel: Ver datos",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-fracc.-cima-del-pedregal-chihuahua-147999187.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/47/99/91/87/720x532/1568298805.jpg",
+      "datePosted": "3/17/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Residencial Cima de La Cantera"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "BEALL BIENES RAICES",
+      "description": "¡Tu nuevo hogar te espera en Cantera Residencial Asturias! Frente a parque · Ubicada en privada · ¡Lista para habitar!. Planta baja: Recámara principal en planta baja con baño y vestidor · 1 medio baño en planta baja · Cocina equipada · Sala · Comedor · Lavandería · Estancia de tv · Roof garden · Cochera techada para 2 autos. Planta alta: 2 recámaras secundarias en planta alta cada una con baño y closet. Equipo incluido: Acabados de lujo · Construida con block térmico · Losa aislada con placa de 1 · Carpintería de encino · Ventanería de aluminio doble vidrio · Cocina con granito, estufa, campana, tarja · Cisterna 2800 lts · Hidroneumático · Boiler · Gas natural · 2 aparatos de aire Mastercool · Preparación para minisplit en recámara principal · Impermeabilización con papel mineralizado. Construcción 275 m2. Terreno 238 m2. Precio de venta $6, 300, 000. Licencia Inmobiliaria lpsi Ver datos2022. Telefonos de contacto 614 2 52 38 83. Aviso legal: Los precios y condiciones de venta o arrendamiento publicados por cualquier medio son de carácter informativo y pueden cambiar sin previo aviso, el precio de ventarenta anunciado no representa una oferta o compromiso formal y tiene vigencia limitada. Toda operación u oferta formal esta sujeta a la celebración y firma de un contrato de arrendamiento o de compra venta y de servicios de intermediación inmobiliaria.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-asturias-zona-cantera-148048148.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/04/81/48/720x532/1569325496.jpg",
+      "datePosted": "2/25/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Asturias Residencial"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Kasar Bienes Raices",
+      "description": "Descubre esta preciosa Residencia ubicada en una de las zonas más exclusivas y tranquilas de la ciudad. ́distribución: 2 Niveles. 4 Recámaras. Sala. Comedor. Cocina. 5 baños Completos. 12 Baño. Cuarto de Lavandería. Cuarto de estudio. 2 Estancias. 3 Terrazas. Balcón. Jardín. Patio Mediano. Cochera para cinco autos, techada para dos. medidas: - Superficie: 775. 111m² - Construcción: 650m² creditos: Bienvenidos todos los créditos. ́ Informes y citas: Ver datos 136 04 75",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-con-650-m-sup2--de-construccion-en-148673000.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/67/30/00/720x532/1581970391.jpg",
+      "datePosted": "2/24/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Rincón de Las Lomas "
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Casa Real Bienes Raices",
+      "description": "Conoce tu casa al norte de la ciudad, en fraccionamiento privado para tener a tu familia protegida, disfruta de las comodidades de una casa nueva semi equipada, lista con lavadora y secadora, refrigerador, estufa, horno y campana, cubierta de granito, canceles en los baños, equipos de minisplit frío y calor, closets y la comodidad de vivir en zona comercial y de alto crecimiento. **precio mas gastros de escrituracion *precio sujeto A cambios sin previo aviso",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-al-norte-de-la-ciudad-chihuahua-146801257.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/46/80/12/57/720x532/1540834131.jpg",
+      "datePosted": "3/6/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Providencia de Santa Clara"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "GL Bienes Raíces",
+      "description": "Casa en Venta en Altozano – Cluster Venado. Chihuahua, Chihuahua. Residencia ubicada a espaldas del Club Altozano, dentro del fraccionamiento Cluster Venado, con frente a área verde y excelentes acabados que ofrecen confort, diseño y alta plusvalía. Superficie: - Terreno: 180 m² - Construcción: 290 m² Distribución. Planta Baja: - Sala. - Comedor. - Cocina integral. - Medio baño de visitas. - Alacena. - Área de lavandería. - Patio. - Patio de servicio. - Cochera techada para 2 autos. Planta Alta: - Estancia familiar. - Recámara principal con baño completo y vestidor. - Dos recámaras secundarias, cada una con baño completo y vestidor. sótano: Cuarto de juegos con preparación para baño y salida al patio. Acabados y Equipamiento: - Ventanería de doble vidrio. - Carpintería en chapa de encino. - Cubiertas de granito. - Aljibe. - Preparación para minisplits. - Instalación para gas natural. Vive en una de las zonas residenciales más exclusivas de Chihuahua, con seguridad, áreas verdes y un entorno de primer nivel. Más información: Ver datos - 6Ver datos - gl bienes raíces",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-venta-altozano-6-650-000-gl1-148464048.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/46/40/48/720x532/1577698596.jpg",
+      "datePosted": "2/19/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Altozano el Nuevo Chihuahua"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "MITLICH ASESORES INMOBILIARIOS",
+      "description": "Casa en venta zona canteras $5, 900, 000. Casa en venta equipada ubicada en Fraccionamiento residencial privado con vigilancia las 24 ubicado en una de las zonas mas exclusivas de la ciudad a unos minutos del Periférico de la Juventud, plusvalía garantizada con cercanías a escuelas, plazas de comercios, gym supermercados, restaurantes, Iglesias, parques, cines, farmacias, hospitales, gasolineras, servicio de trasporte público. Precio $5, 900, 000. terreno 278 m2 construccion 223 m2 Planta Baja: Sala comedor Cocina equipada estufa campana con cubierta de cuarzo, medio baño, Jardin, Lavandería, Cochera para 2 autos. Planta alta: tres recámaras principal con baño y vestidor, las otras con closet y comparten baño, estancia grande. Equipo: Cocina Integral con estufa y campana. Boiler Calefacción Aire Cisterna Hidroneumático Alarma Portón eléctrico Tanque estacionario Lámparas de techo Alarma Persianas Línea telefónica. Sistema de riego. Mitlich asesores inmobiliarios. Ver datosVer datos.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-zona-canteras-$5-900-000.-146265333.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/46/26/53/33/720x532/1527697647.jpg",
+      "datePosted": "3/13/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Las Canteras"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Diamate Platinum",
+      "description": "Residencia en venta ubicada en el fraccionamiento Denali Rejón, un desarrollo residencial exclusivo con acceso controlado y circuito interno, ideal para quienes buscan seguridad, diseño y plusvalía. La propiedad se entrega totalmente amueblada y cuenta con un diseño moderno de doble altura, con espacios pensados para disfrutar en familia. La casa cuenta con 245 m² de construcción sobre un terreno de 228 m² y es de tipo térmica. En planta baja se distribuyen la sala, comedor, cocina, estancia, medio baño para visitas, alacena, lavandería y cochera con capacidad para dos autos. En la planta alta se encuentra la recámara principal con baño completo, dos recámaras secundarias que comparten baño, una estancia adicional y balcón, brindando comodidad y funcionalidad en el área privada. La residencia destaca por sus acabados de lujo, que incluyen escaleras con doble altura, construcción en ladrillo, carpintería con enchapados de encino, ventanería de doble vidrio, losas tipo Estructurek en azotea, losas aligeradas en entrepiso y cisterna con capacidad de 2, 800 litros. Un proyecto que combina diseño contemporáneo, calidad constructiva y excelente ubicación dentro de una zona residencial consolidada. Una oportunidad única para vivir en un entorno exclusivo y con alto valor patrimonial.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-se-vende-casa-amueblada-en-fraccionamiento-denali-148260053.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/26/00/53/720x532/1590105861.jpg",
+      "datePosted": "2/25/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Diamante Reliz"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "METRIUM LIVING",
+      "description": "Casa en venta en asturias – frente A parque Y con recámara en planta baja. Una residencia moderna, elegante y perfectamente ubicada frente a parque. Ideal para familias que buscan confort, amplitud y acabados de lujo en una de las zonas más exclusivas de la ciudad. Ubicación: Fraccionamiento Asturias – Zona Cantera. Precio: $6, 300, 000 mxn. Terreno: 240 m² ️ Construcción: 275 m² Estacionamiento: 2 cajones techados. ⸻ Distribución General. Planta Baja. - Cochera techada para dos autos. - ️ Recámara en planta baja con baño completo. - Medio baño de visitas. - ️ Cocina integral equipada con herrajes Blum, cubierta de granito y tarja multifunción. - ️ Área de sala – comedor con excelente iluminación natural. - Lavandería independiente. - Jardín decorativo debajo de la escalera. - Patio posterior. - Terraza con pérgola, conexiones de agua y gas listas para asador y tarja. ⸻ Planta Alta. - ️ Dos recámaras secundarias, cada una con walk-in clóset y baño completo. - Estancia familiar. - Terraza amplia, ideal para eventos o reuniones. ⸻ ️ Equipamiento y Acabados. - Piso tipo porcelanato 60x120 cm. - Ventanería de aluminio con doble vidrio (aislante térmico y acústico) - Carpintería enchapada en encino. - ️ Construcción con bloc térmico (Ecobloc) e impermeabilizante con placa aislante en azotea. - Gas natural. - ️ Aire acondicionado por 2 aires lavados. - Boiler de 30 galones, hidroneumático y tinaco de 2, 800 litros. ⸻ Amenidades del Fraccionamiento. - ️ Ubicación frente a parque. - Áreas verdes y juegos infantiles. - Zona tranquila, segura y con excelente conectividad. ⸻ Casa completamente nueva, lista para habitar y con acabados premium. Un hogar perfecto para quienes buscan diseño moderno, confort y ubicación privilegiada.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-asturias-frente-a-parque-con-rec-148672953.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/67/29/53/720x532/1581968611.jpg",
+      "datePosted": "1/19/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Asturias Residencial"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Kasar Bienes Raices",
+      "description": "¡solo de contado! Espacios: 2 Niveles. ️ 2 Recámaras amplias. ️ Sala. ️ Comedor. Cocina. 2. 5 Baños. Patio. Cochera para 2 autos. medidas: Superficie: 120 m² Construcción: 121 m² Informes y citas: Ver datos-29-18",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-con-121-m-sup2--de-construccion-en-148673271.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/67/32/71/720x532/1581976141.jpg",
+      "datePosted": "2/24/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Quintas Montecarlo"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Activos Bienes Raices",
+      "description": "Casa muy acogedora y muy buenos acabados, cerca del parque, venga a conocerla. Terreno: 252 m2. Construcción: 295 m2. Planta Baja. - sala. -comedor. - baño vistas. - cocina integral con cubierta de cuarzo. - buen tamaño de jardín. - doble cochera. Planta Alta. - Estancia. - 3 recámaras con vestidor y baño cada una.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-venta-en-bosque-real-chihuahua-144493473.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/44/49/34/73/720x532/1484552994.jpg",
+      "datePosted": "9/26/25",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Bosque Real"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "INMOBILIARIA BR OPCIONES",
+      "description": "Casa en venta de una planta – col. Infonavit nacional. Calle Río Aros | Chihuahua, Chih. Excelente oportunidad de adquirir una casa cómoda y funcional de una sola planta, ubicada en la Colonia Infonavit Nacional, en calle semi privada, lo que brinda mayor tranquilidad, poco tráfico y un ambiente más seguro para la familia. Una propiedad ideal para quienes buscan espacios amplios en un solo nivel y buena ubicación dentro de la ciudad. Terreno: 180 m² Construcción: 153 m² Distribución. Sala – comedor. Estancia. Cocina integral. 3 recámaras. Baño. Cochera para 1 auto. Pasillo de servicio. Patio amplio con asador. ️ Equipamiento. Boiler. Tinaco. Lavadora. Barandal. 2 abanicos. Preparación para gas Natural. Preparación para Aire acondicionado. Se aceptan créditos hipotecarios. Inversión: $2, 350, 000 mxn. Propiedad con excelente potencial, buena distribución y ubicada en una calle tranquila, ideal para vivir con comodidad. Agenda tu cita para conocerla. Guillermo Romero - Asesor Inmobiliario. Ver datos",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-de-una-planta-en-col.-infonavit-nacional-149260996.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/49/26/09/96/720x532/1594209437.jpg",
+      "datePosted": "3/17/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Infonavit Nacional"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "METRIUM LIVING",
+      "description": "Planta baja: -Recibidor -Medio baño -Sala -Comedor -Cocina -Lavandería -Patio Planta alta: -Estancia -Recámara principal con armario y baño -Recámara secundaria 1 con baño -Recámara secundaria 2 con bañoEquipamiento: -Cisterna 5, 000 lts-Hidroneumático-Boiler-Gas lp 500 lt-Dos aires acondicionados-Dos calefacciones-Estufa-Refrigerador-Persianas-Candiles-Lámparas",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-pedregales-frente-a-parque-zona-valles-148053922.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/05/39/22/720x532/1569441530.jpg",
+      "datePosted": "12/3/25",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Pedregal de San Ángel"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "BEALL BIENES RAICES",
+      "description": "¡Casa en venta al norte de la ciudad, en Residencial Bahías! Si buscas comodidad, amplitud y excelente ubicación… ¡esta es la opción perfecta para tu familia. Cuenta con: Planta baja · Recibidor · 12 baño · Cocina · Sala comedor · Área de lava trastes independiente · Cochera para 2 autos con portón eléctrico y cerámica. Planta alta: 2 recamara secundaria con vestidor · Baño completo compartido · 1 Recamara principal con vestidor y baño completo · Balcón hacia el patio. Patio: Patio con cerámica · Bodega · Cuarto de juegos con minisplit y puerta de cristal. Equipamiento Bahias. 10 paneles solares con inversor de 5000 Watts · Hidroneumatico con wifi · Boiler · Cocineta de madera · 4 minisplits · 2 aires lavados · 2 tinacos de 1100 lts · 1 unidad de calefacción · Recién pintada. Construcción planta baja planta alta: 226. 39 m2. Ampliación: 119. 65 m2. Construcción total: 346 m2. 298 mts de terreno. Licencia Inmobiliaria lpsi Ver datos2022. Facebook: beallbienesraices. Telefonos de contacto 614 2 52 38 83.  614 2 34 7147. Aviso legal: Los precios y condiciones de venta o arrendamiento publicados por cualquier medio son de carácter informativo y pueden cambiar sin previo aviso, el precio de ventarenta anunciado no representa una oferta o compromiso formal y tiene vigencia limitada. Toda operación u oferta formal esta sujeta a la celebración y firma de un contrato de arrendamiento o de compra venta y de servicios de intermediación inmobiliaria.",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-al-norte-de-la-ciudad-en-residencial-148300194.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/30/01/94/720x532/1574410870.jpg",
+      "datePosted": "2/25/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Bahías"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "ABBA Promotores Inmobiliarios",
+      "description": "Amplisima casa lista para habitarse. En planta baja: sala con doble altura, comedor, cocina amplia con despensa, medio baño, recamara principal con amplio vestidor Y baño completo, lavanderia. En planta alta: 2 recamaras cada una con baño vestidor, cuarto de estudio O cuarta recamara ademas de una amplia estancia. Jardin trasero con pasto Y ceramica, sotano con bodega. Equipo: boiler, cocina equipada con estufa Y tarja, 2 aires acondicionados, hidroneumatico",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-bosques-del-valle-i-148012338.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/01/23/38/720x532/1575013338.jpg",
+      "datePosted": "3/4/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Bosques del Valle"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "Famar Bienes Raices",
+      "description": "Casa en venta en Residencial Valle de Angel ii Etapa -Zona exclusiva con excelente conectividad al periférico de la juventud y cantera -Parque enfrente-Cerca de Hospital -Cerca de Distrito 1Planta baja -Cocina de madera y granito con estufa-Estancia comedor -Porche cubierto con portón eléctrico -Pisos de madera y marmol -Puertas y acabados en madera solida -Recamara principal con tina y vestidor cerrado -Patio -Medio baño-Espacio de lavanderia con closet Planta alta -Terraza en recamara -Terraza en sala -Closets en madera solida -Baños separados -Recamara con posibilidad a hacerle terrazaSótano -Cuarto de almacén -Cuarto tipo estudio Famar Bienes Raíces Bosque de la Antequera #1800 Int. 3 y 4 Col. Los Sicomoros, cuuVer datos¡Una experiencia de 20 años en el mercado nos respaldan! .",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-residencial-valle-de-angel-143886637.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/43/88/66/37/720x532/1532358141.jpg",
+      "datePosted": "3/13/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Valle del Angel"
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    },
+    {
+      "type": "RealEstateListing",
+      "name": "CENTURY 21 CENSUS",
+      "description": "Rcv5041. 2 niveles, 3 recamaras, 2. 5 baños. Planta baja: sala, comedor, cocina integral, lavanderia interior y medio baño. Planta alta: estancia, recamara principal con closet, vestidor y baño privado, recamara 2 y 3 con closet cada una y baño compartido. Equipo: cocina integral de encino con cubierta de fórmica y tarja, aire acondicionado, calefaccion, boiler, gas natural, riego manual, hidroneumático, cisterna, portón eléctrico, alarma, luz 110 y persianas (varios estilos). Acabados y construcción: piso laminado y cemento en cochera y patio, carpintería de encino, ventaneria doble vidrio, acabados en muros de pintura, techos de concreto y muros de ladrillo termico. Estacionamiento: cubierto para 2 autos y patio. * Fraccionamiento privado. * Térmica. * Parques y canchas de basquetbol. Elena murillo",
+      "url": "https://www.inmuebles24.com/propiedades/clasificado/veclcain-casa-en-venta-en-fraccionamiento-lomas-universidad-iii-148356189.html",
+      "image": "https://img10.naventcdn.com/avisos/18/01/48/35/61/89/720x532/1576807924.jpg",
+      "datePosted": "2/10/26",
+      "contentLocation": {
+        "type": "Place",
+        "name": "Fraccionamiento Lomas Universidad "
+      },
+      "countryOfOrigin": {
+        "type": "Country",
+        "name": "Mexico"
+      }
+    }
+  ]
+}
+	

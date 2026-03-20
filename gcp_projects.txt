@@ -1,0 +1,14 @@
+﻿PROJECT_ID                      NAME
+autonomous-key-454803-m2        Bluejax
+beaming-prism-386918            My First Project
+gen-lang-client-0529605105      BrowserOS
+gen-lang-client-0745549237      Pulpo
+gen-lang-client-0852375481      Asilo
+gen-lang-client-0992984859      Gemini Project
+leads-gorilla-395423            Leads Gorilla
+leafy-outrider-367220           My First Project
+magnetic-glass-395523           My First Project
+qualified-cedar-453220-s9       make google maps scraper
+real-419620                     Real
+real-bot-419621                 REAL BOT
+sys-52432779239817333178243324  Webhooks for Sheets

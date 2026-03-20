@@ -105,21 +105,33 @@ export async function GET(req: NextRequest) {
 
         // 3. Unify Results
         const unified = [
-            ...canonical.map((c: any) => ({
-                id: c.id,
-                type: 'CANONICAL',
-                title: c.title,
-                price: c.price,
-                address: c.address,
-                status: c.status,
-                image: (function () {
-                    try { return c.images ? JSON.parse(c.images)[0] : null; }
-                    catch (e) { return null; }
-                })(),
-                trustScore: c.trustScore,
-                source: c.source,
-                updatedAt: c.updatedAt
-            })),
+            ...canonical.map((c: any) => {
+                let parsedImages: string[] = [];
+                try { parsedImages = c.images ? JSON.parse(c.images) : []; } catch (e) { }
+                return {
+                    id: c.id,
+                    type: 'CANONICAL',
+                    title: c.title,
+                    description: c.description,
+                    price: c.price,
+                    address: c.address,
+                    city: c.city,
+                    state: c.state,
+                    status: c.status,
+                    propertyType: c.propertyType,
+                    image: parsedImages[0] || null,
+                    images: parsedImages,
+                    trustScore: c.trustScore,
+                    source: c.source,
+                    sourceUrl: c.sourceUrl,
+                    bedrooms: (c as any).bedrooms || 0,
+                    bathrooms: (c as any).bathrooms || 0,
+                    area: (c as any).area || 0,
+                    lat: c.mapUrl?.includes(',') ? parseFloat(c.mapUrl.split(',')[0]) : null,
+                    lng: c.mapUrl?.includes(',') ? parseFloat(c.mapUrl.split(',')[1]) : null,
+                    updatedAt: c.updatedAt
+                };
+            }),
             ...observed.map((o: any) => {
                 let imgUrl = null;
                 let rawData: any = {};
@@ -153,7 +165,9 @@ export async function GET(req: NextRequest) {
                     source: o.snapshot?.source?.name || 'Unknown',
                     sourceUrl: o.snapshot?.url,
                     updatedAt: o.createdAt,
-                    confidence: o.confidenceScore
+                    confidence: o.confidenceScore,
+                    lat: o.lat || null,
+                    lng: o.lng || null
                 };
             })
         ];

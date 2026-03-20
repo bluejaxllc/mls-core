@@ -1,0 +1,123 @@
+INTERACTIVE ELEMENTS (Snapshot ID: 40):
+Processing time: 25ms
+
+Clickable elements:
+     [1] <C> <body> 
+         [2] <C> <a> "Redhat Developers Logo" (hidden)
+         [3] <C> <button> "Products" (hidden)
+         [4] <C> <button> "Technologies" (hidden)
+         [5] <C> <button> "Learn" (hidden)
+         [6] <C> <button> "Developer Sandbox" (hidden)
+         [7] <C> <a> "Blog" (hidden)
+         [8] <C> <a> "Events" (hidden)
+         [9] <C> <a> "Videos" (hidden)
+         [10] <C> <button> "Search" (hidden)
+         [11] <C> <button> "All Red Hat" (hidden)
+         [12] <C> <button> "Open account menu" (hidden)
+         [13] <C> <a> "direct link" (hidden)
+     [14] <C> <a> (hidden)
+         [15] <C> <a> "Download" (hidden)
+         [16] <C> <a> "More ways to try" (hidden)
+         [17] <C> <a> "Overview" (hidden)
+         [18] <C> <a> "Download/Install" (hidden)
+         [19] <C> <a> "Getting started" (hidden)
+       [20] <C> <a> "Home" (hidden)
+       [21] <C> <a> "Products" (hidden)
+       [22] <C> <a> "Red Hat build of OpenJDK" (hidden)
+         [23] <C> <a> "Copy snippet" 
+         [24] <C> <a> "Developer Sandbox" 
+         [25] <C> <a> "Copy snippet" 
+         [26] <C> <a> "Developer Sandbox" 
+         [27] <C> <a> "Copy snippet" 
+         [28] <C> <a> "Developer Sandbox" 
+       [29] <C> <a> "Try now" 
+       [30] <C> <a> "Learn more" (hidden)
+       [31] <C> <a> "Try now" (hidden)
+       [32] <C> <a> "Certified Container Images" (hidden)
+       [33] <C> <a> "Try now" 
+       [34] <C> <a> "Learn more" (hidden)
+       [35] <C> <a> "Download container images" (hidden)
+       [36] <C> <a> "Download MTA" (hidden)
+       [37] <C> <a> "Developer Sandbox" (hidden)
+         [38] <C> <a> "FAQ" (hidden)
+         [39] <C> <a> "Getting started on Windows" (hidden)
+         [40] <C> <a> "Datasheet" (hidden)
+         [41] <C> <a> "Lifecycle & support policy" (hidden)
+         [42] <C> <rh-tile> (hidden)
+             [43] <C> <a> "Temurin JDK 25 now available in Red H..." (hidden)
+         [44] <C> <rh-tile> (hidden)
+             [45] <C> <a> "Diagnose Java applications using Cryo..." (hidden)
+         [46] <C> <rh-tile> (hidden)
+             [47] <C> <a> "The case for building enterprise agen..." (hidden)
+         [48] <C> <rh-tile> (hidden)
+             [49] <C> <a> "OpenJDK 25 now available in Red Hat E..." (hidden)
+         [50] <C> <rh-tile> (hidden)
+             [51] <C> <a> "JVM tuning for Red Hat Data Grid on R..." (hidden)
+         [52] <C> <rh-tile> (hidden)
+             [53] <C> <a> "Jlink integration with OpenShift tech..." (hidden)
+         [54] <C> <rh-tile> (hidden)
+             [55] <C> <a> "Observability Front and Center with t..." (hidden)
+         [56] <C> <rh-tile> (hidden)
+             [57] <C> <a> "Effortless Java Observability with Cr..." (hidden)
+         [58] <C> <a> "Subscriptions" (hidden)
+         [59] <C> <a> "Training & certifications" (hidden)
+         [60] <C> <a> "Consulting" (hidden)
+     [61] <C> <a> "   " 
+       [62] <C> <a> "Red Hat Developers logo" (hidden)
+       [63] <C> <a> "LinkedIn" (hidden)
+       [64] <C> <a> "LinkedIn" (hidden)
+       [65] <C> <a> "YouTube" (hidden)
+       [66] <C> <a> "YouTube" (hidden)
+       [67] <C> <a> "Twitter" (hidden)
+       [68] <C> <a> "Twitter" (hidden)
+       [69] <C> <a> "Facebook" (hidden)
+       [70] <C> <a> "Facebook" (hidden)
+     [71] <C> <a> "Red Hat AI" (hidden)
+     [72] <C> <a> "Red Hat Enterprise Linux" (hidden)
+     [73] <C> <a> "Red Hat OpenShift" (hidden)
+     [74] <C> <a> "Red Hat Ansible Automation Platform" (hidden)
+     [75] <C> <a> "See all products" (hidden)
+     [76] <C> <a> "Developer Sandbox" (hidden)
+     [77] <C> <a> "Developer tools" (hidden)
+     [78] <C> <a> "Interactive tutorials" (hidden)
+     [79] <C> <a> "API catalog" (hidden)
+     [80] <C> <a> "Learning resources" (hidden)
+     [81] <C> <a> "E-books" (hidden)
+     [82] <C> <a> "Cheat sheets" (hidden)
+     [83] <C> <a> "Blog" (hidden)
+     [84] <C> <a> "Events" (hidden)
+     [85] <C> <a> "Newsletter" (hidden)
+     [86] <C> <a> "About us" (hidden)
+     [87] <C> <a> "Contact sales" (hidden)
+     [88] <C> <a> "Find a partner" (hidden)
+     [89] <C> <a> "Report a website issue" (hidden)
+     [90] <C> <a> "Site status dashboard" (hidden)
+     [91] <C> <a> "Report a security problem" (hidden)
+       [92] <C> <a> "Sign me up " (hidden)
+     [93] <C> <a> "Visit Red Hat" (hidden)
+     [94] <C> <a> "About Red Hat" (hidden)
+     [95] <C> <a> "Jobs" (hidden)
+     [96] <C> <a> "Events" (hidden)
+     [97] <C> <a> "Locations" (hidden)
+     [98] <C> <a> "Contact Red Hat" (hidden)
+     [99] <C> <a> "Red Hat Blog" (hidden)
+     [100] <C> <a> "Inclusion at Red Hat" (hidden)
+     [101] <C> <a> "Cool Stuff Store" (hidden)
+     [102] <C> <a> "Red Hat Summit" (hidden)
+     [103] <C> <a> "Privacy statement" (hidden)
+     [104] <C> <a> "Terms of use" (hidden)
+     [105] <C> <a> "All policies and guidelines" (hidden)
+     [106] <C> <a> "Digital accessibility" (hidden)
+     [107] <C> <a> "Cookie Preferences, opens a dedicated..." (hidden)
+           [108] <C> <a> "Privacy Statement" 
+       [109] <C> <button> "Close" 
+         [110] <C> <button> "Accept all" 
+         [111] <C> <button> "More options" 
+
+Legend:
+  [nodeId] - Use this number to interact with the element
+  <C> - Clickable element
+  <T> - Typeable/input element
+  (hidden) - Element is out of viewport, may need scrolling
+  Indentation shows DOM depth
+  attr:"..." - Element attributes (type, placeholder, value, aria-label)
