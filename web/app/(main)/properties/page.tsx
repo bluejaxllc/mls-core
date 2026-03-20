@@ -25,6 +25,7 @@ export default function PropertiesPage() {
     // Sync state
     const [syncing, setSyncing] = useState(false);
     const [syncResult, setSyncResult] = useState('');
+    const [lastSync, setLastSync] = useState<string | null>(null);
 
     // Pagination & Filters State
     const [page, setPage] = useState(1);
@@ -47,6 +48,17 @@ export default function PropertiesPage() {
     useEffect(() => {
         fetchListings();
     }, [page, limit, city, listingType, propertyType, bedrooms, bathrooms, minPrice, maxPrice, source]);
+
+    // Fetch the latest sync timestamp on mount
+    useEffect(() => {
+        fetch(`${API_URL}/api/search?limit=1`)
+            .then(r => r.json())
+            .then(data => {
+                const latest = data?.data?.[0]?.updatedAt;
+                if (latest) setLastSync(new Date(latest).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' }));
+            })
+            .catch(() => { });
+    }, []);
 
     const fetchListings = async () => {
         try {
@@ -92,6 +104,7 @@ export default function PropertiesPage() {
                 const data = await res.json();
                 setSyncResult(`✓ ${data.saved} nuevas, ${data.skipped} existentes`);
                 toast.success(`Sincronización completa: ${data.saved} nuevas propiedades`);
+                setLastSync(new Date().toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' }));
                 // Refresh listings from DB
                 fetchListings();
             } else {
@@ -113,7 +126,7 @@ export default function PropertiesPage() {
         }
         try {
             const criteria = JSON.stringify({ city, listingType, searchQuery, bedrooms, bathrooms, minPrice, maxPrice });
-            const name = `${city !== 'All' ? city : 'Todas'} â€” ${listingType === 'RENT' ? 'Renta' : listingType === 'SALE' ? 'Venta' : 'Todo'}${searchQuery ? ` â€” "${searchQuery}"` : ''}`;
+            const name = `${city !== 'All' ? city : 'Todas'} — ${listingType === 'RENT' ? 'Renta' : listingType === 'SALE' ? 'Venta' : 'Todo'}${searchQuery ? ` — "${searchQuery}"` : ''}`;
 
             const res = await fetch(`${API_URL}/api/protected/saved-searches`, {
                 method: 'POST',
@@ -184,6 +197,13 @@ export default function PropertiesPage() {
                             <span className="hidden sm:inline">{syncing ? 'Sincronizando...' : 'Sincronizar'}</span>
                         </AnimatedButton>
 
+                        {/* Last Sync Timestamp */}
+                        {lastSync && (
+                            <span className="text-[10px] text-muted-foreground hidden sm:block whitespace-nowrap" title="Última sincronización">
+                                Último sync: {lastSync}
+                            </span>
+                        )}
+
                         {/* View Toggle */}
                         <div className="flex bg-muted rounded-lg p-0.5 h-9">
                             {([
@@ -250,7 +270,6 @@ export default function PropertiesPage() {
                             <option value="Lamudi">Lamudi</option>
                             <option value="Mercado Libre">Mercado Libre</option>
                             <option value="Inmuebles24">Inmuebles24</option>
-                            <option value="Vivanuncios">Vivanuncios</option>
                             <option value="Facebook Marketplace">Facebook</option>
                         </select>
 

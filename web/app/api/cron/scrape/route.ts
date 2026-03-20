@@ -35,7 +35,6 @@ export async function GET(req: NextRequest) {
         { name: 'Mercado Libre', portal: 'ml', url: 'https://inmuebles.mercadolibre.com.mx/inmuebles/venta/chihuahua/chihuahua/', timeout: 150000 },
         { name: 'Inmuebles24', portal: 'inmuebles24', url: 'https://www.inmuebles24.com/inmuebles-en-venta-en-chihuahua.html', timeout: 180000 },
         { name: 'Lamudi', portal: 'lamudi', url: 'https://www.lamudi.com.mx/chihuahua/chihuahua-1/for-sale/', timeout: 180000 },
-        { name: 'Vivanuncios', portal: 'vivanuncios', url: 'https://www.vivanuncios.com.mx/inmuebles-en-venta-en-chihuahua.html', timeout: 180000 },
     ];
 
     // Run all scrapers in parallel
