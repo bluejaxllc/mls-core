@@ -270,6 +270,10 @@ export default function PropertiesPage() {
                             <option value="Lamudi">Lamudi</option>
                             <option value="Mercado Libre">Mercado Libre</option>
                             <option value="Inmuebles24">Inmuebles24</option>
+                            <option value="Century 21">Century 21</option>
+                            <option value="RE/MAX">RE/MAX</option>
+                            <option value="Realtor">Realtor</option>
+                            <option value="Pincali">Pincali</option>
                             <option value="Facebook Marketplace">Facebook</option>
                         </select>
 

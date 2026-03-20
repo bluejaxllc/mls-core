@@ -16,7 +16,7 @@ const CRON_SECRET = process.env.CRON_SECRET || 'bluejax-cron-2026';
 /**
  * GET /api/cron/scrape
  * Called by Vercel Cron daily (or manually with ?secret=...).
- * Scrapes all 5 portals via the proxy and saves results to the Listing table.
+ * Scrapes all 8 portals via the proxy and saves results to the Listing table.
  */
 export async function GET(req: NextRequest) {
     // Verify cron secret (Vercel sends Authorization header for cron jobs)
@@ -35,6 +35,10 @@ export async function GET(req: NextRequest) {
         { name: 'Mercado Libre', portal: 'ml', url: 'https://inmuebles.mercadolibre.com.mx/inmuebles/venta/chihuahua/chihuahua/', timeout: 150000 },
         { name: 'Inmuebles24', portal: 'inmuebles24', url: 'https://www.inmuebles24.com/inmuebles-en-venta-en-chihuahua.html', timeout: 180000 },
         { name: 'Lamudi', portal: 'lamudi', url: 'https://www.lamudi.com.mx/chihuahua/chihuahua-1/for-sale/', timeout: 180000 },
+        { name: 'Century 21', portal: 'century21', url: 'https://century21mexico.com/v/resultados/en-pais_mexico/en-estado_chihuahua/en-municipio_chihuahua-chihuahua', timeout: 180000 },
+        { name: 'RE/MAX', portal: 'remax', url: 'https://remax.com.mx/propiedades/chihuahua_chihuahua', timeout: 180000 },
+        { name: 'Realtor', portal: 'realtor', url: 'https://www.realtor.com/international/mx/chihuahua/', timeout: 180000 },
+        { name: 'Pincali', portal: 'pincali', url: 'https://www.pincali.com/chihuahua/venta/inmuebles', timeout: 180000 },
     ];
 
     // Run all scrapers in parallel
@@ -75,12 +79,19 @@ export async function GET(req: NextRequest) {
         const source = item.source || 'Unknown';
 
         try {
+            const imgArr = item.images || (item.imageUrl ? [item.imageUrl] : []);
             await prisma.listing.upsert({
                 where: { unique_source_listing: { sourceId, source } },
                 update: {
                     price: item.price || undefined,
                     status: item.status || undefined,
                     lastVerifiedAt: new Date(),
+                    // Update rich content when available
+                    ...(item.description ? { description: item.description } : {}),
+                    ...(imgArr.length > 0 ? { images: JSON.stringify(imgArr) } : {}),
+                    ...(item.address || item.location ? { address: item.address || item.location } : {}),
+                    ...(item.city ? { city: item.city } : {}),
+                    ...(item.state ? { state: item.state } : {}),
                 },
                 create: {
                     propertyId: `SCR-${sourceId.slice(0, 12)}`,
@@ -96,7 +107,7 @@ export async function GET(req: NextRequest) {
                     sourceId,
                     sourceUrl: item.sourceUrl || item.url || null,
                     listingType: item.listingType || 'SALE',
-                    images: JSON.stringify(item.images || (item.imageUrl ? [item.imageUrl] : [])),
+                    images: JSON.stringify(imgArr),
                     trustScore: 30,
                     scrapedAt: new Date(),
                 },
