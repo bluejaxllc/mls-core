@@ -41,11 +41,7 @@ async function scrapeMLSinglePage(url) {
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
-        await page.setRequestInterception(true);
-        page.on('request', req => {
-            if (['image', 'stylesheet', 'font', 'media'].includes(req.resourceType())) req.abort();
-            else req.continue();
-        });
+        // Removed request interception because ML's Kasada/Cloudflare anti-bot blocks headless browsers that abort CSS and fonts.
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
         const html = await page.content();
         const marker = '_n.ctx.r=';
@@ -553,44 +549,84 @@ async function scrapeCentury21SinglePage(url) {
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
-        try { await page.waitForSelector('a.stretched-link, [class*="property"]', { timeout: 15000 }); } catch (_) { }
-        const listings = await page.evaluate(() => {
-            const cards = document.querySelectorAll('#main div[style*="box-shadow"], .card');
-            return Array.from(cards).map((card, i) => {
-                const linkEl = card.querySelector('a.stretched-link, a[href*="/propiedad/"]');
-                const title = linkEl?.textContent?.trim() || card.querySelector('h5, h6')?.textContent?.trim() || '';
-                const detailUrl = linkEl?.href || '';
-                const idMatch = detailUrl.match(/\/(\d+)/);
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+        // Wait for property cards — C21 uses btnVerDetalle links inside card containers
+        try { await page.waitForSelector('a.btnVerDetalle, a.stretched-link, a[href*="/propiedad/"]', { timeout: 20000 }); } catch (_) { }
+        // Extra wait for dynamic content
+        await new Promise(r => setTimeout(r, 3000));
+
+        const listings = await page.evaluate((sourceUrl) => {
+            // Find all links to property detail pages — each represents one listing
+            const detailLinks = document.querySelectorAll('a.btnVerDetalle, a[href*="/propiedad/"]');
+            const seen = new Set();
+            const results = [];
+
+            detailLinks.forEach((link, i) => {
+                const detailUrl = link.href || '';
+                if (!detailUrl || seen.has(detailUrl)) return;
+                seen.add(detailUrl);
+
+                const idMatch = detailUrl.match(/\/propiedad\/(\d+)/);
                 const id = idMatch ? idMatch[1] : `c21-${i}`;
-                const priceEl = card.querySelector('h5, [class*="price"]');
-                const priceText = priceEl?.textContent || '';
-                const priceMatch = priceText.match(/\$\s*([\d,]+(?:\.\d+)?)/);
+
+                // Walk up to find the card container
+                let card = link.closest('.card') || link.closest('[class*="col"]') || link.parentElement?.parentElement?.parentElement;
+                if (!card) card = link.parentElement;
+
+                const text = card?.textContent || '';
+                // Find price — look for $ followed by numbers
+                const priceMatch = text.match(/\$\s*([\d,]+(?:\.\d+)?)/);
                 const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
-                const locationEl = card.querySelector('h2.text-muted, [class*="location"], .small.text-muted');
-                const location = locationEl?.textContent?.trim() || '';
-                const text = card.textContent || '';
+
+                // Find title — use stretched-link text or first heading
+                const titleEl = card?.querySelector('a.stretched-link') || card?.querySelector('h5, h6, h4');
+                const title = titleEl?.textContent?.trim() || '';
+
+                // Location
+                const locEl = card?.querySelector('.text-muted, small');
+                const location = locEl?.textContent?.trim() || '';
+
+                // Features
                 const bedsMatch = text.match(/(\d+)\s*(?:Rec|rec|Hab|hab)/i);
                 const bathsMatch = text.match(/(\d+)\s*(?:Ba[ñn]|ba[ñn])/i);
-                const areaMatch = text.match(/([\\d,]+)\\s*m/i);
-            const imgEl = card.querySelector('img[src*="http"]');
-            const images = imgEl ? [imgEl.src] : [];
-            let propertyType = 'HOUSE'; const lc = (title + ' ' + text).toLowerCase();
-            if (lc.includes('departamento') || lc.includes('apartment')) propertyType = 'APARTMENT';
-            else if (lc.includes('terreno') || lc.includes('lote')) propertyType = 'LAND';
-            else if (lc.includes('local') || lc.includes('oficina') || lc.includes('comercial')) propertyType = 'COMMERCIAL';
-            return { id: `c21-${id}`, title: title.substring(0, 150) || 'Propiedad en Century 21', price, currency: 'MXN', area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0, bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0, bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0, parking: 0, location, images, url: detailUrl, source: 'Century 21', propertyType, listingType: url.includes('renta') ? 'RENT' : 'SALE' };
-        }).filter(l => l.price > 0 || l.title.length > 5);
-    });
-    console.log(`[Century21] Page: ${listings.length} listings from ${url}`);
-    return listings;
-} finally { await page.close(); }
+                const areaMatch = text.match(/([\d,]+)\s*m/i);
+
+                // Image
+                const imgEl = card?.querySelector('img[src*="http"]');
+                const images = imgEl ? [imgEl.src] : [];
+
+                let propertyType = 'HOUSE';
+                const lc = (title + ' ' + text).toLowerCase();
+                if (lc.includes('departamento') || lc.includes('apartment')) propertyType = 'APARTMENT';
+                else if (lc.includes('terreno') || lc.includes('lote')) propertyType = 'LAND';
+                else if (lc.includes('local') || lc.includes('oficina') || lc.includes('comercial')) propertyType = 'COMMERCIAL';
+
+                results.push({
+                    id: `c21-${id}`,
+                    title: title.substring(0, 150) || 'Propiedad en Century 21',
+                    price, currency: 'MXN',
+                    area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0,
+                    bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0,
+                    bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0,
+                    parking: 0, location, images,
+                    url: detailUrl,
+                    source: 'Century 21',
+                    propertyType,
+                    listingType: sourceUrl.includes('renta') ? 'RENT' : 'SALE'
+                });
+            });
+            return results.filter(l => l.price > 0 || l.title.length > 5);
+        }, url);
+        console.log(`[Century21] Page: ${listings.length} listings from ${url}`);
+        return listings;
+    } finally { await page.close(); }
 }
 
-async function scrapeCentury21(url, maxPages = 3) {
+async function scrapeCentury21(url, maxPages = 10) {
     const allListings = new Map();
     for (let p = 1; p <= maxPages; p++) {
-        const pageUrl = p === 1 ? url : `${url}?page=${p}`;
+        const sep = url.includes('?') ? '&' : '?';
+        const pageUrl = p === 1 ? url : `${url}${sep}page=${p}`;
         console.log(`[Century21] Page ${p}/${maxPages}: ${pageUrl}`);
         const listings = await scrapeCentury21SinglePage(pageUrl);
         if (listings.length === 0) { console.log(`[Century21] Page ${p} returned 0, stopping.`); break; }
@@ -609,44 +645,97 @@ async function scrapeRemaxSinglePage(url) {
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
-        try { await page.waitForSelector('.propListCard, [class*="listing"]', { timeout: 15000 }); } catch (_) { }
-        const listings = await page.evaluate(() => {
-            const cards = document.querySelectorAll('.propListCard, [class*="prop-list-card"]');
-            return Array.from(cards).map((card, i) => {
-                const id = card.id || card.getAttribute('data-id') || `remax-${i}`;
-                const priceSpans = card.querySelectorAll('span');
-                let price = 0;
-                for (const s of priceSpans) {
-                    const m = s.textContent?.match(/\$\s*([\d,]+(?:\.\d+)?)/);
-                    if (m) { price = parseFloat(m[1].replace(/,/g, '')); break; }
-                }
-                const textParts = Array.from(card.querySelectorAll('span, p, div')).map(e => e.textContent?.trim()).filter(Boolean);
-                const title = textParts.find(t => t && t.length > 10 && !t.includes('$')) || 'Propiedad en RE/MAX';
-                const location = textParts.find(t => t && (t.includes('Chihuahua') || t.includes(',') || t.includes('Col.'))) || '';
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+        // RE/MAX loads a property list sidebar with #jsPropListSection
+        try { await page.waitForSelector('#jsPropListSection, .jsPropSection, [class*="prop"]', { timeout: 20000 }); } catch (_) { }
+        await new Promise(r => setTimeout(r, 3000));
+
+        const listings = await page.evaluate((sourceUrl) => {
+            // RE/MAX uses #jsPropListSection with child divs, each containing property info
+            const container = document.querySelector('#jsPropListSection');
+            const sections = container
+                ? container.querySelectorAll(':scope > div, .jsPropSection')
+                : document.querySelectorAll('.jsPropSection, [class*="prop-card"]');
+
+            return Array.from(sections).map((card, i) => {
                 const text = card.textContent || '';
-                const bedsMatch = text.match(/(\d+)\s*(?:Rec|rec|Hab|hab)/i);
+                if (text.length < 20) return null; // Skip empty dividers
+
+                // Extract ID from HTML structure or deterministic hash
+                const linkEl = card.querySelector('a[href*="/propiedad/"]');
+                let id = '';
+                let detailUrl = '';
+                if (linkEl && linkEl.href) {
+                    id = linkEl.href.split('/').filter(Boolean).pop();
+                    detailUrl = linkEl.href;
+                } else {
+                    const claveMatch = text.match(/Clave:\s*(?:CLR)?(\d+)/i);
+                    if (claveMatch) {
+                        id = claveMatch[1];
+                        detailUrl = `https://remax.com.mx/propiedad/${id}`;
+                    } else {
+                        // Deterministic hash to stop ID collisions for properties missing Clave!
+                        // We use the raw text and loop index to guarantee uniqueness
+                        const rawStr = text.substring(0, 100).replace(/\s+/g, '') + i;
+                        let h = 0;
+                        for (let k = 0; k < rawStr.length; k++) h = Math.imul(31, h) + rawStr.charCodeAt(k) | 0;
+                        id = `hash-${Math.abs(h)}`;
+                        detailUrl = sourceUrl; // fallback to search page url
+                    }
+                }
+
+                // Price
+                const priceMatch = text.match(/\$\s*([\d,]+(?:\.\d+)?)/);
+                const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
+
+                // Title — pull from the operation type + property type spans
+                const spans = Array.from(card.querySelectorAll('span, p, div'));
+                const textParts = spans.map(s => s.textContent?.trim()).filter(t => t && t.length > 3);
+                const title = textParts.find(t => t.length > 10 && !t.includes('$') && !t.includes('Clave')) || `Propiedad RE/MAX #${id}`;
+
+                // Location
+                const location = textParts.find(t => t.includes('Chihuahua') || t.includes('Col.') || t.includes(',')) || 'Chihuahua';
+
+                // Features
+                const bedsMatch = text.match(/(\d+)\s*(?:Rec|rec|Hab|hab|dormitorio)/i);
                 const bathsMatch = text.match(/(\d+)\s*(?:Ba[ñn]|ba[ñn])/i);
-                const areaMatch = text.match(/([\\d,]+)\\s*m/i);
-            const imgEl = card.querySelector('img[src*="http"]');
-            const images = imgEl ? [imgEl.src] : [];
-            const detailUrl = `https://remax.com.mx/propiedad/${id.replace(/[^\d]/g, '')}`;
-            let propertyType = 'HOUSE'; const lc = text.toLowerCase();
-            if (lc.includes('departamento')) propertyType = 'APARTMENT';
-            else if (lc.includes('terreno') || lc.includes('lote')) propertyType = 'LAND';
-            else if (lc.includes('local') || lc.includes('oficina') || lc.includes('comercial') || lc.includes('negocio')) propertyType = 'COMMERCIAL';
-            return { id: `remax-${id}`, title: title.substring(0, 150), price, currency: 'MXN', area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0, bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0, bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0, parking: 0, location, images, url: detailUrl, source: 'RE/MAX', propertyType, listingType: url.includes('renta') || url.includes('rent') ? 'RENT' : 'SALE' };
-        }).filter(l => l.price > 0 || l.title.length > 5);
-    });
-    console.log(`[RE/MAX] Page: ${listings.length} listings from ${url}`);
-    return listings;
-} finally { await page.close(); }
+                const areaMatch = text.match(/([\d,]+)\s*m/i);
+
+                // Image
+                const imgEl = card.querySelector('img[src*="http"]');
+                const images = imgEl ? [imgEl.src] : [];
+
+                let propertyType = 'HOUSE';
+                const lc = text.toLowerCase();
+                if (lc.includes('departamento')) propertyType = 'APARTMENT';
+                else if (lc.includes('terreno') || lc.includes('lote')) propertyType = 'LAND';
+                else if (lc.includes('local') || lc.includes('oficina') || lc.includes('comercial') || lc.includes('negocio')) propertyType = 'COMMERCIAL';
+
+                return {
+                    id: `remax-${id}`,
+                    title: title.substring(0, 150),
+                    price, currency: 'MXN',
+                    area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0,
+                    bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0,
+                    bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0,
+                    parking: 0, location, images,
+                    url: detailUrl,
+                    source: 'RE/MAX',
+                    propertyType,
+                    listingType: sourceUrl.includes('renta') || sourceUrl.includes('rent') ? 'RENT' : 'SALE'
+                };
+            }).filter(l => l && (l.price > 0 || l.title.length > 5));
+        }, url);
+        console.log(`[RE/MAX] Page: ${listings.length} listings from ${url}`);
+        return listings;
+    } finally { await page.close(); }
 }
 
-async function scrapeRemax(url, maxPages = 3) {
+async function scrapeRemax(url, maxPages = 10) {
     const allListings = new Map();
     for (let p = 1; p <= maxPages; p++) {
-        const pageUrl = p === 1 ? url : `${url}?page=${p}`;
+        const sep = url.includes('?') ? '&' : '?';
+        const pageUrl = p === 1 ? url : `${url}${sep}page=${p}`;
         console.log(`[RE/MAX] Page ${p}/${maxPages}: ${pageUrl}`);
         const listings = await scrapeRemaxSinglePage(pageUrl);
         if (listings.length === 0) { console.log(`[RE/MAX] Page ${p} returned 0, stopping.`); break; }
@@ -664,43 +753,77 @@ async function scrapeRealtorSinglePage(url) {
     const page = await b.newPage();
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
-        try { await page.waitForSelector('[data-testid="listing-card"], .listing-card, [class*="PropertyCard"], .srp-listing-card', { timeout: 15000 }); } catch (_) { }
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+        // Realtor international uses links with /international/mx/ path
+        try { await page.waitForSelector('a[href*="/international/mx/"], [class*="listing"], article', { timeout: 20000 }); } catch (_) { }
+        await new Promise(r => setTimeout(r, 3000));
+
         const listings = await page.evaluate((sourceUrl) => {
-            const cards = document.querySelectorAll('[data-testid="listing-card"], .listing-card, [class*="PropertyCard"], .srp-listing-card, article');
-            return Array.from(cards).map((card, i) => {
-                const linkEl = card.querySelector('a[href*="/international/"], a[href*="detail"]');
-                const detailUrl = linkEl?.href || '';
-                const id = detailUrl.match(/\/(\d+)/)?.[1] || `realtor-${i}`;
-                const titleEl = card.querySelector('[data-testid="listing-title"], h2, h3, [class*="title"], [class*="address"]');
-                const title = titleEl?.textContent?.trim() || '';
-                const priceEl = card.querySelector('[data-testid="listing-price"], [class*="price"], [class*="Price"]');
-                const priceText = priceEl?.textContent || '';
-                const priceMatch = priceText.match(/([\d,]+(?:\.\d+)?)/);
+            // Find all property links — each card is wrapped in an anchor
+            const links = document.querySelectorAll('a[href*="/international/mx/"]');
+            const seen = new Set();
+            const results = [];
+
+            links.forEach((link, i) => {
+                const detailUrl = link.href || '';
+                if (!detailUrl || seen.has(detailUrl) || detailUrl === sourceUrl) return;
+                // Skip navigation links (short paths)
+                if (detailUrl.split('/').length < 7) return;
+                seen.add(detailUrl);
+
+                const id = detailUrl.split('/').filter(Boolean).pop()?.replace(/[^a-zA-Z0-9]/g, '') || `realtor-${i}`;
+                const text = link.textContent || '';
+
+                // Price — often in USD
+                const priceMatch = text.match(/(?:USD|US\$|MXN|\$)\s*([\d,]+(?:\.\d+)?)/);
                 let price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
-                const isUSD = priceText.includes('USD') || priceText.includes('US$');
-                if (isUSD) price = Math.round(price * 18);
-                const locationEl = card.querySelector('[class*="address"], [class*="location"], [data-testid*="address"]');
-                const location = locationEl?.textContent?.trim() || title;
-                const text = card.textContent || '';
+                const isUSD = text.includes('USD') || text.includes('US$');
+                if (isUSD && price > 0) price = Math.round(price * 18);
+
+                // Title — first significant text block
+                const parts = text.split('\n').map(s => s.trim()).filter(s => s.length > 3);
+                const title = parts.find(p => !p.includes('$') && p.length > 8) || parts[0] || '';
+
+                // Location
+                const location = parts.find(p => p.includes('Chihuahua') || p.includes(',')) || 'Chihuahua, Mexico';
+
+                // Features
                 const bedsMatch = text.match(/(\d+)\s*(?:bed|Bed|rec|Rec|hab)/i);
                 const bathsMatch = text.match(/(\d+)\s*(?:bath|Bath|ba[ñn])/i);
-                const areaMatch = text.match(/([\\d,]+)\\s*m/i);
-        const imgEl = card.querySelector('img[src*="http"]');
-        const images = imgEl ? [imgEl.src] : [];
-        let propertyType = 'HOUSE'; const lc = text.toLowerCase();
-        if (lc.includes('condo') || lc.includes('apartment') || lc.includes('departamento')) propertyType = 'APARTMENT';
-        else if (lc.includes('land') || lc.includes('lot') || lc.includes('terreno')) propertyType = 'LAND';
-        else if (lc.includes('commercial') || lc.includes('office') || lc.includes('comercial')) propertyType = 'COMMERCIAL';
-        return { id: `realtor-${id}`, title: title.substring(0, 150) || 'Property on Realtor', price, currency: 'MXN', area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0, bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0, bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0, parking: 0, location, images, url: detailUrl, source: 'Realtor', propertyType, listingType: sourceUrl.includes('rent') ? 'RENT' : 'SALE' };
-    }).filter(l => l.title.length > 3);
-}, url);
-console.log(`[Realtor] Page: ${listings.length} listings from ${url}`);
-return listings;
+                const areaMatch = text.match(/([\d,]+)\s*(?:sqft|sq|m[²2])/i);
+
+                // Image
+                const imgEl = link.querySelector('img[src*="http"]');
+                const images = imgEl ? [imgEl.src] : [];
+
+                let propertyType = 'HOUSE';
+                const lc = text.toLowerCase();
+                if (lc.includes('condo') || lc.includes('apartment') || lc.includes('departamento')) propertyType = 'APARTMENT';
+                else if (lc.includes('land') || lc.includes('lot') || lc.includes('terreno')) propertyType = 'LAND';
+                else if (lc.includes('commercial') || lc.includes('office')) propertyType = 'COMMERCIAL';
+
+                results.push({
+                    id: `realtor-${id}`,
+                    title: title.substring(0, 150) || 'Property on Realtor',
+                    price, currency: 'MXN',
+                    area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0,
+                    bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0,
+                    bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0,
+                    parking: 0, location, images,
+                    url: detailUrl,
+                    source: 'Realtor',
+                    propertyType,
+                    listingType: sourceUrl.includes('rent') ? 'RENT' : 'SALE'
+                });
+            });
+            return results;
+        }, url);
+        console.log(`[Realtor] Page: ${listings.length} listings from ${url}`);
+        return listings;
     } finally { await page.close(); }
 }
 
-async function scrapeRealtor(url, maxPages = 5) {
+async function scrapeRealtor(url, maxPages = 10) {
     const allListings = new Map();
     for (let p = 1; p <= maxPages; p++) {
         const pageUrl = p === 1 ? url : `${url}pg-${p}/`;
@@ -715,61 +838,101 @@ async function scrapeRealtor(url, maxPages = 5) {
     return Array.from(allListings.values());
 }
 
-// ── Pincali Scraper ──────────────────────────────────────────────────────
+// ── Pincali Scraper (EasyBroker powered) ─────────────────────────────────
 async function scrapePincaliSinglePage(url) {
     const b = await getBrowser();
     const page = await b.newPage();
     try {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
         await page.setExtraHTTPHeaders({ 'Accept-Language': 'es-MX,es;q=0.9' });
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
-        try { await page.waitForSelector('.property-card, [class*="listing"], [class*="card"], article', { timeout: 15000 }); } catch (_) { }
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+        // Pincali uses EasyBroker — property cards are in li elements or a.property__content
+        try { await page.waitForSelector('a.property__content, a[href*="/propiedades/"], li img', { timeout: 20000 }); } catch (_) { }
+        await new Promise(r => setTimeout(r, 3000));
+
         const listings = await page.evaluate((sourceUrl) => {
-            // Try multiple selector patterns since Pincali may use various card structures
-            let cards = document.querySelectorAll('.property-card, [class*="property-item"], [class*="listing-card"]');
-            if (cards.length === 0) cards = document.querySelectorAll('article, .card, [class*="resultado"]');
-            if (cards.length === 0) {
-                // Fallback: try to find any repeated element with price-like content
-                const allDivs = document.querySelectorAll('div');
-                const pricePattern = /\$[\d,]+/;
-                const potentialCards = Array.from(allDivs).filter(d => {
-                    const t = d.textContent || '';
-                    return pricePattern.test(t) && d.querySelector('img') && d.querySelector('a');
+            // Try EasyBroker's property links first
+            let links = document.querySelectorAll('a.property__content, a[href*="/propiedades/"]');
+            if (links.length === 0) {
+                // Fallback: any link inside a list item that has an image
+                const lis = document.querySelectorAll('li');
+                links = [];
+                lis.forEach(li => {
+                    if (li.querySelector('img') && li.querySelector('a')) {
+                        const a = li.querySelector('a[href]');
+                        if (a) links.push(a);
+                    }
                 });
-                cards = potentialCards.length > 3 ? potentialCards : cards;
+                links = links.length > 0 ? links : document.querySelectorAll('a[href*="pincali"]');
             }
-            return Array.from(cards).map((card, i) => {
-                const linkEl = card.querySelector('a[href*="pincali"], a[href*="propiedad"], a[href*="inmueble"]') || card.querySelector('a');
-                const detailUrl = linkEl?.href || '';
-                const id = detailUrl.match(/\/(\d+)/)?.[1] || `pincali-${i}`;
-                const titleEl = card.querySelector('h2, h3, h4, [class*="title"], [class*="nombre"]');
-                const title = titleEl?.textContent?.trim() || linkEl?.textContent?.trim()?.substring(0, 100) || '';
+
+            const seen = new Set();
+            const results = [];
+
+            Array.from(links).forEach((link, i) => {
+                const detailUrl = link.href || '';
+                if (!detailUrl || seen.has(detailUrl) || detailUrl === sourceUrl) return;
+                seen.add(detailUrl);
+
+                const id = detailUrl.split('/').filter(Boolean).pop()?.replace(/[^a-zA-Z0-9-]/g, '') || `pincali-${i}`;
+
+                // Walk up to find the card container
+                const card = link.closest('li') || link.closest('div') || link;
                 const text = card.textContent || '';
+
+                // Price
                 const priceMatch = text.match(/\$\s*([\d,]+(?:\.\d+)?)/);
                 const price = priceMatch ? parseFloat(priceMatch[1].replace(/,/g, '')) : 0;
-                const locationEl = card.querySelector('[class*="ubic"], [class*="location"], [class*="address"], [class*="zona"]');
-                const location = locationEl?.textContent?.trim() || '';
+
+                // Title
+                const titleEl = card.querySelector('h2, h3, h4, [class*="title"]');
+                const title = titleEl?.textContent?.trim() || text.split('\n').find(l => l.trim().length > 10)?.trim() || '';
+
+                // Location — look for "en" + location pattern
+                const locMatch = text.match(/en\s+([^,\n]+(?:,\s*[^,\n]+)?)/i);
+                const location = locMatch ? locMatch[1].trim() : '';
+
+                // Features
                 const bedsMatch = text.match(/(\d+)\s*(?:Rec|rec|Hab|hab)/i);
                 const bathsMatch = text.match(/(\d+)\s*(?:Ba[ñn]|ba[ñn])/i);
-                const areaMatch = text.match(/([\\d,]+)\\s*m/i);
-            const imgEl = card.querySelector('img[src*="http"]');
-            const images = imgEl ? [imgEl.src] : [];
-            let propertyType = 'HOUSE'; const lc = (title + ' ' + text).toLowerCase();
-            if (lc.includes('departamento') || lc.includes('apartment')) propertyType = 'APARTMENT';
-            else if (lc.includes('terreno') || lc.includes('lote')) propertyType = 'LAND';
-            else if (lc.includes('local') || lc.includes('oficina') || lc.includes('comercial')) propertyType = 'COMMERCIAL';
-            return { id: `pincali-${id}`, title: title.substring(0, 150) || 'Propiedad en Pincali', price, currency: 'MXN', area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0, bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0, bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0, parking: 0, location, images, url: detailUrl, source: 'Pincali', propertyType, listingType: sourceUrl.includes('renta') ? 'RENT' : 'SALE' };
-        }).filter(l => l.price > 0 || l.title.length > 5);
-    }, url);
-    console.log(`[Pincali] Page: ${listings.length} listings from ${url}`);
-    return listings;
-} finally { await page.close(); }
+                const areaMatch = text.match(/([\d,]+)\s*m/i);
+
+                // Image
+                const imgEl = card.querySelector('img[src*="http"]');
+                const images = imgEl ? [imgEl.src] : [];
+
+                let propertyType = 'HOUSE';
+                const lc = (title + ' ' + text).toLowerCase();
+                if (lc.includes('departamento') || lc.includes('apartment')) propertyType = 'APARTMENT';
+                else if (lc.includes('terreno') || lc.includes('lote')) propertyType = 'LAND';
+                else if (lc.includes('local') || lc.includes('oficina') || lc.includes('comercial')) propertyType = 'COMMERCIAL';
+
+                results.push({
+                    id: `pincali-${id}`,
+                    title: title.substring(0, 150) || 'Propiedad en Pincali',
+                    price, currency: 'MXN',
+                    area: areaMatch ? parseFloat(areaMatch[1].replace(/,/g, '')) : 0,
+                    bedrooms: bedsMatch ? parseInt(bedsMatch[1]) : 0,
+                    bathrooms: bathsMatch ? parseInt(bathsMatch[1]) : 0,
+                    parking: 0, location, images,
+                    url: detailUrl,
+                    source: 'Pincali',
+                    propertyType,
+                    listingType: sourceUrl.includes('renta') ? 'RENT' : 'SALE'
+                });
+            });
+            return results.filter(l => l.price > 0 || l.title.length > 5);
+        }, url);
+        console.log(`[Pincali] Page: ${listings.length} listings from ${url}`);
+        return listings;
+    } finally { await page.close(); }
 }
 
-async function scrapePincali(url, maxPages = 5) {
+async function scrapePincali(url, maxPages = 10) {
     const allListings = new Map();
     for (let p = 1; p <= maxPages; p++) {
-        const pageUrl = p === 1 ? url : `${url}?page=${p}`;
+        const sep = url.includes('?') ? '&' : '?';
+        const pageUrl = p === 1 ? url : `${url}${sep}page=${p}`;
         console.log(`[Pincali] Page ${p}/${maxPages}: ${pageUrl}`);
         const listings = await scrapePincaliSinglePage(pageUrl);
         if (listings.length === 0) { console.log(`[Pincali] Page ${p} returned 0, stopping.`); break; }
@@ -1081,7 +1244,8 @@ const server = http.createServer(async (req, res) => {
     }
 });
 
-server.keepAliveTimeout = 120_000; // 2 min keep-alive
+server.timeout = 0; // Disable connection timeout for long bulk scrapes
+server.keepAliveTimeout = 0;
 
 const HOST = process.env.HOST || '0.0.0.0';
 server.listen(PORT, HOST, () => {
