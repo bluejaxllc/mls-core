@@ -97,7 +97,7 @@ function ListingsContent() {
                         price: item.price || 0,
                         address: item.address || item.city || 'Chihuahua',
                         status: item.status || 'active',
-                        image: item.imageUrl || null,
+                        image: item.imageUrl || undefined,
                         trustScore: 90,
                         source: item.source || 'Mercado Libre',
                         sourceUrl: item.sourceUrl || item.snapshot?.source?.baseUrl || '',
@@ -145,7 +145,7 @@ function ListingsContent() {
                             price: item.price || 0,
                             address: item.address || item.city || 'Chihuahua',
                             status: item.status || 'ACTIVE',
-                            image: (item.images && item.images.length > 0) ? item.images[0] : null,
+                            image: (item.images && item.images.length > 0) ? item.images[0] : undefined,
                             trustScore: item.trustScore || 100,
                             source: item.source || 'MLS',
                             sourceUrl: item.sourceUrl || '',
@@ -157,12 +157,12 @@ function ListingsContent() {
                 }
             }
 
-            setListings(mapped.length > 0 ? mapped : (activeTab === 'observed' ? MOCK_LISTINGS : []));
+            setListings(mapped);
             setTotalPages(rTotalPages);
             setCurrentPage(rPage);
         } catch (error) {
             console.error(error);
-            setListings(activeTab === 'observed' ? MOCK_LISTINGS : []);
+            setListings([]);
         } finally {
             setLoading(false);
         }
@@ -564,7 +564,7 @@ function ListingsContent() {
                                                         title: listing.title,
                                                         price: listing.price,
                                                         address: listing.address,
-                                                        image: listing.image,
+                                                        image: listing.image ?? null,
                                                         propertyType: listing.type === 'CANONICAL' ? 'canonical' : 'observed',
                                                         status: listing.status,
                                                         source: listing.source,
