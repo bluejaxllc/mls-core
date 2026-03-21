@@ -1,5 +1,5 @@
 // Quick geocoding script - uses POSTGRES_PRISMA_URL or DATABASE_URL directly
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client-core';
 
 const prisma = new PrismaClient();
 

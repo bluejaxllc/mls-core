@@ -16,8 +16,8 @@ interface UnifiedListing {
     id: string;
     type: 'CANONICAL' | 'OBSERVED';
     title: string;
-    price: number | null;
-    address: string | null;
+    price: number;
+    address: string;
     status: string;
     image: string | null;
     trustScore: number;
@@ -25,6 +25,8 @@ interface UnifiedListing {
     sourceUrl?: string;
     updatedAt: string;
     confidence?: number;
+    lat?: number | null;
+    lng?: number | null;
 }
 
 import { MapView } from '@/components/listings/MapView';
@@ -68,50 +70,99 @@ function ListingsContent() {
     const fetchListings = async (page = currentPage) => {
         try {
             setLoading(true);
+            let mapped: UnifiedListing[] = [];
+            let rTotalPages = 1;
+            let rPage = page;
 
-            // Build query params for the live endpoint
-            const params = new URLSearchParams();
-            if (cityFilter) params.set('city', cityFilter);
-            if (propertyTypeFilter) params.set('propertyType', propertyTypeFilter);
-            if (sourceFilter) params.set('source', sourceFilter);
-            if (minPrice) params.set('minPrice', minPrice);
-            if (maxPrice) params.set('maxPrice', maxPrice);
-            if (searchQuery) params.set('q', searchQuery);
-            params.set('page', page.toString());
-            params.set('limit', ITEMS_PER_PAGE.toString());
+            if (activeTab === 'observed') {
+                // Build query params for the live endpoint
+                const params = new URLSearchParams();
+                if (cityFilter) params.set('city', cityFilter);
+                if (propertyTypeFilter) params.set('propertyType', propertyTypeFilter);
+                if (sourceFilter) params.set('source', sourceFilter);
+                if (minPrice) params.set('minPrice', minPrice);
+                if (maxPrice) params.set('maxPrice', maxPrice);
+                if (searchQuery) params.set('q', searchQuery);
+                params.set('page', page.toString());
+                params.set('limit', ITEMS_PER_PAGE.toString());
 
-            const res = await fetch(`/api/listings/live?${params.toString()}`);
-
-            if (res.ok) {
-                const response = await res.json();
-                const listingsData = response.listings || [];
-
-                // Map the live API response to our UnifiedListing format
-                const mapped: UnifiedListing[] = listingsData.map((item: any) => ({
-                    id: item.id || item.snapshotId || crypto.randomUUID(),
-                    type: 'OBSERVED' as const,
-                    title: item.title || 'Sin título',
-                    price: item.price || null,
-                    address: item.address || item.city || 'Chihuahua',
-                    status: item.status || 'active',
-                    image: item.imageUrl || null,
-                    trustScore: 90,
-                    source: item.source || 'Mercado Libre',
-                    sourceUrl: item.sourceUrl || item.snapshot?.source?.baseUrl || '',
-                    updatedAt: item.createdAt || new Date().toISOString(),
-                    confidence: item.confidenceScore || 0.8,
-                }));
-
-                setListings(mapped.length > 0 ? mapped : MOCK_LISTINGS);
-                setTotalPages(response.totalPages || 1);
-                setCurrentPage(response.page || page);
-                console.log(`[Listings] Loaded ${mapped.length} properties (source: ${response.source})`);
+                const res = await fetch(`/api/listings/live?${params.toString()}`);
+                if (res.ok) {
+                    const response = await res.json();
+                    const listingsData = response.listings || [];
+                    mapped = listingsData.map((item: any) => ({
+                        id: item.id || item.snapshotId || crypto.randomUUID(),
+                        type: 'OBSERVED' as const,
+                        title: item.title || 'Sin título',
+                        price: item.price || 0,
+                        address: item.address || item.city || 'Chihuahua',
+                        status: item.status || 'active',
+                        image: item.imageUrl || null,
+                        trustScore: 90,
+                        source: item.source || 'Mercado Libre',
+                        sourceUrl: item.sourceUrl || item.snapshot?.source?.baseUrl || '',
+                        updatedAt: item.createdAt || new Date().toISOString(),
+                        confidence: item.confidenceScore || 0.8,
+                        lat: null,
+                        lng: null,
+                    }));
+                    rTotalPages = response.totalPages || 1;
+                    rPage = response.page || page;
+                }
             } else {
-                setListings(MOCK_LISTINGS);
+                // Fetch from database for Activos and Borradores
+                const params = new URLSearchParams();
+                params.set('status', activeTab === 'active' ? 'ACTIVE' : 'DRAFT');
+                const res = await fetch(`/api/listings?${params.toString()}`);
+                if (res.ok) {
+                    const dbListings = await res.json();
+                    let filtered = dbListings;
+                    if (searchQuery) filtered = filtered.filter((l: any) => l.title?.toLowerCase().includes(searchQuery.toLowerCase()) || l.address?.toLowerCase().includes(searchQuery.toLowerCase()));
+                    if (propertyTypeFilter) filtered = filtered.filter((l: any) => l.propertyType?.toLowerCase() === propertyTypeFilter.toLowerCase());
+                    if (sourceFilter) filtered = filtered.filter((l: any) => l.source === sourceFilter);
+                    if (minPrice) filtered = filtered.filter((l: any) => l.price >= parseFloat(minPrice));
+                    if (maxPrice) filtered = filtered.filter((l: any) => l.price <= parseFloat(maxPrice));
+                    if (cityFilter) filtered = filtered.filter((l: any) => l.address?.toLowerCase().includes(cityFilter.toLowerCase()) || l.city?.toLowerCase().includes(cityFilter.toLowerCase()));
+
+                    const total = filtered.length;
+                    rTotalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
+                    rPage = page > rTotalPages ? rTotalPages : page;
+                    const paginated = filtered.slice((rPage - 1) * ITEMS_PER_PAGE, rPage * ITEMS_PER_PAGE);
+
+                    mapped = paginated.map((item: any) => {
+                        let lat = null, lng = null;
+                        if (item.mapUrl) {
+                            const parts = item.mapUrl.split(',');
+                            if (parts.length === 2) {
+                                lat = parseFloat(parts[0]);
+                                lng = parseFloat(parts[1]);
+                            }
+                        }
+                        return {
+                            id: item.id,
+                            type: 'CANONICAL' as const,
+                            title: item.title || 'Sin título',
+                            price: item.price || 0,
+                            address: item.address || item.city || 'Chihuahua',
+                            status: item.status || 'ACTIVE',
+                            image: (item.images && item.images.length > 0) ? item.images[0] : null,
+                            trustScore: item.trustScore || 100,
+                            source: item.source || 'MLS',
+                            sourceUrl: item.sourceUrl || '',
+                            updatedAt: item.updatedAt || item.createdAt || new Date().toISOString(),
+                            lat,
+                            lng,
+                        };
+                    });
+                }
             }
+
+            setListings(mapped.length > 0 ? mapped : (activeTab === 'observed' ? MOCK_LISTINGS : []));
+            setTotalPages(rTotalPages);
+            setCurrentPage(rPage);
         } catch (error) {
             console.error(error);
-            setListings(MOCK_LISTINGS);
+            setListings(activeTab === 'observed' ? MOCK_LISTINGS : []);
         } finally {
             setLoading(false);
         }
