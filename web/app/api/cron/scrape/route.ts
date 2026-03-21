@@ -137,48 +137,48 @@ export async function GET(req: NextRequest) {
         console.error('[Cron Scrape] Expiry sweep failed:', e.message);
     }
 
-    // ── Geocoding: batch-geocode listings without coordinates ──
+    // ── Geocoding: batch-geocode listings without coordinates (FREE — Nominatim/OSM) ──
     let geocoded = 0;
-    if (GOOGLE_MAPS_KEY) {
-        try {
-            const ungeocoded = await prisma.listing.findMany({
-                where: {
-                    OR: [
-                        { mapUrl: null },
-                        { mapUrl: '' },
-                    ],
-                    address: { not: null },
-                    status: { not: 'EXPIRED' },
-                },
-                select: { id: true, address: true, city: true, state: true },
-                take: 50, // Limit batch size to control API costs
-            });
+    try {
+        const ungeocoded = await prisma.listing.findMany({
+            where: {
+                OR: [
+                    { mapUrl: null },
+                    { mapUrl: '' },
+                ],
+                address: { not: null },
+                status: { not: 'EXPIRED' },
+            },
+            select: { id: true, address: true, city: true, state: true },
+            take: 50, // Limit batch size (Nominatim: 1 req/sec)
+        });
 
-            for (const listing of ungeocoded) {
-                try {
-                    const addr = [listing.address, listing.city, listing.state, 'Mexico'].filter(Boolean).join(', ');
-                    const geoRes = await fetch(
-                        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(addr)}&key=${GOOGLE_MAPS_KEY}`
-                    );
-                    const geoData = await geoRes.json();
-                    if (geoData.status === 'OK' && geoData.results?.[0]) {
-                        const { lat, lng } = geoData.results[0].geometry.location;
-                        await prisma.listing.update({
-                            where: { id: listing.id },
-                            data: { mapUrl: `${lat},${lng}` },
-                        });
-                        geocoded++;
-                    }
-                    // Rate limit: 100ms between geocoding calls
-                    await new Promise(r => setTimeout(r, 100));
-                } catch (geoErr: any) {
-                    console.warn(`[Geocode] Failed for listing ${listing.id}:`, geoErr.message);
+        for (const listing of ungeocoded) {
+            try {
+                const addr = [listing.address, listing.city, listing.state, 'Mexico'].filter(Boolean).join(', ');
+                const geoRes = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(addr)}`,
+                    { headers: { 'User-Agent': 'BlueJax-MLS/1.0 (edgar@bluejax.ai)' } }
+                );
+                const geoData = await geoRes.json();
+                if (geoData?.[0]?.lat && geoData?.[0]?.lon) {
+                    const lat = parseFloat(geoData[0].lat);
+                    const lng = parseFloat(geoData[0].lon);
+                    await prisma.listing.update({
+                        where: { id: listing.id },
+                        data: { mapUrl: `${lat},${lng}` },
+                    });
+                    geocoded++;
                 }
+                // Nominatim requires 1 request/second (usage policy)
+                await new Promise(r => setTimeout(r, 1100));
+            } catch (geoErr: any) {
+                console.warn(`[Geocode] Failed for listing ${listing.id}:`, geoErr.message);
             }
-            if (geocoded > 0) console.log(`[Cron Scrape] Geocoded ${geocoded}/${ungeocoded.length} listings`);
-        } catch (e: any) {
-            console.error('[Cron Scrape] Geocoding batch failed:', e.message);
         }
+        if (geocoded > 0) console.log(`[Cron Scrape] Geocoded ${geocoded}/${ungeocoded.length} listings`);
+    } catch (e: any) {
+        console.error('[Cron Scrape] Geocoding batch failed:', e.message);
     }
 
     const elapsed = Date.now() - startTime;

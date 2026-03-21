@@ -118,9 +118,9 @@ async function main() {
     console.log(`✅ Total Skipped/Errors: ${totalSkipped}`);
     console.log(`======================================================\n`);
 
-    console.log(`🌍 Starting Geocoding Sweep for missing coordinates...`);
+    console.log(`🌍 Starting Geocoding Sweep (FREE — Nominatim/OpenStreetMap)...`);
     let geocoded = 0;
-    if (GOOGLE_MAPS_KEY) {
+    {
         let hasMore = true;
         let batchNo = 1;
         while (hasMore) {
@@ -143,10 +143,14 @@ async function main() {
             for (const listing of ungeocoded) {
                 try {
                     const addr = [listing.address, listing.city, listing.state, 'Mexico'].filter(Boolean).join(', ');
-                    const geoRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(addr)}&key=${GOOGLE_MAPS_KEY}`);
+                    const geoRes = await fetch(
+                        `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(addr)}`,
+                        { headers: { 'User-Agent': 'BlueJax-MLS/1.0 (edgar@bluejax.ai)' } }
+                    );
                     const geoData = await geoRes.json();
-                    if (geoData.status === 'OK' && geoData.results?.[0]) {
-                        const { lat, lng } = geoData.results[0].geometry.location;
+                    if (geoData?.[0]?.lat && geoData?.[0]?.lon) {
+                        const lat = parseFloat(geoData[0].lat);
+                        const lng = parseFloat(geoData[0].lon);
                         await prisma.listing.update({
                             where: { id: listing.id },
                             data: { mapUrl: `${lat},${lng}` },
@@ -156,7 +160,8 @@ async function main() {
                     } else {
                         process.stdout.write('x');
                     }
-                    await new Promise(r => setTimeout(r, 100)); // Respect rate limit
+                    // Nominatim requires 1 request/second (usage policy)
+                    await new Promise(r => setTimeout(r, 1100));
                 } catch (e) {
                     process.stdout.write('!');
                 }
@@ -164,8 +169,6 @@ async function main() {
             console.log(`\n   Finished batch ${batchNo}. Geocoded ${geocoded} so far.`);
             batchNo++;
         }
-    } else {
-        console.log(`❌ No Google Maps Key found, skipping geocoding.`);
     }
 
     console.log(`\n======================================================`);
