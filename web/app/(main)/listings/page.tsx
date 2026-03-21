@@ -19,7 +19,7 @@ interface UnifiedListing {
     price: number;
     address: string;
     status: string;
-    image: string | null;
+    image?: string;
     trustScore: number;
     source: string;
     sourceUrl?: string;
