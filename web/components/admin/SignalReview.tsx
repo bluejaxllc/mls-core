@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { authFetch } from '@/lib/api';
+import { AlertTriangle, Info, XCircle, CheckCircle2, Eye, X } from 'lucide-react';
 
 interface Signal {
     id: string;
@@ -22,57 +21,114 @@ interface Signal {
 
 export function SignalReview() {
     const [signals, setSignals] = useState<Signal[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        authFetch('/api/intelligence/signals')
-            .then(setSignals)
-            .catch(console.error);
+        fetch('/api/intelligence/observed')
+            .then(r => r.ok ? r.json() : [])
+            .then(data => {
+                // Map observed listings to signal-like format if no signals endpoint
+                const signalList = Array.isArray(data) ? data : (data?.signals || []);
+                setSignals(signalList);
+            })
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, []);
 
+    const severityIcon = (severity: string) => {
+        switch (severity) {
+            case 'CRITICAL': return <XCircle className="w-4 h-4 text-red-400" />;
+            case 'WARNING': return <AlertTriangle className="w-4 h-4 text-amber-400" />;
+            default: return <Info className="w-4 h-4 text-blue-400" />;
+        }
+    };
+
+    const severityBadge = (severity: string) => {
+        const colors: Record<string, string> = {
+            CRITICAL: 'bg-red-500/10 text-red-400 border-red-500/20',
+            WARNING: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+            INFO: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+        };
+        return colors[severity] || 'bg-muted/50 text-muted-foreground border-transparent';
+    };
+
+    const statusBadge = (status: string) => {
+        const colors: Record<string, string> = {
+            OPEN: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+            REVIEWED: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+            DISMISSED: 'bg-muted/50 text-muted-foreground border-transparent',
+            ACTED: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+        };
+        return colors[status] || 'bg-muted/50 text-muted-foreground border-transparent';
+    };
+
+    if (loading) {
+        return (
+            <div className="space-y-3">
+                {[1, 2].map(i => (
+                    <div key={i} className="h-16 bg-muted/50 animate-pulse rounded-xl" />
+                ))}
+            </div>
+        );
+    }
+
     return (
-        <div className="bg-white dark:bg-zinc-900 rounded-lg shadow border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-            <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
-                <h2 className="text-xl font-bold">Detected Signals queue</h2>
+        <div className="bg-card border border-blue-500/10 rounded-xl overflow-hidden">
+            <div className="px-5 py-4 border-b border-blue-500/10 flex items-center justify-between">
+                <h3 className="text-sm font-semibold">Signal Queue</h3>
+                <span className="text-xs px-2.5 py-1 rounded-full bg-muted/50 text-muted-foreground">
+                    {signals.length} signal{signals.length !== 1 ? 's' : ''}
+                </span>
             </div>
 
-            <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+            <div className="divide-y divide-blue-500/5">
                 {signals.map(signal => (
-                    <div key={signal.id} className="p-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                        <div className="flex justify-between items-start mb-2">
-                            <div className="flex items-center gap-2">
-                                <span className={`
-                            px-2 py-1 rounded text-xs font-bold
-                            ${signal.severity === 'WARNING' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'}
-                        `}>
-                                    {signal.severity}
-                                </span>
-                                <span className="font-mono text-sm text-zinc-500">{signal.type}</span>
+                    <div key={signal.id} className="px-5 py-4 hover:bg-muted/30 transition-colors">
+                        <div className="flex items-start gap-3">
+                            {severityIcon(signal.severity)}
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap mb-1">
+                                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold border ${severityBadge(signal.severity)}`}>
+                                        {signal.severity}
+                                    </span>
+                                    <span className="text-xs font-mono text-muted-foreground">{signal.type}</span>
+                                    <span className={`text-xs px-2 py-0.5 rounded-full border ${statusBadge(signal.status)}`}>
+                                        {signal.status}
+                                    </span>
+                                </div>
+                                <p className="text-sm font-medium">
+                                    {signal.observedListing?.title || 'Unknown Property'}
+                                    {signal.observedListing?.snapshot?.source?.name && (
+                                        <span className="text-muted-foreground font-normal ml-2">
+                                            via {signal.observedListing.snapshot.source.name}
+                                        </span>
+                                    )}
+                                </p>
+                                {signal.observedListing?.price && (
+                                    <p className="text-xs text-muted-foreground mt-1">
+                                        ${signal.observedListing.price.toLocaleString()}
+                                    </p>
+                                )}
+                                <p className="text-[10px] text-muted-foreground mt-1">
+                                    {new Date(signal.createdAt).toLocaleString()}
+                                </p>
                             </div>
-                            <span className="text-xs text-zinc-400">{new Date(signal.createdAt).toLocaleDateString()}</span>
-                        </div>
-
-                        <div className="ml-0 md:ml-2">
-                            <div className="text-sm font-medium mb-1">
-                                {signal.observedListing?.title || 'Unknown Property'}
-                                <span className="text-zinc-400 font-normal ml-2">
-                                    via {signal.observedListing?.snapshot?.source?.name}
-                                </span>
-                            </div>
-
-                            <div className="bg-zinc-100 dark:bg-black/20 p-2 rounded text-xs font-mono text-zinc-600 dark:text-zinc-400 mb-3">
-                                {JSON.stringify(signal.payload, null, 2)}
-                            </div>
-
-                            <div className="flex gap-2">
-                                <Button size="sm" variant="default">Review</Button>
-                                <Button size="sm" variant="ghost">Dismiss</Button>
+                            <div className="flex gap-1">
+                                <button className="p-1.5 rounded-lg hover:bg-blue-500/10 text-muted-foreground hover:text-blue-400 transition-colors" title="Review">
+                                    <Eye className="w-4 h-4" />
+                                </button>
+                                <button className="p-1.5 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-colors" title="Dismiss">
+                                    <X className="w-4 h-4" />
+                                </button>
                             </div>
                         </div>
                     </div>
                 ))}
                 {signals.length === 0 && (
-                    <div className="p-8 text-center text-zinc-500">
-                        No active signals requiring review.
+                    <div className="p-10 text-center">
+                        <CheckCircle2 className="w-8 h-8 text-emerald-500/50 mx-auto mb-3" />
+                        <p className="text-muted-foreground text-sm font-medium">No active signals requiring review</p>
+                        <p className="text-muted-foreground text-xs mt-1">Signals appear when crawlers detect duplicates, price changes, or new listings</p>
                     </div>
                 )}
             </div>

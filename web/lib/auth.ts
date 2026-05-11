@@ -17,17 +17,6 @@ export const authOptions: AuthOptions = {
                 const input = credentials.username.trim().toLowerCase();
                 const password = credentials.password;
 
-                // ─── Legacy admin access (backward compat) ───
-                if (input === "admin" && password === "admin") {
-                    return {
-                        id: "1",
-                        name: "Broker Admin",
-                        email: "admin@remax-polanco.mx",
-                        image: "https://ui-avatars.com/api/?name=Broker+Admin&background=0D8ABC&color=fff",
-                        role: "Agencia Admin"
-                    };
-                }
-
                 // ─── Database user lookup ───
                 try {
                     const user = await prisma.user.findUnique({

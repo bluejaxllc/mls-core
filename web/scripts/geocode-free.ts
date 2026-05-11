@@ -1,7 +1,13 @@
 // Quick geocoding script - uses POSTGRES_PRISMA_URL or DATABASE_URL directly
 import { PrismaClient } from '@prisma/client-core';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+    datasources: {
+        db: {
+            url: "postgres://postgres.erapajgkukxqwvmwxefq:1sMfsHUkqgVj6Dlx@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
+        }
+    }
+});
 
 async function main() {
     console.log('🌍 FREE Geocoding Sweep (Nominatim/OpenStreetMap)');
@@ -9,8 +15,10 @@ async function main() {
 
     const ungeocoded = await prisma.listing.findMany({
         where: {
-            OR: [{ mapUrl: null }, { mapUrl: '' }],
-            address: { not: null },
+            AND: [
+                { OR: [{ mapUrl: null }, { mapUrl: '' }] },
+                { OR: [{ address: { not: null } }, { city: { not: null } }] }
+            ],
             status: { not: 'EXPIRED' },
         },
         select: { id: true, address: true, city: true, state: true, title: true },
@@ -44,7 +52,7 @@ async function main() {
             }
             // Nominatim requires 1 request per second
             await new Promise(r => setTimeout(r, 1100));
-        } catch (e) {
+        } catch (e: any) {
             failed++;
             console.log(`⚠️  Error: ${e.message}`);
         }
@@ -59,7 +67,8 @@ async function main() {
 }
 
 main().catch(async e => {
-    console.error('Script error:', e);
+    require('fs').writeFileSync('prisma-err.json', JSON.stringify({ message: e.message, code: e.code }));
+    console.error('Script error:', e.message);
     await prisma.$disconnect();
     process.exit(1);
 });

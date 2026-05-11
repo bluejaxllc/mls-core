@@ -26,7 +26,17 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + path.extname(file.originalname));
     }
 });
-const upload = multer({ storage });
+
+const fileFilter = (req: any, file: any, cb: any) => {
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. Only JPG, PNG, WEBP, and GIF are allowed.'), false);
+    }
+};
+
+const upload = multer({ storage, fileFilter });
 
 const app = express();
 const PORT = process.env.PORT || 3001;

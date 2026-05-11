@@ -25,7 +25,7 @@ export default function ProvisionPage() {
         setLoading(true);
 
         try {
-            const response = await fetch(`${''}/api/provision`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/provision`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)

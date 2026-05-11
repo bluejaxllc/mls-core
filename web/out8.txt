@@ -1,0 +1,82 @@
+﻿≡ƒîì FREE Geocoding Sweep (Nominatim/OpenStreetMap)
+================================================
+
+node.exe : Script 
+error: PrismaClientInit
+ializationError: 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Script error:   
+  P...lizationError    
+: :String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Invalid `prisma.listing
+.findMany()` 
+invocation in
+C:\Users\edgar\OneDrive
+\Desktop\MLS\web\script
+s\geocode-free.ts:16:45
+
+  13 console.log('≡ƒîì 
+FREE Geocoding Sweep (N
+ominatim/OpenStreetMap)
+');
+  14 console.log('=====
+=======================
+====================\n'
+);
+  15 
+ΓåÆ 16 const 
+ungeocoded = await pris
+ma.listing.findMany(
+Error querying the 
+database: FATAL: 
+Tenant or user not 
+found
+    at 
+$n.handleRequestError (
+C:\Users\edgar\OneDrive
+\Desktop\MLS\web\node_m
+odules\@prisma\client-c
+ore\runtime\library.js:
+121:7615)
+    at $n.handleAndLogR
+equestError (C:\Users\e
+dgar\OneDrive\Desktop\M
+LS\web\node_modules\@pr
+isma\client-core\runtim
+e\library.js:121:6623)
+    at $n.request (C:\U
+sers\edgar\OneDrive\Des
+ktop\MLS\web\node_modul
+es\@prisma\client-core\
+runtime\library.js:121:
+6307)
+    at async l (C:\User
+s\edgar\OneDrive\Deskto
+p\MLS\web\node_modules\
+@prisma\client-core\run
+time\library.js:130:963
+3)
+    at async main (C:\U
+sers\edgar\OneDrive\Des
+ktop\MLS\web\scripts\ge
+ocode-free.ts:16:24) {
+  clientVersion: 
+'5.22.0',
+  errorCode: undefined
+}

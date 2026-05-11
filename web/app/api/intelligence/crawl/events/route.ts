@@ -10,6 +10,7 @@ export async function GET() {
             take: 50,
             include: { source: true }
         });
+
         return NextResponse.json(events);
     } catch (e: any) {
         console.error('[INTELLIGENCE] Failed to fetch crawl events', e);
