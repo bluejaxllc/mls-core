@@ -1,0 +1,39 @@
+INTERACTIVE ELEMENTS (Snapshot ID: 2):
+Processing time: 2ms
+
+Clickable elements:
+     [1] <C> <body> 
+     [2] <C> <div> 
+       [3] <C> <a> "Railway Logo" 
+       [4] <C> <button> "bluejaxllc's Projects Hobby" 
+       [5] <C> <a> "Help" 
+       [6] <C> <button> "5" 
+       [7] <C> <button> 
+     [8] <C> <a> "New" 
+     [9] <C> <button> "13 Projects" 
+       [10] <C> <select> "Project sort" attr:"value=Sort By: Recent Activity" 
+       [11] <C> <option> "Sort By: Recent Activity" 
+     [12] <C> <button> "Architecture" 
+     [13] <C> <button> "List" 
+       [14] <C> <a> "View Project" 
+       [15] <C> <a> "View Project" 
+       [16] <C> <a> "View Project" 
+       [17] <C> <a> "View Project" 
+       [18] <C> <a> "View Project" 
+       [19] <C> <a> "View Project" 
+       [20] <C> <a> "View Project" 
+       [21] <C> <a> "View Project" 
+       [22] <C> <a> "View Project" 
+       [23] <C> <a> "View Project" 
+       [24] <C> <a> "View Project" 
+       [25] <C> <a> "View Project" 
+       [26] <C> <a> "View Project" 
+     [27] <C> <next-route-announcer> 
+
+Legend:
+  [nodeId] - Use this number to interact with the element
+  <C> - Clickable element
+  <T> - Typeable/input element
+  (hidden) - Element is out of viewport, may need scrolling
+  Indentation shows DOM depth
+  attr:"..." - Element attributes (type, placeholder, value, aria-label)

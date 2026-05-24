@@ -1,0 +1,9 @@
+node_modules/
+web/node_modules/
+web/.next/
+.git/
+test_dump.html
+ml_dump.html
+test-output.txt
+*.log
+*.txt

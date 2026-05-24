@@ -1,0 +1,97 @@
+INTERACTIVE ELEMENTS (Snapshot ID: 6):
+Processing time: 4ms
+
+Clickable elements:
+     [1] <C> <body> 
+     [2] <C> <a> "Skip to content" 
+           [3] <C> <a> "Ed's projects Hobby" 
+           [4] <C> <button> 
+           [5] <C> <button> "Find    F" 
+                 [6] <C> <a> "Other Overview" 
+                 [7] <C> <a> "Deployments" 
+                 [8] <C> <a> "Logs" 
+                 [9] <C> <a> "Analytics" 
+                 [10] <C> <a> "Speed Insights" 
+                 [11] <C> <a> "Observability" 
+                 [12] <C> <a> "Firewall" 
+                 [13] <C> <a> "CDN" 
+                 [14] <C> <a> "Domains" 
+                 [15] <C> <a> "Integrations" 
+                 [16] <C> <a> "Storage" 
+                 [17] <C> <a> "Flags" 
+                 [18] <C> <a> "Agent" 
+                 [19] <C> <a> "AI Gateway" 
+                 [20] <C> <a> "Sandboxes" 
+                 [21] <C> <a> "Usage" 
+                 [22] <C> <a> "Settings" 
+         [23] <C> <button> "Avatar for edgar-4404 Ed" 
+         [24] <C> <button> "284 unseen notifications" 
+           [25] <C> <a> "Other mls-core" 
+           [26] <C> <button> 
+           [27] <C> <a> "Back to team view" 
+           [28] <C> <button> "Open page actions menu" 
+                   [29] <C> <a> "github Repository" 
+                   [30] <C> <button> "Instant Rollback" 
+                   [31] <C> <a> "Visit" 
+                   [32] <C> <button> "Visit with" 
+                     [33] <C> <a> "Visit Deployment" 
+                     [34] <C> <a> "mls-core-k13h7tk86-eds-projects-bc846..." 
+                     [35] <C> <a> "0" 
+                     [36] <C> <a> 
+                     [37] <C> <a> "mls-core.vercel.app" 
+                     [38] <C> <div> 
+                     [39] <C> <a> "main" 
+                     [40] <C> <a> "a31b794 auto: update route.ts" 
+                   [41] <C> <button> "Deployment Settings 4 Recommendations" 
+                     [42] <C> <a> "Deployments" 
+                     [43] <C> <a> "Learn more" 
+                   [44] <C> <a> "Go to page" 
+                   [45] <C> <a> 
+               [46] <C> <a> "Go to page" 
+               [47] <C> <a> 
+               [48] <C> <a> "Go to page" 
+               [49] <C> <a> 
+               [50] <C> <a> "Enable" 
+             [52] <C> <button> "Filter by deployment status. 5 of 6 s..." 
+               [53] <C> <a> (hidden)
+               [54] <C> <a> "Preview" (hidden)
+               [55] <C> <a> "This deployment had an error. 3N2pd6sqc" (hidden)
+               [56] <C> <a> "Source" (hidden)
+                 [57] <C> <div> (hidden)
+               [58] <C> <button> "Menu" (hidden)
+               [59] <C> <a> (hidden)
+               [60] <C> <a> "Preview" (hidden)
+               [61] <C> <a> "This deployment had an error. BExSQdGdk" (hidden)
+               [62] <C> <a> "Source" (hidden)
+                 [63] <C> <div> (hidden)
+               [64] <C> <button> "Menu" (hidden)
+               [65] <C> <a> (hidden)
+               [66] <C> <a> "Preview" (hidden)
+               [67] <C> <a> "This deployment had an error. 9dqNno3Ka" (hidden)
+               [68] <C> <a> "Source" (hidden)
+                 [69] <C> <div> (hidden)
+               [70] <C> <button> "Menu" (hidden)
+               [71] <C> <a> (hidden)
+               [72] <C> <a> "Preview" (hidden)
+               [73] <C> <a> "This deployment had an error. 8xExREQmy" (hidden)
+               [74] <C> <a> "#2" (hidden)
+                 [75] <C> <div> (hidden)
+               [76] <C> <button> "Menu" (hidden)
+               [77] <C> <a> (hidden)
+               [78] <C> <a> "Preview" (hidden)
+               [79] <C> <a> "This deployment had an error. CpoY78rWd" (hidden)
+               [80] <C> <a> "#1" (hidden)
+                 [81] <C> <div> (hidden)
+               [82] <C> <button> "Menu" (hidden)
+         [83] <C> <div> (hidden)
+
+Input fields:
+             [51] <T> <input> "Search" attr:"placeholder=Search   " 
+
+Legend:
+  [nodeId] - Use this number to interact with the element
+  <C> - Clickable element
+  <T> - Typeable/input element
+  (hidden) - Element is out of viewport, may need scrolling
+  Indentation shows DOM depth
+  attr:"..." - Element attributes (type, placeholder, value, aria-label)

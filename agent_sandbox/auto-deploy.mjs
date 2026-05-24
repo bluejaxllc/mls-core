@@ -9,7 +9,7 @@
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const chokidar = require('./web/node_modules/chokidar');
+const chokidar = require('../web/node_modules/chokidar');
 import { execSync } from 'child_process';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';

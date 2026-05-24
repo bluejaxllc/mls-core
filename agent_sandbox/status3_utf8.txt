@@ -1,0 +1,3 @@
+﻿Project: chic-education
+Environment: production
+Service: mls-core
