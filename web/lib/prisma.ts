@@ -4,7 +4,7 @@ const prismaClientSingleton = () => {
     return new PrismaClient({
         datasources: {
             db: {
-                url: process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL,
+                url: process.env.MLS_DATABASE_URL || process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL,
             },
         },
     });
