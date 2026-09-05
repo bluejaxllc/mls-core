@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils'; // Assuming this exists, based on other UI components
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface ImageCarouselProps {
     images: string[];
@@ -9,7 +10,8 @@ interface ImageCarouselProps {
     className?: string;
 }
 
-export function ImageCarousel({ images, onRemove, className }: ImageCarouselProps) {
+export function ImageCarousel({ images: rawImages, onRemove, className }: ImageCarouselProps) {
+    const images = withoutGoogleMaps(rawImages);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleNext = () => {

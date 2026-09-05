@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prismaCore as prisma } from '@/lib/prisma-core';
 
-const GOOGLE_MAPS_KEY = process.env.GOOGLE_MAPS_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '';
-
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 min — scrapers need time
 

@@ -8,7 +8,6 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 // Construct prisma client exactly like lib/prisma-core.ts to avoid path alias issues in scripts
 const prisma = new PrismaClient();
 
-const GOOGLE_MAPS_KEY = process.env.GOOGLE_MAPS_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '';
 const PROXY_URL = 'http://localhost:3008';
 const PROXY_SECRET = process.env.ML_PROXY_SECRET || 'bluejax-ml-proxy-2026';
 

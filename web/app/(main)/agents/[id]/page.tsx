@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Phone, Mail, Globe, Award, Building2, Calendar, Loader2, BadgeCheck, MapPin, MessageCircle } from 'lucide-react';
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
 import Link from 'next/link';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface AgentDetail {
     id: string;
@@ -234,7 +235,7 @@ export default function AgentProfilePage() {
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {listings.map((listing, idx) => {
-                                    const images = parseImages(listing.images);
+                                    const images = withoutGoogleMaps(parseImages(listing.images));
                                     return (
                                         <motion.div
                                             key={listing.id}

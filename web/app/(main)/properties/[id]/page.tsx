@@ -14,6 +14,7 @@ import { PageTransition, AnimatedCard, AnimatedButton } from '@/components/ui/an
 import { PropertyGallery } from '@/components/property/PropertyGallery';
 import { VersionTimeline } from '@/components/history/VersionTimeline';
 import Link from 'next/link';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface ListingData {
     id: string;
@@ -381,30 +382,17 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
 
                     {activeTab === 'mapa' && (
                         <AnimatedCard className="rounded-xl border bg-card overflow-hidden">
-                            <div className="h-[400px] md:h-[500px]">
-                                <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(listing.address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
-                                    frameBorder="0"
-                                    scrolling="no"
-                                    loading="lazy"
-                                    className="w-full h-full"
-                                />
+                            <div className="h-40 flex items-center justify-center bg-muted text-muted-foreground">
+                                <div className="text-center">
+                                    <MapPin className="h-8 w-8 mx-auto mb-2 opacity-40" />
+                                    <p className="text-sm">Mapa desactivado</p>
+                                </div>
                             </div>
                             <div className="p-4 border-t flex items-center justify-between">
                                 <p className="text-sm text-muted-foreground flex items-center gap-1.5">
                                     <MapPin className="h-4 w-4" />
                                     {listing.address}
                                 </p>
-                                <a
-                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-xs text-blue-500 hover:text-blue-600 flex items-center gap-1 font-medium"
-                                >
-                                    Abrir en Google Maps <ExternalLink className="h-3 w-3" />
-                                </a>
                             </div>
                         </AnimatedCard>
                     )}
@@ -596,9 +584,9 @@ export default function PropertyShowcasePage({ params }: { params: { id: string 
                             <Link key={item.id} href={`/properties/${item.id}`}>
                                 <AnimatedCard className="overflow-hidden group" index={i + 5}>
                                     <div className="h-40 bg-muted relative overflow-hidden">
-                                        {item.images?.[0] ? (
+                                        {withoutGoogleMaps(item.images || [])[0] ? (
                                             <img
-                                                src={item.images[0]}
+                                                src={withoutGoogleMaps(item.images || [])[0]}
                                                 alt={item.title}
                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                             />

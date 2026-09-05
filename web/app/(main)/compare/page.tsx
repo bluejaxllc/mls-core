@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X, Download, Building2, MapPin, DollarSign, Shield, Layers, GitCompare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
+import { isGoogleMapsUrl } from '@/lib/google-maps';
 
 export default function ComparePage() {
     const { items, removeItem, clearAll } = useComparison();
@@ -96,7 +97,7 @@ export default function ComparePage() {
                                 <X className="h-4 w-4" />
                             </button>
                             <div className="h-40 rounded-lg overflow-hidden mb-3 bg-muted">
-                                {item.image ? (
+                                {item.image && !isGoogleMapsUrl(item.image) ? (
                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center">

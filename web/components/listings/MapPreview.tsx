@@ -1,38 +1,20 @@
-import { useState, useEffect, memo } from 'react';
+import { memo } from 'react';
+import { MapPin } from 'lucide-react';
 
 interface MapPreviewProps {
     address: string;
     onUpdateStart?: () => void;
 }
 
-const MapPreviewComponent = ({ address, onUpdateStart }: MapPreviewProps) => {
-    const [debouncedAddress, setDebouncedAddress] = useState(address);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (address && address !== debouncedAddress) {
-                // Signal start of update (e.g. to activate focus shield)
-                onUpdateStart?.();
-                setDebouncedAddress(address);
-            }
-        }, 500); // 500ms debounce
-
-        return () => clearTimeout(timer);
-    }, [address, debouncedAddress, onUpdateStart]);
-
-    if (!debouncedAddress) return null;
+const MapPreviewComponent = ({ address }: MapPreviewProps) => {
+    if (!address) return null;
 
     return (
-        <div className="mt-4 h-64 rounded-lg border-2 border-border shadow-md overflow-hidden bg-muted">
-            <iframe
-                width="100%"
-                height="100%"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent(debouncedAddress)}&t=&z=18&ie=UTF8&iwloc=&output=embed`}
-                frameBorder="0"
-                scrolling="no"
-                sandbox="allow-scripts allow-same-origin allow-popups"
-                loading="lazy"
-            ></iframe>
+        <div className="mt-4 h-24 rounded-lg border-2 border-border bg-muted/40 flex items-center justify-center text-muted-foreground">
+            <div className="flex items-center gap-2 text-sm">
+                <MapPin className="h-4 w-4 opacity-60" />
+                <span>Vista de mapa desactivada</span>
+            </div>
         </div>
     );
 };

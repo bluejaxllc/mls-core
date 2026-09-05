@@ -10,6 +10,7 @@ import { GovernanceMenu } from '@/components/listings/GovernanceMenu';
 import { MapView } from '@/components/listings/MapView';
 import { Globe } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 export default function PropertiesPage() {
     const { t } = useLanguage();
@@ -363,8 +364,8 @@ export default function PropertiesPage() {
                                 </div>
                             ) : (
                                 listings.map((listing, index) => {
-                                    const images = parseImages(listing.images);
-                                    const imgSrc = listing.image || listing.imageUrl || images[0] || '';
+                                    const images = withoutGoogleMaps(parseImages(listing.images));
+                                    const imgSrc = withoutGoogleMaps([listing.image, listing.imageUrl, images[0]])[0] || '';
                                     const isSelected = selectedId === listing.id;
                                     return (
                                         <AnimatedCard

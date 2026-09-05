@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import {
     Save, ArrowLeft, Sparkles, Video, MapPin, AlertTriangle, Heart,
-    Pencil, Eye, Building2, Calendar, Globe, Share2, ChevronLeft, ChevronRight,
+    Pencil, Eye, Building2, Calendar, Share2, ChevronLeft, ChevronRight,
     X, DollarSign, Tag, Clock, ShieldCheck, Camera, ExternalLink, Copy
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { TrustBadge } from '@/components/ui/TrustBadge';
 import { LeadForm } from '@/components/listings/LeadForm';
 import { cn } from '@/lib/utils';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 // ─── STATUS CONFIG ──────────────────────────────────────────
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
@@ -34,7 +35,8 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 // ─── HERO IMAGE GALLERY ─────────────────────────────────────
-function HeroGallery({ images, title }: { images: string[]; title: string }) {
+function HeroGallery({ images: rawImages, title }: { images: string[]; title: string }) {
+    const images = withoutGoogleMaps(rawImages);
     const [current, setCurrent] = useState(0);
     const [lightbox, setLightbox] = useState(false);
 
@@ -305,6 +307,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                 if (images.length === 0 && data.imageUrl) {
                     images = [data.imageUrl];
                 }
+                images = withoutGoogleMaps(images);
 
                 let videos = data.videos || [];
                 if (typeof videos === 'string') {
@@ -319,7 +322,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                     address: data.address || '',
                     status: data.status || 'DRAFT',
                     type: data.propertyType || 'commercial',
-                    mapUrl: data.mapUrl || '',
+                    mapUrl: '',
                     images,
                     videos,
                     source: data.source || 'MANUAL'
@@ -335,15 +338,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
         }
     };
 
-    const buildStreetViewAndSatelliteUrls = (lat: number, lng: number): string[] => {
-        const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
-        if (!key) return [];
-        const size = '800x600';
-        return [
-            `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${lat},${lng}&fov=90&heading=0&key=${key}`,
-            `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${lat},${lng}&fov=90&heading=180&key=${key}`,
-            `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=20&size=${size}&maptype=satellite&key=${key}`
-        ];
+    const buildStreetViewAndSatelliteUrls = (_lat: number, _lng: number): string[] => {
+        return [];
     };
 
     const generateAIContent = async (currentAddress: string, currentType: string) => {
@@ -380,10 +376,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
 
     const handleAddressBlur = async () => {
         if (!formData.address) return;
-        if (!formData.mapUrl) {
-            const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formData.address)}`;
-            setFormData(prev => ({ ...prev, mapUrl: url }));
-        }
+        if (formData.mapUrl) setFormData(prev => ({ ...prev, mapUrl: '' }));
         if (formData.address !== lastGenAddress) {
             setLastGenAddress(formData.address);
             await generateAIContent(formData.address, formData.type);
@@ -569,15 +562,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                                         Ubicación
                                     </h2>
                                 </div>
-                                <div className="h-[300px] bg-muted">
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        src={`https://maps.google.com/maps?q=${encodeURIComponent(formData.address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
-                                        frameBorder="0"
-                                        scrolling="no"
-                                        className="w-full h-full"
-                                    />
+                                <div className="h-24 bg-muted flex items-center justify-center text-sm text-muted-foreground">
+                                    Mapa desactivado
                                 </div>
                             </AnimatedCard>
                         )}
@@ -587,16 +573,6 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                             <span className="flex items-center gap-1">
                                 <Tag className="h-3 w-3" /> ID: <code className="font-mono bg-muted px-1 rounded">{params.id}</code>
                             </span>
-                            {formData.mapUrl && (
-                                <a
-                                    href={formData.mapUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-1 text-blue-500 hover:text-blue-700 transition-colors"
-                                >
-                                    <Globe className="h-3 w-3" /> Ver en Google Maps
-                                </a>
-                            )}
                         </div>
                     </div>
 
@@ -817,14 +793,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                         )}
                     />
                     {formData.address && (
-                        <div className="h-48 rounded-xl border shadow-sm overflow-hidden bg-muted">
-                            <iframe
-                                width="100%"
-                                height="100%"
-                                src={`https://maps.google.com/maps?q=${encodeURIComponent(formData.address)}&t=&z=18&ie=UTF8&iwloc=&output=embed`}
-                                frameBorder="0"
-                                scrolling="no"
-                            />
+                        <div className="h-20 rounded-xl border shadow-sm overflow-hidden bg-muted flex items-center justify-center text-sm text-muted-foreground">
+                            Mapa desactivado
                         </div>
                     )}
                 </AnimatedCard>

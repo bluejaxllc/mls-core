@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Trash2, Building2, MapPin, ExternalLink, FolderPlus, Folder, Plus, X } from 'lucide-react';
 import Link from 'next/link';
 import { MOCK_FAVORITES } from '@/lib/mock-data';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface FavoriteWithListing {
     id: string;
@@ -262,7 +263,7 @@ export default function FavoritesPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {favorites.map((fav, idx) => {
-                                const images = parseImages(fav.listing.images);
+                                const images = withoutGoogleMaps(parseImages(fav.listing.images));
                                 const mainImage = images[0];
                                 return (
                                     <motion.div

@@ -1055,37 +1055,6 @@ app.post('/api/ai/generate', verifyBlueJaxToken, async (req: any, res) => {
             if (!zipCodeRes) zipCodeRes = '32900';
         }
 
-        // Geocode if we don't have lat/lng (or want to resolve city/zip from Google)
-        const apiKey = process.env.GOOGLE_MAPS_KEY || process.env.GOOGLE_API_KEY;
-        if (apiKey) {
-            try {
-                const geoUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-                const geoRes = await fetch(geoUrl);
-                const geoData = await geoRes.json();
-                if (geoData.status === 'OK' && geoData.results?.[0]) {
-                    const result = geoData.results[0];
-                    const loc = result.geometry?.location;
-                    if (loc) {
-                        latRes = loc.lat;
-                        lngRes = loc.lng;
-                    }
-                    if (result.address_components) {
-                        for (const c of result.address_components) {
-                            if (c.types.includes('locality')) cityRes = cityRes || c.long_name;
-                            if (!cityRes && c.types.includes('sublocality')) cityRes = c.long_name;
-                            if (!cityRes && c.types.includes('administrative_area_level_2')) cityRes = c.long_name;
-                            if (!cityRes && c.types.includes('administrative_area_level_1')) cityRes = cityRes || c.long_name;
-                            if (c.types.includes('postal_code')) zipCodeRes = zipCodeRes || c.short_name;
-                        }
-                    }
-                } else if (geoData.status !== 'OK') {
-                    console.warn('[API] Geocode API returned status:', geoData.status, geoData.error_message);
-                }
-            } catch (e: unknown) {
-                console.warn('[API] Geocode failed, using address/body only:', (e as Error).message);
-            }
-        }
-
         // Simulated AI Generation (template-based; in production use OpenAI/Gemini)
         const adjectives = ['Impresionante', 'Exclusivo', 'Moderno', 'Espacioso', 'Lujoso', 'Premium'];
         const adj = adjectives[Math.floor(Math.random() * adjectives.length)];

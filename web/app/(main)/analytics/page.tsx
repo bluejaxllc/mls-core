@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { BarChart3, Eye, Users, TrendingUp, Trophy, Loader2, Monitor, Smartphone, Building2 } from 'lucide-react';
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
 import { MOCK_ANALYTICS, MOCK_LISTINGS } from '@/lib/mock-data';
+import { isGoogleMapsUrl } from '@/lib/google-maps';
 
 interface AnalyticsOverview {
     totalViews: number;
@@ -221,7 +222,7 @@ export default function AnalyticsPage() {
 
                                         {/* Image */}
                                         <div className="h-10 w-14 rounded-lg overflow-hidden bg-muted shrink-0">
-                                            {listing.image ? (
+                                            {listing.image && !isGoogleMapsUrl(listing.image) ? (
                                                 <img src={listing.image} alt="" className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">

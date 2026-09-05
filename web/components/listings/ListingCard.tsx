@@ -1,6 +1,7 @@
 
 import Link from 'next/link';
 import { MapPin, Bed, Bath, Move } from 'lucide-react';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface ListingCardProps {
     listing: {
@@ -30,6 +31,7 @@ export default function ListingCard({ listing, className }: ListingCardProps) {
 
     // Ensure images is an array
     if (!Array.isArray(images)) images = [];
+    images = withoutGoogleMaps(images);
 
     const mainImage = images.length > 0 ? images[0] : '/placeholder.jpg';
 

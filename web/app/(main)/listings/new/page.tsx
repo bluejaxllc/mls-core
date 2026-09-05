@@ -4,10 +4,8 @@ import { authFetch } from '@/lib/api';
 import { Save, X, MapPin, Sparkles } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import Script from 'next/script';
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-// import { usePlacesWidget } from 'react-google-autocomplete'; // Removed unused
 import { AddressAutocomplete, type AddressAutocompleteRef } from '@/components/listings/AddressAutocomplete';
 import { AddressSearchPopover } from '@/components/listings/AddressSearchPopover';
 import { MapPreview } from '@/components/listings/MapPreview';
@@ -15,6 +13,7 @@ import { CHIHUAHUA_CITIES, CHIHUAHUA_ZIP_CODES } from '@/lib/chihuahua-locations
 import { AnimatedCard, AnimatedButton, AnimatedInput } from '@/components/ui/animated';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { AnimatePresence } from 'framer-motion';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 export default function NewListingPage() {
     const { t } = useLanguage();
@@ -82,6 +81,7 @@ export default function NewListingPage() {
             if (importedImages.length === 0 && imageUrl) {
                 importedImages = [imageUrl];
             }
+            importedImages = withoutGoogleMaps(importedImages);
 
             if (title || price || address || importedImages.length > 0) {
                 setFormData(prev => ({
@@ -93,7 +93,7 @@ export default function NewListingPage() {
                     city: city || prev.city,
                     type: type?.toLowerCase() || prev.type,
                     images: importedImages.length > 0 ? importedImages : prev.images,
-                    mapUrl: address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : prev.mapUrl,
+                    mapUrl: '',
                 }));
                 if (address) {
                     runAddressAI(address);
@@ -118,8 +118,8 @@ export default function NewListingPage() {
                         address: listing.address || sessionData?.address || '',
                         city: listing.city || sessionData?.city || '',
                         type: listing.propertyType?.toLowerCase() || sessionData?.type?.toLowerCase() || 'commercial',
-                        images: listing.images && listing.images.length > 0 ? listing.images : (sessionData?.images?.length ? sessionData.images : (listing.imageUrl ? [listing.imageUrl] : [])),
-                        mapUrl: listing.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}` : ''
+                        images: withoutGoogleMaps(listing.images && listing.images.length > 0 ? listing.images : (sessionData?.images?.length ? sessionData.images : (listing.imageUrl ? [listing.imageUrl] : []))),
+                        mapUrl: ''
                     }));
                     if (listing.address || sessionData?.address) {
                         runAddressAI(listing.address || sessionData?.address);
@@ -139,14 +139,8 @@ export default function NewListingPage() {
             .finally(() => setLoading(false));
     }, [session]);
 
-    const buildStreetViewAndSatelliteUrls = useCallback((lat: number, lng: number): string[] => {
-        const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
-        if (!key) return [];
-        const size = '800x600';
-        const streetView0 = `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${lat},${lng}&fov=90&heading=0&key=${key}`;
-        const streetView180 = `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${lat},${lng}&fov=90&heading=180&key=${key}`;
-        const satellite = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=20&size=${size}&maptype=satellite&key=${key}`;
-        return [streetView0, streetView180, satellite];
+    const buildStreetViewAndSatelliteUrls = useCallback((_lat: number, _lng: number): string[] => {
+        return [];
     }, []);
 
     const generateAIContent = useCallback(async (
@@ -265,47 +259,8 @@ export default function NewListingPage() {
         setInputValue(val);
     }, []);
 
-    const geocodeAddress = useCallback((address: string): Promise<{ city: string; zipCode: string; lat: number; lng: number } | null> => {
-        return new Promise((resolve) => {
-            try {
-                if (typeof window === 'undefined' || !(window as any).google?.maps?.Geocoder) {
-                    console.warn('Google Maps Geocoder not available');
-                    resolve(null);
-                    return;
-                }
-                const geocoder = new (window as any).google.maps.Geocoder();
-                geocoder.geocode({ address }, (results: any[] | null, status: string) => {
-                    if (status !== 'OK' || !results?.[0]) {
-                        console.warn('Geocoding failed status:', status);
-                        resolve(null);
-                        return;
-                    }
-                    const r = results[0];
-                    let city = '';
-                    let zipCode = '';
-                    if (r.address_components) {
-                        for (const c of r.address_components) {
-                            if (c.types.includes('locality')) city = city || c.long_name;
-                            if (!city && c.types.includes('sublocality')) city = c.long_name;
-                            if (!city && c.types.includes('administrative_area_level_2')) city = c.long_name;
-                            if (!city && c.types.includes('administrative_area_level_1')) city = c.long_name;
-                            if (c.types.includes('postal_code')) zipCode = zipCode || c.short_name;
-                        }
-                    }
-                    const loc = r.geometry?.location;
-                    const lat = typeof loc?.lat === 'function' ? loc.lat() : loc?.lat;
-                    const lng = typeof loc?.lng === 'function' ? loc.lng() : loc?.lng;
-                    if (lat != null && lng != null) {
-                        resolve({ city, zipCode, lat, lng });
-                    } else {
-                        resolve(city || zipCode ? { city, zipCode, lat: 0, lng: 0 } : null);
-                    }
-                });
-            } catch (error) {
-                console.error('Geocode crash:', error);
-                resolve(null);
-            }
-        });
+    const geocodeAddress = useCallback((_address: string): Promise<{ city: string; zipCode: string; lat: number; lng: number } | null> => {
+        return Promise.resolve(null);
     }, []);
 
     const matchCityToChihuahua = useCallback((rawCity: string): string => {
@@ -356,7 +311,7 @@ export default function NewListingPage() {
     const runAddressAI = useCallback(async (val: string) => {
         console.log('[DEBUG] runAddressAI started for:', val);
         if (!val) return;
-        setFormData(prev => ({ ...prev, address: val, mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(val)}` }));
+        setFormData(prev => ({ ...prev, address: val, mapUrl: '' }));
 
         // STRATEGY: Fire AI generation IMMEDIATELY (Do not wait for Google)
         console.log('[DEBUG] Triggering Immediate AI Generation');
@@ -421,7 +376,7 @@ export default function NewListingPage() {
 
         if (place.formatted_address) {
             newAddr = place.formatted_address;
-            newUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(newAddr)}`;
+            newUrl = '';
         }
 
         if (place.address_components) {
@@ -572,7 +527,7 @@ export default function NewListingPage() {
                                 onClick={() => setShowAddressSearch((v) => !v)}
                                 className="text-sm text-blue-600 hover:text-blue-800 underline"
                             >
-                                Buscar dirección con Google
+                                Ingresar dirección manualmente
                             </button>
                             {isGenerating && (
                                 <span className="text-blue-600 text-sm font-mono flex items-center gap-2 animate-pulse">
@@ -799,13 +754,6 @@ export default function NewListingPage() {
                     )
                 }
             </form >
-
-
-
-            <Script
-                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
-                strategy="afterInteractive"
-            />
         </div >
     );
 }

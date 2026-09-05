@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X, ZoomIn, ImageOff } from 'lucide-react';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface PropertyGalleryProps {
     images: string[];
@@ -10,7 +11,8 @@ interface PropertyGalleryProps {
     address?: string;
 }
 
-export function PropertyGallery({ images, title, address }: PropertyGalleryProps) {
+export function PropertyGallery({ images: rawImages, title, address }: PropertyGalleryProps) {
+    const images = withoutGoogleMaps(rawImages);
     const [activeIndex, setActiveIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [imgErrors, setImgErrors] = useState<Set<number>>(new Set());
@@ -40,18 +42,6 @@ export function PropertyGallery({ images, title, address }: PropertyGalleryProps
                     <p className="text-lg font-medium text-slate-500">Sin imágenes disponibles</p>
                     <p className="text-sm text-slate-400 mt-1">{address || title}</p>
                 </div>
-                {address && (
-                    <div className="w-full max-w-lg h-48 rounded-xl overflow-hidden border shadow-sm mt-2">
-                        <iframe
-                            width="100%"
-                            height="100%"
-                            src={`https://maps.google.com/maps?q=${encodeURIComponent(address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
-                            frameBorder="0"
-                            scrolling="no"
-                            loading="lazy"
-                        />
-                    </div>
-                )}
             </div>
         );
     }

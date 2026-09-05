@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useComparison } from '@/lib/comparison-context';
 import { X, ArrowRight, BarChart3 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { isGoogleMapsUrl } from '@/lib/google-maps';
 
 export function ComparisonBar() {
     const { items, removeItem, clearAll } = useComparison();
@@ -37,7 +38,7 @@ export function ComparisonBar() {
                                     exit={{ scale: 0, opacity: 0 }}
                                     className="flex items-center gap-2 bg-slate-800 rounded-lg px-3 py-2 min-w-0 shrink-0"
                                 >
-                                    {item.image && (
+                                    {item.image && !isGoogleMapsUrl(item.image) && (
                                         <img src={item.image} alt="" className="h-8 w-8 rounded object-cover" />
                                     )}
                                     <span className="text-white text-sm truncate max-w-[120px]">

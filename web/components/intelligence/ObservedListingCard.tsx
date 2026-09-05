@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MapPin, ArrowRight, Percent, ChevronLeft, ChevronRight, Eye, ExternalLink, Heart } from 'lucide-react';
 import { AnimatedCard, AnimatedButton } from '@/components/ui/animated';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface ObservedListingProps {
     listing: {
@@ -133,9 +134,9 @@ export function ObservedListingCard({ listing }: ObservedListingProps) {
     // Build images array
     const allImages: string[] = [];
     if (listing.images && listing.images.length > 0) {
-        allImages.push(...listing.images.filter(Boolean));
+        allImages.push(...withoutGoogleMaps(listing.images));
     } else if (listing.imageUrl) {
-        allImages.push(listing.imageUrl);
+        allImages.push(...withoutGoogleMaps([listing.imageUrl]));
     }
 
     const [currentImg, setCurrentImg] = useState(0);

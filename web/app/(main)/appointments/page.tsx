@@ -7,6 +7,7 @@ import { CalendarDays, Clock, MapPin, CheckCircle2, XCircle, Loader2, Eye, User,
 import { PageTransition, AnimatedCard } from '@/components/ui/animated';
 import toast from 'react-hot-toast';
 import { MOCK_APPOINTMENTS } from '@/lib/mock-data';
+import { withoutGoogleMaps } from '@/lib/google-maps';
 
 interface Appointment {
     id: string;
@@ -211,7 +212,7 @@ export default function AppointmentsPage() {
                     <AnimatePresence mode="popLayout">
                         {filtered.map((apt, idx) => {
                             const cfg = STATUS_CONFIG[apt.status] || STATUS_CONFIG.PENDING;
-                            const image = apt.listing.images?.[0];
+                            const image = withoutGoogleMaps(apt.listing.images || [])[0];
                             return (
                                 <motion.div
                                     key={apt.id}

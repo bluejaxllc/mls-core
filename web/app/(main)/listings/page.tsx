@@ -10,6 +10,7 @@ import { GovernanceMenu } from '@/components/listings/GovernanceMenu';
 import { motion } from 'framer-motion';
 import { useComparison } from '@/lib/comparison-context';
 import { MOCK_LISTINGS } from '@/lib/mock-data';
+import { isGoogleMapsUrl } from '@/lib/google-maps';
 
 // Assuming we have a unified type or an "any" soup for now
 interface UnifiedListing {
@@ -97,7 +98,7 @@ function ListingsContent() {
                         price: item.price || 0,
                         address: item.address || item.city || 'Chihuahua',
                         status: item.status || 'active',
-                        image: item.imageUrl || undefined,
+                        image: item.imageUrl && !isGoogleMapsUrl(item.imageUrl) ? item.imageUrl : undefined,
                         trustScore: 90,
                         source: item.source || 'Mercado Libre',
                         sourceUrl: item.sourceUrl || item.snapshot?.source?.baseUrl || '',
@@ -145,7 +146,7 @@ function ListingsContent() {
                             price: item.price || 0,
                             address: item.address || item.city || 'Chihuahua',
                             status: item.status || 'ACTIVE',
-                            image: (item.images && item.images.length > 0) ? item.images[0] : undefined,
+                            image: (Array.isArray(item.images) && item.images.length > 0 && !isGoogleMapsUrl(item.images[0])) ? item.images[0] : undefined,
                             trustScore: item.trustScore || 100,
                             source: item.source || 'MLS',
                             sourceUrl: item.sourceUrl || '',
